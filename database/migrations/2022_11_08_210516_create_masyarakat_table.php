@@ -18,7 +18,7 @@ return new class extends Migration
       $table->integer('id_masyarakat', true);
       $table->integer('id_pelamar');
       $table->string('nama_lengkap');
-      $table->enum('jenis_kelaim', ['L', 'P']);
+      $table->enum('jenis_kelamin', ['L', 'P']);
       $table->string('tempat_lahir', 100);
       $table->date('tanggal_lahir');
       $table->text('alamat_tempat_tinggal');

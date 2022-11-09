@@ -20,7 +20,7 @@ return new class extends Migration
       $table->integer('id_tahapan');
       $table->integer('id_pendaftaran');
       $table->smallInteger('nilai');
-      $table->text('keterangan');
+      $table->enum('keterangan', ['Lulus', 'Gagal']);
       $table->enum('is_lanjut', ['Ya', 'Tidak']);
 
       // Foreign key untuk id_pelamar
