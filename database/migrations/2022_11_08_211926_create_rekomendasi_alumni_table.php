@@ -13,6 +13,7 @@ return new class extends Migration
    */
   public function up()
   {
+    // Ini pivot table yaa, artinya table pembantu dari relasi Many to Many
     Schema::create('rekomendasi_alumni', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
       $table->integer('id_siswa');

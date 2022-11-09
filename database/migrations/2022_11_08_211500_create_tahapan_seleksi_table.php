@@ -15,7 +15,6 @@ return new class extends Migration
   {
     Schema::create('tahapan_seleksi', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
-      $table->engine = 'InnoDB';
       $table->integer('id_tahapan', true);
       $table->integer('id_lowongan');
       $table->string('judul_tahapan', 200);
