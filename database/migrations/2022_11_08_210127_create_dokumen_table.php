@@ -13,10 +13,10 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('password_resets', function (Blueprint $table) {
-      $table->string('email')->index();
-      $table->string('token');
-      $table->timestamp('created_at')->nullable();
+    Schema::create('dokumen', function (Blueprint $table) {
+      $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
+      $table->char('id_jenis_dokumen', 7)->primary();
+      $table->string('nama_dokumen', 150);
     });
   }
 
@@ -27,6 +27,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('password_resets');
+    Schema::dropIfExists('dokumen');
   }
 };

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/sipeka', 301);
-Route::get('/sipeka', function () {
+Route::get('/', function () {
   return view('index');
 });
