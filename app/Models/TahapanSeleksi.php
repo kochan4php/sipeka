@@ -24,6 +24,9 @@ class TahapanSeleksi extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_lowongan',
+    'judul_tahapan',
+    'ket_tahapan',
+    'urutan_tahapan_ke'
   ];
 }

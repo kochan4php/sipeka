@@ -24,6 +24,10 @@ class LowonganKerja extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_perusahaan',
+    'judul_lowongan',
+    'deskripsi_pekerjaan',
+    'tanggal_dimulai',
+    'tanggal_berakhir'
   ];
 }

@@ -24,6 +24,11 @@ class PenilaianSeleksi extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_pelamar',
+    'id_tahapan',
+    'id_pendaftaran',
+    'nilai',
+    'keterangan',
+    'is_lanjut'
   ];
 }

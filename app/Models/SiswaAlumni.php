@@ -24,6 +24,16 @@ class SiswaAlumni extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_pelamar',
+    'id_angkatan',
+    'id_jurusan',
+    'nis',
+    'nama_lengkap',
+    'jenis_kelamin',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'no_telepon',
+    'alamat_tempat_tinggal',
+    'foto'
   ];
 }

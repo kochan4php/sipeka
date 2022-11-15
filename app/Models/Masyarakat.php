@@ -24,6 +24,13 @@ class Masyarakat extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_pelamar',
+    'nama_lengkap',
+    'jenis_kelamin',
+    'tempat_lahir',
+    'tanggal_lahir',
+    'alamat_tempat_tinggal',
+    'no_telepon',
+    'foto'
   ];
 }

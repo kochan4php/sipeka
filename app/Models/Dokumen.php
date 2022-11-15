@@ -24,6 +24,7 @@ class Dokumen extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_jenis_dokumen',
+    'nama_dokumen'
   ];
 }
