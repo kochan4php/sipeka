@@ -24,6 +24,7 @@ class Angkatan extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_angkatan',
+    'angkatan'
   ];
 }

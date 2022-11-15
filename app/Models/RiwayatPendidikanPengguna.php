@@ -24,6 +24,8 @@ class RiwayatPendidikanPengguna extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_tingkatan',
+    'id_pelamar',
+    'nama_institut'
   ];
 }

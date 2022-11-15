@@ -24,6 +24,10 @@ class PendaftaranLowongan extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_pelamar',
+    'id_lowongan',
+    'kode_pendaftaran',
+    'verifikasi',
+    'status_seleksi'
   ];
 }

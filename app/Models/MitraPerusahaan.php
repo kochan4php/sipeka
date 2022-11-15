@@ -24,6 +24,12 @@ class MitraPerusahaan extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_user',
+    'nama_perusahaan',
+    'nomor_telp_perusahaan',
+    'thumbnail_perusahaan',
+    'logo_perusahaan',
+    'deskripsi_perusahaan',
+    'alamat_perusahaan'
   ];
 }

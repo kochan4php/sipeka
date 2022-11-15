@@ -24,6 +24,8 @@ class Jurusan extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_jurusan',
+    'nama_jurusan',
+    'keterangan'
   ];
 }
