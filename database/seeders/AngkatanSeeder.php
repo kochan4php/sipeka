@@ -18,11 +18,11 @@ class AngkatanSeeder extends Seeder
     $angkatan = collect([
       [
         'id_angkatan' => 'AGKT0001',
-        'angkatan' => '2021/2022'
+        'angkatan_tahun' => '2021/2022'
       ],
       [
         'id_angkatan' => 'AGKT0002',
-        'angkatan' => '2022/2023'
+        'angkatan_tahun' => '2022/2023'
       ],
     ]);
 

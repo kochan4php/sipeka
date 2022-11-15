@@ -18,7 +18,8 @@ class AdminBKKSeeder extends Seeder
     AdminBKK::create([
       'id_admin' => 'ADM01',
       'id_user' => 1,
-      'nama_admin' => 'Admin BKK 1'
+      'nama_admin' => 'Admin BKK 1',
+      'nip' => '1963122419890320'
     ]);
   }
 }
