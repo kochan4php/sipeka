@@ -24,6 +24,7 @@ class TingkatanPendidikan extends Model
    * @var array<int, string>
    */
   protected $fillable = [
+    'id_tingkatan',
     'nama_tingkatan'
   ];
 }

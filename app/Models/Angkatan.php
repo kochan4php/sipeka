@@ -25,6 +25,6 @@ class Angkatan extends Model
    */
   protected $fillable = [
     'id_angkatan',
-    'angkatan'
+    'angkatan_tahun'
   ];
 }
