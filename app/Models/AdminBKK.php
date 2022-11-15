@@ -24,6 +24,9 @@ class AdminBKK extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_admin',
+    'id_user',
+    'nama_admin',
+    'nip'
   ];
 }

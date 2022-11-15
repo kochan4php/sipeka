@@ -24,6 +24,7 @@ class LevelUser extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_level',
+    'nama_level'
   ];
 }

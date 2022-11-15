@@ -24,6 +24,8 @@ class DokumenPengguna extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    //
+    'id_pelamar',
+    'id_jenis_dokumen',
+    'nama_file'
   ];
 }
