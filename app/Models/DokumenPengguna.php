@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DokumenPengguna extends Model
 {
@@ -28,4 +29,14 @@ class DokumenPengguna extends Model
     'id_jenis_dokumen',
     'nama_file'
   ];
+
+  public function jenis_dokumen(): BelongsTo
+  {
+    return $this->belongsTo(Dokumen::class, 'id_jenis_dokumen', 'id_jenis_dokumen');
+  }
+
+  public function pelamar(): BelongsTo
+  {
+    return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
+  }
 }

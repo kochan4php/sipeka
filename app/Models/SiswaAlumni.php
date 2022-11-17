@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SiswaAlumni extends Model
 {
@@ -36,4 +37,19 @@ class SiswaAlumni extends Model
     'alamat_tempat_tinggal',
     'foto'
   ];
+
+  public function pelamar(): BelongsTo
+  {
+    return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
+  }
+
+  public function jurusan(): BelongsTo
+  {
+    return $this->belongsTo(Jurusan::class, 'id_jurusan', 'id_jurusan');
+  }
+
+  public function angkatan(): BelongsTo
+  {
+    return $this->belongsTo(Angkatan::class, 'id_angkatan', 'id_angkatan');
+  }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Dokumen extends Model
 {
@@ -27,4 +28,9 @@ class Dokumen extends Model
     'id_jenis_dokumen',
     'nama_dokumen'
   ];
+
+  public function dokumen_pengguna(): HasMany
+  {
+    return $this->hasMany(DokumenPengguna::class, 'id_jenis_dokumen', 'id_jenis_dokumen');
+  }
 }
