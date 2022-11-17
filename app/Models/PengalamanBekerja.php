@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PengalamanBekerja extends Model
 {
@@ -27,4 +28,9 @@ class PengalamanBekerja extends Model
     'id_pelamar',
     'pengalaman'
   ];
+
+  public function pelamar(): BelongsTo
+  {
+    return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
+  }
 }

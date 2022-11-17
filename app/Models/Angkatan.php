@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Angkatan extends Model
 {
@@ -27,4 +28,9 @@ class Angkatan extends Model
     'id_angkatan',
     'angkatan_tahun'
   ];
+
+  public function alumni(): HasMany
+  {
+    return $this->hasMany(SiswaAlumni::class, 'id_angkatan', 'id_angkatan');
+  }
 }

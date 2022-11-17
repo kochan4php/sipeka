@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MitraPerusahaan extends Model
 {
@@ -32,4 +34,14 @@ class MitraPerusahaan extends Model
     'deskripsi_perusahaan',
     'alamat_perusahaan'
   ];
+
+  public function user(): BelongsTo
+  {
+    return $this->belongsTo(User::class, 'id_user', 'id_user');
+  }
+
+  public function lowongan(): HasMany
+  {
+    return $this->hasMany(LowonganKerja::class, 'id_perusahaan', 'id_perusahaan');
+  }
 }

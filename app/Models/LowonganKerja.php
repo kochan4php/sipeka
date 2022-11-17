@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LowonganKerja extends Model
 {
@@ -30,4 +32,19 @@ class LowonganKerja extends Model
     'tanggal_dimulai',
     'tanggal_berakhir'
   ];
+
+  public function perusahaan(): BelongsTo
+  {
+    return $this->belongsTo(MitraPerusahaan::class, 'id_perusahaan', 'id_perusahaan');
+  }
+
+  public function tahapan_seleksi(): HasMany
+  {
+    return $this->hasMany(TahapanSeleksi::class, 'id_lowongan', 'id_lowongan');
+  }
+
+  public function pendaftaran_lowongan(): HasMany
+  {
+    return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
+  }
 }
