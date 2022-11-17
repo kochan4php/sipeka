@@ -22,4 +22,6 @@ Route::prefix('/sipeka')->group(function () {
   Route::prefix('/admin')->group(function () {
     Route::get('/', fn () => 'Halo ini halaman admin');
   });
+
+  Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');
 });
