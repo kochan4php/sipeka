@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\{
+  Auth\RegistrationController,
+  Auth\AuthenticatedController,
+  Auth\LogoutController,
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +20,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
-  Route::get('/', function () {
-    return view('index');
+  Route::get('/', fn () => view('index'))->name('home');
+
+  Route::middleware(['guest'])->group(function () {
+    Route::controller(RegistrationController::class)->group(function () {
+      Route::get('/register', 'index')->name('register.index');
+      Route::post('/register', 'register')->name('register.store');
+    });
+
+    Route::controller(AuthenticatedController::class)->group(function () {
+      Route::get('/login', 'index')->name('login.index');
+      Route::post('/login', 'authenticate')->name('login.store');
+    });
+  });
+
+  Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
   });
 
   Route::prefix('/admin')->group(function () {
-    Route::get('/', fn () => 'Halo ini halaman admin');
+    Route::get('/', fn () => view('admin.index'));
   });
+
+  Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');
 });
