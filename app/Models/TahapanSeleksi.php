@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TahapanSeleksi extends Model
 {
@@ -29,4 +31,14 @@ class TahapanSeleksi extends Model
     'ket_tahapan',
     'urutan_tahapan_ke'
   ];
+
+  public function lowongan(): BelongsTo
+  {
+    return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
+  }
+
+  public function penilaian_seleksi(): HasMany
+  {
+    return $this->hasMany(PenilaianSeleksi::class, 'id_tahapan', 'id_tahapan');
+  }
 }

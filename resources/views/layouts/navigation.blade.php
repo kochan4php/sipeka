@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav justify-content-between">
         <li class="nav-item">
-          <a class="nav-link @if (Request::is('/')) 'active' @endif" href="/">Beranda</a>
+          <a class="nav-link @if (Request::is('/sipeka')) 'active' @endif" href="/">Beranda</a>
         </li>
         <li class="nav-item">
           <div class="dropdown">
