@@ -43,4 +43,8 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');
+
+  Route::prefix('/perusahaan')->group(function () {
+    Route::get('/', fn () => 'Halaman pelamar');
+  });
 });
