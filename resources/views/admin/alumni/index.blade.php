@@ -3,7 +3,7 @@
 @section('container-dashboard')
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-2">
     <h2>Data Alumni</h2>
-    <a href="{{ route('admin.alumni.tambah') }}" class="btn btn-primary">Tambah Data Alumni</a>
+    <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary">Tambah Data Alumni</a>
   </div>
 
   <div class="row">
@@ -26,14 +26,15 @@
                 <td class="text-nowrap text-center">Danny Ganteng</td>
                 <td class="text-nowrap text-center">ALUMNI-VVOYYSTHLU</td>
                 <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center px-0">
+                <td class="text-nowrap text-center">
                   <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success btn-sm">
                     Detil
                   </a>
-                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning btn-sm">
+                  <a href="{{ route('admin.alumni.edit') }}" class="btn btn-warning btn-sm">
                     Sunting
                   </a>
-                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger btn-sm">
+                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Hapus
                   </a>
                 </td>
@@ -43,14 +44,15 @@
                 <td class="text-nowrap text-center">Ibnu Prayudha</td>
                 <td class="text-nowrap text-center">ALUMNI-AJC3A8CJ7K</td>
                 <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center px-0">
+                <td class="text-nowrap text-center">
                   <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success btn-sm">
                     Detil
                   </a>
-                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning btn-sm">
+                  <a href="{{ route('admin.alumni.edit') }}" class="btn btn-warning btn-sm">
                     Sunting
                   </a>
-                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger btn-sm">
+                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Hapus
                   </a>
                 </td>
@@ -60,21 +62,22 @@
                 <td class="text-nowrap text-center">Aphrodeo Subarno</td>
                 <td class="text-nowrap text-center">ALUMNI-XHCHUYIZQW</td>
                 <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center px-0">
+                <td class="text-nowrap text-center">
                   <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success btn-sm">
                     Detil
                   </a>
-                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning btn-sm">
+                  <a href="{{ route('admin.alumni.edit') }}" class="btn btn-warning btn-sm">
                     Sunting
                   </a>
-                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger btn-sm">
+                  <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Hapus
                   </a>
                 </td>
               </tr>
             </tbody>
           </table>
-          <div class="d-flex justify-content-between align-items-center bg-danger mt-3">
+          <div class="d-flex justify-content-between align-items-center mt-3">
             <p class="align-self-center">Showing 1 of 100</p>
             <nav aria-label="Page navigation example">
               <ul class="pagination mb-0">
@@ -99,3 +102,19 @@
     </div>
   </div>
 @endsection
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 border-bottom-0">
+        <h1 class="modal-title fs-4 text-center" id="exampleModalLabel">Hapus data alumni?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer border-0 border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-danger">Hapus</button>
+      </div>
+    </div>
+  </div>
+</div>

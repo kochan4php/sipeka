@@ -31,7 +31,7 @@
           </button>
           <ul class="collapse list-unstyled" id="collapseExample">
             <li>
-              <a class="nav-link" href="#">Alumni</a>
+              <a class="nav-link" href="{{ route('admin.alumni.index') }}">Alumni</a>
             </li>
             <li>
               <a class="nav-link" href="#">Masyarakat</a>
