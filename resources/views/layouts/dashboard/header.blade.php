@@ -1,5 +1,6 @@
 <header
-  class="navbar navbar-dark sticky-top bg-white bg-md-primary border-bottom border-secondary flex-md-nowrap p-0 d-flex justify-content-between align-items-center">
+  class="navbar navbar-dark sticky-top bg-white bg-md-primary border-bottom border-3 border-secondary flex-md-nowrap p-0 d-flex justify-content-between align-items-center"
+  style="--bs-border-opacity: .2;">
   <a class="navbar-brand bg-primary col-md-3 col-lg-2 me-0 px-3 fs-5 fw-bold leading-1px lead"
     href="{{ route('admin.index') }}">SIPEKA Admin</a>
   <a class="navbar-brand bg-transparent text-black col-md-3 d-none d-md-inline-block col-lg-2 me-0 px-3 fs-5 text-left fw-bold leading-1px lead"
