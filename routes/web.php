@@ -39,7 +39,7 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   Route::prefix('/admin')->group(function () {
-    Route::get('/', fn () => view('admin.index'));
+    Route::get('/', fn () => view('admin.index'))->name('admin.index');
   });
 
   Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');
