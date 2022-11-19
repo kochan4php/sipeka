@@ -28,14 +28,17 @@
                 <td class="text-nowrap text-center">2021/2022</td>
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
                       Detail
                     </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning">
+                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
                       Sunting
                     </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger"
-                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop">
                       Hapus
                     </a>
                   </div>
@@ -48,14 +51,17 @@
                 <td class="text-nowrap text-center">2021/2022</td>
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
                       Detail
                     </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning">
+                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
                       Sunting
                     </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger"
-                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop">
                       Hapus
                     </a>
                   </div>
@@ -68,14 +74,17 @@
                 <td class="text-nowrap text-center">2021/2022</td>
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
                       Detail
                     </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning">
+                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
                       Sunting
                     </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger"
-                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop">
                       Hapus
                     </a>
                   </div>
@@ -88,14 +97,17 @@
                 <td class="text-nowrap text-center">2021/2022</td>
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
                       Detail
                     </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-warning">
+                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
                       Sunting
                     </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-danger"
-                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop">
                       Hapus
                     </a>
                   </div>

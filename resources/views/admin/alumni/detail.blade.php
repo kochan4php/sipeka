@@ -21,42 +21,42 @@
             </div>
             <div class="col-lg-9">
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('NIS (Nomor Induk Siswa) : 202119875') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('Nama Lengkap : Layla Mayrisa') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('Jenis Kelamin : Perempuan') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('Tempat Lahir : Bekasi') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('Tanggal Lahir : 20 Mei 2005') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('No. Telepon : 083806114303') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('Alamat : Jl. gsdfgkjh No 09 B, RT.08/RW.02 Bintara, Kota Bekasi, Jawa Barat') }}
                 </p>
               </div>
               <div class="row">
-                <p class="fs-5">
+                <p class="fs-5 fs-md-6">
                   {{ __('Jurusan : Rekayasa Perangkat Lunak') }}
                 </p>
               </div>
