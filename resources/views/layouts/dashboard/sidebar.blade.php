@@ -6,7 +6,7 @@
         <a class="nav-link @if (Request::is('sipeka/admin')) active @endif d-flex align-items-center gap-1"
           aria-current="page" href="{{ route('admin.index') }}">
           <span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
               class="bi bi-house-door" viewBox="0 0 16 16">
               <path
                 d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z" />
@@ -17,24 +17,42 @@
       </li>
       <li class="nav-item">
         <div class="dropdown">
-          <button class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center gap-1"
+          <button
+            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center gap-1 @if (Request::is('sipeka/admin/pengguna*')) active @endif"
             style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample">
             <span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-people-fill" viewBox="0 0 16 16">
-                <path
-                  d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
+                class="bi bi-person-fill" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
               </svg>
             </span>
             <span style="font-size: 15.5px !important;">Pengguna</span>
           </button>
           <ul class="collapse list-unstyled" id="collapseExample">
             <li>
-              <a class="nav-link" href="{{ route('admin.alumni.index') }}">Alumni</a>
+              <a class="nav-link @if (Request::is('sipeka/admin/pengguna/alumni*')) active @endif d-flex gap-2 align-items-center"
+                href="{{ route('admin.alumni.index') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
+                  class="bi bi-mortarboard-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z" />
+                  <path
+                    d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z" />
+                </svg>
+                <span>Alumni</span>
+              </a>
             </li>
             <li>
-              <a class="nav-link" href="#">Masyarakat</a>
+              <a class="nav-link @if (Request::is('sipeka/admin/pengguna/masyarakat*')) active @endif d-flex gap-2 align-items-center"
+                href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
+                  class="bi bi-people-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                </svg>
+                Masyarakat
+              </a>
             </li>
             <li>
               <a class="nav-link" href="#">Mitra Perusahaan</a>
@@ -51,7 +69,7 @@
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-1" href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
               class="bi bi-building" viewBox="0 0 16 16">
               <path
                 d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
@@ -71,9 +89,8 @@
         <div class="nav-item text-nowrap">
           <form action="/logout" method="POST">
             @csrf
-
-            <button type="submit" class="nav-link border-0 bg-transparent d-flex align-items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            <button type="submit" class="nav-link border-0 bg-transparent d-flex align-items-center gap-1 w-100">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
                 class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />

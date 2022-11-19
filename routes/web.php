@@ -4,6 +4,7 @@ use App\Http\Controllers\{
   Auth\RegistrationController,
   Auth\AuthenticatedController,
   Auth\LogoutController,
+  Admin\AlumniController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -39,20 +40,18 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   Route::prefix('/admin')->group(function () {
-    Route::get('/', fn () => view('admin.index'))
-      ->name('admin.index');
-    Route::get('/alumni', fn () => view('admin.alumni.index'))
-      ->name('admin.alumni.index');
-    Route::get('/alumni/tambah', fn () => view('admin.alumni.tambah'))
-      ->name('admin.alumni.create');
-    Route::post('/alumni', fn () => 'Hehe berhasil')
-      ->name('admin.alumni.store');
-    Route::get('/alumni/detail/{kode_alumni}', fn ($kode_alumni) => view('admin.alumni.detail', compact('kode_alumni')))
-      ->name('admin.alumni.detail');
-    Route::get('/alumni/sunting', fn () => view('admin.alumni.sunting'))
-      ->name('admin.alumni.edit');
-    Route::put('/alumni', fn () => 'Hehe berhasil')
-      ->name('admin.alumni.update');
+    Route::get('/', fn () => view('admin.index'))->name('admin.index');
+    Route::prefix('/pengguna')->group(function () {
+      Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.alumni.index');
+        Route::get('/tambah', 'create')->name('admin.alumni.create');
+        Route::post('/', 'store')->name('admin.alumni.store');
+        Route::get('/detail/{kode_alumni}', 'show')->name('admin.alumni.detail');
+        Route::get('/sunting/{kode_alumni}', 'edit')->name('admin.alumni.edit');
+        Route::put('/{kode_alumni}', 'update')->name('admin.alumni.update');
+        Route::delete('/{kode_alumni}', 'destroy')->name('admin.alumni.delete');
+      });
+    });
   });
 
   Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');

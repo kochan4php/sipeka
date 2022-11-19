@@ -85,7 +85,7 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
                 <button type="submit" class="btn btn-primary">Tambah</button>
-                <a href="" class="btn btn-danger">Batal</a>
+                <a href="{{ route('admin.alumni.index') }}" class="btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

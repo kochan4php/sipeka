@@ -29,11 +29,17 @@ body {
 
 .btn-dropdown:hover {
   background-color: #ffc500 !important;
+  color: #000;
+}
+
+.btn-dropdown.active {
+  background-color: #ffc500 !important;
+  color: #000;
 }
 
 .sidebar {
   position: fixed;
-  top: 5px;
+  top: 1px;
   bottom: 0;
   left: 0;
   z-index: 100;
@@ -57,11 +63,13 @@ body {
 }
 
 .sidebar .nav-link:hover {
-  background-color: #e0ac00;
+  background-color: #ffc500 !important;
+  color: #000;
 }
 
 .sidebar .nav-link.active {
   background-color: #ffc500;
+  color: #000;
 }
 
 .sidebar .nav-link:hover .feather,

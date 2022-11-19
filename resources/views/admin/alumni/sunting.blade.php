@@ -8,7 +8,7 @@
           <h2>Sunting data alumni</h2>
         </div>
         <div class="card-body">
-          <form action="{{ route('admin.alumni.update') }}" method="POST">
+          <form action="{{ route('admin.alumni.update', 'ALUMNI-AJC3A8CJ7K') }}" method="POST">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -86,7 +86,7 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
                 <button type="submit" class="btn btn-primary">Perbarui</button>
-                <a href="" class="btn btn-danger">Batal</a>
+                <a href="{{ route('admin.alumni.index') }}" class="btn btn-danger">Batal</a>
               </div>
             </div>
           </form>
