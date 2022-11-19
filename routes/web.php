@@ -7,6 +7,7 @@ use App\Http\Controllers\{
   Admin\AlumniController,
   Admin\MasyarakatController
 };
+use App\Http\Controllers\Admin\MitraPerusahaanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
-  Route::get('/', fn () => view('index'))->name('home');
+  Route::view('/', 'index')->name('home');
 
   Route::middleware(['guest'])->group(function () {
     Route::controller(RegistrationController::class)->group(function () {
@@ -42,7 +43,7 @@ Route::prefix('/sipeka')->group(function () {
 
   // Route Admin BKK
   Route::prefix('/admin')->group(function () {
-    Route::get('/', fn () => view('admin.index'))->name('admin.index');
+    Route::view('/', 'admin.index')->name('admin.index');
     Route::prefix('/pengguna')->group(function () {
       Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {
         Route::get('/', 'index')->name('admin.alumni.index');
@@ -62,6 +63,16 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/{username}/sunting', 'edit')->name('admin.pelamar.edit');
         Route::put('/{username}', 'update')->name('admin.pelamar.update');
         Route::delete('/{username}', 'destroy')->name('admin.pelamar.delete');
+      });
+
+      Route::prefix('/perusahaan')->controller(MitraPerusahaanController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.perusahaan.index');
+        Route::get('/tambah', 'create')->name('admin.perusahaan.create');
+        Route::post('/', 'store')->name('admin.perusahaan.store');
+        Route::get('/{username}/detail', 'show')->name('admin.perusahaan.detail');
+        Route::get('/{username}/sunting', 'edit')->name('admin.perusahaan.edit');
+        Route::put('/{username}', 'update')->name('admin.perusahaan.update');
+        Route::delete('/{username}', 'destroy')->name('admin.perusahaan.delete');
       });
     });
   });

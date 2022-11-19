@@ -68,7 +68,7 @@
             </li>
             <li>
               <a class="nav-link @if (Request::is('sipeka/admin/pengguna/perusahaan*')) active @endif d-flex gap-2 align-items-center"
-                href="#">
+                href="{{ route('admin.perusahaan.index') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor"
                   class="bi bi-building-fill" viewBox="0 0 16 16">
                   <path
