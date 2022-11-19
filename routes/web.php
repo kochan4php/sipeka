@@ -4,7 +4,8 @@ use App\Http\Controllers\{
   Auth\RegistrationController,
   Auth\AuthenticatedController,
   Auth\LogoutController,
-  Admin\AlumniController
+  Admin\AlumniController,
+  Admin\MasyarakatController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::prefix('/sipeka')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
   });
 
+  // Route Admin BKK
   Route::prefix('/admin')->group(function () {
     Route::get('/', fn () => view('admin.index'))->name('admin.index');
     Route::prefix('/pengguna')->group(function () {
@@ -46,17 +48,31 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/', 'index')->name('admin.alumni.index');
         Route::get('/tambah', 'create')->name('admin.alumni.create');
         Route::post('/', 'store')->name('admin.alumni.store');
-        Route::get('/detail/{kode_alumni}', 'show')->name('admin.alumni.detail');
-        Route::get('/sunting/{kode_alumni}', 'edit')->name('admin.alumni.edit');
+        Route::get('/{kode_alumni}/detail', 'show')->name('admin.alumni.detail');
+        Route::get('/{kode_alumni}/sunting', 'edit')->name('admin.alumni.edit');
         Route::put('/{kode_alumni}', 'update')->name('admin.alumni.update');
         Route::delete('/{kode_alumni}', 'destroy')->name('admin.alumni.delete');
+      });
+
+      Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.pelamar.index');
+        Route::get('/tambah', 'create')->name('admin.pelamar.create');
+        Route::post('/', 'store')->name('admin.pelamar.store');
+        Route::get('/{username}/detail', 'show')->name('admin.pelamar.detail');
+        Route::get('/{username}/sunting', 'edit')->name('admin.pelamar.edit');
+        Route::put('/{username}', 'update')->name('admin.pelamar.update');
+        Route::delete('/{username}', 'destroy')->name('admin.pelamar.delete');
       });
     });
   });
 
-  Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');
+  // Route Pelamar (Masyarakat dan Siswa Alumni)
+  Route::prefix('/pelamar')->group(function () {
+    Route::get('/', fn () => 'Halo ini halaman pelamar');
+  });
 
+  // Route Mitra Perusahaan
   Route::prefix('/perusahaan')->group(function () {
-    Route::get('/', fn () => 'Halaman pelamar');
+    Route::get('/', fn () => 'Halaman perusahaan');
   });
 });
