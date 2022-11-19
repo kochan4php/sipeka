@@ -28,14 +28,17 @@
                 <td class="text-nowrap text-center">083806114303</td>
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
-                    <a href="{{ route('admin.pelamar.detail', 'layla-mayrisa') }}" class="btn btn-success">
+                    <a href="{{ route('admin.pelamar.detail', 'layla-mayrisa') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
                       Detail
                     </a>
-                    <a href="{{ route('admin.pelamar.edit', 'layla-mayrisa') }}" class="btn btn-warning">
+                    <a href="{{ route('admin.pelamar.edit', 'layla-mayrisa') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
                       Sunting
                     </a>
-                    <a href="{{ route('admin.pelamar.detail', 'layla-mayrisa') }}" class="btn btn-danger"
-                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <a href="{{ route('admin.pelamar.detail', 'layla-mayrisa') }}"
+                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop">
                       Hapus
                     </a>
                   </div>
