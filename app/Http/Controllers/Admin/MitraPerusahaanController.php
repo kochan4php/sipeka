@@ -14,7 +14,7 @@ class MitraPerusahaanController extends Controller
    */
   public function index()
   {
-    return view('admin.perusahaan.index');
+    return view('admin.pengguna.perusahaan.index');
   }
 
   /**
@@ -24,7 +24,7 @@ class MitraPerusahaanController extends Controller
    */
   public function create()
   {
-    return view('admin.perusahaan.tambah');
+    return view('admin.pengguna.perusahaan.tambah');
   }
 
   /**
@@ -46,7 +46,7 @@ class MitraPerusahaanController extends Controller
    */
   public function show($id)
   {
-    return view('admin.perusahaan.detail', compact('id'));
+    return view('admin.pengguna.perusahaan.detail', compact('id'));
   }
 
   /**
@@ -57,7 +57,7 @@ class MitraPerusahaanController extends Controller
    */
   public function edit($id)
   {
-    return view('admin.perusahaan.sunting');
+    return view('admin.pengguna.perusahaan.sunting');
   }
 
   /**

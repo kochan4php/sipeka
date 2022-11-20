@@ -29,17 +29,20 @@
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
-                      Detail
+                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                      <span>Detail</span>
                     </a>
                     <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
-                      Sunting
+                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
                     </a>
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop">
-                      Hapus
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
                     </a>
                   </div>
                 </td>
@@ -52,17 +55,20 @@
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
-                      Detail
+                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                      <span>Detail</span>
                     </a>
                     <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
-                      Sunting
+                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
                     </a>
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop">
-                      Hapus
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
                     </a>
                   </div>
                 </td>
@@ -75,17 +81,20 @@
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
-                      Detail
+                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                      <span>Detail</span>
                     </a>
                     <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
-                      Sunting
+                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
                     </a>
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop">
-                      Hapus
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
                     </a>
                   </div>
                 </td>
@@ -98,17 +107,20 @@
                 <td class="text-nowrap text-center">
                   <div class="btn-group">
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-success">
-                      Detail
+                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                      <span>Detail</span>
                     </a>
                     <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-warning">
-                      Sunting
+                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
                     </a>
                     <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px text-uppercase btn-danger" data-bs-toggle="modal"
+                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
                       data-bs-target="#staticBackdrop">
-                      Hapus
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
                     </a>
                   </div>
                 </td>

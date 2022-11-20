@@ -14,7 +14,7 @@ class AlumniController extends Controller
    */
   public function index()
   {
-    return view('admin.alumni.index');
+    return view('admin.pengguna.alumni.index');
   }
 
   /**
@@ -24,7 +24,7 @@ class AlumniController extends Controller
    */
   public function create()
   {
-    return view('admin.alumni.tambah');
+    return view('admin.pengguna.alumni.tambah');
   }
 
   /**
@@ -46,7 +46,7 @@ class AlumniController extends Controller
    */
   public function show($id)
   {
-    return view('admin.alumni.detail', compact('id'));
+    return view('admin.pengguna.alumni.detail', compact('id'));
   }
 
   /**
@@ -57,7 +57,7 @@ class AlumniController extends Controller
    */
   public function edit($id)
   {
-    return view('admin.alumni.sunting');
+    return view('admin.pengguna.alumni.sunting');
   }
 
   /**
