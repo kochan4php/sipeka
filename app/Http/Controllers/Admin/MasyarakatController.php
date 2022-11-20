@@ -14,7 +14,7 @@ class MasyarakatController extends Controller
    */
   public function index()
   {
-    return view('admin.masyarakat.index');
+    return view('admin.pengguna.masyarakat.index');
   }
 
   /**
@@ -24,7 +24,7 @@ class MasyarakatController extends Controller
    */
   public function create()
   {
-    return view('admin.masyarakat.tambah');
+    return view('admin.pengguna.masyarakat.tambah');
   }
 
   /**
@@ -46,7 +46,7 @@ class MasyarakatController extends Controller
    */
   public function show($id)
   {
-    return view('admin.masyarakat.detail', compact('id'));
+    return view('admin.pengguna.masyarakat.detail', compact('id'));
   }
 
   /**
@@ -57,7 +57,7 @@ class MasyarakatController extends Controller
    */
   public function edit($id)
   {
-    return view('admin.masyarakat.sunting');
+    return view('admin.pengguna.masyarakat.sunting');
   }
 
   /**
