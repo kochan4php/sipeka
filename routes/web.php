@@ -1,13 +1,19 @@
 <?php
 
 use App\Http\Controllers\{
+  // All Auth Controller
   Auth\RegistrationController,
   Auth\AuthenticatedController,
   Auth\LogoutController,
+  // All Pengguna Controller
   Admin\AlumniController,
-  Admin\MasyarakatController
+  Admin\MasyarakatController,
+  Admin\MitraPerusahaanController,
+  // All Master Data Controller
+  Admin\MasterData\JurusanController,
+  Admin\MasterData\AngkatanController,
+  Admin\MasterData\DokumenController
 };
-use App\Http\Controllers\Admin\MitraPerusahaanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +50,7 @@ Route::prefix('/sipeka')->group(function () {
   // Route Admin BKK
   Route::prefix('/admin')->group(function () {
     Route::view('/', 'admin.index')->name('admin.index');
+
     Route::prefix('/pengguna')->group(function () {
       Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {
         Route::get('/', 'index')->name('admin.alumni.index');
@@ -73,6 +80,32 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/{username}/sunting', 'edit')->name('admin.perusahaan.edit');
         Route::put('/{username}', 'update')->name('admin.perusahaan.update');
         Route::delete('/{username}', 'destroy')->name('admin.perusahaan.delete');
+      });
+    });
+
+    Route::prefix('/masterdata')->group(function () {
+      Route::prefix('/jurusan')->controller(JurusanController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.jurusan.index');
+        Route::post('/', 'store')->name('admin.jurusan.store');
+        Route::get('/{kode_jurusan}/detail', 'show')->name('admin.jurusan.detail');
+        Route::put('/{kode_jurusan}', 'update')->name('admin.jurusan.update');
+        Route::delete('/{kode_jurusan}', 'destroy')->name('admin.jurusan.delete');
+      });
+
+      Route::prefix('/angkatan')->controller(AngkatanController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.angkatan.index');
+        Route::post('/', 'store')->name('admin.angkatan.store');
+        Route::get('/{kode_angkatan}/detail', 'show')->name('admin.angkatan.detail');
+        Route::put('/{kode_angkatan}', 'update')->name('admin.angkatan.update');
+        Route::delete('/{kode_angkatan}', 'destroy')->name('admin.angkatan.delete');
+      });
+
+      Route::prefix('/dokumen')->controller(DokumenController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.dokumen.index');
+        Route::post('/', 'store')->name('admin.dokumen.store');
+        Route::get('/{kode_dokumen}/detail', 'show')->name('admin.dokumen.detail');
+        Route::put('/{kode_dokumen}', 'update')->name('admin.dokumen.update');
+        Route::delete('/{kode_dokumen}', 'destroy')->name('admin.dokumen.delete');
       });
     });
   });

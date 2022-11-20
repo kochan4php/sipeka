@@ -51,7 +51,7 @@
       <li class="nav-item">
         <div class="dropdown">
           <button
-            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 mb-1 @if (Request::is('sipeka/admin/master-data*')) active @endif"
+            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 mb-1 @if (Request::is('sipeka/admin/masterdata*')) active @endif"
             style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#master_data"
             aria-expanded="false" aria-controls="master_data">
             <div class="d-flex align-items-center gap-1">
@@ -64,22 +64,22 @@
           </button>
           <ul class="collapse list-unstyled bg-dark" id="master_data">
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/master-data/dokumen*')) active @endif d-flex gap-2 align-items-center"
-                href="{{ route('admin.alumni.index') }}">
+              <a class="nav-link @if (Request::is('sipeka/admin/masterdata/dokumen*')) active @endif d-flex gap-2 align-items-center"
+                href="{{ route('admin.dokumen.index') }}">
                 <span><i class="fa-solid fa-file fa-lg"></i></span>
                 <span>Jenis Dokumen</span>
               </a>
             </li>
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/master-data/pelamar*')) active @endif d-flex gap-2 align-items-center"
-                href="{{ route('admin.pelamar.index') }}">
+              <a class="nav-link @if (Request::is('sipeka/admin/masterdata/angkatan*')) active @endif d-flex gap-2 align-items-center"
+                href="{{ route('admin.angkatan.index') }}">
                 <span><i class="fa-solid fa-graduation-cap fa-lg"></i></span>
                 <span>Angkatan</span>
               </a>
             </li>
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/master-data/perusahaan*')) active @endif d-flex gap-2 align-items-center"
-                href="{{ route('admin.perusahaan.index') }}">
+              <a class="nav-link @if (Request::is('sipeka/admin/masterdata/jurusan*')) active @endif d-flex gap-2 align-items-center"
+                href="{{ route('admin.jurusan.index') }}">
                 <span><i class="fa-solid fa-users-gear fa-lg"></i></span>
                 <span>Jurusan</span>
               </a>
