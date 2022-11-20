@@ -20,36 +20,42 @@
               </svg>
             </div>
             <div class="col-lg-9">
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Nama Lengkap : Layla Mayrisa') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Jenis Kelamin : Perempuan') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Tempat Lahir : Bekasi') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Tanggal Lahir : 20 Mei 2005') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('No. Telepon : 083806114303') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Alamat : Jl. gsdfgkjh No 09 B, RT.08/RW.02 Bintara, Kota Bekasi, Jawa Barat') }}
-                </p>
-              </div>
+              <table class="table table-responsive">
+                <tbody>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('Layla Mayrisa') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Jenis Kelamin') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('Perempuan') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('Bekasi') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('20 Mei 2005') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('083806114303') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      {{ __('Jl. gsdfgkjh No 09 B, RT.08/RW.02 Bintara, Kota Bekasi, Jawa Barat Bintara, Kota Bekasi, Jawa Barat') }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="row justify-content-end">

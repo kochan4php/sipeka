@@ -25,27 +25,34 @@
               </svg>
             </div>
             <div class="col-lg-9">
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Nama Perusahaan : PT. Catur Jaya Solusi Bersama') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('No. Telepon Perusahaan : (021)9987653') }}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Deskripsi Perusahaan : ') }}
-                  {!! 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis debitis repellat ducimus illo est odio assumenda ullam, placeat eos, veniam eius porro? Quo maxime recusandae quidem saepe, ad aspernatur reiciendis odio, dolore quos ipsum adipisci perferendis quibusdam ullam odit libero enim vel blanditiis beatae! Omnis atque excepturi dignissimos quas fugiat.' !!}
-                </p>
-              </div>
-              <div class="row">
-                <p class="fs-5 fs-md-6">
-                  {{ __('Alamat Perusahaan : Jl. Gn. Kerinci II No.897, RT.009/RW.012, Bintara Jaya, Bekasi Kota, Kota Bks, Jawa Barat 17136') }}
-                </p>
-              </div>
+              <table class="table table-responsive">
+                <tbody>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Perusahaan') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('PT. Catur Jaya Solusi Bersama') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon / Fax') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __('(021)9987653') }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Deskripsi') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      {!! 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis debitis repellat ducimus illo est odio assumenda ullam, placeat eos, veniam eius porro? Quo maxime recusandae quidem saepe, ad aspernatur reiciendis odio, dolore quos ipsum adipisci perferendis quibusdam ullam odit libero enim vel blanditiis beatae! Omnis atque excepturi dignissimos quas fugiat.' !!}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      {{ __('Jl. Gn. Kerinci II No.897, RT.009/RW.012, Bintara Jaya, Bekasi Kota, Kota Bks, Jawa Barat 17136') }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="row justify-content-end">
