@@ -48,25 +48,8 @@
           </table>
         </div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <p class="align-self-center">Showing 1 of 100</p>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination mb-0">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+      <div class="d-flex d-md-block justify-content-center fs-5 mt-3">
+        {{ $angkatan->links() }}
       </div>
     </div>
   </div>
@@ -116,8 +99,8 @@
 </div>
 
 {{-- Modal Sunting --}}
-<div class="modal fade" id="modalSunting" data-bs-backdrop="static" tabindex="-1"
-  aria-labelledby="modalSuntingLabel" aria-hidden="true">
+<div class="modal fade" id="modalSunting" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalSuntingLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">

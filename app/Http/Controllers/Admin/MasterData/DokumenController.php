@@ -15,7 +15,7 @@ class DokumenController extends Controller
    */
   public function index()
   {
-    $dokumen = DB::select('SELECT * FROM dokumen');
+    $dokumen = DB::table('dokumen')->paginate(10);
     return view('admin.masterdata.dokumen.index', compact('dokumen'));
   }
 

@@ -15,7 +15,7 @@ class JurusanController extends Controller
    */
   public function index()
   {
-    $jurusan = DB::select('SELECT * FROM jurusan');
+    $jurusan = DB::table('jurusan')->paginate(10);
     return view('admin.masterdata.jurusan.index', compact('jurusan'));
   }
 
