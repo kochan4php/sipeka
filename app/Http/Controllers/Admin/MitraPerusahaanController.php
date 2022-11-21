@@ -15,24 +15,10 @@ class MitraPerusahaanController extends Controller
    */
   public function index()
   {
-    $perusahaan = DB::select(
-      "SELECT
-        mp.id_perusahaan,
-        u.id_user,
-        lu.id_level,
-        mp.nama_perusahaan,
-        mp.nomor_telp_perusahaan,
-        mp.thumbnail_perusahaan,
-        mp.logo_perusahaan,
-        mp.deskripsi_perusahaan,
-        mp.alamat_perusahaan,
-        u.username,
-        u.email,
-        lu.nama_level
-      FROM mitra_perusahaan AS mp
-      INNER JOIN users AS u ON mp.id_user = u.id_user
-      INNER JOIN level_user AS lu ON u.id_level = lu.id_level"
-    );
+    $perusahaan = collect(DB::select(
+      "SELECT * FROM mitra_perusahaan AS mp
+      INNER JOIN users AS u ON mp.id_user = u.id_user"
+    ));
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
 
@@ -63,9 +49,29 @@ class MitraPerusahaanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show($username)
   {
-    return view('admin.pengguna.perusahaan.detail', compact('id'));
+    $perusahaan = collect(DB::select(
+      "SELECT
+        mp.id_perusahaan,
+        u.id_user,
+        lu.id_level,
+        mp.nama_perusahaan,
+        mp.nomor_telp_perusahaan,
+        mp.thumbnail_perusahaan,
+        mp.logo_perusahaan,
+        mp.deskripsi_perusahaan,
+        mp.alamat_perusahaan,
+        u.username,
+        u.email,
+        lu.nama_level
+      FROM mitra_perusahaan AS mp
+      INNER JOIN users AS u ON mp.id_user = u.id_user
+      INNER JOIN level_user AS lu ON u.id_level = lu.id_level
+      WHERE u.username = ?",
+      [$username]
+    ))->first();
+    return view('admin.pengguna.perusahaan.detail', compact('perusahaan'));
   }
 
   /**
