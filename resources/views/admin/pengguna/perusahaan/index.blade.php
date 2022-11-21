@@ -29,17 +29,17 @@
                   <td class="text-nowrap text-center">{{ $item->nomor_telp_perusahaan }}</td>
                   <td class="text-nowrap text-center">
                     <div class="btn-group">
-                      <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
+                      <a href="{{ route('admin.perusahaan.detail', $item->username) }}"
                         class="btn btn-sm fw-bolder leading-1px btn-success">
                         <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                         <span>Detail</span>
                       </a>
-                      <a href="{{ route('admin.perusahaan.edit', 'layla-mayrisa') }}"
+                      <a href="{{ route('admin.perusahaan.edit', $item->username) }}"
                         class="btn btn-sm fw-bolder leading-1px btn-warning">
                         <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                         <span>Sunting</span>
                       </a>
-                      <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
+                      <a href="{{ route('admin.perusahaan.detail', $item->username) }}"
                         class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
                         <span><i class="fa-solid fa-trash fa-lg"></i></span>
