@@ -21,140 +21,44 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">1</th>
-                <td class="text-nowrap text-center">Danny Ganteng</td>
-                <td class="text-nowrap text-center">ALUMNI-VVOYYSTHLU</td>
-                <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">2</th>
-                <td class="text-nowrap text-center">Ibnu Prayudha</td>
-                <td class="text-nowrap text-center">ALUMNI-AJC3A8CJ7K</td>
-                <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">3</th>
-                <td class="text-nowrap text-center">Aphrodeo Subarno</td>
-                <td class="text-nowrap text-center">ALUMNI-XHCHUYIZQW</td>
-                <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">3</th>
-                <td class="text-nowrap text-center">Aphrodeo Subarno</td>
-                <td class="text-nowrap text-center">ALUMNI-XHCHUYIZQW</td>
-                <td class="text-nowrap text-center">2021/2022</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.edit', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
+              @foreach ($alumni as $item)
+                <tr>
+                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
+                  <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
+                  <td class="text-nowrap text-center">{{ $item->nis }}</td>
+                  <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
+                  <td class="text-nowrap text-center">
+                    <div class="btn-group">
+                      <a href="{{ route('admin.alumni.detail', $item->nis) }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-success">
+                        <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                        <span>Detail</span>
+                      </a>
+                      <a href="{{ route('admin.alumni.edit', $item->nis) }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-warning">
+                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                        <span>Sunting</span>
+                      </a>
+                      <a href="{{ route('admin.alumni.detail', $item->nis) }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                        <span>Hapus</span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <p class="align-self-center">Showing 1 of 100</p>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination mb-0">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   </div>
 @endsection
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1"
-  aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header border-0 border-bottom-0">

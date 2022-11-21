@@ -26,7 +26,7 @@ return new class extends Migration
       $table->date('tanggal_lahir');
       $table->string('no_telepon', 20);
       $table->text('alamat_tempat_tinggal');
-      $table->string('foto');
+      $table->string('foto')->nullable();
 
       // Foreign key untuk id_pelamar
       $table
