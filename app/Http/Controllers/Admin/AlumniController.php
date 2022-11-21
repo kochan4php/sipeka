@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlumniController extends Controller
 {
@@ -14,7 +15,11 @@ class AlumniController extends Controller
    */
   public function index()
   {
-    return view('admin.pengguna.alumni.index');
+    $alumni = DB::select(
+      'SELECT * FROM siswa_alumni AS sa
+      INNER JOIN angkatan AS agkt ON sa.id_angkatan = agkt.id_angkatan'
+    );
+    return view('admin.pengguna.alumni.index', compact('alumni'));
   }
 
   /**
@@ -44,9 +49,39 @@ class AlumniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show($nis)
   {
-    return view('admin.pengguna.alumni.detail', compact('id'));
+    $alumni = collect(DB::select(
+      "SELECT
+        sa.id_siswa,
+        p.id_pelamar,
+        agkt.id_angkatan,
+        jrs.id_jurusan,
+        u.id_user,
+        lu.id_level,
+        sa.nis,
+        sa.nama_lengkap,
+        sa.jenis_kelamin,
+        sa.tempat_lahir,
+        sa.tanggal_lahir,
+        sa.no_telepon,
+        sa.alamat_tempat_tinggal,
+        sa.foto,
+        agkt.angkatan_tahun,
+        jrs.nama_jurusan,
+        jrs.keterangan,
+        u.username,
+        lu.nama_level
+      FROM siswa_alumni AS sa
+      INNER JOIN pelamar AS p ON sa.id_pelamar = p.id_pelamar
+      INNER JOIN angkatan AS agkt ON sa.id_angkatan = agkt.id_angkatan
+      INNER JOIN jurusan AS jrs ON sa.id_jurusan = jrs.id_jurusan
+      INNER JOIN users AS u ON p.id_user = u.id_user
+      INNER JOIN level_user AS lu ON u.id_level = lu.id_level
+      WHERE nis = ?",
+      [$nis]
+    ))->first();
+    return view('admin.pengguna.alumni.detail', compact('alumni'));
   }
 
   /**
