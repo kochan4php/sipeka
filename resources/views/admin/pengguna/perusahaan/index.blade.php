@@ -22,56 +22,33 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">1</th>
-                <td class="text-nowrap text-center">PT. Catur Jaya Solusi Bersama</td>
-                <td class="text-nowrap text-center">{{ __('(021)9987653') }}</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.perusahaan.edit', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">2</th>
-                <td class="text-nowrap text-center">PT. Qia Solutions</td>
-                <td class="text-nowrap text-center">{{ __('(021)9987654') }}</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.perusahaan.edit', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
+              @foreach ($perusahaan as $item)
+                <tr>
+                  <th class="text-nowrap text-center" scope="row">1</th>
+                  <td class="text-nowrap text-center">{{ $item->nama_perusahaan }}</td>
+                  <td class="text-nowrap text-center">{{ $item->nomor_telp_perusahaan }}</td>
+                  <td class="text-nowrap text-center">
+                    <div class="btn-group">
+                      <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-success">
+                        <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                        <span>Detail</span>
+                      </a>
+                      <a href="{{ route('admin.perusahaan.edit', 'layla-mayrisa') }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-warning">
+                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                        <span>Sunting</span>
+                      </a>
+                      <a href="{{ route('admin.perusahaan.detail', 'layla-mayrisa') }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                        <span>Hapus</span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
