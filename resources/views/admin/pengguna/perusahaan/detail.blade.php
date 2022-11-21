@@ -30,25 +30,25 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Perusahaan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('PT. Catur Jaya Solusi Bersama') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->nama_perusahaan) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon / Fax') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('(021)9987653') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->nomor_telp_perusahaan) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Deskripsi') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {!! 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis debitis repellat ducimus illo est odio assumenda ullam, placeat eos, veniam eius porro? Quo maxime recusandae quidem saepe, ad aspernatur reiciendis odio, dolore quos ipsum adipisci perferendis quibusdam ullam odit libero enim vel blanditiis beatae! Omnis atque excepturi dignissimos quas fugiat.' !!}
+                      {!! $perusahaan->deskripsi_perusahaan ?? 'Belum ada deskripsi' !!}
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ __('Jl. Gn. Kerinci II No.897, RT.009/RW.012, Bintara Jaya, Bekasi Kota, Kota Bks, Jawa Barat 17136') }}
+                      {{ __($perusahaan->alamat_perusahaan) }}
                     </td>
                   </tr>
                 </tbody>
