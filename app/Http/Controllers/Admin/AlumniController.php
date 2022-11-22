@@ -78,7 +78,7 @@ class AlumniController extends Controller
       INNER JOIN jurusan AS jrs ON sa.id_jurusan = jrs.id_jurusan
       INNER JOIN users AS u ON p.id_user = u.id_user
       INNER JOIN level_user AS lu ON u.id_level = lu.id_level
-      WHERE nis = ?",
+      WHERE sa.nis = ?",
       [$nis]
     ))->first();
     return view('admin.pengguna.alumni.detail', compact('alumni'));
