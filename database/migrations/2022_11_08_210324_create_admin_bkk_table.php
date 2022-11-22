@@ -15,6 +15,8 @@ return new class extends Migration
   {
     Schema::create('admin_bkk', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
+      $table->charset = env('DB_CHARSET', 'utf8');
+      $table->collation = env('DB_COLLATION', 'utf8_unicode_ci');
       $table->char('id_admin', 5)->primary();
       $table->integer('id_user');
       $table->string('nama_admin', 100);
