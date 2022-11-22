@@ -25,33 +25,33 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('Layla Mayrisa') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->nama_lengkap) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Jenis Kelamin') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('Perempuan') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->jenis_kelamin) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('Bekasi') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->tempat_lahir) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('20 Mei 2005') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->tanggal_lahir) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __('083806114303') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->no_telepon) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ __('Jl. gsdfgkjh No 09 B, RT.08/RW.02 Bintara, Kota Bekasi, Jawa Barat Bintara, Kota Bekasi, Jawa Barat') }}
+                      {{ __($masyarakat->alamat_tempat_tinggal) }}
                     </td>
                   </tr>
                 </tbody>

@@ -21,32 +21,34 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th class="text-nowrap text-center" scope="row">1</th>
-                <td class="text-nowrap text-center">Layla Mayrisa</td>
-                <td class="text-nowrap text-center">20 May 2005</td>
-                <td class="text-nowrap text-center">083806114303</td>
-                <td class="text-nowrap text-center">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.pelamar.detail', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
-                    </a>
-                    <a href="{{ route('admin.pelamar.edit', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
-                    </a>
-                    <a href="{{ route('admin.pelamar.detail', 'layla-mayrisa') }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
+              @foreach ($masyarakat as $item)
+                <tr>
+                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
+                  <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
+                  <td class="text-nowrap text-center">{{ $item->tanggal_lahir }}</td>
+                  <td class="text-nowrap text-center">{{ $item->no_telepon }}</td>
+                  <td class="text-nowrap text-center">
+                    <div class="btn-group">
+                      <a href="{{ route('admin.pelamar.detail', $item->username) }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-success">
+                        <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                        <span>Detail</span>
+                      </a>
+                      <a href="{{ route('admin.pelamar.edit', $item->username) }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-warning">
+                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                        <span>Sunting</span>
+                      </a>
+                      <a href="{{ route('admin.pelamar.detail', $item->username) }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                        <span>Hapus</span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
