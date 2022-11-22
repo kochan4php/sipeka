@@ -24,7 +24,7 @@
             <tbody>
               @foreach ($perusahaan as $item)
                 <tr>
-                  <th class="text-nowrap text-center" scope="row">1</th>
+                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
                   <td class="text-nowrap text-center">{{ $item->nama_perusahaan }}</td>
                   <td class="text-nowrap text-center">{{ $item->nomor_telp_perusahaan }}</td>
                   <td class="text-nowrap text-center">

@@ -15,10 +15,7 @@ class MitraPerusahaanController extends Controller
    */
   public function index()
   {
-    $perusahaan = collect(DB::select(
-      "SELECT * FROM mitra_perusahaan AS mp
-      INNER JOIN users AS u ON mp.id_user = u.id_user"
-    ));
+    $perusahaan = collect(DB::select("SELECT * FROM get_all_perusahaan"));
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
 
@@ -51,26 +48,7 @@ class MitraPerusahaanController extends Controller
    */
   public function show($username)
   {
-    $perusahaan = collect(DB::select(
-      "SELECT
-        mp.id_perusahaan,
-        u.id_user,
-        lu.id_level,
-        mp.nama_perusahaan,
-        mp.nomor_telp_perusahaan,
-        mp.thumbnail_perusahaan,
-        mp.logo_perusahaan,
-        mp.deskripsi_perusahaan,
-        mp.alamat_perusahaan,
-        u.username,
-        u.email,
-        lu.nama_level
-      FROM mitra_perusahaan AS mp
-      INNER JOIN users AS u ON mp.id_user = u.id_user
-      INNER JOIN level_user AS lu ON u.id_level = lu.id_level
-      WHERE u.username = ?",
-      [$username]
-    ))->first();
+    $perusahaan = collect(DB::select('CALL get_perusahaan_by_username(?)', [$username]))->first();
     return view('admin.pengguna.perusahaan.detail', compact('perusahaan'));
   }
 

@@ -15,6 +15,8 @@ return new class extends Migration
   {
     Schema::create('dokumen_pengguna', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
+      $table->charset = env('DB_CHARSET', 'utf8');
+      $table->collation = env('DB_COLLATION', 'utf8_unicode_ci');
       $table->integer('id_dokumen_pengguna', true);
       $table->integer('id_pelamar');
       $table->char('id_jenis_dokumen', 7);
