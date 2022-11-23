@@ -30,7 +30,13 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Jenis Kelamin') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->jenis_kelamin) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if ($masyarakat->jenis_kelamin === 'L')
+                        {{ __('Laki-laki') }}
+                      @elseif ($masyarakat->jenis_kelamin === 'P')
+                        {{ __('Perempuan') }}
+                      @endif
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>

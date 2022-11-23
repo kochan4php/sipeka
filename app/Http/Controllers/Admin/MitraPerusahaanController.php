@@ -15,7 +15,7 @@ class MitraPerusahaanController extends Controller
    */
   public function index()
   {
-    $perusahaan = collect(DB::select("SELECT * FROM get_all_perusahaan"));
+    $perusahaan = collect(DB::select('SELECT * FROM get_all_perusahaan'));
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
 

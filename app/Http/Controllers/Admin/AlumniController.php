@@ -15,10 +15,7 @@ class AlumniController extends Controller
    */
   public function index()
   {
-    $alumni = DB::select(
-      'SELECT * FROM siswa_alumni AS sa
-      INNER JOIN angkatan AS agkt ON sa.id_angkatan = agkt.id_angkatan'
-    );
+    $alumni = collect(DB::select('SELECT * FROM get_all_siswa_alumni'));
     return view('admin.pengguna.alumni.index', compact('alumni'));
   }
 
@@ -51,7 +48,7 @@ class AlumniController extends Controller
    */
   public function show($nis)
   {
-    $alumni = collect(DB::select("CALL get_alumni_by_nis(?)", [$nis]))->first();
+    $alumni = collect(DB::select('CALL get_alumni_by_nis(?)', [$nis]))->first();
     return view('admin.pengguna.alumni.detail', compact('alumni'));
   }
 
