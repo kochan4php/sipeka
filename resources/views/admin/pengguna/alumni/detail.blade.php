@@ -51,7 +51,9 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->tanggal_lahir) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      {{ \Carbon\Carbon::parse($alumni->tanggal_lahir)->format('d M Y') }}
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
