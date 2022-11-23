@@ -15,19 +15,7 @@ class MasyarakatController extends Controller
    */
   public function index()
   {
-    $masyarakat = collect(DB::select(
-      "SELECT
-        m.id_masyarakat,
-        p.id_pelamar,
-        u.id_user,
-        m.nama_lengkap,
-        m.tanggal_lahir,
-        m.no_telepon,
-        u.username
-      FROM masyarakat AS m
-      INNER JOIN pelamar AS p ON m.id_pelamar = p.id_pelamar
-      INNER JOIN users AS u ON p.id_user = u.id_user"
-    ));
+    $masyarakat = collect(DB::select('SELECT * FROM get_all_masyarakat'));
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
 
@@ -55,34 +43,12 @@ class MasyarakatController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param  int  $id
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
   public function show($username)
   {
-    $masyarakat = collect(DB::select(
-      "SELECT
-        m.id_masyarakat,
-        p.id_pelamar,
-        u.id_user,
-        lu.id_level,
-        m.nama_lengkap,
-        m.jenis_kelamin,
-        m.tempat_lahir,
-        m.tanggal_lahir,
-        m.alamat_tempat_tinggal,
-        m.no_telepon,
-        m.foto,
-        u.username,
-        u.email,
-        lu.nama_level
-      FROM masyarakat AS m
-      INNER JOIN pelamar AS p ON m.id_pelamar = p.id_pelamar
-      INNER JOIN users AS u ON p.id_user = u.id_user
-      INNER JOIN level_user AS lu ON u.id_level = lu.id_level
-      WHERE u.username = ?",
-      [$username]
-    ))->first();
+    $masyarakat = collect(DB::select('CALL get_masyarakat_by_username(?)', [$username]))->first();
     return view('admin.pengguna.masyarakat.detail', compact('masyarakat'));
   }
 
