@@ -4,7 +4,7 @@
 }
 
 .custom-font {
-  font-size: 0.95rem;
+  font-size: 1.1rem !important;
 }
 
 .navbar .navbar-toggler {
@@ -19,4 +19,13 @@
 .btn-close:active {
   outline: none !important;
   box-shadow: none !important;
+}
+
+.btn-login {
+  transition: 0.3s all;
+  border-radius: 5px;
+}
+
+.btn-login:hover {
+  background-color: var(--bs-gray-400);
 }

@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow py-3">
   <div class="container">
-    <a class="navbar-brand fs-5 fw-bold" href="/">SIPEKA</a>
+    <a class="navbar-brand fs-4 fw-bold" href="{{ route('home') }}">SIPEKA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -49,14 +49,15 @@
               </ul>
             </div>
           </li>
-        @endauth
-        @guest
+        @else
           <li class="nav-item">
-            <a href="{{ route('login.index') }}" class="nav-link active custom-font">
-              <i class="bi bi-box-arrow-in-right"></i>&nbsp;Login
+            <a href="{{ route('login.index') }}"
+              class="nav-link active custom-font d-flex gap-2 align-items-center btn-login">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              <span>Login</span>
             </a>
           </li>
-        @endguest
+        @endauth
       </ul>
     </div>
   </div>
