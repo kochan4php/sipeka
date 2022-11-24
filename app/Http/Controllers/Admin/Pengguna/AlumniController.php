@@ -1,30 +1,59 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Pengguna;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
+use App\Interface\HasMainRoute;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\ItemNotFoundException;
 
-use function GuzzleHttp\Promise\all;
-
-class AlumniController extends Controller
+class AlumniController extends Controller implements HasMainRoute
 {
+  private $mainRoute = 'admin.alumni.index';
+
+  /**
+   * Redirect to this controller main route.
+   * Implements HasMainRoute interface
+   *
+   * @return \Illuminate\Http\RedirectResponse
+   */
+  public function redirectToMainRoute(): RedirectResponse
+  {
+    return redirect()->route($this->mainRoute);
+  }
+
+  /**
+   * Get all jurusan data.
+   *
+   * @return \Illuminate\Support\Collection
+   */
   private function getJurusan(): Collection
   {
     return collect(DB::select('SELECT * FROM jurusan'));
   }
 
+  /**
+   * Get all angkatan data.
+   *
+   * @return \Illuminate\Support\Collection
+   */
   private function getAngkatan(): Collection
   {
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
+  /**
+   * Get alumni by nis.
+   * @param string $nis
+   */
   private function getAlumniByNis(string $nis)
   {
-    return collect(DB::select('CALL get_alumni_by_nis(?)', [$nis]))->first();
+    return collect(DB::select('CALL get_alumni_by_nis(?)', [$nis]))->firstOrFail();
   }
 
   /**
@@ -101,24 +130,31 @@ class AlumniController extends Controller
       ]);
 
       if ($alumni)
-        return redirect()->route('admin.alumni.index')->with('sukses', 'Berhasil Menambahkan Data Alumni');
+        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Alumni');
       else
         return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
-      return redirect()->route('admin.alumni.index')->with('error', $e->getMessage());
+      return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
   }
 
   /**
    * Display the specified resource.
    *
-   * @param  int  $id
+   * @param  string  $nis
    * @return \Illuminate\Http\Response
    */
   public function show(string $nis)
   {
-    $alumni = $this->getAlumniByNis($nis);
-    return view('admin.pengguna.alumni.detail', compact('alumni'));
+    try {
+      if (strlen($nis) > 18)
+        return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
+
+      $alumni = $this->getAlumniByNis($nis);
+      return view('admin.pengguna.alumni.detail', compact('alumni'));
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
+    }
   }
 
   /**
@@ -129,10 +165,17 @@ class AlumniController extends Controller
    */
   public function edit(string $nis)
   {
-    $jurusan = $this->getJurusan();
-    $angkatan = $this->getAngkatan();
-    $alumni = $this->getAlumniByNis($nis);
-    return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
+    try {
+      if (strlen($nis) > 18)
+        return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
+
+      $jurusan = $this->getJurusan();
+      $angkatan = $this->getAngkatan();
+      $alumni = $this->getAlumniByNis($nis);
+      return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
+    }
   }
 
   /**
@@ -157,7 +200,7 @@ class AlumniController extends Controller
   {
     try {
       $alumni = $this->getAlumniByNis($nis);
-      $deleteAlumni = DB::table('users')->where('username', '=', "{$alumni->username}")->delete();
+      $deleteAlumni = User::whereUsername($alumni->username)->delete();
 
       if ($deleteAlumni) return redirect()->back()->with('sukses', 'Berhasil hapus data alumni');
       else return redirect()->back()->with('error', 'Gagal menghapus data alumni');
