@@ -16,7 +16,8 @@
                 {{ __('NIS (Nomor Induk Siswa)') }}
               </label>
               <div class="col-sm-8">
-                <input type="number" class="form-control" id="nis" name="nis" placeholder="202115908" required>
+                <input type="number" class="form-control" id="nis" name="nis" placeholder="202115908" required
+                  value="{{ old('nis', $alumni->nis) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -25,7 +26,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="inputPassword" name="nama"
-                  placeholder="Aphrodeo Subarno" required>
+                  placeholder="Aphrodeo Subarno" required value="{{ old('nama', $alumni->nama_lengkap) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -35,8 +36,8 @@
               <div class="col-sm-8">
                 <select name="jenis_kelamin" id="jenis_kelamin" class="form-select" required>
                   <option selected>-- Pilih jenis kelamin --</option>
-                  <option value="L">Laki-laki</option>
-                  <option value="P">Perempuan</option>
+                  <option value="L" @if ($alumni->jenis_kelamin === 'L') @selected(true) @endif>Laki-laki</option>
+                  <option value="P" @if ($alumni->jenis_kelamin === 'P') @selected(true) @endif>Perempuan</option>
                 </select>
               </div>
             </div>
@@ -48,7 +49,9 @@
                 <select name="jurusan" id="jurusan" class="form-select" required>
                   <option selected>-- Pilih Jurusan --</option>
                   @foreach ($jurusan as $item)
-                    <option value="{{ $item->id_jurusan }}">{{ $item->nama_jurusan }}</option>
+                    <option value="{{ $item->id_jurusan }}" @if ($item->id_jurusan === $alumni->id_jurusan) @selected(true) @endif>
+                      {{ $item->nama_jurusan }}
+                    </option>
                   @endforeach
                 </select>
               </div>
@@ -61,7 +64,9 @@
                 <select name="angkatan" id="angkatan" class="form-select" required>
                   <option selected>-- Pilih Tahun Angkatan --</option>
                   @foreach ($angkatan as $item)
-                    <option value="{{ $item->id_angkatan }}">{{ $item->angkatan_tahun }}</option>
+                    <option value="{{ $item->id_angkatan }}" @if ($item->id_angkatan === $alumni->id_angkatan) @selected(true) @endif>
+                      {{ $item->angkatan_tahun }}
+                    </option>
                   @endforeach
                 </select>
               </div>
@@ -71,7 +76,8 @@
                 {{ __('Tempat Lahir') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" placeholder="Bekasi">
+                <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" placeholder="Bekasi"
+                  value="{{ old('tempat_lahir', $alumni->tempat_lahir) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -80,7 +86,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                  placeholder="04/18/2005">
+                  placeholder="04/18/2005" value="{{ old('tanggal_lahir', $alumni->tanggal_lahir) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -88,7 +94,8 @@
                 {{ __('No. Telepon') }}
               </label>
               <div class="col-sm-8">
-                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056">
+                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056"
+                  value="{{ old('no_telp', $alumni->no_telepon) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -96,8 +103,9 @@
                 {{ __('Alamat Tempat Tinggal') }}
               </label>
               <div class="col-sm-8">
-                <textarea class="form-control" placeholder="Leave a comment here" id="alamat_alumni" name="alamat_alumni"
-                  rows="3"></textarea>
+                <textarea class="form-control" id="alamat_alumni" name="alamat_alumni" rows="3">
+                {{ old('alamat_alumni', $alumni->alamat_tempat_tinggal) }}
+                </textarea>
               </div>
             </div>
             <div class="mb-3 row">
