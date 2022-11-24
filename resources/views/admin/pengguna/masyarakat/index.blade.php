@@ -55,24 +55,25 @@
       </div>
     </div>
   </div>
-@endsection
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header border-0 border-bottom-0">
-        <h1 class="modal-title fs-4 text-center" id="exampleModalLabel">Hapus data pelamar?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer border-0 border-top-0">
-        <form action="{{ route('admin.pelamar.delete', 'layla-mayrisa') }}" method="post">
-          @csrf
-          @method('delete')
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-danger">Hapus</button>
-        </form>
+  {{-- Modal Hapus --}}
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 border-bottom-0">
+          <h1 class="modal-title fs-4 text-center" id="exampleModalLabel">Hapus data pelamar?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer border-0 border-top-0">
+          <form action="{{ route('admin.pelamar.delete', 'layla-mayrisa') }}" method="post">
+            @csrf
+            @method('delete')
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-danger">Hapus</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
+@endsection

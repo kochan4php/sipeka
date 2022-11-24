@@ -6,9 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+
+use function GuzzleHttp\Promise\all;
 
 class AlumniController extends Controller
 {
+  private function getJurusan(): Collection
+  {
+    return collect(DB::select('SELECT * FROM jurusan'));
+  }
+
+  private function getAngkatan(): Collection
+  {
+    return collect(DB::select('SELECT * FROM angkatan'));
+  }
+
+  private function getAlumniByNis(string $nis)
+  {
+    return collect(DB::select('CALL get_alumni_by_nis(?)', [$nis]))->first();
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -27,8 +45,8 @@ class AlumniController extends Controller
    */
   public function create()
   {
-    $jurusan = collect(DB::select('SELECT * FROM jurusan'));
-    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+    $jurusan = $this->getJurusan();
+    $angkatan = $this->getAngkatan();
     return view('admin.pengguna.alumni.tambah', compact('jurusan', 'angkatan'));
   }
 
@@ -54,15 +72,19 @@ class AlumniController extends Controller
         'foto_alumni',
       ]);
 
-      $validatedData['tempat_lahir'] = $validatedData['tempat_lahir'] ?
+      $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
         $validatedData['tempat_lahir'] : null;
-      $validatedData['tanggal_lahir'] = $validatedData['tanggal_lahir'] ?
+
+      $validatedData['tanggal_lahir'] = !is_null($validatedData['tanggal_lahir']) ?
         Carbon::parse($validatedData['tanggal_lahir']) : null;
-      $validatedData['no_telp'] = $validatedData['no_telp'] ?
+
+      $validatedData['no_telp'] = !is_null($validatedData['no_telp']) ?
         $validatedData['no_telp'] : null;
-      $validatedData['alamat_alumni'] = $validatedData['alamat_alumni'] ?
+
+      $validatedData['alamat_alumni'] = !is_null($validatedData['alamat_alumni']) ?
         $validatedData['alamat_alumni'] : null;
-      $validatedData['foto_alumni'] = $validatedData['foto_alumni'] ?
+
+      $validatedData['foto_alumni'] = !is_null($validatedData['foto_alumni']) ?
         $validatedData['foto_alumni'] : null;
 
       $alumni = DB::insert("CALL insert_one_siswa_alumni(:jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
@@ -93,9 +115,9 @@ class AlumniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($nis)
+  public function show(string $nis)
   {
-    $alumni = collect(DB::select('CALL get_alumni_by_nis(?)', [$nis]))->first();
+    $alumni = $this->getAlumniByNis($nis);
     return view('admin.pengguna.alumni.detail', compact('alumni'));
   }
 
@@ -105,21 +127,22 @@ class AlumniController extends Controller
    * @param  string  $nis
    * @return \Illuminate\Http\Response
    */
-  public function edit($nis)
+  public function edit(string $nis)
   {
-    $jurusan = collect(DB::select('SELECT * FROM jurusan'));
-    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
-    return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan'));
+    $jurusan = $this->getJurusan();
+    $angkatan = $this->getAngkatan();
+    $alumni = $this->getAlumniByNis($nis);
+    return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
+   * @param  string  $nis
    * @return \Illuminate\Http\Response
    */
-  public function update(StoreAlumniRequest $request, $id)
+  public function update(StoreAlumniRequest $request, string $nis)
   {
     return 'Hehe berhasil';
   }
@@ -127,11 +150,19 @@ class AlumniController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
+   * @param  string  $nis
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(string $nis)
   {
-    return 'Berhasil hapus data';
+    try {
+      $alumni = $this->getAlumniByNis($nis);
+      $deleteAlumni = DB::table('users')->where('username', '=', "{$alumni->username}")->delete();
+
+      if ($deleteAlumni) return redirect()->back()->with('sukses', 'Berhasil hapus data alumni');
+      else return redirect()->back()->with('error', 'Gagal menghapus data alumni');
+    } catch (\Exception $e) {
+      return redirect()->back()->with('error', $e->getMessage());
+    }
   }
 }
