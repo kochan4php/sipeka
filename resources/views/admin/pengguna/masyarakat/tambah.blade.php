@@ -62,7 +62,7 @@
               </label>
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="alamat-pelamar" name="alamat-pelamar"
-                  rows="4"></textarea>
+                  rows="3"></textarea>
               </div>
             </div>
             <div class="mb-3 row">

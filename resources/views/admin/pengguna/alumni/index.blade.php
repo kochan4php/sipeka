@@ -6,6 +6,26 @@
     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary">Tambah Data Alumni</a>
   </div>
 
+  @if (session()->has('sukses'))
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-success">
+          {{ session('sukses') }}
+        </div>
+      </div>
+    </div>
+  @endif
+
+  @if (session()->has('error'))
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-danger">
+          {{ session('error') }}
+        </div>
+      </div>
+    </div>
+  @endif
+
   <div class="row">
     <div class="col table-responsive">
       <div class="card table-responsive">
