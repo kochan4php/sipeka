@@ -6,9 +6,9 @@ use App\Http\Controllers\{
   Auth\AuthenticatedController,
   Auth\LogoutController,
   // All Pengguna Controller
-  Admin\AlumniController,
-  Admin\MasyarakatController,
-  Admin\MitraPerusahaanController,
+  Admin\Pengguna\AlumniController,
+  Admin\Pengguna\MasyarakatController,
+  Admin\Pengguna\MitraPerusahaanController,
   // All Master Data Controller
   Admin\MasterData\JurusanController,
   Admin\MasterData\AngkatanController,

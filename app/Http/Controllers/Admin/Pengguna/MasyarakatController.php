@@ -1,13 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Http\Controllers\Controller;
+use App\Interface\HasMainRoute;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MasyarakatController extends Controller
+class MasyarakatController extends Controller implements HasMainRoute
 {
+  private $mainRoute = 'admin.pelamar.index';
+
+  /**
+   * Redirect to this controller main route.
+   * Implements HasMainRoute interface
+   *
+   * @return \Illuminate\Http\RedirectResponse
+   */
+  public function redirectToMainRoute(): RedirectResponse
+  {
+    return redirect()->route($this->mainRoute);
+  }
+
   /**
    * Display a listing of the resource.
    *
