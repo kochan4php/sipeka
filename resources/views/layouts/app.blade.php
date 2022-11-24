@@ -7,13 +7,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
-  <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
   <title>Beranda | SIPEKA</title>
 </head>
 
 <body>
-
   @include('layouts.navigation')
 
   <div id="carouselExampleControls" class="carousel slide" style="min-height: 80vh !important;" data-bs-ride="carousel">
