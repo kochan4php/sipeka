@@ -51,7 +51,7 @@
               </label>
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi_perusahaan" name="deskripsi_perusahaan"
-                  rows="4"></textarea>
+                  rows="3"></textarea>
               </div>
             </div>
             <div class="mb-3 row">
@@ -60,7 +60,7 @@
               </label>
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="alamat_perusahaan" name="alamat_perusahaan"
-                  rows="4"></textarea>
+                  rows="3"></textarea>
               </div>
             </div>
             <div class="row mb-3">

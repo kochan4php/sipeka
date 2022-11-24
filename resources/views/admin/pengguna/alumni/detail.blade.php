@@ -46,25 +46,45 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->tempat_lahir) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if (is_null($alumni->tempat_lahir))
+                        {{ __('Data tempat lahir tidak ada') }}
+                      @else
+                        {{ __($alumni->tempat_lahir) }}
+                      @endif
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ \Carbon\Carbon::parse($alumni->tanggal_lahir)->format('d M Y') }}
+                      @if (is_null($alumni->tanggal_lahir))
+                        {{ __('Data tanggal lahir tidak ada') }}
+                      @else
+                        {{ \Carbon\Carbon::parse($alumni->tanggal_lahir)->format('d M Y') }}
+                      @endif
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->no_telepon) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if (is_null($alumni->no_telepon))
+                        {{ __('Data nomor telepon siswa tidak ada') }}
+                      @else
+                        {{ __($alumni->no_telepon) }}
+                      @endif
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ __($alumni->alamat_tempat_tinggal) }}
+                      @if (is_null($alumni->alamat_tempat_tinggal))
+                        {{ __('Data alamat tempat tinggal siswa tidak ada') }}
+                      @else
+                        {{ __($alumni->alamat_tempat_tinggal) }}
+                      @endif
                     </td>
                   </tr>
                   <tr>

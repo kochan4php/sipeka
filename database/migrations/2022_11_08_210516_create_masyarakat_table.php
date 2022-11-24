@@ -21,11 +21,11 @@ return new class extends Migration
       $table->integer('id_pelamar');
       $table->string('nama_lengkap');
       $table->enum('jenis_kelamin', ['L', 'P']);
-      $table->string('tempat_lahir', 100);
-      $table->date('tanggal_lahir');
-      $table->text('alamat_tempat_tinggal');
-      $table->string('no_telepon', 20);
-      $table->string('foto')->nullable();
+      $table->string('tempat_lahir', 100)->nullable()->default(null);
+      $table->date('tanggal_lahir')->nullable()->default(null);
+      $table->text('alamat_tempat_tinggal')->nullable()->default(null);
+      $table->string('no_telepon', 20)->nullable()->default(null);
+      $table->string('foto')->nullable()->default(null);
 
       // Foreign key untuk id_pelamar
       $table

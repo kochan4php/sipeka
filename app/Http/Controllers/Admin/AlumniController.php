@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AlumniController extends Controller
 {
@@ -26,7 +27,9 @@ class AlumniController extends Controller
    */
   public function create()
   {
-    return view('admin.pengguna.alumni.tambah');
+    $jurusan = collect(DB::select('SELECT * FROM jurusan'));
+    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+    return view('admin.pengguna.alumni.tambah', compact('jurusan', 'angkatan'));
   }
 
   /**
@@ -35,9 +38,53 @@ class AlumniController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(StoreAlumniRequest $request)
   {
-    return 'Hehe berhasil';
+    try {
+      $validatedData = $request->only([
+        'jurusan',
+        'angkatan',
+        'nis',
+        'nama',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'no_telp',
+        'alamat_alumni',
+        'foto_alumni',
+      ]);
+
+      $validatedData['tempat_lahir'] = $validatedData['tempat_lahir'] ?
+        $validatedData['tempat_lahir'] : null;
+      $validatedData['tanggal_lahir'] = $validatedData['tanggal_lahir'] ?
+        Carbon::parse($validatedData['tanggal_lahir']) : null;
+      $validatedData['no_telp'] = $validatedData['no_telp'] ?
+        $validatedData['no_telp'] : null;
+      $validatedData['alamat_alumni'] = $validatedData['alamat_alumni'] ?
+        $validatedData['alamat_alumni'] : null;
+      $validatedData['foto_alumni'] = $validatedData['foto_alumni'] ?
+        $validatedData['foto_alumni'] : null;
+
+      $alumni = DB::insert("CALL insert_one_siswa_alumni(:jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+        'jurusan' => strval($validatedData['jurusan']),
+        'angkatan' => strval($validatedData['angkatan']),
+        'nis' => strval($validatedData['nis']),
+        'nama' => strval($validatedData['nama']),
+        'jenis_kelamin' => strval($validatedData['jenis_kelamin']),
+        'tempat_lahir' => $validatedData['tempat_lahir'],
+        'tanggal_lahir' => $validatedData['tanggal_lahir'],
+        'no_telp' => $validatedData['no_telp'],
+        'alamat_alumni' => $validatedData['alamat_alumni'],
+        'foto_alumni' => $validatedData['foto_alumni'],
+      ]);
+
+      if ($alumni)
+        return redirect()->route('admin.alumni.index')->with('sukses', 'Berhasil Menambahkan Data Alumni');
+      else
+        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    } catch (\Exception $e) {
+      return redirect()->route('admin.alumni.index')->with('error', $e->getMessage());
+    }
   }
 
   /**
@@ -55,12 +102,14 @@ class AlumniController extends Controller
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  int  $id
+   * @param  string  $nis
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit($nis)
   {
-    return view('admin.pengguna.alumni.sunting');
+    $jurusan = collect(DB::select('SELECT * FROM jurusan'));
+    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+    return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan'));
   }
 
   /**
@@ -70,7 +119,7 @@ class AlumniController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(StoreAlumniRequest $request, $id)
   {
     return 'Hehe berhasil';
   }
