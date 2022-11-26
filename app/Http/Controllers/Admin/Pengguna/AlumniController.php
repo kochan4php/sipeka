@@ -6,25 +6,18 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
-use App\Interface\HasMainRoute;
-use Illuminate\Http\RedirectResponse;
+use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ItemNotFoundException;
 
-class AlumniController extends Controller implements HasMainRoute
+class AlumniController extends Controller
 {
-  private $mainRoute = 'admin.alumni.index';
+  use HasMainRoute;
 
-  /**
-   * Redirect to this controller main route.
-   * Implements HasMainRoute interface
-   *
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function redirectToMainRoute(): RedirectResponse
+  public function __construct()
   {
-    return redirect()->route($this->mainRoute);
+    $this->setMainRoute('admin.alumni.index');
   }
 
   /**

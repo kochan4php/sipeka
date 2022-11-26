@@ -3,24 +3,18 @@
 namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Http\Controllers\Controller;
-use App\Interface\HasMainRoute;
+use App\Traits\HasMainRoute;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MitraPerusahaanController extends Controller implements HasMainRoute
+class MitraPerusahaanController extends Controller
 {
-  private $mainRoute = 'admin.perusahaan.index';
+  use HasMainRoute;
 
-  /**
-   * Redirect to this controller main route.
-   * Implements HasMainRoute interface
-   *
-   * @return \Illuminate\Http\RedirectResponse
-   */
-  public function redirectToMainRoute(): RedirectResponse
+  public function __construct()
   {
-    return redirect()->route($this->mainRoute);
+    $this->setMainRoute('admin.perusahaan.index');
   }
 
   /**
