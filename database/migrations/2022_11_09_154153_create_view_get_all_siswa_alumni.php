@@ -19,7 +19,7 @@ return new class extends Migration
           agkt.angkatan_tahun
         FROM siswa_alumni AS sa
         INNER JOIN angkatan AS agkt ON sa.id_angkatan = agkt.id_angkatan
-        ORDER BY agkt.angkatan_tahun
+        ORDER BY agkt.angkatan_tahun DESC
       )"
     );
   }
