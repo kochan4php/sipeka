@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
       LowonganKerjaSeeder::class,
       JurusanSeeder::class,
       AngkatanSeeder::class,
-      SiswaAlumniSeeder::class,
+      // SiswaAlumniSeeder::class,
       PendaftaranLowonganSeeder::class,
       PengalamanBekerjaSeeder::class,
       DokumenSeeder::class,

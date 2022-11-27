@@ -37,40 +37,46 @@
               <tr>
                 <th scope="col" class="text-nowrap text-center">No</th>
                 <th scope="col" class="text-nowrap text-center">Nama Alumni</th>
-                <th scope="col" class="text-nowrap text-center">Kode Alumni</th>
+                <th scope="col" class="text-nowrap text-center">NIS</th>
                 <th scope="col" class="text-nowrap text-center">Tahun Angkatan</th>
                 <th scope="col" class="text-nowrap text-center">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              @foreach ($alumni as $item)
+              @if ($alumni->count() > 0)
+                @foreach ($alumni as $item)
+                  <tr>
+                    <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
+                    <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
+                    <td class="text-nowrap text-center">{{ $item->nis }}</td>
+                    <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
+                    <td class="text-nowrap text-center">
+                      <div class="btn-group">
+                        <a href="{{ route('admin.alumni.detail', $item->nis) }}"
+                          class="btn btn-sm fw-bolder leading-1px btn-success">
+                          <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                          <span>Detail</span>
+                        </a>
+                        <a href="{{ route('admin.alumni.edit', $item->nis) }}"
+                          class="btn btn-sm fw-bolder leading-1px btn-warning">
+                          <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                          <span>Sunting</span>
+                        </a>
+                        <a href="{{ route('admin.alumni.delete', $item->nis) }}"
+                          class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
+                          data-bs-target="#modalHapus" data-nis="{{ $item->nis }}">
+                          <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                          <span>Hapus</span>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                @endforeach
+              @else
                 <tr>
-                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                  <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
-                  <td class="text-nowrap text-center">{{ $item->nis }}</td>
-                  <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
-                  <td class="text-nowrap text-center">
-                    <div class="btn-group">
-                      <a href="{{ route('admin.alumni.detail', $item->nis) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-success">
-                        <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                        <span>Detail</span>
-                      </a>
-                      <a href="{{ route('admin.alumni.edit', $item->nis) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-warning">
-                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                        <span>Sunting</span>
-                      </a>
-                      <a href="{{ route('admin.alumni.delete', $item->nis) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
-                        data-bs-target="#modalHapus" data-nis="{{ $item->nis }}">
-                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                        <span>Hapus</span>
-                      </a>
-                    </div>
-                  </td>
+                  <td colspan="5" class="fs-5 text-center">Data alumni belum ada, silahkan tambahkan!</td>
                 </tr>
-              @endforeach
+              @endif
             </tbody>
           </table>
         </div>

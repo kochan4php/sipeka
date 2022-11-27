@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Http\Controllers\Controller;
 use App\Traits\HasMainRoute;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +56,7 @@ class MitraPerusahaanController extends Controller
    */
   public function show($username)
   {
-    $perusahaan = collect(DB::select('CALL get_perusahaan_by_username(?)', [$username]))->first();
+    $perusahaan = collect(DB::select('CALL get_one_perusahaan_by_username(?)', [$username]))->first();
     return view('admin.pengguna.perusahaan.detail', compact('perusahaan'));
   }
 

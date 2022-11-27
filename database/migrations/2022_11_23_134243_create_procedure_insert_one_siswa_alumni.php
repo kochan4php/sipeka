@@ -14,7 +14,7 @@ return new class extends Migration
   {
     DB::unprepared('DROP PROCEDURE IF EXISTS insert_one_siswa_alumni');
     DB::unprepared(
-      "CREATE PROCEDURE insert_one_siswa_alumni(jurusan char(7), tahun_angkatan char(8), nis varchar(18), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), tempat_lahir varchar(100), tanggal_lahir date, no_telepon varchar(20), alamat_tempat_tinggal text, foto varchar(255))
+      "CREATE PROCEDURE insert_one_siswa_alumni(hashing_nis varchar(255), jurusan char(7), tahun_angkatan char(8), nis varchar(18), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), tempat_lahir varchar(100), tanggal_lahir date, no_telepon varchar(20), alamat_tempat_tinggal text, foto varchar(255))
 
       BEGIN
         DECLARE id_level_user char(4);
@@ -25,7 +25,7 @@ return new class extends Migration
         SET username = lower(replace(replace(nama_lengkap, ' ', '-'), '.', ''));
         SELECT level_user.id_level INTO id_level_user FROM level_user WHERE nama_level = 'Pelamar';
 
-        INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, nis, nis);
+        INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, nis, hashing_nis);
         SELECT LAST_INSERT_ID() INTO id_user;
 
         INSERT INTO pelamar (id_user) VALUES (id_user);
