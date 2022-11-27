@@ -56,10 +56,10 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/', 'index')->name('admin.alumni.index');
         Route::get('/tambah', 'create')->name('admin.alumni.create');
         Route::post('/', 'store')->name('admin.alumni.store');
-        Route::get('/{kode_alumni}/detail', 'show')->name('admin.alumni.detail');
-        Route::get('/{kode_alumni}/sunting', 'edit')->name('admin.alumni.edit');
-        Route::put('/{kode_alumni}', 'update')->name('admin.alumni.update');
-        Route::delete('/{kode_alumni}', 'destroy')->name('admin.alumni.delete');
+        Route::get('/{nis}/detail', 'show')->name('admin.alumni.detail');
+        Route::get('/{nis}/sunting', 'edit')->name('admin.alumni.edit');
+        Route::put('/{nis}', 'update')->name('admin.alumni.update');
+        Route::delete('/{nis}', 'destroy')->name('admin.alumni.delete');
       });
 
       Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {

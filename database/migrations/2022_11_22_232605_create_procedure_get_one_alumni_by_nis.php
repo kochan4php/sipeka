@@ -12,9 +12,9 @@ return new class extends Migration
    */
   public function up()
   {
-    DB::unprepared("DROP PROCEDURE IF EXISTS get_alumni_by_nis");
+    DB::unprepared("DROP PROCEDURE IF EXISTS get_one_alumni_by_nis");
     DB::unprepared(
-      "CREATE PROCEDURE get_alumni_by_nis(nis varchar(18))
+      "CREATE PROCEDURE get_one_alumni_by_nis(nis varchar(18))
       BEGIN
         SELECT
           sa.id_siswa,

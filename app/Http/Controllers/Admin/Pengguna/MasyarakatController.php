@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Http\Controllers\Controller;
 use App\Traits\HasMainRoute;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +56,7 @@ class MasyarakatController extends Controller
    */
   public function show($username)
   {
-    $masyarakat = collect(DB::select('CALL get_masyarakat_by_username(?)', [$username]))->first();
+    $masyarakat = collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->first();
     return view('admin.pengguna.masyarakat.detail', compact('masyarakat'));
   }
 
