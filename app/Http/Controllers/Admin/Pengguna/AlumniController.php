@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ItemNotFoundException;
 
 class AlumniController extends Controller
@@ -42,11 +42,12 @@ class AlumniController extends Controller
 
   /**
    * Get alumni by nis.
+   *
    * @param string $nis
    */
   private function getAlumniByNis(string $nis)
   {
-    return collect(DB::select('CALL get_alumni_by_nis(?)', [$nis]))->firstOrFail();
+    return collect(DB::select('CALL get_one_alumni_by_nis(?)', [$nis]))->firstOrFail();
   }
 
   /**
@@ -81,40 +82,15 @@ class AlumniController extends Controller
   public function store(StoreAlumniRequest $request)
   {
     try {
-      $validatedData = $request->only([
-        'jurusan',
-        'angkatan',
-        'nis',
-        'nama',
-        'jenis_kelamin',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'no_telp',
-        'alamat_alumni',
-        'foto_alumni',
-      ]);
+      $validatedData = $request->validatedAlumniAttr();
 
-      $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
-        $validatedData['tempat_lahir'] : null;
-
-      $validatedData['tanggal_lahir'] = !is_null($validatedData['tanggal_lahir']) ?
-        Carbon::parse($validatedData['tanggal_lahir']) : null;
-
-      $validatedData['no_telp'] = !is_null($validatedData['no_telp']) ?
-        $validatedData['no_telp'] : null;
-
-      $validatedData['alamat_alumni'] = !is_null($validatedData['alamat_alumni']) ?
-        $validatedData['alamat_alumni'] : null;
-
-      $validatedData['foto_alumni'] = !is_null($validatedData['foto_alumni']) ?
-        $validatedData['foto_alumni'] : null;
-
-      $alumni = DB::insert("CALL insert_one_siswa_alumni(:jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
-        'jurusan' => strval($validatedData['jurusan']),
-        'angkatan' => strval($validatedData['angkatan']),
-        'nis' => strval($validatedData['nis']),
-        'nama' => strval($validatedData['nama']),
-        'jenis_kelamin' => strval($validatedData['jenis_kelamin']),
+      $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:hashing_nis, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+        'hashing_nis' => Hash::make($validatedData['nis']),
+        'jurusan' => $validatedData['jurusan'],
+        'angkatan' => $validatedData['angkatan'],
+        'nis' => $validatedData['nis'],
+        'nama' => $validatedData['nama'],
+        'jenis_kelamin' => $validatedData['jenis_kelamin'],
         'tempat_lahir' => $validatedData['tempat_lahir'],
         'tanggal_lahir' => $validatedData['tanggal_lahir'],
         'no_telp' => $validatedData['no_telp'],
@@ -122,7 +98,7 @@ class AlumniController extends Controller
         'foto_alumni' => $validatedData['foto_alumni'],
       ]);
 
-      if ($alumni)
+      if ($insertOneAlumni)
         return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Alumni');
       else
         return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
@@ -180,7 +156,39 @@ class AlumniController extends Controller
    */
   public function update(StoreAlumniRequest $request, string $nis)
   {
-    return 'Hehe berhasil';
+    try {
+      if (strlen($nis) > 18)
+        return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
+
+      $alumni = $this->getAlumniByNis($nis);
+      $validatedData = $request->validatedAlumniAttr();
+
+      if ($alumni->nis !== $validatedData['nis']) $validatedData['hashing_nis'] = Hash::make($validatedData['nis']);
+      else $validatedData['hashing_nis'] = null;
+
+      $updateOneAlumni = DB::update("CALL update_one_siswa_alumni_by_nis(:current_nis, :id_user, :hashing_nis, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+        'current_nis' => $nis ?? $alumni->nis,
+        'id_user' => $alumni->id_user,
+        'hashing_nis' => $validatedData['hashing_nis'],
+        'jurusan' => $validatedData['jurusan'],
+        'angkatan' => $validatedData['angkatan'],
+        'nis' => $validatedData['nis'],
+        'nama' => $validatedData['nama'],
+        'jenis_kelamin' => $validatedData['jenis_kelamin'],
+        'tempat_lahir' => $validatedData['tempat_lahir'],
+        'tanggal_lahir' => $validatedData['tanggal_lahir'],
+        'no_telp' => $validatedData['no_telp'],
+        'alamat_alumni' => $validatedData['alamat_alumni'],
+        'foto_alumni' => $validatedData['foto_alumni'],
+      ]);
+
+      if ($updateOneAlumni)
+        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Alumni');
+      else
+        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
+    }
   }
 
   /**
