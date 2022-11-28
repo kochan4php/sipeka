@@ -2,7 +2,6 @@
 
 @section('container')
   <section>
-  
     <div class="row justify-content-center py-4">
       <div class="col-md-6 text-center">
         <h2 class="fs-2 mb-4">Tentang Kami</h2>
@@ -28,7 +27,7 @@
     </div>
 
     <div class="row text-center justify-content-center pb-4 mt-3">
-      <div class="col-md-2 d-flex gap-2">
+      <div class="col-md-6 col-lg-3">
         <div class="card mb-2">
           <div class="card-body">
             <p style="text-align: justify">
@@ -38,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-6 col-lg-3">
         <div class="card mb-2">
           <div class="card-body">
             <p style="text-align: justify">
@@ -48,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-6 col-lg-3">
         <div class="card mb-2">
           <div class="card-body">
             <p style="text-align: justify">
@@ -58,27 +57,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2">
-        <div class="card mb-2">
-          <div class="card-body">
-            <p style="text-align: justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem natus voluptatem excepturi laudantium qui
-              veritatis odio veritatis odio veritatis odio nesciunt, asperiores eveniet eius!
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="card mb-2">
-          <div class="card-body">
-            <p style="text-align: justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem natus voluptatem excepturi laudantium qui
-              veritatis odio veritatis odio veritatis odio nesciunt, asperiores eveniet eius!
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2">
+      <div class="col-md-6 col-lg-3">
         <div class="card mb-2">
           <div class="card-body">
             <p style="text-align: justify">
@@ -94,41 +73,101 @@
   <section>
     <div class="row text-center justify-content-center pt-4">
       <div class="col">
-        <h2 class="mb-4">List Lowongan Kerja</h2>
-      </div>
-    </div>
-    <div class="card-group">
-      <div class="card me-3 ms-1">
-        <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top" alt="..." >
-        <div class="card-body ">
-          <h5 class="card-title">IT Consultant</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
-      </div>
-      <div class="card me-3 ms-1">
-        <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">System Analyst</h5>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
-      </div>
-      <div class="card me-2 ">
-        <img src="{{ asset('assets/images/4.jpeg') }}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Fullstack Dev</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">Last updated 3 mins ago</small>
-        </div>
+        <h2 class="mb-5">List Lowongan Kerja</h2>
       </div>
     </div>
 
+    <div class="row">
+      <div class="card-group owl-carousel owl-theme">
+        <div class="card mx-1">
+          <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
+          <div class="card-body ">
+            <a class="card-title" href="/">IT Consultant</a>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+              content.
+              This content is a little bit longer.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card mx-1">
+          <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
+          <div class="card-body">
+            <a class="card-title" href="/">System Analyst</a>
+            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card mx-1">
+          <img src="{{ asset('assets/images/4.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
+          <div class="card-body">
+            <a class="card-title" href="/">Fullstack Dev</a>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+              content.
+              This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card mx-1">
+          <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
+          <div class="card-body">
+            <a class="card-title" href="/">Fullstack Dev</a>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+              content.
+              This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+        <div class="card mx-1">
+          <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
+          <div class="card-body">
+            <a class="card-title" href="/">Fullstack Dev</a>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+              content.
+              This card has even longer content than the first to show that equal height action.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
+
+  @push('script-owl')
+    <script>
+      $(document).ready(function() {
+        $(".owl-carousel").owlCarousel({
+          loop: true,
+          margin: 10,
+          responsiveClass: true,
+          nav: true,
+          stagePadding: 50,
+          mouseDrag: true,
+          touchDrag: true,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            500: {
+              items: 2,
+            },
+            768: {
+              items: 3,
+            },
+            1024: {
+              items: 4,
+            }
+          }
+        });
+      });
+    </script>
+  @endpush
 @endsection
