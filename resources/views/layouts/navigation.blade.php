@@ -16,9 +16,6 @@
         <li class="nav-item">
           <a class="nav-link custom-font" href="/">Cara Daftar</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link custom-font" href="/">Rekomendasi Lowongan</a>
-        </li>
       </ul>
       <ul class="navbar-nav">
         @auth
