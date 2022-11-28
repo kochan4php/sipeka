@@ -1,9 +1,18 @@
 <?php
 
 use App\Http\Controllers\{
+  // All Auth Controller
   Auth\RegistrationController,
   Auth\AuthenticatedController,
   Auth\LogoutController,
+  // All Pengguna Controller
+  Admin\Pengguna\AlumniController,
+  Admin\Pengguna\MasyarakatController,
+  Admin\Pengguna\MitraPerusahaanController,
+  // All Master Data Controller
+  Admin\MasterData\JurusanController,
+  Admin\MasterData\AngkatanController,
+  Admin\MasterData\DokumenController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
-  Route::get('/', fn () => view('index'))->name('home');
+  Route::view('/', 'index')->name('home');
 
   Route::middleware(['guest'])->group(function () {
     Route::controller(RegistrationController::class)->group(function () {
@@ -38,19 +47,76 @@ Route::prefix('/sipeka')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
   });
 
+  // Route Admin BKK
   Route::prefix('/admin')->group(function () {
-    Route::get('/', fn () => view('admin.index'))->name('admin.index');
-    Route::get('/alumni', fn () => view('admin.alumni.index'))->name('admin.alumni.index');
-    Route::get('/alumni/tambah', fn () => view('admin.alumni.tambah'))->name('admin.alumni.create');
-    Route::post('/alumni', fn () => 'Hehe berhasil')->name('admin.alumni.store');
-    Route::get('/alumni/detail/{kode_alumni}', fn ($kode_alumni) => "{$kode_alumni}")->name('admin.alumni.detail');
-    Route::get('/alumni/sunting', fn () => view('admin.alumni.sunting'))->name('admin.alumni.edit');
-    Route::put('/alumni', fn () => 'Hehe berhasil')->name('admin.alumni.update');
+    Route::view('/', 'admin.index')->name('admin.index');
+
+    Route::prefix('/pengguna')->group(function () {
+      Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.alumni.index');
+        Route::get('/tambah', 'create')->name('admin.alumni.create');
+        Route::post('/', 'store')->name('admin.alumni.store');
+        Route::get('/{nis}/detail', 'show')->name('admin.alumni.detail');
+        Route::get('/{nis}/sunting', 'edit')->name('admin.alumni.edit');
+        Route::put('/{nis}', 'update')->name('admin.alumni.update');
+        Route::delete('/{nis}', 'destroy')->name('admin.alumni.delete');
+      });
+
+      Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.pelamar.index');
+        Route::get('/tambah', 'create')->name('admin.pelamar.create');
+        Route::post('/', 'store')->name('admin.pelamar.store');
+        Route::get('/{username}/detail', 'show')->name('admin.pelamar.detail');
+        Route::get('/{username}/sunting', 'edit')->name('admin.pelamar.edit');
+        Route::put('/{username}', 'update')->name('admin.pelamar.update');
+        Route::delete('/{username}', 'destroy')->name('admin.pelamar.delete');
+      });
+
+      Route::prefix('/perusahaan')->controller(MitraPerusahaanController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.perusahaan.index');
+        Route::get('/tambah', 'create')->name('admin.perusahaan.create');
+        Route::post('/', 'store')->name('admin.perusahaan.store');
+        Route::get('/{username}/detail', 'show')->name('admin.perusahaan.detail');
+        Route::get('/{username}/sunting', 'edit')->name('admin.perusahaan.edit');
+        Route::put('/{username}', 'update')->name('admin.perusahaan.update');
+        Route::delete('/{username}', 'destroy')->name('admin.perusahaan.delete');
+      });
+    });
+
+    Route::prefix('/masterdata')->group(function () {
+      Route::prefix('/jurusan')->controller(JurusanController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.jurusan.index');
+        Route::post('/', 'store')->name('admin.jurusan.store');
+        Route::get('/{kode_jurusan}/detail', 'show')->name('admin.jurusan.detail');
+        Route::put('/{kode_jurusan}', 'update')->name('admin.jurusan.update');
+        Route::delete('/{kode_jurusan}', 'destroy')->name('admin.jurusan.delete');
+      });
+
+      Route::prefix('/angkatan')->controller(AngkatanController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.angkatan.index');
+        Route::post('/', 'store')->name('admin.angkatan.store');
+        Route::get('/{kode_angkatan}/detail', 'show')->name('admin.angkatan.detail');
+        Route::put('/{kode_angkatan}', 'update')->name('admin.angkatan.update');
+        Route::delete('/{kode_angkatan}', 'destroy')->name('admin.angkatan.delete');
+      });
+
+      Route::prefix('/dokumen')->controller(DokumenController::class)->group(function () {
+        Route::get('/', 'index')->name('admin.dokumen.index');
+        Route::post('/', 'store')->name('admin.dokumen.store');
+        Route::get('/{kode_dokumen}/detail', 'show')->name('admin.dokumen.detail');
+        Route::put('/{kode_dokumen}', 'update')->name('admin.dokumen.update');
+        Route::delete('/{kode_dokumen}', 'destroy')->name('admin.dokumen.delete');
+      });
+    });
   });
 
-  Route::get('/pelamar', fn () => 'Halo ini halaman pelamar');
+  // Route Pelamar (Masyarakat dan Siswa Alumni)
+  Route::prefix('/pelamar')->group(function () {
+    Route::get('/', fn () => 'Halo ini halaman pelamar');
+  });
 
+  // Route Mitra Perusahaan
   Route::prefix('/perusahaan')->group(function () {
-    Route::get('/', fn () => 'Halaman pelamar');
+    Route::get('/', fn () => 'Halaman perusahaan');
   });
 });

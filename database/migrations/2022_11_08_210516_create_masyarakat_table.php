@@ -15,15 +15,17 @@ return new class extends Migration
   {
     Schema::create('masyarakat', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
+      $table->charset = env('DB_CHARSET', 'utf8mb4');
+      $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
       $table->integer('id_masyarakat', true);
       $table->integer('id_pelamar');
       $table->string('nama_lengkap');
       $table->enum('jenis_kelamin', ['L', 'P']);
-      $table->string('tempat_lahir', 100);
-      $table->date('tanggal_lahir');
-      $table->text('alamat_tempat_tinggal');
-      $table->string('no_telepon', 20);
-      $table->string('foto');
+      $table->string('tempat_lahir', 100)->nullable()->default(null);
+      $table->date('tanggal_lahir')->nullable()->default(null);
+      $table->text('alamat_tempat_tinggal')->nullable()->default(null);
+      $table->string('no_telepon', 20)->nullable()->default(null);
+      $table->string('foto')->nullable()->default(null);
 
       // Foreign key untuk id_pelamar
       $table

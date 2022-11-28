@@ -15,6 +15,8 @@ return new class extends Migration
   {
     Schema::create('siswa_alumni', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
+      $table->charset = env('DB_CHARSET', 'utf8mb4');
+      $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
       $table->integer('id_siswa', true);
       $table->integer('id_pelamar');
       $table->char('id_angkatan', 8);
@@ -22,11 +24,11 @@ return new class extends Migration
       $table->string('nis', 18);
       $table->string('nama_lengkap');
       $table->enum('jenis_kelamin', ['L', 'P']);
-      $table->string('tempat_lahir', 100);
-      $table->date('tanggal_lahir');
-      $table->string('no_telepon', 20);
-      $table->text('alamat_tempat_tinggal');
-      $table->string('foto');
+      $table->string('tempat_lahir', 100)->nullable()->default(null);
+      $table->date('tanggal_lahir')->nullable()->default(null);
+      $table->string('no_telepon', 20)->nullable()->default(null);
+      $table->text('alamat_tempat_tinggal')->nullable()->default(null);
+      $table->string('foto')->nullable()->default(null);
 
       // Foreign key untuk id_pelamar
       $table
