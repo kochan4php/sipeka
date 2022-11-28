@@ -2,6 +2,7 @@
 
 @section('container')
   <section>
+  
     <div class="row justify-content-center py-4">
       <div class="col-md-6 text-center">
         <h2 class="fs-2 mb-4">Tentang Kami</h2>
@@ -88,5 +89,46 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <section>
+    <div class="row text-center justify-content-center pt-4">
+      <div class="col">
+        <h2 class="mb-4">List Lowongan Kerja</h2>
+      </div>
+    </div>
+    <div class="card-group">
+      <div class="card me-3 ms-1">
+        <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top" alt="..." >
+        <div class="card-body ">
+          <h5 class="card-title">IT Consultant</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+      </div>
+      <div class="card me-3 ms-1">
+        <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">System Analyst</h5>
+          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+      </div>
+      <div class="card me-2 ">
+        <img src="{{ asset('assets/images/4.jpeg') }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Fullstack Dev</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Last updated 3 mins ago</small>
+        </div>
+      </div>
+    </div>
+
   </section>
 @endsection
