@@ -12,16 +12,26 @@
           </div>
           <div class="row mb-4">
             <div class="col-lg-3 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="currentColor"
-                class="bi bi-person-check-fill" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                  d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
-                <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-              </svg>
+              <img src="{{ Avatar::create($masyarakat->nama_lengkap) }}" alt="{{ $masyarakat->username }}" width="200"
+                class="rounded-circle">
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">
                 <tbody>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->username) }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Password') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if (Hash::check('password', $masyarakat->password))
+                        password
+                      @endif
+                    </td>
+                  </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
@@ -41,25 +51,45 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->tempat_lahir) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if (is_null($masyarakat->tempat_lahir))
+                        {{ __('Data tempat lahir pelamar tidak ada') }}
+                      @else
+                        {{ __($masyarakat->tempat_lahir) }}
+                      @endif
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ \Carbon\Carbon::parse($masyarakat->tanggal_lahir)->format('d M Y') }}
+                      @if (is_null($masyarakat->tanggal_lahir))
+                        {{ __('Data tanggal lahir pelamar tidak ada') }}
+                      @else
+                        {{ \Carbon\Carbon::parse($masyarakat->tanggal_lahir)->format('d M Y') }}
+                      @endif
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->no_telepon) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if (is_null($masyarakat->no_telepon))
+                        {{ __('Data nomor telepon pelamar tidak ada') }}
+                      @else
+                        {{ __($masyarakat->no_telepon) }}
+                      @endif
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ __($masyarakat->alamat_tempat_tinggal) }}
+                      @if (is_null($masyarakat->alamat_tempat_tinggal))
+                        {{ __('Data alamat tempat tinggal pelamar tidak ada') }}
+                      @else
+                        {{ __($masyarakat->alamat_tempat_tinggal) }}
+                      @endif
                     </td>
                   </tr>
                 </tbody>

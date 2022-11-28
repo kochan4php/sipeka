@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
+use App\Models\User;
 use App\Traits\HasMainRoute;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class MasyarakatController extends Controller
 {
@@ -43,9 +45,30 @@ class MasyarakatController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(StorePersonRequest $request)
   {
-    return 'Hehe berhasil';
+    try {
+      $validatedData = $request->validatedPersonAttr();
+
+      $insertOnePerson = DB::insert("CALL insert_one_person(:email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+        'email' => $validatedData['email'],
+        'password' => Hash::make($validatedData['password']),
+        'nama_lengkap' => $validatedData['nama'],
+        'jenis_kelamin' => $validatedData['jenis_kelamin'],
+        'no_telepon' => $validatedData['no_telp'],
+        'tempat_lahir' => $validatedData['tempat_lahir'],
+        'tanggal_lahir' => $validatedData['tanggal_lahir'],
+        'alamat_tempat_tinggal' => $validatedData['alamat'],
+        'foto' => $validatedData['foto_pelamar']
+      ]);
+
+      if ($insertOnePerson)
+        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
+      else
+        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    } catch (\Exception $e) {
+      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+    }
   }
 
   /**
@@ -78,7 +101,7 @@ class MasyarakatController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(StorePersonRequest $request, $id)
   {
     return 'Hehe berhasil';
   }
@@ -86,11 +109,19 @@ class MasyarakatController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy($username)
   {
-    return 'Berhasil hapus data';
+    try {
+      $person = collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->first();
+      $deletePerson = User::whereUsername($person->username)->delete();
+
+      if ($deletePerson) return redirect()->back()->with('sukses', 'Berhasil hapus data pelamar');
+      else return redirect()->back()->with('error', 'Gagal menghapus data pelamar');
+    } catch (\Exception $e) {
+      return redirect()->back()->with('error', $e->getMessage());
+    }
   }
 }
