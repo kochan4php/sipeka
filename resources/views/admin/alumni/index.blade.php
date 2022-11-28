@@ -28,7 +28,7 @@
                 <td class="text-nowrap text-center">2021/2022</td>
                 <td class="text-nowrap text-center">
                   <a href="{{ route('admin.alumni.detail', 'ALUMNI-AJC3A8CJ7K') }}" class="btn btn-success btn-sm">
-                    Detil
+                    Detail
                   </a>
                   <a href="{{ route('admin.alumni.edit') }}" class="btn btn-warning btn-sm">
                     Sunting
