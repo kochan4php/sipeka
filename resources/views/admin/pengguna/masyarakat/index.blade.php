@@ -6,6 +6,29 @@
     <a href="{{ route('admin.pelamar.create') }}" class="btn btn-primary">Tambah Data Pelamar</a>
   </div>
 
+
+  @if (session()->has('sukses'))
+    <div class="row">
+      <div class="col">
+        <div class="fs-6 alert alert-success alert-dismissible fade show">
+          {{ session('sukses') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  @endif
+
+  @if (session()->has('error'))
+    <div class="row">
+      <div class="col">
+        <div class="fs-6 alert alert-danger alert-dismissible fade show">
+          {{ session('error') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+  @endif
+
   <div class="row">
     <div class="col table-responsive">
       <div class="card table-responsive">
@@ -25,8 +48,8 @@
                 <tr>
                   <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
                   <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
-                  <td class="text-nowrap text-center">{{ $item->tanggal_lahir }}</td>
-                  <td class="text-nowrap text-center">{{ $item->no_telepon }}</td>
+                  <td class="text-nowrap text-center">{{ $item->tanggal_lahir ?? '-' }}</td>
+                  <td class="text-nowrap text-center">{{ $item->no_telepon ?? '-' }}</td>
                   <td class="text-nowrap text-center">
                     <div class="btn-group">
                       <a href="{{ route('admin.pelamar.detail', $item->username) }}"
@@ -40,8 +63,8 @@
                         <span>Sunting</span>
                       </a>
                       <a href="{{ route('admin.pelamar.detail', $item->username) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+                        class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
+                        data-bs-target="#modalHapus" data-username="{{ $item->username }}">
                         <span><i class="fa-solid fa-trash fa-lg"></i></span>
                         <span>Hapus</span>
                       </a>
@@ -57,7 +80,7 @@
   </div>
 
   {{-- Modal Hapus --}}
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="modalHapus" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -66,14 +89,30 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-footer border-0 border-top-0">
-          <form action="{{ route('admin.pelamar.delete', 'layla-mayrisa') }}" method="post">
+          <form class="form-modal" method="post">
             @csrf
             @method('delete')
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
             <button type="submit" class="btn btn-danger">Hapus</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    const btnDelete = document.querySelectorAll('.btn-delete');
+    btnDelete.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const formModal = document.querySelector('.modal .form-modal');
+        const btnCancel = document.querySelector('.modal .btn-cancel');
+        const btnClose = document.querySelector('.modal .btn-close');
+        const username = btn.dataset.username;
+        const route = "{{ route('admin.pelamar.delete', ':username') }}";
+        formModal.setAttribute('action', route.replace(':username', username));
+        btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
+        btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
+      });
+    });
+  </script>
 @endsection

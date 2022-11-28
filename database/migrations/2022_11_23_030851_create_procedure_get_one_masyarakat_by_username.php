@@ -30,6 +30,7 @@ return new class extends Migration
           m.foto,
           u.username,
           u.email,
+          u.password,
           lu.nama_level
         FROM masyarakat AS m
         INNER JOIN pelamar AS p ON m.id_pelamar = p.id_pelamar
