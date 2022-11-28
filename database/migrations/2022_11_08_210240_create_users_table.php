@@ -20,7 +20,7 @@ return new class extends Migration
       $table->integer('id_user', true);
       $table->char('id_level', 4);
       $table->string('username')->unique();
-      $table->string('email')->unique();
+      $table->string('email')->unique()->nullable()->default(null);
       $table->string('password');
       $table->rememberToken();
 

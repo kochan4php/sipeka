@@ -15,16 +15,32 @@
                 {{ __('Nama Lengkap') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputPassword" name="nama"
-                  placeholder="Aphrodeo Subarno">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Aphrodeo Subarno">
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="jenis-kelamin" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="password" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Password') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="password" name="password" placeholder="********"
+                  value="password" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="email" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Email') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="jenis_kelamin" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Jenis Kelamin') }}
               </label>
               <div class="col-sm-8">
-                <select name="jenis-kelamin" id="jenis-kelamin" class="form-select">
+                <select name="jenis_kelamin" id="jenis_kelamin" class="form-select">
                   <option selected>-- Pilih jenis kelamin --</option>
                   <option value="L">Laki-laki</option>
                   <option value="P">Perempuan</option>
@@ -32,45 +48,44 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="tempat-lahir" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Tempat Lahir') }}
+              <label for="no_telp" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('No. Telepon') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="tempat-lahir" name="tempat-lahir" placeholder="Bekasi">
+                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056">
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="tanggal-lahir" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="tempat_lahir" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Tempat Lahir') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" placeholder="Bekasi">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="tanggal_lahir" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Tanggal Lahir') }}
               </label>
               <div class="col-sm-8">
-                <input type="date" class="form-control" id="tanggal-lahir" name="tanggal-lahir"
+                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
                   placeholder="04/18/2005">
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="no-telepon" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('No. Telepon') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="number" class="form-control" id="no-telepon" placeholder="08988976056">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="alamat-pelamar" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="alamat" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Alamat Tempat Tinggal') }}
               </label>
               <div class="col-sm-8">
-                <textarea class="form-control" placeholder="Leave a comment here" id="alamat-pelamar" name="alamat-pelamar"
-                  rows="3"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="alamat" name="alamat" rows="3"></textarea>
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="foto" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="foto_pelamar" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Foto') }}
               </label>
               <div class="col-sm-8">
-                <input type="file" class="form-control" id="foto">
+                <input type="file" class="form-control" id="foto_pelamar" name="foto_pelamar">
               </div>
             </div>
             <div class="row mb-3">
