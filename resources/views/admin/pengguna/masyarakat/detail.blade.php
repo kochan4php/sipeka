@@ -12,7 +12,7 @@
           </div>
           <div class="row mb-4">
             <div class="col-lg-3 text-center">
-              <img src="{{ Avatar::create($masyarakat->nama_lengkap) }}" alt="{{ $masyarakat->username }}" width="200"
+              <img src="{{ Avatar::create($orang->nama_lengkap) }}" alt="{{ $orang->username }}" width="200"
                 class="rounded-circle">
             </div>
             <div class="col-lg-9">
@@ -21,13 +21,13 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->username) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($orang->username) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Password') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (Hash::check('password', $masyarakat->password))
+                      @if (Hash::check('password', $orang->password))
                         password
                       @endif
                     </td>
@@ -35,15 +35,15 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($masyarakat->nama_lengkap) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($orang->nama_lengkap) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Jenis Kelamin') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if ($masyarakat->jenis_kelamin === 'L')
+                      @if ($orang->jenis_kelamin === 'L')
                         {{ __('Laki-laki') }}
-                      @elseif ($masyarakat->jenis_kelamin === 'P')
+                      @elseif ($orang->jenis_kelamin === 'P')
                         {{ __('Perempuan') }}
                       @endif
                     </td>
@@ -52,10 +52,10 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($masyarakat->tempat_lahir))
+                      @if (is_null($orang->tempat_lahir))
                         {{ __('Data tempat lahir pelamar tidak ada') }}
                       @else
-                        {{ __($masyarakat->tempat_lahir) }}
+                        {{ __($orang->tempat_lahir) }}
                       @endif
                     </td>
                   </tr>
@@ -63,10 +63,10 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($masyarakat->tanggal_lahir))
+                      @if (is_null($orang->tanggal_lahir))
                         {{ __('Data tanggal lahir pelamar tidak ada') }}
                       @else
-                        {{ \Carbon\Carbon::parse($masyarakat->tanggal_lahir)->format('d M Y') }}
+                        {{ \Carbon\Carbon::parse($orang->tanggal_lahir)->format('d M Y') }}
                       @endif
                     </td>
                   </tr>
@@ -74,10 +74,10 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($masyarakat->no_telepon))
+                      @if (is_null($orang->no_telepon))
                         {{ __('Data nomor telepon pelamar tidak ada') }}
                       @else
-                        {{ __($masyarakat->no_telepon) }}
+                        {{ __($orang->no_telepon) }}
                       @endif
                     </td>
                   </tr>
@@ -85,10 +85,10 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($masyarakat->alamat_tempat_tinggal))
+                      @if (is_null($orang->alamat_tempat_tinggal))
                         {{ __('Data alamat tempat tinggal pelamar tidak ada') }}
                       @else
-                        {{ __($masyarakat->alamat_tempat_tinggal) }}
+                        {{ __($orang->alamat_tempat_tinggal) }}
                       @endif
                     </td>
                   </tr>
