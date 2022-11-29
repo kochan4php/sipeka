@@ -20,31 +20,16 @@ class AlumniController extends Controller
     $this->setMainRoute('admin.alumni.index');
   }
 
-  /**
-   * Get all jurusan data.
-   *
-   * @return \Illuminate\Support\Collection
-   */
   private function getJurusan(): Collection
   {
     return collect(DB::select('SELECT * FROM jurusan'));
   }
 
-  /**
-   * Get all angkatan data.
-   *
-   * @return \Illuminate\Support\Collection
-   */
   private function getAngkatan(): Collection
   {
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  /**
-   * Get alumni by nis.
-   *
-   * @param string $nis
-   */
   private function getAlumniByNis(string $nis)
   {
     return collect(DB::select('CALL get_one_alumni_by_nis(?)', [$nis]))->firstOrFail();
