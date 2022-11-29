@@ -4,7 +4,7 @@
   <section>
     <div class="row justify-content-center py-4">
       <div class="col-md-6 text-center">
-        <h2 class="fs-2 mb-4">Tentang Kami</h2>
+        <h2 class="fs-2">Tentang Kami</h2>
         <p class="fs-5" style="text-align: justify">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure,
           perspiciatis itaque. Nisi harum
           facilis velit vel
@@ -19,13 +19,14 @@
     </div>
   </section>
 
-  <section>
+  <hr />
+
+  <section id="cara-daftar">
     <div class="row text-center justify-content-center pt-4">
       <div class="col">
-        <h2 class="mb-4">Langkah Pendaftaran</h2>
+        <h2>Langkah Pendaftaran</h2>
       </div>
     </div>
-
     <div class="row text-center justify-content-center pb-4 mt-3">
       <div class="col-md-6 col-lg-3">
         <div class="card mb-2">
@@ -70,7 +71,9 @@
     </div>
   </section>
 
-  <section>
+  <hr />
+
+  <section id="lowongan-kerja">
     <div class="row text-center justify-content-center pt-4">
       <div class="col">
         <h2 class="mb-5">List Lowongan Kerja</h2>
@@ -82,7 +85,9 @@
         <div class="card mx-1">
           <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
           <div class="card-body ">
-            <a class="card-title" href="/">IT Consultant</a>
+            <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
+              <h4>IT Consultant</h4>
+            </a>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
               content.
               This content is a little bit longer.</p>
@@ -94,7 +99,9 @@
         <div class="card mx-1">
           <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
           <div class="card-body">
-            <a class="card-title" href="/">System Analyst</a>
+            <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
+              <h4>System Analyst</h4>
+            </a>
             <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
           </div>
           <div class="card-footer">
@@ -104,7 +111,9 @@
         <div class="card mx-1">
           <img src="{{ asset('assets/images/4.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
           <div class="card-body">
-            <a class="card-title" href="/">Fullstack Dev</a>
+            <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
+              <h4>Fullstack Dev</h4>
+            </a>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
               content.
               This card has even longer content than the first to show that equal height action.</p>
@@ -116,7 +125,9 @@
         <div class="card mx-1">
           <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
           <div class="card-body">
-            <a class="card-title" href="/">Fullstack Dev</a>
+            <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
+              <h4>Fullstack Dev</h4>
+            </a>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
               content.
               This card has even longer content than the first to show that equal height action.</p>
@@ -128,7 +139,9 @@
         <div class="card mx-1">
           <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
           <div class="card-body">
-            <a class="card-title" href="/">Fullstack Dev</a>
+            <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
+              <h4>Fullstack Dev</h4>
+            </a>
             <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
               content.
               This card has even longer content than the first to show that equal height action.</p>

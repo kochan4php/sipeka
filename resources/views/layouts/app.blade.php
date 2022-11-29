@@ -17,11 +17,11 @@
 <body>
   @include('layouts.navigation')
 
-  <div id="carouselExampleControls" class="carousel slide" style="min-height: 1000px !important;"
+  <div id="carouselExampleControls" class="carousel slide" style="min-height: 700px !important;"
     data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 1000px; object-fit: cover; object-position: center"
+        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 700px; object-fit: cover; object-position: center"
           class="img-fluid d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h1>First slide label</h1>
@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 1000px; object-fit: cover; object-position: center"
+        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 700px; object-fit: cover; object-position: center"
           class="img-fluid d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h1>Second slide label</h1>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 1000px; object-fit: cover; object-position: center"
+        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 700px; object-fit: cover; object-position: center"
           class="img-fluid d-block w-100" alt="...">
         <div class="carousel-caption d-none d-md-block">
           <h1>Third slide label</h1>
