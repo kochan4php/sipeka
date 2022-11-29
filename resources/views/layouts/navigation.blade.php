@@ -11,10 +11,10 @@
           <a class="nav-link custom-font" href="{{ route('home') }}">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/">Lowongan Kerja</a>
+          <a class="nav-link custom-font" href="#lowongan-kerja">Lowongan Kerja</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/">Cara Daftar</a>
+          <a class="nav-link custom-font" href="#cara-daftar">Cara Daftar</a>
         </li>
       </ul>
       <ul class="navbar-nav">
