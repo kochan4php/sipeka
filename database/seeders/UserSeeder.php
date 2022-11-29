@@ -35,48 +35,6 @@ class UserSeeder extends Seeder
         'email' => 'caturjayasolusibersama@gmail.com',
         'password' => Hash::make('perusahaan')
       ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'deosubarno',
-        'email' => 'aprodeosubarno@gmail.com',
-        'password' => Hash::make('password')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'layla-mayrisa',
-        'email' => 'laylamayrisa@gmail.com',
-        'password' => Hash::make('password')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'fitri-nurfadhila',
-        'email' => 'fitrinurfadhila@gmail.com',
-        'password' => Hash::make('password')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'fkdp',
-        'email' => 'fahmikurnia@gmail.com',
-        'password' => Hash::make('password')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'andinopal',
-        'email' => 'andinawfal@gmail.com',
-        'password' => Hash::make('password')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'sandhika-galih',
-        'email' => 'sandhikagalih@gmail.com',
-        'password' => Hash::make('password')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'arfy-slowy',
-        'email' => 'arfy@gmail.com',
-        'password' => Hash::make('password')
-      ]
     ]);
     $users->each(fn ($user) => User::create($user));
   }

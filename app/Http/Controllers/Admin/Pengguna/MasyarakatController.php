@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\ItemNotFoundException;
 
 class MasyarakatController extends Controller
 {
@@ -18,6 +19,16 @@ class MasyarakatController extends Controller
     $this->setMainRoute('admin.pelamar.index');
   }
 
+  private function getAllPersons()
+  {
+    return collect(DB::select('SELECT * FROM get_all_masyarakat'));
+  }
+
+  private function getPersonByUsername(string $username)
+  {
+    return collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->firstOrFail();
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -25,7 +36,7 @@ class MasyarakatController extends Controller
    */
   public function index()
   {
-    $masyarakat = collect(DB::select('SELECT * FROM get_all_masyarakat'));
+    $masyarakat = $this->getAllPersons();
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
 
@@ -77,33 +88,65 @@ class MasyarakatController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function show($username)
+  public function show(string $username)
   {
-    $masyarakat = collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->first();
-    return view('admin.pengguna.masyarakat.detail', compact('masyarakat'));
+    try {
+      $orang = $this->getPersonByUsername($username);
+      return view('admin.pengguna.masyarakat.detail', compact('orang'));
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
+    }
   }
 
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  int  $id
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function edit($id)
+  public function edit(string $username)
   {
-    return view('admin.pengguna.masyarakat.sunting');
+    try {
+      $orang = $this->getPersonByUsername($username);
+      return view('admin.pengguna.masyarakat.sunting', compact('orang'));
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
+    }
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function update(StorePersonRequest $request, $id)
+  public function update(StorePersonRequest $request, string $username)
   {
-    return 'Hehe berhasil';
+    try {
+      $person = $this->getPersonByUsername($username);
+      $validatedData = $request->validatedPersonAttr();
+      // dd($username, $person, $validatedData);
+
+      $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :email, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+        'current_username' => $username,
+        'email' => $validatedData['email'],
+        'nama_lengkap' => $validatedData['nama'],
+        'jenis_kelamin' => $validatedData['jenis_kelamin'],
+        'no_telepon' => $validatedData['no_telp'],
+        'tempat_lahir' => $validatedData['tempat_lahir'],
+        'tanggal_lahir' => $validatedData['tanggal_lahir'],
+        'alamat_tempat_tinggal' => $validatedData['alamat'],
+        'foto' => $validatedData['foto_pelamar']
+      ]);
+
+      if ($updatePerson)
+        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Pelamar');
+      else
+        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
+    }
   }
 
   /**
@@ -112,13 +155,13 @@ class MasyarakatController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function destroy($username)
+  public function destroy(string $username)
   {
     try {
-      $person = collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->first();
-      $deletePerson = User::whereUsername($person->username)->delete();
+      $orang = $this->getPersonByUsername($username);
+      $deleteOrang = User::whereUsername($orang->username)->delete();
 
-      if ($deletePerson) return redirect()->back()->with('sukses', 'Berhasil hapus data pelamar');
+      if ($deleteOrang) return redirect()->back()->with('sukses', 'Berhasil hapus data pelamar');
       else return redirect()->back()->with('error', 'Gagal menghapus data pelamar');
     } catch (\Exception $e) {
       return redirect()->back()->with('error', $e->getMessage());
