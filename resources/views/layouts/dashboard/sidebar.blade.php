@@ -12,7 +12,7 @@
       <li class="nav-item">
         <div class="dropdown">
           <button
-            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 mb-1 @if (Request::is('sipeka/admin/pengguna*')) active @endif"
+            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/admin/pengguna*')) active @endif"
             style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#pengguna"
             aria-expanded="false" aria-controls="pengguna">
             <div class="d-flex align-items-center gap-1">
@@ -25,24 +25,24 @@
           </button>
           <ul class="collapse list-unstyled bg-dark" id="pengguna">
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/pengguna/alumni*')) active @endif d-flex gap-2 align-items-center"
+              <a class="nav-link dropdown-item @if (Request::is('sipeka/admin/pengguna/alumni*')) dropdown-item-active @endif d-flex gap-2 justify-content-between align-items-center"
                 href="{{ route('admin.alumni.index') }}">
-                <span><i class="fa-solid fa-user-graduate fa-lg"></i></span>
                 <span>Alumni</span>
+                <span><i class="fa-solid fa-user-graduate fa-lg"></i></span>
               </a>
             </li>
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/pengguna/pelamar*')) active @endif d-flex gap-2 align-items-center"
+              <a class="nav-link dropdown-item @if (Request::is('sipeka/admin/pengguna/pelamar*')) dropdown-item-active @endif d-flex gap-2 justify-content-between align-items-center"
                 href="{{ route('admin.pelamar.index') }}">
-                <span><i class="fa-solid fa-users fa-lg"></i></span>
                 <span>Masyarakat</span>
+                <span><i class="fa-solid fa-users fa-lg"></i></span>
               </a>
             </li>
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/pengguna/perusahaan*')) active @endif d-flex gap-2 align-items-center"
+              <a class="nav-link dropdown-item @if (Request::is('sipeka/admin/pengguna/perusahaan*')) dropdown-item-active @endif d-flex gap-2 justify-content-between align-items-center"
                 href="{{ route('admin.perusahaan.index') }}">
-                <span><i class="fa-solid fa-building fa-lg"></i></span>
                 <span>Mitra Perusahaan</span>
+                <span><i class="fa-solid fa-building fa-lg"></i></span>
               </a>
             </li>
           </ul>
@@ -51,7 +51,7 @@
       <li class="nav-item">
         <div class="dropdown">
           <button
-            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 mb-1 @if (Request::is('sipeka/admin/masterdata*')) active @endif"
+            class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/admin/masterdata*')) active @endif"
             style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#master_data"
             aria-expanded="false" aria-controls="master_data">
             <div class="d-flex align-items-center gap-1">
@@ -64,24 +64,24 @@
           </button>
           <ul class="collapse list-unstyled bg-dark" id="master_data">
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/masterdata/dokumen*')) active @endif d-flex gap-2 align-items-center"
+              <a class="nav-link dropdown-item @if (Request::is('sipeka/admin/masterdata/dokumen*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
                 href="{{ route('admin.dokumen.index') }}">
-                <span><i class="fa-solid fa-file fa-lg"></i></span>
                 <span>Jenis Dokumen</span>
+                <span><i class="fa-solid fa-file fa-lg"></i></span>
               </a>
             </li>
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/masterdata/angkatan*')) active @endif d-flex gap-2 align-items-center"
+              <a class="nav-link dropdown-item @if (Request::is('sipeka/admin/masterdata/angkatan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
                 href="{{ route('admin.angkatan.index') }}">
-                <span><i class="fa-solid fa-graduation-cap fa-lg"></i></span>
                 <span>Angkatan</span>
+                <span><i class="fa-solid fa-graduation-cap fa-lg"></i></span>
               </a>
             </li>
             <li>
-              <a class="nav-link @if (Request::is('sipeka/admin/masterdata/jurusan*')) active @endif d-flex gap-2 align-items-center"
+              <a class="nav-link dropdown-item @if (Request::is('sipeka/admin/masterdata/jurusan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
                 href="{{ route('admin.jurusan.index') }}">
-                <span><i class="fa-solid fa-users-gear fa-lg"></i></span>
                 <span>Jurusan</span>
+                <span><i class="fa-solid fa-users-gear fa-lg"></i></span>
               </a>
             </li>
           </ul>

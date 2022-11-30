@@ -12,7 +12,7 @@
           </div>
           <div class="row mb-4">
             <div class="col-lg-3 text-center">
-              <img src="{{ Avatar::create($orang->nama_lengkap) }}" alt="{{ $orang->username }}" width="200"
+              <img src="{{ Avatar::create($orang->nama_lengkap) }}" alt="{{ $orang->username }}" width="170"
                 class="rounded-circle">
             </div>
             <div class="col-lg-9">

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\LevelUser;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class LevelUserSeeder extends Seeder
 {
@@ -15,18 +16,25 @@ class LevelUserSeeder extends Seeder
    */
   public function run()
   {
+    $admin = 'Admin';
+    $mitraPerusahaan = 'Perusahaan';
+    $pelamar = 'Pelamar';
+
     $levelUser = collect([
       [
         'id_level' => 'LU01',
-        'nama_level' => 'Admin BKK'
+        'nama_level' => $admin,
+        'identifier' => strtolower(Str::slug($admin))
       ],
       [
         'id_level' => 'LU02',
-        'nama_level' => 'Mitra Perusahaan'
+        'nama_level' => $mitraPerusahaan,
+        'identifier' => strtolower(Str::slug($mitraPerusahaan))
       ],
       [
         'id_level' => 'LU03',
-        'nama_level' => 'Pelamar'
+        'nama_level' => $pelamar,
+        'identifier' => strtolower(Str::slug($pelamar))
       ],
     ]);
 

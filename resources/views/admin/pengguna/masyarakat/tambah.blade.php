@@ -8,6 +8,7 @@
           <h2>Tambah data pelamar</h2>
         </div>
         <div class="card-body">
+          <x-alert-error-validation />
           <form action="{{ route('admin.pelamar.store') }}" method="POST">
             @csrf
             <div class="mb-3 row">
