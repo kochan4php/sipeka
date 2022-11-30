@@ -8,6 +8,7 @@
           <h2>Sunting data pelamar</h2>
         </div>
         <div class="card-body">
+          <x-alert-error-validation />
           <form action="{{ route('admin.pelamar.update', $orang->username) }}" method="POST">
             @csrf
             @method('put')

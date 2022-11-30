@@ -23,6 +23,7 @@
   <script src="{{ asset('assets/owl-carousel/dist/owl.carousel.min.js') }}"></script>
 
   @stack('script-owl')
+  <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
 </body>
 
 </html>

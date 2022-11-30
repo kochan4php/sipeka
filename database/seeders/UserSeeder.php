@@ -22,19 +22,7 @@ class UserSeeder extends Seeder
         'username' => 'admin',
         'email' => 'bkksmkn1bekasi@gmail.com',
         'password' => Hash::make('admin')
-      ],
-      [
-        'id_level' => 'LU02',
-        'username' => 'pt-qia-solutions',
-        'email' => 'qiasolution@gmail.com',
-        'password' => Hash::make('perusahaan')
-      ],
-      [
-        'id_level' => 'LU02',
-        'username' => 'pt-catur-jaya-solusi-bersama',
-        'email' => 'caturjayasolusibersama@gmail.com',
-        'password' => Hash::make('perusahaan')
-      ],
+      ]
     ]);
     $users->each(fn ($user) => User::create($user));
   }

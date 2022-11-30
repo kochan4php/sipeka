@@ -19,6 +19,7 @@ return new class extends Migration
       $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
       $table->char('id_level', 4)->primary();
       $table->string('nama_level', 20);
+      $table->string('identifier', 20);
     });
   }
 

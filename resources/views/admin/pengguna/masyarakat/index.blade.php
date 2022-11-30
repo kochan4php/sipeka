@@ -6,28 +6,7 @@
     <a href="{{ route('admin.pelamar.create') }}" class="btn btn-primary">Tambah Data Pelamar</a>
   </div>
 
-
-  @if (session()->has('sukses'))
-    <div class="row">
-      <div class="col">
-        <div class="fs-6 alert alert-success alert-dismissible fade show">
-          {{ session('sukses') }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-  @endif
-
-  @if (session()->has('error'))
-    <div class="row">
-      <div class="col">
-        <div class="fs-6 alert alert-danger alert-dismissible fade show">
-          {{ session('error') }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-  @endif
+  <x-alert-session />
 
   <div class="row">
     <div class="col table-responsive">
@@ -106,19 +85,21 @@
     </div>
   </div>
 
-  <script>
-    const btnDelete = document.querySelectorAll('.btn-delete');
-    btnDelete.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const formModal = document.querySelector('.modal .form-modal');
-        const btnCancel = document.querySelector('.modal .btn-cancel');
-        const btnClose = document.querySelector('.modal .btn-close');
-        const username = btn.dataset.username;
-        const route = "{{ route('admin.pelamar.delete', ':username') }}";
-        formModal.setAttribute('action', route.replace(':username', username));
-        btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
-        btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
+  @push('script')
+    <script>
+      const btnDelete = document.querySelectorAll('.btn-delete');
+      btnDelete.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModal = document.querySelector('.modal .form-modal');
+          const btnCancel = document.querySelector('.modal .btn-cancel');
+          const btnClose = document.querySelector('.modal .btn-close');
+          const username = btn.dataset.username;
+          const route = "{{ route('admin.pelamar.delete', ':username') }}";
+          formModal.setAttribute('action', route.replace(':username', username));
+          btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
+          btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
+        });
       });
-    });
-  </script>
+    </script>
+  @endpush
 @endsection
