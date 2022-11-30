@@ -24,7 +24,7 @@ class MasyarakatController extends Controller
     return collect(DB::select('SELECT * FROM get_all_masyarakat'));
   }
 
-  private function getPersonByUsername(string $username)
+  private function getOnePersonByUsername(string $username)
   {
     return collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->firstOrFail();
   }
@@ -91,7 +91,7 @@ class MasyarakatController extends Controller
   public function show(string $username)
   {
     try {
-      $orang = $this->getPersonByUsername($username);
+      $orang = $this->getOnePersonByUsername($username);
       return view('admin.pengguna.masyarakat.detail', compact('orang'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
@@ -107,7 +107,7 @@ class MasyarakatController extends Controller
   public function edit(string $username)
   {
     try {
-      $orang = $this->getPersonByUsername($username);
+      $orang = $this->getOnePersonByUsername($username);
       return view('admin.pengguna.masyarakat.sunting', compact('orang'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
@@ -124,9 +124,8 @@ class MasyarakatController extends Controller
   public function update(StorePersonRequest $request, string $username)
   {
     try {
-      $person = $this->getPersonByUsername($username);
+      $person = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedPersonAttr();
-      // dd($username, $person, $validatedData);
 
       $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :email, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'current_username' => $username,
@@ -158,7 +157,7 @@ class MasyarakatController extends Controller
   public function destroy(string $username)
   {
     try {
-      $orang = $this->getPersonByUsername($username);
+      $orang = $this->getOnePersonByUsername($username);
       $deleteOrang = User::whereUsername($orang->username)->delete();
 
       if ($deleteOrang) return redirect()->back()->with('sukses', 'Berhasil hapus data pelamar');

@@ -9,7 +9,7 @@
       <div class="card text-bg-info">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">3712</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_pengguna }}</span>
             <span><i class="fa-solid fa-user" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
@@ -22,7 +22,7 @@
       <div class="card text-bg-warning">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">456</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_masyarakat }}</span>
             <span><i class="fa-solid fa-users" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
@@ -35,7 +35,7 @@
       <div class="card text-bg-secondary">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">3231</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_alumni }}</span>
             <span><i class="fa-solid fa-user-graduate" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
@@ -48,7 +48,7 @@
       <div class="card text-bg-indigo">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">25</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_mitra_perusahaan }}</span>
             <span><i class="fa-solid fa-building" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
@@ -61,7 +61,7 @@
       <div class="card text-bg-danger">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">20</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_jurusan }}</span>
             <span><i class="fa-solid fa-users-gear" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
@@ -74,7 +74,7 @@
       <div class="card text-bg-success">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">5967</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_angkatan }}</span>
             <span><i class="fa-solid fa-graduation-cap" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">

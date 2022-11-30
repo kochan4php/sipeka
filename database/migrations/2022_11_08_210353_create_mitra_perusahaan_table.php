@@ -21,9 +21,9 @@ return new class extends Migration
       $table->integer('id_user');
       $table->string('nama_perusahaan');
       $table->string('nomor_telp_perusahaan');
-      $table->string('thumbnail_perusahaan')->nullable();
-      $table->string('logo_perusahaan')->nullable();
-      $table->text('deskripsi_perusahaan')->nullable();
+      $table->string('foto_sampul_perusahaan')->nullable()->default(null);
+      $table->string('logo_perusahaan')->nullable()->default(null);
+      $table->text('deskripsi_perusahaan')->nullable()->default(null);
       $table->text('alamat_perusahaan');
 
       // Foreign key untuk id_user
