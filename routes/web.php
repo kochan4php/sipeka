@@ -117,6 +117,7 @@ Route::prefix('/sipeka')->group(function () {
 
   // Route Mitra Perusahaan
   Route::prefix('/perusahaan')->group(function () {
-    Route::get('/', fn () => 'Halaman perusahaan');
+    Route::get('/', fn () => view('perusahaan.index'));
+    Route::get('/tambah-lowongan', fn () => view('perusahaan.lowongankerja.tambah'));
   });
 });
