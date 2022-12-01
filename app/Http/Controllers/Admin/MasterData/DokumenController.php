@@ -3,11 +3,33 @@
 namespace App\Http\Controllers\Admin\MasterData;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\MasterData\StoreDokumenRequest;
+use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 
 class DokumenController extends Controller
 {
+  use HasMainRoute;
+
+  public function __construct()
+  {
+    $this->setMainRoute('admin.dokumen.index');
+  }
+
+  private function generateKodeDokumenBaru(string $kodeLama): string
+  {
+    $kodeDefault = substr($kodeLama, 0, 4);
+    $angkaBaru = strval(substr($kodeLama, 6) + 1);
+    $kodeBaru = $kodeDefault . str_pad($angkaBaru, 3, strval(0), STR_PAD_LEFT);
+    return $kodeBaru;
+  }
+
+  private function getOneJenisDokumen(string $kodeDokumen)
+  {
+    return collect(DB::select("SELECT * FROM dokumen WHERE id_jenis_dokumen = :kodeDokumen", compact('kodeDokumen')))
+      ->firstOrFail();
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -15,8 +37,12 @@ class DokumenController extends Controller
    */
   public function index()
   {
-    $dokumen = DB::table('dokumen')->paginate(10);
-    return view('admin.masterdata.dokumen.index', compact('dokumen'));
+    $dokumen = collect(DB::select("SELECT * FROM dokumen"));
+    $kodeLama = collect(DB::select("SELECT max(id_jenis_dokumen) AS kode_dokumen FROM dokumen"))
+      ->first()
+      ->kode_dokumen;
+    $kodeBaru = $this->generateKodeDokumenBaru($kodeLama);
+    return view('admin.masterdata.dokumen.index', compact('dokumen', 'kodeBaru'));
   }
 
   /**
@@ -25,42 +51,82 @@ class DokumenController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(StoreDokumenRequest $request)
   {
-    return 'Hehe berhasil';
+    try {
+      $validatedData = $request->validatedDokumenAttr();
+      $insertOneDokumen = DB::insert(
+        "INSERT INTO dokumen (id_jenis_dokumen, nama_dokumen)
+          VALUES (:id_jenis_dokumen, :nama_dokumen)",
+        [
+          'id_jenis_dokumen' => $validatedData['kode_jenis_dokumen'],
+          'nama_dokumen' => $validatedData['nama_dokumen']
+        ]
+      );
+
+      if ($insertOneDokumen)
+        return $this->redirectToMainRoute()->with('sukses', 'Berhasil menambahkan data Jenis Dokumen');
+      else
+        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    } catch (\Exception $e) {
+      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+    }
   }
 
   /**
    * Display the specified resource.
    *
-   * @param  int  $id
+   * @param  string  $kodeDokumen
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show(string $kodeDokumen)
   {
-    //
+    try {
+      return response()->json([
+        'data' => $this->getOneJenisDokumen($kodeDokumen)
+      ]);
+    } catch (\Throwable $th) {
+      return redirect()->back()->with('error', 'Data jenis dokumen tidak ditemukan');
+    }
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
+   * @param  string  $kodeDokumen
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(StoreDokumenRequest $request, string $kodeDokumen)
   {
-    return 'Hehe berhasil';
+    $validatedData = $request->validatedDokumenAttr();
+    $updateOneJenisDokumen = DB::update(
+      "UPDATE dokumen SET nama_dokumen = :nama_dokumen WHERE id_jenis_dokumen = :kode_jenis_dokumen",
+      [
+        'nama_dokumen' => $validatedData['nama_dokumen'],
+        'kode_jenis_dokumen' => $validatedData['kode_jenis_dokumen'] ?? $kodeDokumen
+      ]
+    );
+    if ($updateOneJenisDokumen)
+      return $this->redirectToMainRoute()->with('sukses', 'Berhasil memperbarui data Jenis Dokumen');
+    else
+      return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
+   * @param  string  $kodeDokumen
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(string $kodeDokumen)
   {
-    return 'Hehe berhasil hapus data';
+    try {
+      $deleteDokumen = DB::delete("DELETE FROM dokumen WHERE id_jenis_dokumen = :kodeDokumen", compact('kodeDokumen'));
+      if ($deleteDokumen) return redirect()->back()->with('sukses', 'Berhasil hapus data jenis dokumen');
+      else return redirect()->back()->with('error', 'Gagal menghapus data jenis dokumen');
+    } catch (\Exception $e) {
+      return redirect()->back()->with('error', $e->getMessage());
+    }
   }
 }
