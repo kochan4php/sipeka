@@ -25,6 +25,8 @@
       </main>
     </div>
   </div>
+  @stack('script')
+  <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
 </body>
 
 </html>

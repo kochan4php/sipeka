@@ -10,7 +10,7 @@
         <div class="card-body">
           <div class="row mt-3 gap-4 gap-lg-0">
             <div class="col-lg-3 text-center">
-              <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $alumni->username }}" width="200"
+              <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $alumni->username }}" width="170"
                 class="rounded-circle">
             </div>
             <div class="col-lg-9">

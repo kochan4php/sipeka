@@ -23,6 +23,7 @@ return new class extends Migration
           mp.*,
           u.username,
           u.email,
+          u.password,
           lu.nama_level
         FROM mitra_perusahaan AS mp
         INNER JOIN users AS u ON mp.id_user = u.id_user
