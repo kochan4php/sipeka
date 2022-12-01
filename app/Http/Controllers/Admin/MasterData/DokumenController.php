@@ -19,8 +19,7 @@ class DokumenController extends Controller
   private function generateKodeDokumenBaru(string $kodeLama): string
   {
     $kodeDefault = substr($kodeLama, 0, 4);
-    $angkaBaru = strval(substr($kodeLama, 6) + 1);
-    $kodeBaru = $kodeDefault . str_pad($angkaBaru, 3, strval(0), STR_PAD_LEFT);
+    $kodeBaru = $kodeDefault . str_pad(strval(substr($kodeLama, 4) + 1), 3, strval(0), STR_PAD_LEFT);
     return $kodeBaru;
   }
 
@@ -82,10 +81,8 @@ class DokumenController extends Controller
   public function show(string $kodeDokumen)
   {
     try {
-      return response()->json([
-        'data' => $this->getOneJenisDokumen($kodeDokumen)
-      ]);
-    } catch (\Throwable $th) {
+      return response()->json($this->getOneJenisDokumen($kodeDokumen));
+    } catch (\Exception $e) {
       return redirect()->back()->with('error', 'Data jenis dokumen tidak ditemukan');
     }
   }

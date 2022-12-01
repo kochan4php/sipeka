@@ -195,10 +195,7 @@
 
           fetch(("{{ route('admin.dokumen.detail', ':kodeDokumen') }}").replace(':kodeDokumen', kodeDokumen))
             .then(res => res.json())
-            .then(res => {
-              const {
-                data
-              } = res;
+            .then(data => {
               document.getElementById('kode_jenis_dokumen_edit').value = data.id_jenis_dokumen;
               document.getElementById('nama_dokumen_edit').value = data.nama_dokumen;
             });
