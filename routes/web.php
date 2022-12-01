@@ -112,7 +112,8 @@ Route::prefix('/sipeka')->group(function () {
 
   // Route Pelamar (Masyarakat dan Siswa Alumni)
   Route::prefix('/pelamar')->group(function () {
-    Route::get('/', fn () => 'Halo ini halaman pelamar');
+    Route::get('/profile/{username}', fn () => view('pelamar.profile'));
+    Route::get('/profile/{username}/dokumen', fn () => view('pelamar.dokumen'));
   });
 
   // Route Mitra Perusahaan
