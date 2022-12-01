@@ -67,13 +67,24 @@ body {
   color: #000;
 }
 
+.sidebar .nav-link.dropdown-item:hover {
+  background-color: #87ff81 !important;
+  color: #333;
+}
+
 .sidebar .nav-link.active {
   background-color: #ffc500;
   color: #000;
 }
 
+.sidebar .nav-link.dropdown-item-active {
+  background-color: #87ff81 !important;
+  color: #333;
+}
+
 .sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
+.sidebar .nav-link.active .feather,
+.sidebar .nav-link.dropdown-item-active .feather {
   color: inherit;
 }
 

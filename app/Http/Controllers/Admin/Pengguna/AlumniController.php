@@ -20,32 +20,17 @@ class AlumniController extends Controller
     $this->setMainRoute('admin.alumni.index');
   }
 
-  /**
-   * Get all jurusan data.
-   *
-   * @return \Illuminate\Support\Collection
-   */
   private function getJurusan(): Collection
   {
     return collect(DB::select('SELECT * FROM jurusan'));
   }
 
-  /**
-   * Get all angkatan data.
-   *
-   * @return \Illuminate\Support\Collection
-   */
   private function getAngkatan(): Collection
   {
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  /**
-   * Get alumni by nis.
-   *
-   * @param string $nis
-   */
-  private function getAlumniByNis(string $nis)
+  private function getOneAlumniByNis(string $nis)
   {
     return collect(DB::select('CALL get_one_alumni_by_nis(?)', [$nis]))->firstOrFail();
   }
@@ -119,7 +104,7 @@ class AlumniController extends Controller
       if (strlen($nis) > 18)
         return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
 
-      $alumni = $this->getAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByNis($nis);
       return view('admin.pengguna.alumni.detail', compact('alumni'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
@@ -140,7 +125,7 @@ class AlumniController extends Controller
 
       $jurusan = $this->getJurusan();
       $angkatan = $this->getAngkatan();
-      $alumni = $this->getAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByNis($nis);
       return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
@@ -160,7 +145,7 @@ class AlumniController extends Controller
       if (strlen($nis) > 18)
         return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
 
-      $alumni = $this->getAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByNis($nis);
       $validatedData = $request->validatedAlumniAttr();
 
       if ($alumni->nis !== $validatedData['nis']) $validatedData['hashing_nis'] = Hash::make($validatedData['nis']);
@@ -200,7 +185,7 @@ class AlumniController extends Controller
   public function destroy(string $nis)
   {
     try {
-      $alumni = $this->getAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByNis($nis);
       $deleteAlumni = User::whereUsername($alumni->username)->delete();
 
       if ($deleteAlumni) return redirect()->back()->with('sukses', 'Berhasil hapus data alumni');

@@ -6,27 +6,7 @@
     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary">Tambah Data Alumni</a>
   </div>
 
-  @if (session()->has('sukses'))
-    <div class="row">
-      <div class="col">
-        <div class="fs-6 alert alert-success alert-dismissible fade show">
-          {{ session('sukses') }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-  @endif
-
-  @if (session()->has('error'))
-    <div class="row">
-      <div class="col">
-        <div class="fs-6 alert alert-danger alert-dismissible fade show">
-          {{ session('error') }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      </div>
-    </div>
-  @endif
+  <x-alert-session />
 
   <div class="row">
     <div class="col table-responsive">
@@ -105,19 +85,21 @@
     </div>
   </div>
 
-  <script>
-    const btnDelete = document.querySelectorAll('.btn-delete');
-    btnDelete.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const formModal = document.querySelector('.modal .form-modal');
-        const btnCancel = document.querySelector('.modal .btn-cancel');
-        const btnClose = document.querySelector('.modal .btn-close');
-        const nis = btn.dataset.nis;
-        const route = "{{ route('admin.alumni.delete', ':nis') }}";
-        formModal.setAttribute('action', route.replace(':nis', nis));
-        btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
-        btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
+  @push('script')
+    <script>
+      const btnDelete = document.querySelectorAll('.btn-delete');
+      btnDelete.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModal = document.querySelector('.modal .form-modal');
+          const btnCancel = document.querySelector('.modal .btn-cancel');
+          const btnClose = document.querySelector('.modal .btn-close');
+          const nis = btn.dataset.nis;
+          const route = "{{ route('admin.alumni.delete', ':nis') }}";
+          formModal.setAttribute('action', route.replace(':nis', nis));
+          btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
+          btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
+        });
       });
-    });
-  </script>
+    </script>
+  @endpush
 @endsection
