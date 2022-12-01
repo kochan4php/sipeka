@@ -49,7 +49,7 @@ Route::prefix('/sipeka')->group(function () {
 
   // Route Admin BKK
   Route::prefix('/admin')->group(function () {
-    Route::view('/', 'admin.index')->name('admin.index');
+    Route::get('/', \App\Http\Controllers\Admin\MainController::class)->name('admin.index');
 
     Route::prefix('/pengguna')->group(function () {
       Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {

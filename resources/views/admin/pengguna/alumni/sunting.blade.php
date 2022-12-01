@@ -8,20 +8,7 @@
           <h2>Sunting data alumni</h2>
         </div>
         <div class="card-body">
-          @if (!empty($errors->all()))
-            <div class="row">
-              <div class="col">
-                <div class="alert pb-0 alert-danger alert-dismissible fade show fs-6" role="alert">
-                  <ul>
-                    @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                    @endforeach
-                  </ul>
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-              </div>
-            </div>
-          @endif
+          <x-alert-error-validation />
           <form action="{{ route('admin.alumni.update', $alumni->nis) }}" method="POST">
             @csrf
             @method('put')

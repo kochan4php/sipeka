@@ -19,22 +19,22 @@ class DatabaseSeeder extends Seeder
     $seeders = [
       LevelUserSeeder::class,
       UserSeeder::class,
-      MitraPerusahaanSeeder::class,
       AdminBKKSeeder::class,
-      PelamarSeeder::class,
-      MasyarakatSeeder::class,
-      LowonganKerjaSeeder::class,
+      // MitraPerusahaanSeeder::class,
+      // PelamarSeeder::class,
+      // MasyarakatSeeder::class,
+      // LowonganKerjaSeeder::class,
       JurusanSeeder::class,
       AngkatanSeeder::class,
       // SiswaAlumniSeeder::class,
-      PendaftaranLowonganSeeder::class,
-      PengalamanBekerjaSeeder::class,
+      // PendaftaranLowonganSeeder::class,
+      // PengalamanBekerjaSeeder::class,
       DokumenSeeder::class,
-      DokumenPenggunaSeeder::class,
-      TingkatanPendidikanSeeder::class,
-      RiwayatPendidikanPenggunaSeeder::class,
-      TahapanSeleksiSeeder::class,
-      PenilaianSeleksiSeeder::class
+      // DokumenPenggunaSeeder::class,
+      // TingkatanPendidikanSeeder::class,
+      // RiwayatPendidikanPenggunaSeeder::class,
+      // TahapanSeleksiSeeder::class,
+      // PenilaianSeleksiSeeder::class
     ];
     $this->call($seeders);
   }

@@ -23,7 +23,7 @@ return new class extends Migration
         DECLARE id_pelamar int(11);
 
         SET username = lower(replace(replace(nama_lengkap, ' ', '-'), '.', ''));
-        SELECT level_user.id_level INTO id_level_user FROM level_user WHERE nama_level = 'Pelamar';
+        SELECT level_user.id_level INTO id_level_user FROM level_user WHERE identifier = lower('pelamar');
 
         INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, nis, hashing_nis);
         SELECT LAST_INSERT_ID() INTO id_user;

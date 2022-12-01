@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow py-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow py-3">
   <div class="container">
     <a class="navbar-brand fs-4 fw-bold" href="{{ route('home') }}">SIPEKA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -11,13 +11,10 @@
           <a class="nav-link custom-font" href="{{ route('home') }}">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/">Lowongan Kerja</a>
+          <a class="nav-link custom-font" href="#lowongan-kerja">Lowongan Kerja</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/">Cara Daftar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link custom-font" href="/">Rekomendasi Lowongan</a>
+          <a class="nav-link custom-font" href="#cara-daftar">Cara Daftar</a>
         </li>
       </ul>
       <ul class="navbar-nav">
