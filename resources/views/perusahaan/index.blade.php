@@ -4,7 +4,7 @@
   <div class="row">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-2">
       <h1>Lowongan Kerja</h1>
-      <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary">Tambah Lowongan Kerja</a>
+      <a href="/sipeka/perusahaan/tambah-lowongan" class="btn btn-primary">Tambah Lowongan Kerja</a>
     </div>
     <div class="row">
       <div class="col table-responsive">
@@ -28,7 +28,7 @@
                   <td class="text-nowrap text-center">28-Desember-2022</td>
                   <td class="text-nowrap text-center">
                     <a href="/" class="btn btn-success btn-sm">
-                      Detil
+                      Detail
                     </a>
                     <a href="/" class="btn btn-warning btn-sm">
                       Sunting
@@ -46,7 +46,7 @@
                   <td class="text-nowrap text-center">28-Desember-2022</td>
                   <td class="text-nowrap text-center">
                     <a href="/" class="btn btn-success btn-sm">
-                      Detil
+                      Detail
                     </a>
                     <a href="/" class="btn btn-warning btn-sm">
                       Sunting
@@ -64,7 +64,7 @@
                   <td class="text-nowrap text-center">28-Desember-2022</td>
                   <td class="text-nowrap text-center">
                     <a href="/" class="btn btn-success btn-sm">
-                      Detil
+                      Detail
                     </a>
                     <a href="/" class="btn btn-warning btn-sm">
                       Sunting
