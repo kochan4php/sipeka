@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.perusahaan.update', 'layla-mayrisa') }}" method="POST">
+          <form action="{{ route('admin.perusahaan.update', $perusahaan->username) }}" method="POST">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -18,7 +18,8 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                  placeholder="PT. Catur Jaya Solusi Bersama">
+                  placeholder="PT. Catur Jaya Solusi Bersama"
+                  value="{{ old('nama_perusahaan', $perusahaan->nama_perusahaan) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -27,7 +28,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="email" class="form-control" id="email_perusahaan" name="email_perusahaan"
-                  placeholder="example@company.com">
+                  placeholder="example@company.com" value="{{ old('email_perusahaan', $perusahaan->email) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -45,7 +46,8 @@
               </label>
               <div class="col-sm-8">
                 <input type="number" class="form-control" id="no_telepon_perusahaan" name="no_telepon_perusahaan"
-                  placeholder="(021)9987653">
+                  placeholder="(021)9987653"
+                  value="{{ old('no_telepon_perusahaan', $perusahaan->nomor_telp_perusahaan) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -54,7 +56,9 @@
               </label>
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="alamat_perusahaan" name="alamat_perusahaan"
-                  rows="3"></textarea>
+                  rows="3">
+                  {{ $perusahaan->alamat_perusahaan }}
+                </textarea>
               </div>
             </div>
             <div class="mb-3 row">
@@ -79,7 +83,9 @@
               </label>
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi_perusahaan" name="deskripsi_perusahaan"
-                  rows="3"></textarea>
+                  rows="3">
+                {{ $perusahaan->deskripsi_perusahaan ?? '' }}
+                </textarea>
               </div>
             </div>
             <div class="row mb-3">

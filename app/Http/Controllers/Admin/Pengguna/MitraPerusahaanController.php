@@ -123,7 +123,33 @@ class MitraPerusahaanController extends Controller
    */
   public function update(StoreMitraPerusahaanRequest $request, string $username)
   {
-    return 'Hehe berhasil';
+    try {
+      $perusahaan = $this->getOnePerusahaanByUsername($username);
+      $validatedData = $request->validatedMitraPerusahaanAttr();
+
+      $validatedData['password_perusahaan'] =
+        Hash::check($validatedData['password_perusahaan'], $perusahaan->password) ?
+        null : Hash::make($validatedData['password_perusahaan']);
+
+      $updateOnePerusahaan = DB::update("CALL update_one_perusahaan_by_username(:current_username, :email, :new_password, :nama_perusahaan, :nomor_telp_perusahaan, :alamat_perusahaan, :foto_sampul_perusahaan, :logo_perusahaan, :deskripsi_perusahaan)", [
+        'current_username' => $perusahaan->username,
+        'email' => $validatedData['email_perusahaan'],
+        'new_password' => $validatedData['password_perusahaan'],
+        'nama_perusahaan' => $validatedData['nama_perusahaan'],
+        'nomor_telp_perusahaan' => $validatedData['no_telepon_perusahaan'],
+        'alamat_perusahaan' => $validatedData['alamat_perusahaan'],
+        'foto_sampul_perusahaan' => $validatedData['foto_sampul_perusahaan'],
+        'logo_perusahaan' => $validatedData['logo_perusahaan'],
+        'deskripsi_perusahaan' => $validatedData['deskripsi_perusahaan']
+      ]);
+
+      if ($updateOnePerusahaan)
+        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Mitra Perusahaan');
+      else
+        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('error',  'Data Mitra Perusahaan tidak ditemukan');
+    }
   }
 
   /**

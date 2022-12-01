@@ -124,11 +124,11 @@ class MasyarakatController extends Controller
   public function update(StorePersonRequest $request, string $username)
   {
     try {
-      $person = $this->getOnePersonByUsername($username);
+      $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedPersonAttr();
 
       $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :email, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
-        'current_username' => $username,
+        'current_username' => $username ?? $orang->username,
         'email' => $validatedData['email'],
         'nama_lengkap' => $validatedData['nama'],
         'jenis_kelamin' => $validatedData['jenis_kelamin'],

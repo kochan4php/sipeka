@@ -63,13 +63,13 @@ body {
 }
 
 .sidebar .nav-link:hover {
-  background-color: #ffc500 !important;
+  background-color: #e7b100 !important;
   color: #000;
 }
 
 .sidebar .nav-link.dropdown-item:hover {
-  background-color: #87ff81 !important;
-  color: #333;
+  background-color: #52df4a !important;
+  color: #000;
 }
 
 .sidebar .nav-link.active {
@@ -78,8 +78,8 @@ body {
 }
 
 .sidebar .nav-link.dropdown-item-active {
-  background-color: #87ff81 !important;
-  color: #333;
+  background-color: #5dfe54 !important;
+  color: #000;
 }
 
 .sidebar .nav-link:hover .feather,

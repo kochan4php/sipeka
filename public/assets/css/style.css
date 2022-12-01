@@ -29,3 +29,11 @@
 .btn-login:hover {
   background-color: var(--bs-gray-400);
 }
+
+.selectDisable {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
