@@ -14,7 +14,8 @@
         <div class="card-body">
           <div class="row mb-3">
             <div class="col">
-              <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid" alt="Foto Sampul Perusahaan">
+              <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid" alt="Foto Sampul Perusahaan"
+                draggable="false">
             </div>
           </div>
           <hr />
@@ -22,7 +23,8 @@
             <div class="col-lg-3 text-center mb-4 mb-lg-0">
               <img
                 src="{{ Avatar::create($perusahaan->email)->toGravatar(['d' => 'identicon', 'r' => 'pg', 's' => 1000]) }}"
-                alt="{{ $perusahaan->username }}" class="rounded-circle border border-secondary" width="170">
+                alt="{{ $perusahaan->username }}" class="rounded-circle border border-secondary" width="170"
+                draggable="false">
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">
