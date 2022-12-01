@@ -8,6 +8,8 @@
     </button>
   </div>
 
+  <x-alert-session />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="card table-responsive">
@@ -30,17 +32,17 @@
                   <td class="text-nowrap text-center">
                     <div class="btn-group">
                       <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
-                        data-id-jurusan="{{ $item->id_jenis_dokumen }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-warning">
+                        data-kode-dokumen="{{ $item->id_jenis_dokumen }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-warning btn-edit">
                         <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                         <span>Sunting</span>
                       </button>
-                      <a href="{{ route('admin.dokumen.detail', $item->id_jenis_dokumen) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
+                      <button type="button" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
+                        data-kode-dokumen="{{ $item->id_jenis_dokumen }}" data-bs-toggle="modal"
                         data-bs-target="#modalHapus">
                         <span><i class="fa-solid fa-trash fa-lg"></i></span>
                         <span>Hapus</span>
-                      </a>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -48,9 +50,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="d-flex d-md-block justify-content-center fs-5 mt-3">
-        {{ $dokumen->links() }}
       </div>
     </div>
   </div>
@@ -72,8 +71,10 @@
                 {{ __('Kode Jenis Dokumen') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen" disabled
-                  readonly style="cursor: not-allowed" value="AGKT0002">
+                {{-- <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen"
+                  readonly style="cursor: not-allowed" value="AGKT0002"> --}}
+                <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen"
+                  placeholder="DKMN001" value="{{ $kodeBaru }}" readonly>
               </div>
             </div>
             <div class="mb-3 row">
@@ -104,10 +105,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-4 text-center" id="modalSuntingLabel">Sunting data jenis dokumen</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-edit-dokumen" data-bs-dismiss="modal"
+            aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="{{ route('admin.dokumen.update', 'DKMN001') }}" method="post">
+          <form class="form-modal-edit" method="post">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -115,8 +117,10 @@
                 {{ __('Kode Jenis Dokumen') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen" disabled
-                  readonly style="cursor: not-allowed" value="AGKT0002">
+                {{-- <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen"
+                  readonly style="cursor: not-allowed" value="AGKT0002"> --}}
+                <input type="text" class="form-control" id="kode_jenis_dokumen_edit" name="kode_jenis_dokumen"
+                  placeholder="DKMN001" readonly>
               </div>
             </div>
             <div class="mb-3 row">
@@ -124,14 +128,16 @@
                 {{ __('Nama Dokumen') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" placeholder="KTP">
+                <input type="text" class="form-control" id="nama_dokumen_edit" name="nama_dokumen"
+                  placeholder="KTP">
               </div>
             </div>
             <div class="mb-3 row">
               <div class="col-sm-4"></div>
               <div class="col-sm-8">
                 <button type="submit" class="btn btn-primary">Perbarui</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger btn-cancel-edit-dokumen"
+                  data-bs-dismiss="modal">Batal</button>
               </div>
             </div>
           </form>
@@ -147,17 +153,60 @@
       <div class="modal-content">
         <div class="modal-header border-0 border-bottom-0">
           <h1 class="modal-title fs-4 text-center" id="modalHapusLabel">Hapus data jenis dokumen?</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-hapus-dokumen" data-bs-dismiss="modal"
+            aria-label="Close"></button>
         </div>
         <div class="modal-footer border-0 border-top-0">
-          <form action="{{ route('admin.dokumen.delete', 'DKMN001') }}" method="post">
+          <form class="form-modal-delete" method="post">
             @csrf
             @method('delete')
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-secondary btn-cancel-hapus-dokumen"
+              data-bs-dismiss="modal">Batal</button>
             <button type="submit" class="btn btn-danger">Hapus</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+  @push('script')
+    <script>
+      const btnDelete = document.querySelectorAll('.btn-delete');
+      btnDelete.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModalDelete = document.querySelector('.modal .form-modal-delete');
+          const btnCancel = document.querySelector('.modal .btn-cancel-hapus-dokumen');
+          const btnClose = document.querySelector('.modal .btn-close-hapus-dokumen');
+          const kodeDokumen = btn.dataset.kodeDokumen;
+          const route = "{{ route('admin.dokumen.delete', ':kodeDokumen') }}";
+          formModalDelete.setAttribute('action', route.replace(':kodeDokumen', kodeDokumen));
+          btnCancel.addEventListener('click', () => formModalDelete.removeAttribute('action'));
+          btnClose.addEventListener('click', () => formModalDelete.removeAttribute('action'));
+        });
+      });
+
+      const btnEdit = document.querySelectorAll('.btn-edit');
+      btnEdit.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModalEdit = document.querySelector('.modal .form-modal-edit');
+          const btnCancel = document.querySelector('.modal .btn-cancel-edit-dokumen');
+          const btnClose = document.querySelector('.modal .btn-close-edit-dokumen');
+          const kodeDokumen = btn.dataset.kodeDokumen;
+          const route = "{{ route('admin.dokumen.update', ':kodeDokumen') }}";
+
+          fetch(("{{ route('admin.dokumen.detail', ':kodeDokumen') }}").replace(':kodeDokumen', kodeDokumen))
+            .then(res => res.json())
+            .then(res => {
+              const {
+                data
+              } = res;
+              document.getElementById('kode_jenis_dokumen_edit').value = data.id_jenis_dokumen;
+              document.getElementById('nama_dokumen_edit').value = data.nama_dokumen;
+            });
+          formModalEdit.setAttribute('action', route.replace(':kodeDokumen', kodeDokumen));
+          btnCancel.addEventListener('click', () => formModalEdit.removeAttribute('action'));
+          btnClose.addEventListener('click', () => formModalEdit.removeAttribute('action'));
+        });
+      });
+    </script>
+  @endpush
 @endsection
