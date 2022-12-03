@@ -12,9 +12,14 @@ use App\Http\Controllers\{
   // All Master Data Controller
   Admin\MasterData\JurusanController,
   Admin\MasterData\AngkatanController,
-  Admin\MasterData\DokumenController
+  Admin\MasterData\DokumenController,
+  // All Perusahaan Controller
+  Perusahaan\LowonganController
 };
+use App\Models\LowonganKerja;
+use App\Http\Controllers\Pelamar\PengalamanKerjaController;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,12 +116,13 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   // Route Pelamar (Masyarakat dan Siswa Alumni)
-  Route::prefix('/pelamar/{username}')->group(function () {
+  Route::prefix('/pelamar')->group(function () {
     Route::get('/profile', fn () => view('pelamar.profile'))->name('pelamar.profile');
     Route::get('/dokumen', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
-    Route::prefix('/pengalaman-kerja')->group(function () {
-      Route::get('/', fn () => view('pelamar.experience.index'))->name('pelamar.experience.index');
-      Route::get('/tambah-pengalaman', fn () => view('pelamar.experience.tambah'))->name('pelamar.experience.add');
+    Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
+      Route::get('/', 'index')->name('pelamar.experience.index');
+      Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
+      Route::post('/', 'store')->name('pelamar.experience.store');
     });
     Route::prefix('/lamaran-kerja')->group(function () {
       Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
@@ -124,8 +130,13 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   // Route Mitra Perusahaan
-  Route::prefix('/perusahaan')->group(function () {
-    Route::get('/', fn () => view('perusahaan.index'));
-    Route::get('/tambah-lowongan', fn () => view('perusahaan.lowongankerja.tambah'));
+  Route::prefix('/perusahaan')->controller(LowonganController::class)->group(function () {
+    Route::get('/', 'index')->name('perusahaan.lowongankerja.index');
+    Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.tambah');
+    Route::post('/', 'store')->name('perusahaan.lowongankerja.store');
+    Route::get('/{id}/detail', 'show')->name('perusahaan.lowongankerja.detail');
+    Route::get('/{id}/edit', 'edit')->name('perusahaan.lowongankerja.edit');
+    Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
+    Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
   });
 });
