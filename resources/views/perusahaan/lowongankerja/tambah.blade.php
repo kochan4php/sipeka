@@ -22,15 +22,15 @@
               </div>
             </div>
           @endif
-          <form action="/" method="POST">
+          <form action="{{ route('perusahaan.lowongankerja.store') }}" method="POST">
             @csrf
             <div class="mb-3 row">
               <label for="judul" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Judul Lowongan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="judul" name="judul" placeholder="IT Consultant"
-                  required>
+                <input type="text" class="form-control" id="judul" name="judul_lowongan"
+                  placeholder="IT Consultant" required>
               </div>
             </div>
             <div class="mb-3 row">
@@ -38,7 +38,8 @@
                 {{ __('Deskripsi') }}
               </label>
               <div class="col-sm-8">
-                <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi" name="deskripsi" rows="5"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi" name="deskripsi_lowongan"
+                  rows="5"></textarea>
               </div>
             </div>
             <div class="mb-3 row">
@@ -71,7 +72,7 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
                 <button type="submit" class="btn btn-primary">Tambah</button>
-                <a href="/" class="btn btn-danger">Batal</a>
+                <a href="{{ route('perusahaan.lowongankerja.index') }}" class="btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

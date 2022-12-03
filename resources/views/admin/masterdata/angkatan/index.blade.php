@@ -48,9 +48,6 @@
           </table>
         </div>
       </div>
-      <div class="d-flex d-md-block justify-content-center fs-5 mt-3">
-        {{ $angkatan->links() }}
-      </div>
     </div>
   </div>
 

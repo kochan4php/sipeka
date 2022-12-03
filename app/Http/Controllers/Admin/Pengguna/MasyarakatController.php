@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pengguna;
+namespace App\Http\Controllers\Admin\Pengguna\MasyarakatController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
