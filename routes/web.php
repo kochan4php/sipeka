@@ -14,6 +14,7 @@ use App\Http\Controllers\{
   Admin\MasterData\AngkatanController,
   Admin\MasterData\DokumenController
 };
+use App\Http\Controllers\Pelamar\PengalamanKerjaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -111,12 +112,13 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   // Route Pelamar (Masyarakat dan Siswa Alumni)
-  Route::prefix('/pelamar/{username}')->group(function () {
+  Route::prefix('/pelamar')->group(function () {
     Route::get('/profile', fn () => view('pelamar.profile'))->name('pelamar.profile');
     Route::get('/dokumen', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
-    Route::prefix('/pengalaman-kerja')->group(function () {
-      Route::get('/', fn () => view('pelamar.experience.index'))->name('pelamar.experience.index');
-      Route::get('/tambah-pengalaman', fn () => view('pelamar.experience.tambah'))->name('pelamar.experience.add');
+    Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
+      Route::get('/', 'index')->name('pelamar.experience.index');
+      Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
+      Route::post('/', 'store')->name('pelamar.experience.store');
     });
     Route::prefix('/lamaran-kerja')->group(function () {
       Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
