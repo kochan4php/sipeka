@@ -112,8 +112,12 @@ Route::prefix('/sipeka')->group(function () {
 
   // Route Pelamar (Masyarakat dan Siswa Alumni)
   Route::prefix('/pelamar')->group(function () {
-    Route::get('/profile/{username}', fn () => view('pelamar.profile'));
-    Route::get('/profile/{username}/dokumen', fn () => view('pelamar.dokumen'));
+    Route::get('/profile/{username}', fn () => view('pelamar.profile'))->name('pelamar.profile');
+    Route::get('/dokumen/{username}', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
+    Route::prefix('/pengalaman-kerja')->group(function () {
+      Route::get('/{username}', fn () => view('pelamar.experience.index'))->name('pelamar.experience.index');
+      Route::get('/{username}/tambah-pengalaman', fn () => view('pelamar.experience.tambah'))->name('pelamar.experience.add');
+    });
   });
 
   // Route Mitra Perusahaan
