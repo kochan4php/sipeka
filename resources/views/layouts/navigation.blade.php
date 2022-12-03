@@ -48,8 +48,7 @@
           </li>
         @else
           <li class="nav-item">
-            <a href="{{ route('login.index') }}"
-              class="nav-link active custom-font d-flex gap-2 align-items-center btn-login">
+            <a href="{{ route('login') }}" class="nav-link active custom-font d-flex gap-2 align-items-center btn-login">
               <i class="fa-solid fa-right-to-bracket"></i>
               <span>Login</span>
             </a>
