@@ -12,9 +12,14 @@ use App\Http\Controllers\{
   // All Master Data Controller
   Admin\MasterData\JurusanController,
   Admin\MasterData\AngkatanController,
-  Admin\MasterData\DokumenController
+  Admin\MasterData\DokumenController,
+  // All Perusahaan Controller
+  Perusahaan\LowonganController
 };
+// use App\Http\Controllers\perusahaan\lowongankerja\LowonganController;
+use App\Models\LowonganKerja;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,8 +122,13 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   // Route Mitra Perusahaan
-  Route::prefix('/perusahaan')->group(function () {
-    Route::get('/', fn () => view('perusahaan.index'));
-    Route::get('/tambah-lowongan', fn () => view('perusahaan.lowongankerja.tambah'));
+  Route::prefix('/perusahaan')->controller(LowonganController::class)->group(function () {
+    Route::get('/', 'index')->name('perusahaan.lowongankerja.index');
+    Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.tambah');
+    Route::post('/', 'store')->name('perusahaan.lowongankerja.store');
+    Route::get('/{id}/detail', 'show')->name('perusahaan.lowongankerja.detail');
+    Route::get('/{id}/edit', 'edit')->name('perusahaan.lowongankerja.edit');
+    Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
+    Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
   });
 });

@@ -28,7 +28,7 @@ class LowonganKerja extends Model
   protected $fillable = [
     'id_perusahaan',
     'judul_lowongan',
-    'deskripsi_pekerjaan',
+    'deskripsi_lowongan',
     'tanggal_dimulai',
     'tanggal_berakhir'
   ];
