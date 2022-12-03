@@ -16,12 +16,11 @@ class DokumenController extends Controller
     $this->setMainRoute('admin.dokumen.index');
   }
 
-  private function generateKodeDokumenBaru(string $kodeLama): string
+  private function generateKodeDokumenBaru(): string
   {
-    $kodeDefault = substr($kodeLama, 0, 4);
-    $angkaBaru = strval(substr($kodeLama, 6) + 1);
-    $kodeBaru = $kodeDefault . str_pad($angkaBaru, 3, strval(0), STR_PAD_LEFT);
-    return $kodeBaru;
+    return collect(DB::select('SELECT generate_new_kode_jenis_dokumen() AS new_kode_jenis_dokumen'))
+      ->firstOrFail()
+      ->new_kode_jenis_dokumen;
   }
 
   private function getOneJenisDokumen(string $kodeDokumen)
@@ -38,10 +37,7 @@ class DokumenController extends Controller
   public function index()
   {
     $dokumen = collect(DB::select("SELECT * FROM dokumen"));
-    $kodeLama = collect(DB::select("SELECT max(id_jenis_dokumen) AS kode_dokumen FROM dokumen"))
-      ->first()
-      ->kode_dokumen;
-    $kodeBaru = $this->generateKodeDokumenBaru($kodeLama);
+    $kodeBaru = $this->generateKodeDokumenBaru();
     return view('admin.masterdata.dokumen.index', compact('dokumen', 'kodeBaru'));
   }
 
@@ -82,10 +78,8 @@ class DokumenController extends Controller
   public function show(string $kodeDokumen)
   {
     try {
-      return response()->json([
-        'data' => $this->getOneJenisDokumen($kodeDokumen)
-      ]);
-    } catch (\Throwable $th) {
+      return response()->json($this->getOneJenisDokumen($kodeDokumen));
+    } catch (\Exception $e) {
       return redirect()->back()->with('error', 'Data jenis dokumen tidak ditemukan');
     }
   }
