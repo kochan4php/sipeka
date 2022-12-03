@@ -14,7 +14,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <x-alert-error-validation />
-                <form action="{{ route('admin.alumni.store') }}" method="POST">
+                <form action="{{ route('pelamar.experience.store', 'layla') }}" method="POST">
                   @csrf
                   <div class="mb-3 row">
                     <label for="judul_posisi" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
