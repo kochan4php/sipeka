@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Admin\MasterData;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
+use App\Traits\HasMainRoute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class JurusanController extends Controller
 {
+  use HasMainRoute;
+
+  public function __construct()
+  {
+    $this->setMainRoute('admin.jurusan.index');
+  }
+
   /**
    * Display a listing of the resource.
    *
@@ -46,7 +54,11 @@ class JurusanController extends Controller
    */
   public function show($id)
   {
-    //
+    $data = collect(DB::select('SELECT * FROM jurusan WHERE id_jurusan = :kode_jurusan', [
+      'kode_jurusan' => $id
+    ]))->first();
+
+    return response()->json($data);
   }
 
   /**
@@ -58,7 +70,30 @@ class JurusanController extends Controller
    */
   public function update(Request $request, $id)
   {
-    return 'Hehe berhasil lagi';
+    $request->validate([
+      'kode_jurusan' => ['required'],
+      'nama_jurusan' => ['required'],
+      'keterangan_jurusan' => ['required'],
+    ]);
+
+    $validatedData = $request->only(['kode_jurusan', 'nama_jurusan', 'keterangan_jurusan']);
+
+    $updateOneJurusan = DB::update(
+      'UPDATE jurusan SET
+      nama_jurusan = :nama_jurusan,
+      keterangan = :keterangan_jurusan
+      WHERE id_jurusan = :kode_jurusan',
+      [
+        'nama_jurusan' => $validatedData['nama_jurusan'],
+        'keterangan_jurusan' => $validatedData['keterangan_jurusan'],
+        'kode_jurusan' => $validatedData['kode_jurusan']
+      ]
+    );
+
+    if ($updateOneJurusan)
+      return $this->redirectToMainRoute()->with('sukses', 'berhasil memperbarui data jurusan');
+    else
+      return $this->redirectToMainRoute()->with('error', 'Data tidak valid, silahkan periksa kembali');
   }
 
   /**
@@ -67,8 +102,14 @@ class JurusanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy($kodejurusan)
   {
-    return 'Berhasil hapus data';
+    try {
+      $deletejurusan = DB::delete("DELETE FROM jurusan WHERE id_jurusan = :kodejurusan", compact('kodejurusan'));
+      if ($deletejurusan) return redirect()->back()->with('sukses', 'Berhasil hapus jurusan');
+      else return redirect()->back()->with('error', 'gagal menghapus jurusan');
+    } catch (\Exception $e) {
+      return redirect()->back()->with('error', $e->getMessage());
+    }
   }
 }
