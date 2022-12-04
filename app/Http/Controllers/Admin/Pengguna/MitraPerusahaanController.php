@@ -76,7 +76,7 @@ class MitraPerusahaanController extends Controller
       if ($insertOnePerusahaan)
         return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Mitra Perusahaan');
       else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
@@ -146,7 +146,7 @@ class MitraPerusahaanController extends Controller
       if ($updateOnePerusahaan)
         return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Mitra Perusahaan');
       else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error',  'Data Mitra Perusahaan tidak ditemukan');
     }
@@ -164,10 +164,10 @@ class MitraPerusahaanController extends Controller
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       $perusahaan = User::whereUsername($perusahaan->username)->delete();
 
-      if ($perusahaan) return redirect()->back()->with('sukses', 'Berhasil hapus data Mitra Perusahaan');
-      else return redirect()->back()->with('error', 'Gagal menghapus data Mitra Perusahaan');
+      if ($perusahaan) return back()->with('sukses', 'Berhasil hapus data Mitra Perusahaan');
+      else return back()->with('error', 'Gagal menghapus data Mitra Perusahaan');
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 }

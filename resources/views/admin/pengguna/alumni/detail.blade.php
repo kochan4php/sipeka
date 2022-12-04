@@ -22,6 +22,11 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __($alumni->nis) }}</td>
                   </tr>
                   <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->username) }}</td>
+                  </tr>
+                  <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($alumni->nama_lengkap) }}</td>
