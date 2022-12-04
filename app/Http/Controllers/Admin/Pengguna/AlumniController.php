@@ -69,8 +69,8 @@ class AlumniController extends Controller
     try {
       $validatedData = $request->validatedAlumniAttr();
 
-      $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:hashing_nis, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
-        'hashing_nis' => Hash::make($validatedData['nis']),
+      $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni, :username, :email)", [
+        'password' => Hash::make($validatedData['nis']),
         'jurusan' => $validatedData['jurusan'],
         'angkatan' => $validatedData['angkatan'],
         'nis' => $validatedData['nis'],
@@ -81,12 +81,14 @@ class AlumniController extends Controller
         'no_telp' => $validatedData['no_telp'],
         'alamat_alumni' => $validatedData['alamat_alumni'],
         'foto_alumni' => $validatedData['foto_alumni'],
+        'username' => NULL,
+        'email' => NULL
       ]);
 
       if ($insertOneAlumni)
         return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Alumni');
       else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
@@ -170,7 +172,7 @@ class AlumniController extends Controller
       if ($updateOneAlumni)
         return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Alumni');
       else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
     }
@@ -188,10 +190,10 @@ class AlumniController extends Controller
       $alumni = $this->getOneAlumniByNis($nis);
       $deleteAlumni = User::whereUsername($alumni->username)->delete();
 
-      if ($deleteAlumni) return redirect()->back()->with('sukses', 'Berhasil hapus data alumni');
-      else return redirect()->back()->with('error', 'Gagal menghapus data alumni');
+      if ($deleteAlumni) return back()->with('sukses', 'Berhasil hapus data alumni');
+      else return back()->with('error', 'Gagal menghapus data alumni');
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 }

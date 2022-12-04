@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pengguna\MasyarakatController;
+namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
@@ -60,7 +60,6 @@ class MasyarakatController extends Controller
   {
     try {
       $validatedData = $request->validatedPersonAttr();
-
       $insertOnePerson = DB::insert("CALL insert_one_person(:email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'email' => $validatedData['email'],
         'password' => Hash::make($validatedData['password']),
@@ -73,10 +72,8 @@ class MasyarakatController extends Controller
         'foto' => $validatedData['foto_pelamar']
       ]);
 
-      if ($insertOnePerson)
-        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
-      else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      if ($insertOnePerson) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
+      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
@@ -126,7 +123,6 @@ class MasyarakatController extends Controller
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedPersonAttr();
-
       $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :email, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'current_username' => $username ?? $orang->username,
         'email' => $validatedData['email'],
@@ -139,10 +135,8 @@ class MasyarakatController extends Controller
         'foto' => $validatedData['foto_pelamar']
       ]);
 
-      if ($updatePerson)
-        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Pelamar');
-      else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      if ($updatePerson) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Pelamar');
+      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
@@ -160,10 +154,10 @@ class MasyarakatController extends Controller
       $orang = $this->getOnePersonByUsername($username);
       $deleteOrang = User::whereUsername($orang->username)->delete();
 
-      if ($deleteOrang) return redirect()->back()->with('sukses', 'Berhasil hapus data pelamar');
-      else return redirect()->back()->with('error', 'Gagal menghapus data pelamar');
+      if ($deleteOrang) return back()->with('sukses', 'Berhasil hapus data pelamar');
+      else return back()->with('error', 'Gagal menghapus data pelamar');
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 }

@@ -16,10 +16,8 @@ use App\Http\Controllers\{
   // All Perusahaan Controller
   Perusahaan\LowonganController
 };
-use App\Models\LowonganKerja;
 use App\Http\Controllers\Pelamar\PengalamanKerjaController;
 use Illuminate\Support\Facades\Route;
-use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +36,10 @@ Route::prefix('/sipeka')->group(function () {
 
   Route::middleware(['guest'])->group(function () {
     Route::controller(RegistrationController::class)->group(function () {
-      Route::get('/register', 'index')->name('register.index');
-      Route::post('/register', 'register')->name('register.store');
+      Route::get('/register/kandidat', 'kandidat')->name('register.kandidat');
+      Route::post('/register/kandidat', 'kandidatStore')->name('register.kandidat.store');
+      Route::get('/register/alumni', 'alumni')->name('register.alumni');
+      Route::post('/register/alumni', 'alumniStore')->name('register.alumni.store');
     });
 
     Route::controller(AuthenticatedController::class)->group(function () {
@@ -48,11 +48,11 @@ Route::prefix('/sipeka')->group(function () {
     });
   });
 
-  Route::middleware(['auth'])->group(function () {
-    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+  Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/logout', LogoutController::class)->name('logout');
 
     // Route Admin BKK
-    Route::prefix('/admin')->group(function () {
+    Route::prefix('/admin')->middleware('role:admin')->group(function () {
       Route::get('/', \App\Http\Controllers\Admin\MainController::class)->name('admin.index');
 
       Route::prefix('/pengguna')->group(function () {
@@ -113,30 +113,32 @@ Route::prefix('/sipeka')->group(function () {
         });
       });
     });
-  });
 
-  // Route Pelamar (Masyarakat dan Siswa Alumni)
-  Route::prefix('/pelamar')->group(function () {
-    Route::get('/profile', fn () => view('pelamar.profile'))->name('pelamar.profile');
-    Route::get('/dokumen', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
-    Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
-      Route::get('/', 'index')->name('pelamar.experience.index');
-      Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
-      Route::post('/', 'store')->name('pelamar.experience.store');
+    // Route Mitra Perusahaan
+    Route::prefix('/perusahaan')->middleware('role:perusahaan')->group(function () {
+      Route::controller(LowonganController::class)->group(function () {
+        Route::get('/', 'index')->name('perusahaan.index');
+        Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.tambah');
+        Route::post('/', 'store')->name('perusahaan.lowongankerja.store');
+        Route::get('/{id}/detail', 'show')->name('perusahaan.lowongankerja.detail');
+        Route::get('/{id}/edit', 'edit')->name('perusahaan.lowongankerja.edit');
+        Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
+        Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
+      });
     });
-    Route::prefix('/lamaran-kerja')->group(function () {
-      Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
-    });
-  });
 
-  // Route Mitra Perusahaan
-  Route::prefix('/perusahaan')->controller(LowonganController::class)->group(function () {
-    Route::get('/', 'index')->name('perusahaan.lowongankerja.index');
-    Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.tambah');
-    Route::post('/', 'store')->name('perusahaan.lowongankerja.store');
-    Route::get('/{id}/detail', 'show')->name('perusahaan.lowongankerja.detail');
-    Route::get('/{id}/edit', 'edit')->name('perusahaan.lowongankerja.edit');
-    Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
-    Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
+    // Route Pelamar (Masyarakat dan Siswa Alumni)
+    Route::prefix('/pelamar')->middleware('role:pelamar')->group(function () {
+      Route::get('/profile', fn () => view('pelamar.profile'))->name('pelamar.index');
+      Route::get('/dokumen', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
+      Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
+        Route::get('/', 'index')->name('pelamar.experience.index');
+        Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
+        Route::post('/', 'store')->name('pelamar.experience.store');
+      });
+      Route::prefix('/lamaran-kerja')->group(function () {
+        Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
+      });
+    });
   });
 });

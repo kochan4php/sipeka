@@ -17,10 +17,26 @@ class AuthenticatedController extends Controller
   {
     $request->validate(['username' => ['required'], 'password' => ['required']]);
     $credentials = $request->only(['username', 'password']);
-    if (Auth::attempt($credentials)) {
+    $remember = $request->has('remember') ? true : false;
+
+    $fieldType = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+    if (Auth::attempt([$fieldType => $credentials['username'], 'password' => $credentials['password']], $remember)) {
       $request->session()->regenerate();
-      return redirect()->intended(route('admin.index'));
+      $role = Auth::user()->level_user->identifier;
+
+      switch ($role) {
+        case 'admin':
+          return redirect(route('admin.index'));
+          break;
+        case 'perusahaan':
+          return redirect(route('perusahaan.index'));
+          break;
+        default:
+          return redirect(route('home'));
+          break;
+      }
     }
-    return redirect()->back();
+    return back()->withErrors(['Username atau Email dan Password salah! Silahkan coba lagi.']);
   }
 }
