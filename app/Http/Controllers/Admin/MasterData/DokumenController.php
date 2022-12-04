@@ -63,7 +63,7 @@ class DokumenController extends Controller
       if ($insertOneDokumen)
         return $this->redirectToMainRoute()->with('sukses', 'Berhasil menambahkan data Jenis Dokumen');
       else
-        return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
@@ -80,7 +80,7 @@ class DokumenController extends Controller
     try {
       return response()->json($this->getOneJenisDokumen($kodeDokumen));
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', 'Data jenis dokumen tidak ditemukan');
+      return back()->with('error', 'Data jenis dokumen tidak ditemukan');
     }
   }
 
@@ -104,7 +104,7 @@ class DokumenController extends Controller
     if ($updateOneJenisDokumen)
       return $this->redirectToMainRoute()->with('sukses', 'Berhasil memperbarui data Jenis Dokumen');
     else
-      return redirect()->back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
   }
 
   /**
@@ -117,10 +117,10 @@ class DokumenController extends Controller
   {
     try {
       $deleteDokumen = DB::delete("DELETE FROM dokumen WHERE id_jenis_dokumen = :kodeDokumen", compact('kodeDokumen'));
-      if ($deleteDokumen) return redirect()->back()->with('sukses', 'Berhasil hapus data jenis dokumen');
-      else return redirect()->back()->with('error', 'Gagal menghapus data jenis dokumen');
+      if ($deleteDokumen) return back()->with('sukses', 'Berhasil hapus data jenis dokumen');
+      else return back()->with('error', 'Gagal menghapus data jenis dokumen');
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 }

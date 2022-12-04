@@ -20,7 +20,7 @@ return new class extends Migration
       $table->integer('id_masyarakat', true);
       $table->integer('id_pelamar');
       $table->string('nama_lengkap');
-      $table->enum('jenis_kelamin', ['L', 'P']);
+      $table->enum('jenis_kelamin', ['L', 'P'])->nullable()->default(null);
       $table->string('no_telepon', 20)->nullable()->default(null);
       $table->string('tempat_lahir', 100)->nullable()->default(null);
       $table->date('tanggal_lahir')->nullable()->default(null);
