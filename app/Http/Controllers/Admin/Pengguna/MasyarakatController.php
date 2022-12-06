@@ -9,6 +9,8 @@ use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ItemNotFoundException;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Storage;
 
 class MasyarakatController extends Controller
 {
@@ -59,9 +61,11 @@ class MasyarakatController extends Controller
   public function store(StorePersonRequest $request)
   {
     try {
-      $validatedData = $request->validatedPersonAttr();
-      $insertOnePerson = DB::insert("CALL insert_one_person(:email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
-        'email' => $validatedData['email'],
+      $validatedData = $request->validatedDataPerson();
+      $validatedData['username'] = Helper::generateUniqueUsername('KDT-', 6, $validatedData['nama']);
+
+      $insertOnePerson = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+        'username' => $validatedData['username'],
         'password' => Hash::make($validatedData['password']),
         'nama_lengkap' => $validatedData['nama'],
         'jenis_kelamin' => $validatedData['jenis_kelamin'],
@@ -69,7 +73,8 @@ class MasyarakatController extends Controller
         'tempat_lahir' => $validatedData['tempat_lahir'],
         'tanggal_lahir' => $validatedData['tanggal_lahir'],
         'alamat_tempat_tinggal' => $validatedData['alamat'],
-        'foto' => $validatedData['foto_pelamar']
+        'foto' => $validatedData['foto_pelamar'],
+        'email' => NULL
       ]);
 
       if ($insertOnePerson) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
@@ -122,11 +127,15 @@ class MasyarakatController extends Controller
   {
     try {
       $orang = $this->getOnePersonByUsername($username);
-      $validatedData = $request->validatedPersonAttr();
-      $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :email, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
-        'current_username' => $username ?? $orang->username,
-        'email' => $validatedData['email'],
+      $validatedData = $request->validatedDataPerson();
+      if ($request->hasFile('foto_pelamar')) Storage::delete($orang->foto);
+      $validatedData['new_username'] = ($orang->nama_lengkap !== $validatedData['nama']) ?
+        Helper::generateUniqueUsername('KDT-', 6, $validatedData['nama']) : NULL;
+
+      $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :nama_lengkap, :new_username, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+        'current_username' => $orang->username ?? $username,
         'nama_lengkap' => $validatedData['nama'],
+        'new_username' => $validatedData['new_username'],
         'jenis_kelamin' => $validatedData['jenis_kelamin'],
         'no_telepon' => $validatedData['no_telp'],
         'tempat_lahir' => $validatedData['tempat_lahir'],
@@ -153,6 +162,7 @@ class MasyarakatController extends Controller
     try {
       $orang = $this->getOnePersonByUsername($username);
       $deleteOrang = User::whereUsername($orang->username)->delete();
+      if (!is_null($orang->foto)) Storage::delete($orang->foto);
 
       if ($deleteOrang) return back()->with('sukses', 'Berhasil hapus data pelamar');
       else return back()->with('error', 'Gagal menghapus data pelamar');

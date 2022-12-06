@@ -26,7 +26,7 @@ return new class extends Migration
         IF ((username IS NOT NULL) AND (email IS NOT NULL)) THEN
           INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, email, password);
         ELSE
-          INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, nis, nis, password);
+          INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, nis, NULL, password);
         END IF;
         SELECT LAST_INSERT_ID() INTO id_user;
 

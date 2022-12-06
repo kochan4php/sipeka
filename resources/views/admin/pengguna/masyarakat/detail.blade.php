@@ -12,8 +12,13 @@
           </div>
           <div class="row mb-4">
             <div class="col-lg-3 text-center">
-              <img src="{{ Avatar::create($orang->nama_lengkap) }}" alt="{{ $orang->username }}" width="170"
-                class="rounded-circle">
+              @if (is_null($orang->foto))
+                <img src="{{ Avatar::create($orang->nama_lengkap) }}" alt="{{ $orang->username }}" width="170"
+                  class="rounded-circle">
+              @else
+                <img src="{{ asset('storage/' . $orang->foto) }}" alt="{{ $orang->username }}" width="170"
+                  class="rounded-circle">
+              @endif
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">
@@ -23,15 +28,22 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($orang->username) }}</td>
                   </tr>
-                  <tr>
-                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Password') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">
-                      @if (Hash::check('password', $orang->password))
+                  @if (!is_null($orang->email))
+                    <tr>
+                      <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Email') }}</td>
+                      <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                      <td class="border-0 fs-5 fs-md-6">{{ __($orang->email) }}</td>
+                    </tr>
+                  @endif
+                  @if (Hash::check('password', $orang->password))
+                    <tr>
+                      <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Password') }}</td>
+                      <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                      <td class="border-0 fs-5 fs-md-6">
                         password
-                      @endif
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  @endif
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>

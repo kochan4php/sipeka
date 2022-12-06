@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.pelamar.store') }}" method="POST">
+          <form action="{{ route('admin.pelamar.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 row">
               <label for="nama" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
@@ -26,14 +26,6 @@
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="password" name="password" placeholder="********"
                   value="password" readonly>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="email" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Email') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com">
               </div>
             </div>
             <div class="mb-3 row">

@@ -15,6 +15,7 @@ class StoreRegistrasiAlumniRequest extends FormRequest
     'nis',
     'jurusan',
     'angkatan',
+    'jenis_kelamin'
   ];
 
   /**
