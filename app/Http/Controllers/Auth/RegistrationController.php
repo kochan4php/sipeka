@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\{StoreRegistrasiAlumniRequest, StoreRegistrasiKandidatRequest};
 use Illuminate\Support\Facades\{DB, Hash};
+use App\Helpers\Helper;
 
 class RegistrationController extends Controller
 {
@@ -23,13 +24,14 @@ class RegistrationController extends Controller
   public function kandidatStore(StoreRegistrasiKandidatRequest $request)
   {
     $validatedData = $request->validatedRegistrasiKandidatAttr();
-    $registerKandidat = DB::insert("CALL insert_one_person(:email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto, :username)", [
+
+    $registerKandidat = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
       'username' => $validatedData['username'],
       'email' => $validatedData['email'],
       'password' => Hash::make($validatedData['password']),
       'nama_lengkap' => $validatedData['nama'],
       'no_telepon' => $validatedData['no_telp'],
-      'jenis_kelamin' => NULL,
+      'jenis_kelamin' => $validatedData['jenis_kelamin'],
       'tempat_lahir' => NULL,
       'tanggal_lahir' => NULL,
       'alamat_tempat_tinggal' => NULL,
@@ -51,7 +53,7 @@ class RegistrationController extends Controller
       'angkatan' => $validatedData['angkatan'],
       'nis' => $validatedData['nis'],
       'nama' => $validatedData['nama'],
-      'jenis_kelamin' => NULL,
+      'jenis_kelamin' => $validatedData['jenis_kelamin'],
       'tempat_lahir' => NULL,
       'tanggal_lahir' => NULL,
       'no_telp' => NULL,

@@ -68,7 +68,6 @@ class AlumniController extends Controller
   {
     try {
       $validatedData = $request->validatedAlumniAttr();
-
       $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni, :username, :email)", [
         'password' => Hash::make($validatedData['nis']),
         'jurusan' => $validatedData['jurusan'],

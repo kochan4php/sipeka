@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.pelamar.update', $orang->username) }}" method="POST">
+          <form action="{{ route('admin.pelamar.update', $orang->username) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -18,27 +18,20 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Aphrodeo Subarno"
-                  value="{{ old('nama', $orang->nama_lengkap) }}">
+                  value="{{ old('nama', $orang->nama_lengkap) }}" @if (!Hash::check('password', $orang->password)) readonly @endif>
               </div>
             </div>
-            <div class="mb-3 row">
-              <label for="password" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Password') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="password" name="password" placeholder="********"
-                  value="password" readonly>
+            @if (Hash::check('password', $orang->password))
+              <div class="mb-3 row">
+                <label for="password" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                  {{ __('Password') }}
+                </label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="password" name="password" placeholder="********"
+                    value="password" readonly>
+                </div>
               </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="email" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Email') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com"
-                  value="{{ old('email', $orang->email) }}">
-              </div>
-            </div>
+            @endif
             <div class="mb-3 row">
               <label for="jenis_kelamin" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Jenis Kelamin') }}
