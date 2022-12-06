@@ -48,7 +48,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jurusan" id="jurusan" class="form-select" required>
-                  <option selected>-- Pilih Jurusan --</option>
+                  <option selected value="">-- Pilih Jurusan --</option>
                   @foreach ($jurusan as $item)
                     <option value="{{ $item->id_jurusan }}" @if ($item->id_jurusan === $alumni->id_jurusan) @selected(true) @endif>
                       {{ $item->nama_jurusan }}

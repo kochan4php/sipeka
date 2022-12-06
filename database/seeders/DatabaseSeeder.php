@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
       AngkatanSeeder::class,
       // SiswaAlumniSeeder::class,
       // PendaftaranLowonganSeeder::class,
+      JenisPekerjaanSeeder::class,
       // PengalamanBekerjaSeeder::class,
       DokumenSeeder::class,
       // DokumenPenggunaSeeder::class,
