@@ -7,10 +7,8 @@ use App\Models\User;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Collection;
-use Illuminate\Support\ItemNotFoundException;
+use Illuminate\Support\Facades\{DB, Hash};
+use Illuminate\Support\{Collection, ItemNotFoundException};
 
 class AlumniController extends Controller
 {
@@ -34,6 +32,11 @@ class AlumniController extends Controller
   private function getOneAlumniByUsername($username): object
   {
     return collect(DB::select('CALL get_one_alumni_by_username(?)', [$username]))->firstOrFail();
+  }
+
+  private function generateAlumniUsername(string $name): string
+  {
+    return Helper::generateUniqueUsername('ALUMNI', 5, $name);
   }
 
   /**
@@ -69,7 +72,7 @@ class AlumniController extends Controller
   {
     try {
       $validatedData = $request->validatedDataAlumni();
-      $validatedData['username'] = Helper::generateUniqueUsername('ALUMNI-', 5, $validatedData['nis']);
+      $validatedData['username'] = $this->generateAlumniUsername($validatedData['nis']);
 
       $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
         'username' => $validatedData['username'],
@@ -87,10 +90,8 @@ class AlumniController extends Controller
         'email' => NULL
       ]);
 
-      if ($insertOneAlumni)
-        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Alumni');
-      else
-        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      if ($insertOneAlumni) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Alumni');
+      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
@@ -147,7 +148,7 @@ class AlumniController extends Controller
 
       if ($alumni->nis !== $validatedData['nis']) {
         $validatedData['password'] = Hash::make($validatedData['nis']);
-        $validatedData['new_username'] = Helper::generateUniqueUsername('ALUMNI-', 5, $validatedData['nis']);
+        $validatedData['new_username'] = $this->generateAlumniUsername($validatedData['nis']);
       } else {
         $validatedData['password'] = null;
         $validatedData['new_username'] = null;
