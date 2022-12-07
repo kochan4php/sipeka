@@ -91,7 +91,7 @@ class LowonganController extends Controller
     $validatedData = $request->only(['judul_lowongan', 'deskripsi_lowongan', 'tanggal_dimulai', 'tanggal_berakhir']);
     LowonganKerja::whereIdLowongan($id)->update($validatedData);
 
-    return redirect()->route('perusahaan.lowongankerja.index');
+    return redirect()->route('perusahaan.index');
   }
 
   /**
@@ -105,10 +105,10 @@ class LowonganController extends Controller
     try {
       $deleteLowongan = DB::delete("DELETE FROM lowongan_kerja WHERE id_lowongan = :id", compact('id'));
 
-      if ($deleteLowongan) return redirect()->back()->with('sukses', 'Berhasil hapus data lowongan');
-      else return redirect()->back()->with('error', 'Gagal menghapus data lowongan');
+      if ($deleteLowongan) return back()->with('sukses', 'Berhasil hapus data lowongan');
+      else return back()->with('error', 'Gagal menghapus data lowongan');
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 }
