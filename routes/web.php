@@ -14,9 +14,10 @@ use App\Http\Controllers\{
   Admin\MasterData\AngkatanController,
   Admin\MasterData\DokumenController,
   // All Perusahaan Controller
-  Perusahaan\LowonganController
+  Perusahaan\LowonganController,
+  // All Pelamar Controller
+  Pelamar\PengalamanKerjaController
 };
-use App\Http\Controllers\Pelamar\PengalamanKerjaController;
 use Illuminate\Support\Facades\Route;
 
 /*
