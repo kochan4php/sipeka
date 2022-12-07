@@ -13,18 +13,28 @@
         </div>
         <div class="card-body">
           <div class="row mb-3">
-            <div class="col">
-              <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid" alt="Foto Sampul Perusahaan"
-                draggable="false">
+            <div class="col text-center">
+              @if (is_null($perusahaan->foto_sampul_perusahaan))
+                <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid" alt="Foto Sampul Perusahaan"
+                  draggable="false" width="600">
+              @else
+                <img src="{{ asset('storage/' . $perusahaan->foto_sampul_perusahaan) }}" alt="{{ $perusahaan->username }}"
+                  class="img-fluid" width="600" draggable="false">
+              @endif
             </div>
           </div>
           <hr />
           <div class="row my-4">
             <div class="col-lg-3 text-center mb-4 mb-lg-0">
-              <img
-                src="{{ Avatar::create($perusahaan->email)->toGravatar(['d' => 'identicon', 'r' => 'pg', 's' => 1000]) }}"
-                alt="{{ $perusahaan->username }}" class="rounded-circle border border-secondary" width="170"
-                draggable="false">
+              @if (is_null($perusahaan->logo_perusahaan))
+                <img
+                  src="{{ Avatar::create($perusahaan->email)->toGravatar(['d' => 'identicon', 'r' => 'pg', 's' => 1000]) }}"
+                  alt="{{ $perusahaan->username }}" class="rounded-circle border border-secondary" width="170"
+                  draggable="false">
+              @else
+                <img src="{{ asset('storage/' . $perusahaan->logo_perusahaan) }}" alt="{{ $perusahaan->username }}"
+                  width="170" draggable="false">
+              @endif
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">

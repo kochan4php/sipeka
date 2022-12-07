@@ -17,4 +17,11 @@ class Helper
   {
     if (!is_null($path) && Storage::exists($path)) Storage::delete($path);
   }
+
+  public static function deleteMultipleFileIfExistsInStorageFolder(...$path): void
+  {
+    foreach ($path as $p) :
+      self::deleteFileIfExistsInStorageFolder($p);
+    endforeach;
+  }
 }
