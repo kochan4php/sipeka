@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\{StoreRegistrasiAlumniRequest, StoreRegistrasiKandidatRequest};
 use Illuminate\Support\Facades\{DB, Hash};
-use App\Helpers\Helper;
 
 class RegistrationController extends Controller
 {
@@ -23,8 +22,7 @@ class RegistrationController extends Controller
 
   public function kandidatStore(StoreRegistrasiKandidatRequest $request)
   {
-    $validatedData = $request->validatedRegistrasiKandidatAttr();
-
+    $validatedData = $request->validatedDataKandidat();
     $registerKandidat = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
       'username' => $validatedData['username'],
       'email' => $validatedData['email'],
@@ -44,8 +42,8 @@ class RegistrationController extends Controller
 
   public function alumniStore(StoreRegistrasiAlumniRequest $request)
   {
-    $validatedData = $request->validatedRegistrasiAlumniAttr();
-    $registerAlumni = DB::insert("CALL insert_one_siswa_alumni(:password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni, :username, :email)", [
+    $validatedData = $request->validatedDataAlumni();
+    $registerAlumni = DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
       'username' => $validatedData['username'],
       'email' => $validatedData['email'],
       'password' => Hash::make($validatedData['password']),

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
+use App\Models\User;
+use App\Helpers\Helper;
+use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
-use App\Models\User;
-use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ItemNotFoundException;
-use App\Helpers\Helper;
-use Illuminate\Support\Facades\Storage;
 
 class MasyarakatController extends Controller
 {
@@ -128,7 +127,9 @@ class MasyarakatController extends Controller
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedDataPerson();
-      if ($request->hasFile('foto_pelamar')) Storage::delete($orang->foto);
+
+      if ($request->hasFile('foto_pelamar')) Helper::deleteFileIfExistsInStorageFolder($orang->foto);
+
       $validatedData['new_username'] = ($orang->nama_lengkap !== $validatedData['nama']) ?
         Helper::generateUniqueUsername('KDT-', 6, $validatedData['nama']) : NULL;
 
@@ -162,7 +163,7 @@ class MasyarakatController extends Controller
     try {
       $orang = $this->getOnePersonByUsername($username);
       $deleteOrang = User::whereUsername($orang->username)->delete();
-      if (!is_null($orang->foto)) Storage::delete($orang->foto);
+      Helper::deleteFileIfExistsInStorageFolder($orang->foto);
 
       if ($deleteOrang) return back()->with('sukses', 'Berhasil hapus data pelamar');
       else return back()->with('error', 'Gagal menghapus data pelamar');

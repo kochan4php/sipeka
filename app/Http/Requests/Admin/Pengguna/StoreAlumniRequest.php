@@ -51,7 +51,7 @@ class StoreAlumniRequest extends FormRequest
     ];
   }
 
-  public function validatedAlumniAttr(): array
+  private function validatedData(): array
   {
     $validatedData = $this->only($this->column);
 
@@ -67,8 +67,17 @@ class StoreAlumniRequest extends FormRequest
     $validatedData['alamat_alumni'] = !is_null($validatedData['alamat_alumni']) ?
       $validatedData['alamat_alumni'] : null;
 
-    $validatedData['foto_alumni'] = !is_null($validatedData['foto_alumni']) ?
-      $validatedData['foto_alumni'] : null;
+    return $validatedData;
+  }
+
+  public function validatedDataAlumni(): array
+  {
+    $validatedData = $this->validatedData();
+
+    if ($this->hasFile('foto_alumni')) {
+      $file = $this->file('foto_alumni');
+      $validatedData['foto_alumni'] = $file->storeAs('images/alumni', 'alumni-' . $file->hashName());
+    } else $validatedData['foto_alumni'] = null;
 
     return $validatedData;
   }
