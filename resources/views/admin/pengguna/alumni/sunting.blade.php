@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.alumni.update', $alumni->nis) }}" method="POST">
+          <form action="{{ route('admin.alumni.update', $alumni->username) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">

@@ -12,9 +12,9 @@ return new class extends Migration
    */
   public function up()
   {
-    DB::unprepared("DROP PROCEDURE IF EXISTS get_one_alumni_by_nis");
+    DB::unprepared("DROP PROCEDURE IF EXISTS get_one_alumni_by_username");
     DB::unprepared(
-      "CREATE PROCEDURE get_one_alumni_by_nis(nis varchar(18))
+      "CREATE PROCEDURE get_one_alumni_by_username(username varchar(255))
       BEGIN
         SELECT
           sa.id_siswa,
@@ -42,7 +42,7 @@ return new class extends Migration
         INNER JOIN jurusan AS jrs ON sa.id_jurusan = jrs.id_jurusan
         INNER JOIN users AS u ON p.id_user = u.id_user
         INNER JOIN level_user AS lu ON u.id_level = lu.id_level
-        WHERE sa.nis = nis;
+        WHERE u.username = username;
       END;"
     );
   }

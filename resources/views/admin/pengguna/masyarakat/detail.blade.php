@@ -16,8 +16,7 @@
                 <img src="{{ Avatar::create($orang->nama_lengkap) }}" alt="{{ $orang->username }}" width="170"
                   class="rounded-circle">
               @else
-                <img src="{{ asset('storage/' . $orang->foto) }}" alt="{{ $orang->username }}" width="170"
-                  class="rounded-circle">
+                <img src="{{ asset('storage/' . $orang->foto) }}" alt="{{ $orang->username }}" width="170">
               @endif
             </div>
             <div class="col-lg-9">

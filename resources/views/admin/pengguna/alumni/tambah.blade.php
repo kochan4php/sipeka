@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.alumni.store') }}" method="POST">
+          <form action="{{ route('admin.alumni.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 row">
               <label for="nis" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
