@@ -46,7 +46,7 @@ class StoreMitraPerusahaanRequest extends FormRequest
     ];
   }
 
-  public function validatedMitraPerusahaanAttr(): array
+  public function validatedData(): array
   {
     $validatedData = $this->only($this->column);
 
