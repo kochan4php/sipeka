@@ -10,7 +10,6 @@ class StorePersonRequest extends FormRequest
   private array $column = [
     "nama",
     "password",
-    "email",
     "jenis_kelamin",
     "no_telp",
     "tempat_lahir",
@@ -38,8 +37,7 @@ class StorePersonRequest extends FormRequest
   {
     return [
       "nama" => ['required', 'min:3', 'max:255'],
-      "password" => ['required'],
-      "email" => ['nullable'],
+      "password" => ['nullable'],
       "jenis_kelamin" => ['required'],
       "no_telp" => ['nullable'],
       "tempat_lahir" => ['nullable'],
@@ -49,12 +47,9 @@ class StorePersonRequest extends FormRequest
     ];
   }
 
-  public function validatedPersonAttr(): array
+  private function validatedData(): array
   {
     $validatedData = $this->only($this->column);
-
-    $validatedData['email'] = !is_null($validatedData['email']) ?
-      $validatedData['email'] : null;
 
     $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
       $validatedData['tempat_lahir'] : null;
@@ -68,8 +63,17 @@ class StorePersonRequest extends FormRequest
     $validatedData['alamat'] = !is_null($validatedData['alamat']) ?
       $validatedData['alamat'] : null;
 
-    $validatedData['foto_pelamar'] = !is_null($validatedData['foto_pelamar']) ?
-      $validatedData['foto_pelamar'] : null;
+    return $validatedData;
+  }
+
+  public function validatedDataPerson(): array
+  {
+    $validatedData = $this->validatedData();
+
+    if ($this->hasFile('foto_pelamar')) {
+      $file = $this->file('foto_pelamar');
+      $validatedData['foto_pelamar'] = $file->storeAs('images/kandidat', 'kandidat-' . $file->hashName());
+    } else $validatedData['foto_pelamar'] = null;
 
     return $validatedData;
   }

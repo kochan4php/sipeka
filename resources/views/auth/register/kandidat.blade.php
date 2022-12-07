@@ -11,11 +11,13 @@
     <form action="{{ route('register.kandidat.store') }}" method="post">
       @csrf
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="username" name="username" placeholder="deo-subarno">
+        <input type="text" class="form-control" id="username" name="username" placeholder="deo-subarno"
+          value="{{ old('username') }}">
         <label for="username">Username</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" name="email" placeholder="deo-subarno">
+        <input type="email" class="form-control" id="email" name="email" placeholder="deo-subarno"
+          value="{{ old('email') }}">
         <label for="email">Email</label>
       </div>
       <div class="form-floating mb-3">
@@ -23,12 +25,24 @@
         <label for="password">Password</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="nama" name="nama" placeholder="Deo Subarno">
+        <input type="text" class="form-control" id="nama" name="nama" placeholder="Deo Subarno"
+          value="{{ old('nama') }}">
         <label for="nama">Nama Lengkap</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="089882736473">
+        <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="089882736473"
+          value="{{ old('no_telp') }}">
         <label for="no_telp">No. Telp</label>
+      </div>
+      <div class="form-floating mb-3">
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" name="jenis_kelamin" aria-label="Floating label select example">
+            <option selected>-- Pilih Jenis Kelamin --</option>
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+          </select>
+          <label for="floatingSelect">Jenis Kelamin</label>
+        </div>
       </div>
       <div class="row justify-content-between align-items-center">
         <div class="col-5">

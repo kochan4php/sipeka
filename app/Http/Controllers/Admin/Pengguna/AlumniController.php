@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
+use App\Helpers\Helper;
 use App\Models\User;
+use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
-use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ItemNotFoundException;
 
 class AlumniController extends Controller
@@ -30,9 +31,9 @@ class AlumniController extends Controller
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  private function getOneAlumniByNis(string $nis)
+  private function getOneAlumniByUsername($username): object
   {
-    return collect(DB::select('CALL get_one_alumni_by_nis(?)', [$nis]))->firstOrFail();
+    return collect(DB::select('CALL get_one_alumni_by_username(?)', [$username]))->firstOrFail();
   }
 
   /**
@@ -67,9 +68,11 @@ class AlumniController extends Controller
   public function store(StoreAlumniRequest $request)
   {
     try {
-      $validatedData = $request->validatedAlumniAttr();
+      $validatedData = $request->validatedDataAlumni();
+      $validatedData['username'] = Helper::generateUniqueUsername('ALUMNI-', 5, $validatedData['nis']);
 
-      $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni, :username, :email)", [
+      $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+        'username' => $validatedData['username'],
         'password' => Hash::make($validatedData['nis']),
         'jurusan' => $validatedData['jurusan'],
         'angkatan' => $validatedData['angkatan'],
@@ -81,7 +84,6 @@ class AlumniController extends Controller
         'no_telp' => $validatedData['no_telp'],
         'alamat_alumni' => $validatedData['alamat_alumni'],
         'foto_alumni' => $validatedData['foto_alumni'],
-        'username' => NULL,
         'email' => NULL
       ]);
 
@@ -97,16 +99,13 @@ class AlumniController extends Controller
   /**
    * Display the specified resource.
    *
-   * @param  string  $nis
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function show(string $nis)
+  public function show(string $username)
   {
     try {
-      if (strlen($nis) > 18)
-        return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
-
-      $alumni = $this->getOneAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByUsername($username);
       return view('admin.pengguna.alumni.detail', compact('alumni'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
@@ -116,18 +115,15 @@ class AlumniController extends Controller
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  string  $nis
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function edit(string $nis)
+  public function edit(string $username)
   {
     try {
-      if (strlen($nis) > 18)
-        return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
-
       $jurusan = $this->getJurusan();
       $angkatan = $this->getAngkatan();
-      $alumni = $this->getOneAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByUsername($username);
       return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
@@ -138,25 +134,29 @@ class AlumniController extends Controller
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  string  $nis
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function update(StoreAlumniRequest $request, string $nis)
+  public function update(StoreAlumniRequest $request, string $username)
   {
     try {
-      if (strlen($nis) > 18)
-        return $this->redirectToMainRoute()->with('error', 'Parameter nis tidak boleh lebih dari 18 karakter');
+      $alumni = $this->getOneAlumniByUsername($username);
+      $validatedData = $request->validatedDataAlumni();
 
-      $alumni = $this->getOneAlumniByNis($nis);
-      $validatedData = $request->validatedAlumniAttr();
+      if ($request->hasFile('foto_alumni')) Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
 
-      if ($alumni->nis !== $validatedData['nis']) $validatedData['hashing_nis'] = Hash::make($validatedData['nis']);
-      else $validatedData['hashing_nis'] = null;
+      if ($alumni->nis !== $validatedData['nis']) {
+        $validatedData['password'] = Hash::make($validatedData['nis']);
+        $validatedData['new_username'] = Helper::generateUniqueUsername('ALUMNI-', 5, $validatedData['nis']);
+      } else {
+        $validatedData['password'] = null;
+        $validatedData['new_username'] = null;
+      }
 
-      $updateOneAlumni = DB::update("CALL update_one_siswa_alumni_by_nis(:current_nis, :id_user, :hashing_nis, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
-        'current_nis' => $nis ?? $alumni->nis,
-        'id_user' => $alumni->id_user,
-        'hashing_nis' => $validatedData['hashing_nis'],
+      $updateOneAlumni = DB::update("CALL update_one_siswa_alumni_by_nis(:old_username, :new_username, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+        'old_username' =>  $alumni->username ?? $username,
+        'new_username' => $validatedData['new_username'],
+        'password' => $validatedData['password'],
         'jurusan' => $validatedData['jurusan'],
         'angkatan' => $validatedData['angkatan'],
         'nis' => $validatedData['nis'],
@@ -169,10 +169,8 @@ class AlumniController extends Controller
         'foto_alumni' => $validatedData['foto_alumni'],
       ]);
 
-      if ($updateOneAlumni)
-        return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Alumni');
-      else
-        return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      if ($updateOneAlumni) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Alumni');
+      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
     }
@@ -181,14 +179,15 @@ class AlumniController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  string  $nis
+   * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function destroy(string $nis)
+  public function destroy(string $username)
   {
     try {
-      $alumni = $this->getOneAlumniByNis($nis);
+      $alumni = $this->getOneAlumniByUsername($username);
       $deleteAlumni = User::whereUsername($alumni->username)->delete();
+      Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
 
       if ($deleteAlumni) return back()->with('sukses', 'Berhasil hapus data alumni');
       else return back()->with('error', 'Gagal menghapus data alumni');

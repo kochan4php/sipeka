@@ -22,14 +22,14 @@ class RegistrationController extends Controller
 
   public function kandidatStore(StoreRegistrasiKandidatRequest $request)
   {
-    $validatedData = $request->validatedRegistrasiKandidatAttr();
-    $registerKandidat = DB::insert("CALL insert_one_person(:email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto, :username)", [
+    $validatedData = $request->validatedDataKandidat();
+    $registerKandidat = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
       'username' => $validatedData['username'],
       'email' => $validatedData['email'],
       'password' => Hash::make($validatedData['password']),
       'nama_lengkap' => $validatedData['nama'],
       'no_telepon' => $validatedData['no_telp'],
-      'jenis_kelamin' => NULL,
+      'jenis_kelamin' => $validatedData['jenis_kelamin'],
       'tempat_lahir' => NULL,
       'tanggal_lahir' => NULL,
       'alamat_tempat_tinggal' => NULL,
@@ -42,8 +42,8 @@ class RegistrationController extends Controller
 
   public function alumniStore(StoreRegistrasiAlumniRequest $request)
   {
-    $validatedData = $request->validatedRegistrasiAlumniAttr();
-    $registerAlumni = DB::insert("CALL insert_one_siswa_alumni(:password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni, :username, :email)", [
+    $validatedData = $request->validatedDataAlumni();
+    $registerAlumni = DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
       'username' => $validatedData['username'],
       'email' => $validatedData['email'],
       'password' => Hash::make($validatedData['password']),
@@ -51,7 +51,7 @@ class RegistrationController extends Controller
       'angkatan' => $validatedData['angkatan'],
       'nis' => $validatedData['nis'],
       'nama' => $validatedData['nama'],
-      'jenis_kelamin' => NULL,
+      'jenis_kelamin' => $validatedData['jenis_kelamin'],
       'tempat_lahir' => NULL,
       'tanggal_lahir' => NULL,
       'no_telp' => NULL,

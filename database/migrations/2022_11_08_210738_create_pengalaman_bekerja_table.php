@@ -13,13 +13,13 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('pengalaman_bekerja', function (Blueprint $table) {
+    Schema::create('pengalaman_kerja', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
       $table->charset = env('DB_CHARSET', 'utf8mb4');
       $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
       $table->integer('id_pengalaman', true);
       $table->integer('id_pelamar');
-      // $table->integer('id_jenis_pekerjaan'
+      $table->integer('id_jenis_pekerjaan');
       $table->string('judul_posisi');
       $table->string('nama_perusahaan');
       $table->dateTime('tanggal_masuk');
@@ -35,12 +35,12 @@ return new class extends Migration
         ->cascadeOnDelete();
 
       // Foreign key untuk id_jenis_pekerjaan
-      // $table
-      // ->foreign('id_jenis_pekerjaan')
-      // ->references('id_jenis_pekerjaan')
-      // ->on('jenis_pekerjaan')
-      // ->cascadeOnUpdate()
-      // ->cascadeOnDelete();
+      $table
+        ->foreign('id_jenis_pekerjaan')
+        ->references('id_jenis_pekerjaan')
+        ->on('jenis_pekerjaan')
+        ->cascadeOnUpdate()
+        ->cascadeOnDelete();
     });
   }
 
