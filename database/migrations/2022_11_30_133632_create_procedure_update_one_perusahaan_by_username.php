@@ -30,13 +30,25 @@ return new class extends Migration
           UPDATE users SET users.email = email_perusahaan WHERE users.id_user = id_user;
         END IF;
 
+        IF (foto_sampul_perusahaan IS NOT NULL) THEN
+          UPDATE mitra_perusahaan
+          INNER JOIN users ON mitra_perusahaan.id_user = users.id_user
+          SET mitra_perusahaan.foto_sampul_perusahaan = foto_sampul_perusahaan
+          WHERE users.id_user = id_user;
+        END IF;
+
+        IF (logo_perusahaan IS NOT NULL) THEN
+          UPDATE mitra_perusahaan
+          INNER JOIN users ON mitra_perusahaan.id_user = users.id_user
+          SET mitra_perusahaan.logo_perusahaan = logo_perusahaan
+          WHERE users.id_user = id_user;
+        END IF;
+
         UPDATE mitra_perusahaan
           INNER JOIN users ON mitra_perusahaan.id_user = users.id_user
           SET
             mitra_perusahaan.nama_perusahaan = nama_perusahaan,
             mitra_perusahaan.nomor_telp_perusahaan = nomor_telp_perusahaan,
-            mitra_perusahaan.foto_sampul_perusahaan = foto_sampul_perusahaan,
-            mitra_perusahaan.logo_perusahaan = logo_perusahaan,
             mitra_perusahaan.deskripsi_perusahaan = deskripsi_perusahaan,
             mitra_perusahaan.alamat_perusahaan = alamat_perusahaan
           WHERE users.id_user = id_user;

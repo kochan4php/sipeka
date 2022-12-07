@@ -64,7 +64,7 @@ class MitraPerusahaanController extends Controller
   public function store(StoreMitraPerusahaanRequest $request)
   {
     try {
-      $validatedData = $request->validatedData();
+      $validatedData = $request->validatedDataPerusahaan();
       $validatedData['username_perusahaan'] = $this->generatePerusahaanUsername($validatedData['nama_perusahaan']);
 
       $insertOnePerusahaan = DB::insert("CALL insert_one_perusahaan(:username_perusahaan, :email_perusahaan, :password_perusahaan, :nama_perusahaan, :nomor_telp_perusahaan, :alamat_perusahaan, :foto_sampul_perusahaan, :logo_perusahaan, :deskripsi_perusahaan)", [
@@ -129,7 +129,14 @@ class MitraPerusahaanController extends Controller
   {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
-      $validatedData = $request->validatedData();
+      $validatedData = $request->validatedDataPerusahaan();
+
+      if ($request->hasFile('foto_sampul_perusahaan') || $request->hasFile('logo_perusahaan')) :
+        Helper::deleteMultipleFileIfExistsInStorageFolder(
+          $perusahaan->foto_sampul_perusahaan,
+          $perusahaan->logo_perusahaan
+        );
+      endif;
 
       if ($perusahaan->nama_perusahaan !== $validatedData['nama_perusahaan'])
         $validatedData['new_username_perusahaan'] = $this->generatePerusahaanUsername($validatedData['nama_perusahaan']);
@@ -165,9 +172,10 @@ class MitraPerusahaanController extends Controller
   {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
-      $perusahaan = User::whereUsername($perusahaan->username)->delete();
+      $deletePerusahaan = User::whereUsername($perusahaan->username)->delete();
+      Helper::deleteMultipleFileIfExistsInStorageFolder($perusahaan->foto_sampul_perusahaan, $perusahaan->logo_perusahaan);
 
-      if ($perusahaan) return back()->with('sukses', 'Berhasil hapus data Mitra Perusahaan');
+      if ($deletePerusahaan) return back()->with('sukses', 'Berhasil hapus data Mitra Perusahaan');
       else return back()->with('error', 'Gagal menghapus data Mitra Perusahaan');
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
