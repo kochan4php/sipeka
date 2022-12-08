@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
       LevelUserSeeder::class,
       UserSeeder::class,
       AdminBKKSeeder::class,
-      MitraPerusahaanSeeder::class,
+      // MitraPerusahaanSeeder::class,
       // PelamarSeeder::class,
       // MasyarakatSeeder::class,
       // LowonganKerjaSeeder::class,

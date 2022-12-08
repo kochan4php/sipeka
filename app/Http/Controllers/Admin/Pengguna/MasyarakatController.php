@@ -7,9 +7,8 @@ use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\ItemNotFoundException;
+use Illuminate\Support\Facades\{DB, Hash};
+use Illuminate\Support\{ItemNotFoundException, Collection};
 
 class MasyarakatController extends Controller
 {
@@ -20,14 +19,19 @@ class MasyarakatController extends Controller
     $this->setMainRoute('admin.pelamar.index');
   }
 
-  private function getAllPersons()
+  private function getAllPersons(): Collection
   {
     return collect(DB::select('SELECT * FROM get_all_masyarakat'));
   }
 
-  private function getOnePersonByUsername(string $username)
+  private function getOnePersonByUsername(string $username): object
   {
     return collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->firstOrFail();
+  }
+
+  private function generateKandidatUsername(string $name): string
+  {
+    return Helper::generateUniqueUsername('KDT', 5, $name);
   }
 
   /**
@@ -61,7 +65,7 @@ class MasyarakatController extends Controller
   {
     try {
       $validatedData = $request->validatedDataPerson();
-      $validatedData['username'] = Helper::generateUniqueUsername('KDT-', 6, $validatedData['nama']);
+      $validatedData['username'] = $this->generateKandidatUsername($validatedData['nama']);
 
       $insertOnePerson = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'username' => $validatedData['username'],
@@ -131,7 +135,7 @@ class MasyarakatController extends Controller
       if ($request->hasFile('foto_pelamar')) Helper::deleteFileIfExistsInStorageFolder($orang->foto);
 
       $validatedData['new_username'] = ($orang->nama_lengkap !== $validatedData['nama']) ?
-        Helper::generateUniqueUsername('KDT-', 6, $validatedData['nama']) : NULL;
+        $this->generateKandidatUsername($validatedData['nama']) : NULL;
 
       $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :nama_lengkap, :new_username, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'current_username' => $orang->username ?? $username,
