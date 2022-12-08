@@ -14,7 +14,7 @@ class Dokumen extends Model
   protected $table = 'dokumen';
 
   // kasih tau primary key yang ada di tabel yang bersangkutan
-  protected $primaryKey = 'id_dokumen';
+  protected $primaryKey = 'id_jenis_dokumen';
 
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
@@ -38,5 +38,10 @@ class Dokumen extends Model
   public function dokumen_pengguna(): HasMany
   {
     return $this->hasMany(DokumenPengguna::class, 'id_jenis_dokumen', 'id_jenis_dokumen');
+  }
+
+  public function getRouteKeyName()
+  {
+    return 'id_jenis_dokumen';
   }
 }
