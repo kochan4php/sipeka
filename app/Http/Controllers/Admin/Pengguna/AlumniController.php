@@ -29,7 +29,7 @@ class AlumniController extends Controller
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  private function getOneAlumniByUsername($username): object
+  private function getOneAlumniByUsername(string $username): object
   {
     return collect(DB::select('CALL get_one_alumni_by_username(?)', [$username]))->firstOrFail();
   }
@@ -154,7 +154,7 @@ class AlumniController extends Controller
         $validatedData['new_username'] = null;
       endif;
 
-      $updateOneAlumni = DB::update("CALL update_one_siswa_alumni_by_nis(:old_username, :new_username, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+      $updateOneAlumni = DB::update("CALL update_one_siswa_alumni_by_username(:old_username, :new_username, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
         'old_username' =>  $alumni->username ?? $username,
         'new_username' => $validatedData['new_username'],
         'password' => $validatedData['password'],
