@@ -67,13 +67,11 @@
           <form action="{{ route('admin.dokumen.store') }}" method="post">
             @csrf
             <div class="mb-3 row">
-              <label for="kode_jenis_dokumen" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
+              <label for="id_jenis_dokumen" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Kode Jenis Dokumen') }}
               </label>
               <div class="col-sm-8">
-                {{-- <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen"
-                  readonly style="cursor: not-allowed" value="AGKT0002"> --}}
-                <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen"
+                <input type="text" class="form-control" id="id_jenis_dokumen" name="id_jenis_dokumen"
                   placeholder="DKMN001" value="{{ $kodeBaru }}" readonly>
               </div>
             </div>
@@ -113,13 +111,11 @@
             @csrf
             @method('put')
             <div class="mb-3 row">
-              <label for="kode_jenis_dokumen" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
+              <label for="id_jenis_dokumen" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Kode Jenis Dokumen') }}
               </label>
               <div class="col-sm-8">
-                {{-- <input type="text" class="form-control" id="kode_jenis_dokumen" name="kode_jenis_dokumen"
-                  readonly style="cursor: not-allowed" value="AGKT0002"> --}}
-                <input type="text" class="form-control" id="kode_jenis_dokumen_edit" name="kode_jenis_dokumen"
+                <input type="text" class="form-control" id="id_jenis_dokumen_edit" name="id_jenis_dokumen"
                   placeholder="DKMN001" readonly>
               </div>
             </div>
@@ -196,7 +192,7 @@
           fetch(("{{ route('admin.dokumen.detail', ':kodeDokumen') }}").replace(':kodeDokumen', kodeDokumen))
             .then(res => res.json())
             .then(data => {
-              document.getElementById('kode_jenis_dokumen_edit').value = data.id_jenis_dokumen;
+              document.getElementById('id_jenis_dokumen_edit').value = data.id_jenis_dokumen;
               document.getElementById('nama_dokumen_edit').value = data.nama_dokumen;
             });
           formModalEdit.setAttribute('action', route.replace(':kodeDokumen', kodeDokumen));
