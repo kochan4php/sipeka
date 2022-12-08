@@ -73,12 +73,18 @@
                 <textarea class="form-control" placeholder="Leave a comment here" id="alamat" name="alamat" rows="3"></textarea>
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8">
+                <img class="d-block image-preview rounded" width="300">
+              </div>
+            </div>
             <div class="mb-3 row">
-              <label for="foto_pelamar" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="image" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Foto') }}
               </label>
               <div class="col-sm-8">
-                <input type="file" class="form-control" id="foto_pelamar" name="foto_pelamar">
+                <input type="file" class="form-control" id="image" name="foto_pelamar">
               </div>
             </div>
             <div class="row mb-3">
@@ -93,4 +99,8 @@
       </div>
     </div>
   </div>
+
+  @push('script')
+    <script src="{{ asset('assets/js/preview_image.js') }}"></script>
+  @endpush
 @endsection

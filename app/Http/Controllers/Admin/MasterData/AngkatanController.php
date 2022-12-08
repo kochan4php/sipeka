@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\MasterData;
 
 use App\Http\Controllers\Controller;
+use App\Models\Angkatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,8 +16,7 @@ class AngkatanController extends Controller
    */
   public function index()
   {
-    // $angkatan = DB::table('angkatan')->paginate(10);
-    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+    $angkatan = Angkatan::all();
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
 
