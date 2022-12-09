@@ -36,6 +36,16 @@
       </div>
       <div class="form-floating mb-3">
         <div class="form-floating">
+          <select class="form-select" id="floatingSelect" name="jenis_kelamin" aria-label="Floating label select example">
+            <option selected>-- Pilih Jenis Kelamin --</option>
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+          </select>
+          <label for="floatingSelect">Jenis Kelamin</label>
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <div class="form-floating">
           <select class="form-select" id="floatingSelect" name="jurusan" aria-label="Floating label select example">
             <option selected>-- Pilih Jurusan --</option>
             @foreach ($jurusan as $jrs)

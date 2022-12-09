@@ -4,7 +4,7 @@
   <div class="row">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-2">
       <h1>Lowongan Kerja</h1>
-      <a href="/sipeka/perusahaan/tambah-lowongan" class="btn btn-primary">Tambah Lowongan Kerja</a>
+      <a href="{{ route('perusahaan.lowongankerja.create') }}" class="btn btn-primary">Tambah Lowongan Kerja</a>
     </div>
     <div class="row">
       <div class="col table-responsive">
@@ -51,25 +51,23 @@
                 @endif
               </tbody>
             </table>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <p class="align-self-center">Showing 1 of 100</p>
-              <nav aria-label="Page navigation example">
-                <ul class="pagination mb-0">
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row gap-3 gap-md-0 my-3">
+      <div class="col-md-6 col-lg-4 mb-md-3 float-right">
+        <div class="card text-bg-info">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fs-2 fw-bold leading-1px">{{ __('3') }}</span>
+              <span>
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 3rem"></i>
+              </span>
+            </div>
+            <div class="mt-4">
+              <h4>Jumlah Lowongan</h4>
             </div>
           </div>
         </div>
@@ -95,23 +93,7 @@
         </div>
       </div>
     </div>
-    <div class="row gap-3 gap-md-0 mb-3">
-      <div class="col-md-6 col-lg-4 mb-md-3 float-right">
-        <div class="card text-bg-info">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="fs-2 fw-bold leading-1px">{{ __('3') }}</span>
-              <span>
-                <i class="fa-solid fa-magnifying-glass" style="font-size: 3rem"></i>
-              </span>
-            </div>
-            <div class="mt-4">
-              <h4>Jumlah Lowongan</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
     @push('script')
       <script>
         const btnDelete = document.querySelectorAll('.btn-delete');

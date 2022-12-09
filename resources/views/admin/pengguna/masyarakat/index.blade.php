@@ -2,7 +2,7 @@
 
 @section('container-dashboard')
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-2">
-    <h2>Data Masyarakat</h2>
+    <h2>Data Kandidat Luar</h2>
     <a href="{{ route('admin.pelamar.create') }}" class="btn btn-primary">Tambah Data Pelamar</a>
   </div>
 

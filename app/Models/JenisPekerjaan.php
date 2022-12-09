@@ -28,6 +28,6 @@ class JenisPekerjaan extends Model
 
   public function pengalaman_user(): HasMany
   {
-    return $this->hasMany(PengalamanBekerja::class, 'id_jenis_pekerjaan', 'id_jenis_pekerjaan');
+    return $this->hasMany(PengalamanKerja::class, 'id_jenis_pekerjaan', 'id_jenis_pekerjaan');
   }
 }

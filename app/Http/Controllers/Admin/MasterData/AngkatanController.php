@@ -16,8 +16,7 @@ class AngkatanController extends Controller
    */
   public function index()
   {
-    // $angkatan = DB::table('angkatan')->paginate(10);
-    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+    $angkatan = Angkatan::all();
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
 

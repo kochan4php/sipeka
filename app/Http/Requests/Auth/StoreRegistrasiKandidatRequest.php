@@ -12,7 +12,8 @@ class StoreRegistrasiKandidatRequest extends FormRequest
     'email',
     'password',
     'nama',
-    'no_telp'
+    'no_telp',
+    'jenis_kelamin'
   ];
 
   /**
@@ -41,7 +42,7 @@ class StoreRegistrasiKandidatRequest extends FormRequest
     ];
   }
 
-  public function validatedRegistrasiKandidatAttr(): array
+  public function validatedDataKandidat(): array
   {
     return $this->only($this->column);
   }

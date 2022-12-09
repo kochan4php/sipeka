@@ -15,6 +15,7 @@ class StoreRegistrasiAlumniRequest extends FormRequest
     'nis',
     'jurusan',
     'angkatan',
+    'jenis_kelamin'
   ];
 
   /**
@@ -45,7 +46,7 @@ class StoreRegistrasiAlumniRequest extends FormRequest
     ];
   }
 
-  public function validatedRegistrasiAlumniAttr(): array
+  public function validatedDataAlumni(): array
   {
     return $this->only($this->column);
   }
