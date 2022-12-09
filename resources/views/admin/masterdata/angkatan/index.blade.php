@@ -68,7 +68,7 @@
                 {{ __('Kode Angkatan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="kode_angkatan" name="kode_angkatan" disabled readonly
+                <input type="text" class="form-control" id="kode_angkatan" name="kode_angkatan"
                   style="cursor: not-allowed" value="AGKT0002">
               </div>
             </div>

@@ -134,6 +134,11 @@ Route::prefix('/sipeka')->group(function () {
       Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
         Route::get('/', fn () => 'Hehe');
       });
+
+      Route::controller(PelamarController::class)->group(function () {
+        Route::get('/', 'index')->name('perusahaan.pelamar.index');
+        Route::get('/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
+      });
     });
 
     // Route Pelamar (Masyarakat dan Siswa Alumni)

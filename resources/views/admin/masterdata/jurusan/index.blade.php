@@ -66,7 +66,7 @@
           @csrf
           <div class="mb-3 row">
             <label for="kode_jurusan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
-              {{ __('Kode Jurusam') }}
+              {{ __('Kode Jurusan') }}
             </label>
             <div class="col-sm-8">
               <input type="text" class="form-control" id="kode_jurusan" name="kode_jurusan" style="cursor: not-allowed"
@@ -75,7 +75,7 @@
           </div>
           <div class="mb-3 row">
             <label for="nama_jurusan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
-              {{ __('Nama Jurusam') }}
+              {{ __('Nama Jurusan') }}
             </label>
             <div class="col-sm-8">
               <input type="text" class="form-control" id="nama_jurusan" name="nama_jurusan" placeholder="RPL">
