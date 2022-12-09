@@ -125,6 +125,11 @@ Route::prefix('/sipeka')->group(function () {
         Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
         Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
       });
+
+      Route::controller(PelamarController::class)->group(function () {
+        Route::get('/', 'index')->name('perusahaan.pelamar.index');
+        Route::get('/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
+      });
     });
 
     // Route Pelamar (Masyarakat dan Siswa Alumni)
