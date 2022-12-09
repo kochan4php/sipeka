@@ -121,13 +121,18 @@ Route::prefix('/sipeka')->group(function () {
       Route::prefix('/perusahaan')->middleware('role:perusahaan')->group(function () {
         Route::controller(LowonganController::class)->group(function () {
           Route::get('/', 'index')->name('perusahaan.index');
-          Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.tambah');
+          Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.create');
           Route::post('/', 'store')->name('perusahaan.lowongankerja.store');
           Route::get('/{id}/detail', 'show')->name('perusahaan.lowongankerja.detail');
           Route::get('/{id}/edit', 'edit')->name('perusahaan.lowongankerja.edit');
           Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
           Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
         });
+      });
+
+      // Route Seleksi oleh Admin dan Mitra Perusahaan
+      Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
+        Route::get('/', fn () => 'Hehe');
       });
     });
 
