@@ -102,9 +102,9 @@ Route::prefix('/sipeka')->group(function () {
           Route::prefix('/angkatan')->controller(AngkatanController::class)->group(function () {
             Route::get('/', 'index')->name('admin.angkatan.index');
             Route::post('/', 'store')->name('admin.angkatan.store');
-            Route::get('/{kode_angkatan}/detail', 'show')->name('admin.angkatan.detail');
-            Route::put('/{kode_angkatan}', 'update')->name('admin.angkatan.update');
-            Route::delete('/{kode_angkatan}', 'destroy')->name('admin.angkatan.delete');
+            Route::get('/{angkatan}/detail', 'show')->name('admin.angkatan.detail');
+            Route::put('/{angkatan}', 'update')->name('admin.angkatan.update');
+            Route::delete('/{angkatan}', 'destroy')->name('admin.angkatan.delete');
           });
 
           Route::prefix('/dokumen')->controller(DokumenController::class)->group(function () {
@@ -128,16 +128,16 @@ Route::prefix('/sipeka')->group(function () {
           Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
           Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
         });
+
+        Route::controller(PelamarController::class)->group(function () {
+          Route::get('/', 'index')->name('perusahaan.pelamar.index');
+          Route::get('/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
+        });
       });
 
       // Route Seleksi oleh Admin dan Mitra Perusahaan
       Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
         Route::get('/', fn () => 'Hehe');
-      });
-
-      Route::controller(PelamarController::class)->group(function () {
-        Route::get('/', 'index')->name('perusahaan.pelamar.index');
-        Route::get('/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
       });
     });
 
