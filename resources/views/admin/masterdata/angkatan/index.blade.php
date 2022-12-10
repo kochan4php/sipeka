@@ -30,16 +30,18 @@
                   <td class="text-nowrap text-center">
                     <div class="btn-group">
                       <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
-                        data-id-jurusan="{{ $item->id_angkatan }}" class="btn btn-sm fw-bolder leading-1px btn-warning">
+                        data-id-angkatan="{{ $item->id_angkatan }}"
+                        class="btn btn-sm fw-bolder leading-1px btn-warning btn-edit">
                         <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                         <span>Sunting</span>
                       </button>
-                      <a href="{{ route('admin.angkatan.detail', $item->id_angkatan) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#modalHapus">
+                      <button data-id-angkatan="{{ $item->id_angkatan }}"
+                        class="btn btn-sm fw-bolder leading-1px
+                        btn-danger btn-delete"
+                        data-bs-toggle="modal" data-bs-target="#modalHapus">
                         <span><i class="fa-solid fa-trash fa-lg"></i></span>
                         <span>Hapus</span>
-                      </a>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -64,12 +66,12 @@
           <form action="{{ route('admin.angkatan.store') }}" method="post">
             @csrf
             <div class="mb-3 row">
-              <label for="kode_angkatan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
+              <label for="id_angkatan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Kode Angkatan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="kode_angkatan" name="kode_angkatan" disabled readonly
-                  style="cursor: not-allowed" value="AGKT0002">
+                <input type="text" class="form-control" id="id_angkatan" name="id_angkatan" style="cursor: not-allowed"
+                  value="AGKT0002">
               </div>
             </div>
             <div class="mb-3 row">
@@ -104,15 +106,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="{{ route('admin.angkatan.update', 'AGKT0002') }}" method="post">
+          <form class="form-modal-edit" method="post">
             @csrf
             @method('put')
             <div class="mb-3 row">
-              <label for="kode_angkatan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
+              <label for="id_angkatan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Kode Angkatan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="kode_angkatan" name="kode_angkatan" disabled readonly
+                <input type="text" class="form-control" id="id_angkatan_edit" name="id_angkatan"
                   style="cursor: not-allowed" value="AGKT0002">
               </div>
             </div>
@@ -121,7 +123,7 @@
                 {{ __('Tahun Angkatan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="tahun_angkatan" name="tahun_angkatan"
+                <input type="text" class="form-control" id="angkatan_tahun_edit" name="angkatan_tahun"
                   placeholder="2021/2022" value="2021/2022">
               </div>
             </div>
@@ -148,7 +150,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-footer border-0 border-top-0">
-          <form action="{{ route('admin.angkatan.delete', 'AGKT0001') }}" method="post">
+          <form class="form-modal-delete" method="post">
             @csrf
             @method('delete')
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -158,4 +160,41 @@
       </div>
     </div>
   </div>
+  @push('script')
+    <script>
+      const btnEdit = document.querySelectorAll('.btn-edit');
+      btnEdit.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModalEdit = document.querySelector('.modal .form-modal-edit');
+          const btnCancel = document.querySelector('.modal .btn-cancel-edit-dokumen');
+          const btnClose = document.querySelector('.modal .btn-close-edit-dokumen');
+          const idAngkatan = btn.dataset.idAngkatan;
+          const route = "{{ route('admin.angkatan.update', ':idAngkatan') }}";
+          fetch(("{{ route('admin.angkatan.detail', ':idAngkatan') }}").replace(':idAngkatan', idAngkatan))
+            .then(res => res.json())
+            .then(data => {
+              console.log(data);
+              document.getElementById('id_angkatan_edit').value = data.id_angkatan;
+              document.getElementById('angkatan_tahun_edit').value = data.angkatan_tahun;
+            });
+          formModalEdit.setAttribute('action', route.replace(':idAngkatan', idAngkatan));
+          btnCancel.addEventListener('click', () => formModalEdit.removeAttribute('action'));
+          btnClose.addEventListener('click', () => formModalEdit.removeAttribute('action'));
+        });
+      });
+      const btnDelete = document.querySelectorAll('.btn-delete');
+      btnDelete.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModalDelete = document.querySelector('.modal .form-modal-delete');
+          const btnCancel = document.querySelector('.modal .btn-cancel-hapus-dokumen');
+          const btnClose = document.querySelector('.modal .btn-close-hapus-dokumen');
+          const idAngkatan = btn.dataset.idAngkatan;
+          const route = "{{ route('admin.angkatan.delete', ':idAngkatan') }}";
+          formModalDelete.setAttribute('action', route.replace(':idAngkatan', idAngkatan));
+          btnCancel.addEventListener('click', () => formModalDelete.removeAttribute('action'));
+          btnClose.addEventListener('click', () => formModalDelete.removeAttribute('action'));
+        });
+      });
+    </script>
+  @endpush
 @endsection
