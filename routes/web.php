@@ -141,20 +141,21 @@ Route::prefix('/sipeka')->group(function () {
       });
     });
 
-  // Route Pelamar (Masyarakat dan Siswa Alumni)
-  Route::prefix('/pelamar')->group(function () {
-    Route::get('/profile', fn () => view('pelamar.profile'))->name('pelamar.profile');
-    Route::get('/dokumen', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
-    Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
-      Route::get('/', 'index')->name('pelamar.experience.index');
-      Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
-      Route::post('/', 'store')->name('pelamar.experience.store');
-      Route::get('/{id}/edit', 'edit')->name('pelamar.experience.edit');
-      Route::put('/{id}', 'update')->name('pelamar.experience.update');
-      Route::put('/{id}', 'delete')->name('pelamar.experience.delete');
-    });
-    Route::prefix('/lamaran-kerja')->group(function () {
-      Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
+    // Route Pelamar (Masyarakat dan Siswa Alumni)
+    Route::prefix('/pelamar')->middleware('role:pelamar')->group(function () {
+      Route::get('/profile', fn () => view('pelamar.profile'))->name('pelamar.index');
+      Route::get('/dokumen', fn () => view('pelamar.dokumen'))->name('pelamar.dokumen');
+      Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
+        Route::get('/', 'index')->name('pelamar.experience.index');
+        Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
+        Route::post('/', 'store')->name('pelamar.experience.store');
+        Route::get('/{id}/edit', 'edit')->name('pelamar.experience.edit');
+        Route::put('/{id}', 'update')->name('pelamar.experience.update');
+        Route::delete('/{id}', 'delete')->name('pelamar.experience.delete');
+      });
+      Route::prefix('/lamaran-kerja')->group(function () {
+        Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
+      });
     });
   });
 });

@@ -52,7 +52,7 @@ class Pelamar extends Model
 
   public function pengalaman_bekerja(): HasMany
   {
-    return $this->hasMany(PengalamanBekerja::class, 'id_pelamar', 'id_pelamar');
+    return $this->hasMany(PengalamanKerja::class, 'id_pelamar', 'id_pelamar');
   }
 
   public function pendaftaran_lowongan(): HasMany

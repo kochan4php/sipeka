@@ -35,6 +35,19 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
+                    <label for="id_jenis_pekerjaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                      {{ __('Jenis Pekerjaan') }}
+                    </label>
+                    <div class="col-sm-8">
+                      <select name="id_jenis_pekerjaan" id="id_jenis_pekerjaan" class="form-select" required>
+                        <option selected>-- Jenis Pekerjaan --</option>
+                        @foreach ($jenisPekerjaan as $jp)
+                          <option value="{{ $jp->id_jenis_pekerjaan }}">{{ $jp->nama_jenis_pekerjaan }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
                     <label for="tanggal_masuk" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                       {{ __('Tanggal Masuk') }}
                     </label>
