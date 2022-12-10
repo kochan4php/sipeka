@@ -123,6 +123,9 @@ Route::prefix('/sipeka')->group(function () {
       Route::get('/', 'index')->name('pelamar.experience.index');
       Route::get('/tambah-pengalaman', 'create')->name('pelamar.experience.add');
       Route::post('/', 'store')->name('pelamar.experience.store');
+      Route::get('/{id}/edit', 'edit')->name('pelamar.experience.edit');
+      Route::put('/{id}', 'update')->name('pelamar.experience.update');
+      Route::put('/{id}', 'delete')->name('pelamar.experience.delete');
     });
     Route::prefix('/lamaran-kerja')->group(function () {
       Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');

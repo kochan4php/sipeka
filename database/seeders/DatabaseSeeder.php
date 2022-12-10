@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
       UserSeeder::class,
       AdminBKKSeeder::class,
       MitraPerusahaanSeeder::class,
-      // PelamarSeeder::class,
+      PelamarSeeder::class,
       // MasyarakatSeeder::class,
       // LowonganKerjaSeeder::class,
       JurusanSeeder::class,

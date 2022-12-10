@@ -34,6 +34,12 @@ class UserSeeder extends Seeder
         'username' => 'PT.LaylaBocil',
         'email' => 'layla@gmail.com',
         'password' => Hash::make('perusahaan')
+      ],
+      [
+        'id_level' => 'LU03',
+        'username' => 'saiaaa',
+        'email' => 'mrs@gmail.com',
+        'password' => Hash::make('perusahaan')
       ]
     ]);
     $users->each(fn ($user) => User::create($user));

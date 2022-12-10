@@ -29,12 +29,13 @@
                         </div>
                         <div>
                           <div class="btn-group">
-                            <a href="" class="btn btn-warning">
+                            <a href="{{ route('pelamar.experience.edit', $pk->id_pengalaman) }}" class="btn btn-warning">
                               <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                             </a>
-                            <a href="" class="btn btn-danger">
+                            <a href="{{ route('pelamar.experience.delete', $pk->id_pengalaman) }}" class="btn btn-danger">
                               <span><i class="fa-solid fa-trash fa-lg"></i></span>
                             </a>
+                            </form>
                           </div>
                         </div>
                       </div>

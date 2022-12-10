@@ -16,13 +16,7 @@ class PelamarSeeder extends Seeder
   public function run()
   {
     $pelamar = collect([
-      ['id_user' => 4],
-      ['id_user' => 5],
-      ['id_user' => 6],
-      ['id_user' => 7],
-      ['id_user' => 8],
-      ['id_user' => 9],
-      ['id_user' => 10],
+      ['id_user' => 4]
     ]);
     $pelamar->each(fn ($plmr) => Pelamar::create($plmr));
   }
