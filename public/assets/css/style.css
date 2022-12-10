@@ -7,6 +7,14 @@
   font-size: 1.1rem !important;
 }
 
+.custom-btn {
+  border-radius: 0.2rem !important;
+}
+
+.py-2-3 {
+  padding: 13px 0 !important;
+}
+
 .navbar .navbar-toggler {
   border: none !important;
   outline: none !important;

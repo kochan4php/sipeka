@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.alumni.update', $alumni->nis) }}" method="POST">
+          <form action="{{ route('admin.alumni.update', $alumni->username) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -48,7 +48,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jurusan" id="jurusan" class="form-select" required>
-                  <option selected>-- Pilih Jurusan --</option>
+                  <option selected value="">-- Pilih Jurusan --</option>
                   @foreach ($jurusan as $item)
                     <option value="{{ $item->id_jurusan }}" @if ($item->id_jurusan === $alumni->id_jurusan) @selected(true) @endif>
                       {{ $item->nama_jurusan }}
@@ -109,12 +109,23 @@
                 </textarea>
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8">
+                @if ($alumni->foto)
+                  <img class="d-block mb-3 image-preview rounded" width="300"
+                    src="{{ asset('storage/' . $alumni->foto) }}">
+                @else
+                  <img class="d-block image-preview rounded" width="300">
+                @endif
+              </div>
+            </div>
             <div class="mb-3 row">
-              <label for="foto_alumni" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="image" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Foto Alumni') }}
               </label>
               <div class="col-sm-8">
-                <input type="file" class="form-control" id="foto_alumni" name="foto_alumni">
+                <input type="file" class="form-control" id="image" name="foto_alumni">
               </div>
             </div>
             <div class="row mb-3">
@@ -129,4 +140,8 @@
       </div>
     </div>
   </div>
+
+  @push('script')
+    <script src="{{ asset('assets/js/preview_image.js') }}"></script>
+  @endpush
 @endsection

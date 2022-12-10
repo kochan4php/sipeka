@@ -24,8 +24,7 @@ class JurusanController extends Controller
    */
   public function index()
   {
-    // $jurusan = DB::table('jurusan')->paginate(10);
-    $jurusan = collect(DB::select('SELECT * FROM jurusan'));
+    $jurusan = Jurusan::all();
     return view('admin.masterdata.jurusan.index', compact('jurusan'));
   }
 
@@ -37,11 +36,11 @@ class JurusanController extends Controller
    */
   public function store(Request $request)
   {
-    $Jurusan = new Jurusan;
-    $Jurusan->id_jurusan = $request->input('kode_jurusan');
-    $Jurusan->nama_jurusan = $request->input('nama_jurusan');
-    $Jurusan->keterangan = $request->input('keterangan_jurusan');
-    $Jurusan->save();
+    $jurusan = new Jurusan;
+    $jurusan->id_jurusan = $request->input('kode_jurusan');
+    $jurusan->nama_jurusan = $request->input('nama_jurusan');
+    $jurusan->keterangan = $request->input('keterangan_jurusan');
+    $jurusan->save();
 
     return redirect()->route('admin.jurusan.index');
   }
@@ -106,10 +105,10 @@ class JurusanController extends Controller
   {
     try {
       $deletejurusan = DB::delete("DELETE FROM jurusan WHERE id_jurusan = :kodejurusan", compact('kodejurusan'));
-      if ($deletejurusan) return redirect()->back()->with('sukses', 'Berhasil hapus jurusan');
-      else return redirect()->back()->with('error', 'gagal menghapus jurusan');
+      if ($deletejurusan) return back()->with('sukses', 'Berhasil hapus jurusan');
+      else return back()->with('error', 'gagal menghapus jurusan');
     } catch (\Exception $e) {
-      return redirect()->back()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 }

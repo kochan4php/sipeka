@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDokumenRequest extends FormRequest
 {
-  private array $column = ['kode_jenis_dokumen', 'nama_dokumen'];
+  private array $column = ['id_jenis_dokumen', 'nama_dokumen'];
 
   /**
    * Determine if the user is authorized to make this request.
@@ -26,12 +26,12 @@ class StoreDokumenRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'kode_jenis_dokumen' => ['required'],
-      'nama_dokumen'
+      'id_jenis_dokumen' => ['required'],
+      'nama_dokumen' => ['required']
     ];
   }
 
-  public function validatedDokumenAttr(): array
+  public function validatedData(): array
   {
     return $this->only($this->column);
   }

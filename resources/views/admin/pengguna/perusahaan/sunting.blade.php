@@ -9,7 +9,8 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.perusahaan.update', $perusahaan->username) }}" method="POST">
+          <form action="{{ route('admin.perusahaan.update', $perusahaan->username) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">

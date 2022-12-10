@@ -19,6 +19,7 @@
               <tr>
                 <th scope="col" class="text-nowrap text-center">No</th>
                 <th scope="col" class="text-nowrap text-center">Nama Perusahaan</th>
+                <th scope="col" class="text-nowrap text-center">Username Perusahaan</th>
                 <th scope="col" class="text-nowrap text-center">Email Perusahaan</th>
                 <th scope="col" class="text-nowrap text-center">Aksi</th>
               </tr>
@@ -29,6 +30,7 @@
                   <tr>
                     <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
                     <td class="text-nowrap text-center">{{ $item->nama_perusahaan }}</td>
+                    <td class="text-nowrap text-center">{{ $item->username }}</td>
                     <td class="text-nowrap text-center">{{ $item->email }}</td>
                     <td class="text-nowrap text-center">
                       <div class="btn-group">
@@ -42,12 +44,11 @@
                           <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                           <span>Sunting</span>
                         </a>
-                        <a href="{{ route('admin.perusahaan.detail', $item->username) }}"
-                          class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
-                          data-bs-target="#modalHapus" data-username="{{ $item->username }}">
+                        <button type="button" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
+                          data-bs-toggle="modal" data-bs-target="#modalHapus" data-username="{{ $item->username }}">
                           <span><i class="fa-solid fa-trash fa-lg"></i></span>
                           <span>Hapus</span>
-                        </a>
+                        </button>
                       </div>
                     </td>
                   </tr>

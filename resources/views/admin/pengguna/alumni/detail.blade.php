@@ -10,8 +10,12 @@
         <div class="card-body">
           <div class="row mt-3 gap-4 gap-lg-0">
             <div class="col-lg-3 text-center">
-              <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $alumni->username }}" width="170"
-                class="rounded-circle">
+              @if (is_null($alumni->foto))
+                <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $alumni->username }}" width="170"
+                  class="rounded-circle">
+              @else
+                <img src="{{ asset('storage/' . $alumni->foto) }}" alt="{{ $alumni->username }}" width="170">
+              @endif
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">
@@ -20,6 +24,11 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('NIS') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($alumni->nis) }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->username) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>

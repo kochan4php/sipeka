@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\MasterData;
 
 use App\Http\Controllers\Controller;
+use App\Models\Angkatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,8 +16,7 @@ class AngkatanController extends Controller
    */
   public function index()
   {
-    // $angkatan = DB::table('angkatan')->paginate(10);
-    $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+    $angkatan = Angkatan::all();
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
 
@@ -28,7 +28,12 @@ class AngkatanController extends Controller
    */
   public function store(Request $request)
   {
-    return 'Hehe berhasil';
+    $angkatan = new Angkatan;
+    $angkatan->id_angkatan = $request->input('id_angkatan');
+    $angkatan->angkatan_tahun = $request->input('tahun_angkatan');
+    $angkatan->save();
+
+    return redirect()->route('admin.angkatan.index');
   }
 
   /**
@@ -37,9 +42,9 @@ class AngkatanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
+  public function show(Angkatan $angkatan)
   {
-    //
+    return response()->json($angkatan);
   }
 
   /**
@@ -49,9 +54,18 @@ class AngkatanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, Angkatan $angkatan)
   {
-    return 'Hehe berhasil lagi';
+    $request->validate([
+      'id_angkatan' => ['required'],
+      'angkatan_tahun' => ['required'],
+    ]);
+
+    $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
+    if ($angkatan->update($validatedData))
+      return back()->with('sukses', 'berhasil memperbarui data angkatan');
+    else
+      return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
   }
 
   /**
@@ -60,8 +74,13 @@ class AngkatanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Angkatan $angkatan)
   {
-    return 'Berhasil hapus data';
+    try {
+      if ($angkatan->delete()) return back()->with('sukses', 'Berhasil hapus angkatan');
+      else return back()->with('error', 'gagal menghapus angkatan');
+    } catch (\Exception $e) {
+      return back()->with('error', $e->getMessage());
+    };
   }
 }

@@ -14,15 +14,13 @@ return new class extends Migration
   {
     DB::unprepared("DROP PROCEDURE IF EXISTS insert_one_person");
     DB::unprepared(
-      "CREATE PROCEDURE insert_one_person(email varchar(255), password varchar(255), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), no_telepon varchar(20), tempat_lahir varchar(100), tanggal_lahir date, alamat_tempat_tinggal text, foto varchar(255))
+      "CREATE PROCEDURE insert_one_person(username varchar(255), email varchar(255), password varchar(255), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), no_telepon varchar(20), tempat_lahir varchar(100), tanggal_lahir date, alamat_tempat_tinggal text, foto varchar(255))
 
       BEGIN
         DECLARE id_level_user char(4);
-        DECLARE username varchar(255);
         DECLARE id_user int(11);
         DECLARE id_pelamar int(11);
 
-        SET username = lower(replace(replace(nama_lengkap, ' ', '-'), '.', ''));
         SELECT level_user.id_level INTO id_level_user FROM level_user WHERE identifier = lower('pelamar');
 
         IF ISNULL(tanggal_lahir) THEN
@@ -31,7 +29,11 @@ return new class extends Migration
           SET tanggal_lahir = DATE(tanggal_lahir);
         END IF;
 
-        INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, email, password);
+        IF (email IS NOT NULL) THEN
+          INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, email, password);
+        ELSE
+          INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, NULL, password);
+        END IF;
         SELECT LAST_INSERT_ID() INTO id_user;
 
         INSERT INTO pelamar (id_user) VALUES (id_user);

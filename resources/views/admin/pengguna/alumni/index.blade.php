@@ -17,7 +17,7 @@
               <tr>
                 <th scope="col" class="text-nowrap text-center">No</th>
                 <th scope="col" class="text-nowrap text-center">Nama Alumni</th>
-                <th scope="col" class="text-nowrap text-center">NIS</th>
+                <th scope="col" class="text-nowrap text-center">Kode Alumni / Username Alumni</th>
                 <th scope="col" class="text-nowrap text-center">Tahun Angkatan</th>
                 <th scope="col" class="text-nowrap text-center">Aksi</th>
               </tr>
@@ -28,26 +28,25 @@
                   <tr>
                     <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
                     <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
-                    <td class="text-nowrap text-center">{{ $item->nis }}</td>
+                    <td class="text-nowrap text-center">{{ $item->username }}</td>
                     <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
                     <td class="text-nowrap text-center">
                       <div class="btn-group">
-                        <a href="{{ route('admin.alumni.detail', $item->nis) }}"
+                        <a href="{{ route('admin.alumni.detail', $item->username) }}"
                           class="btn btn-sm fw-bolder leading-1px btn-success">
                           <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                           <span>Detail</span>
                         </a>
-                        <a href="{{ route('admin.alumni.edit', $item->nis) }}"
+                        <a href="{{ route('admin.alumni.edit', $item->username) }}"
                           class="btn btn-sm fw-bolder leading-1px btn-warning">
                           <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                           <span>Sunting</span>
                         </a>
-                        <a href="{{ route('admin.alumni.delete', $item->nis) }}"
-                          class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
-                          data-bs-target="#modalHapus" data-nis="{{ $item->nis }}">
+                        <button type="button" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
+                          data-bs-toggle="modal" data-bs-target="#modalHapus" data-username="{{ $item->username }}">
                           <span><i class="fa-solid fa-trash fa-lg"></i></span>
                           <span>Hapus</span>
-                        </a>
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -93,9 +92,9 @@
           const formModal = document.querySelector('.modal .form-modal');
           const btnCancel = document.querySelector('.modal .btn-cancel');
           const btnClose = document.querySelector('.modal .btn-close');
-          const nis = btn.dataset.nis;
-          const route = "{{ route('admin.alumni.delete', ':nis') }}";
-          formModal.setAttribute('action', route.replace(':nis', nis));
+          const username = btn.dataset.username;
+          const route = "{{ route('admin.alumni.delete', ':username') }}";
+          formModal.setAttribute('action', route.replace(':username', username));
           btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
           btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
         });

@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.pelamar.update', $orang->username) }}" method="POST">
+          <form action="{{ route('admin.pelamar.update', $orang->username) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -18,27 +18,20 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Aphrodeo Subarno"
-                  value="{{ old('nama', $orang->nama_lengkap) }}">
+                  value="{{ old('nama', $orang->nama_lengkap) }}" @if (!Hash::check('password', $orang->password)) readonly @endif>
               </div>
             </div>
-            <div class="mb-3 row">
-              <label for="password" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Password') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="password" name="password" placeholder="********"
-                  value="password" readonly>
+            @if (Hash::check('password', $orang->password))
+              <div class="mb-3 row">
+                <label for="password" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                  {{ __('Password') }}
+                </label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="password" name="password" placeholder="********"
+                    value="password" readonly>
+                </div>
               </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="email" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Email') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="email" class="form-control" id="email" name="email" placeholder="example@gmail.com"
-                  value="{{ old('email', $orang->email) }}">
-              </div>
-            </div>
+            @endif
             <div class="mb-3 row">
               <label for="jenis_kelamin" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Jenis Kelamin') }}
@@ -88,12 +81,23 @@
                 </textarea>
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8">
+                @if ($alumni->foto)
+                  <img class="d-block mb-3 image-preview rounded" width="300"
+                    src="{{ asset('storage/' . $alumni->foto) }}">
+                @else
+                  <img class="d-block image-preview rounded" width="300">
+                @endif
+              </div>
+            </div>
             <div class="mb-3 row">
-              <label for="foto_pelamar" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="image" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Foto') }}
               </label>
               <div class="col-sm-8">
-                <input type="file" class="form-control" id="foto_pelamar" name="foto_pelamar">
+                <input type="file" class="form-control" id="image" name="foto_pelamar">
               </div>
             </div>
             <div class="row mb-3">
@@ -108,4 +112,8 @@
       </div>
     </div>
   </div>
+
+  @push('script')
+    <script src="{{ asset('assets/js/preview_image.js') }}"></script>
+  @endpush
 @endsection

@@ -13,7 +13,9 @@
             <span><i class="fa-solid fa-user" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Pengguna</h4>
+            <a href="" class="text-decoration-none stretched-link text-dark">
+              <h4>Jumlah Pengguna</h4>
+            </a>
           </div>
         </div>
       </div>
@@ -26,7 +28,9 @@
             <span><i class="fa-solid fa-users" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Masyarakat</h4>
+            <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-dark">
+              <h4>Jumlah Masyarakat</h4>
+            </a>
           </div>
         </div>
       </div>
@@ -39,7 +43,9 @@
             <span><i class="fa-solid fa-user-graduate" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Alumni</h4>
+            <a href="{{ route('admin.alumni.index') }}" class="text-decoration-none stretched-link text-white">
+              <h4>Jumlah Alumni</h4>
+            </a>
           </div>
         </div>
       </div>
@@ -52,7 +58,9 @@
             <span><i class="fa-solid fa-building" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Perusahaan</h4>
+            <a href="{{ route('admin.perusahaan.index') }}" class="text-decoration-none stretched-link text-white">
+              <h4>Jumlah Perusahaan</h4>
+            </a>
           </div>
         </div>
       </div>
@@ -65,7 +73,9 @@
             <span><i class="fa-solid fa-users-gear" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Jurusan</h4>
+            <a href="{{ route('admin.jurusan.index') }}" class="text-decoration-none stretched-link text-white">
+              <h4>Jumlah Jurusan</h4>
+            </a>
           </div>
         </div>
       </div>
@@ -78,7 +88,9 @@
             <span><i class="fa-solid fa-graduation-cap" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Angkatan</h4>
+            <a href="{{ route('admin.angkatan.index') }}" class="text-decoration-none stretched-link text-white">
+              <h4>Jumlah Angkatan</h4>
+            </a>
           </div>
         </div>
       </div>

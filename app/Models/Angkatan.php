@@ -19,6 +19,12 @@ class Angkatan extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // kasih tau kalau primary key nya bukan integer AI
+  public $incrementing = false;
+
+  // kasih tau kalau primary key nya bukan bertipe integer
+  protected $keyType = 'string';
+
   /**
    * The attributes that are mass assignable.
    *
@@ -32,5 +38,10 @@ class Angkatan extends Model
   public function alumni(): HasMany
   {
     return $this->hasMany(SiswaAlumni::class, 'id_angkatan', 'id_angkatan');
+  }
+
+  public function getRouteKeyName()
+  {
+    return 'id_angkatan';
   }
 }

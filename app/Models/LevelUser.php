@@ -21,6 +21,12 @@ class LevelUser extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // kasih tau kalau primary key nya bukan integer AI
+  public $incrementing = false;
+
+  // kasih tau kalau primary key nya bukan bertipe integer
+  protected $keyType = 'string';
+
   /**
    * The attributes that are mass assignable.
    *
