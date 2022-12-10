@@ -105,7 +105,7 @@
         <li class="nav-item">
           <div class="dropdown">
             <button
-              class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/admin/masterdata*')) active @endif"
+              class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"
               style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#penilaian"
               aria-expanded="false" aria-controls="penilaian">
               <div class="d-flex align-items-center gap-2">

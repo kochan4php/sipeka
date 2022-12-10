@@ -8,6 +8,8 @@
     </button>
   </div>
 
+  <x-alert-session />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="card table-responsive">
@@ -75,11 +77,11 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="tahun_angkatan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
+              <label for="angkatan_tahun" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Tahun Angkatan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="tahun_angkatan" name="tahun_angkatan"
+                <input type="text" class="form-control" id="angkatan_tahun" name="angkatan_tahun"
                   placeholder="2021/2022" value="2021/2022">
               </div>
             </div>
@@ -119,7 +121,7 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="tahun_angkatan" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
+              <label for="angkatan_tahun_edit" class="col-sm-4 text-nowrap col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Tahun Angkatan') }}
               </label>
               <div class="col-sm-8">

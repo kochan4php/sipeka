@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Angkatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class AngkatanController extends Controller
 {
@@ -28,50 +29,56 @@ class AngkatanController extends Controller
    */
   public function store(Request $request)
   {
-    $angkatan = new Angkatan;
-    $angkatan->id_angkatan = $request->input('id_angkatan');
-    $angkatan->angkatan_tahun = $request->input('tahun_angkatan');
-    $angkatan->save();
-
-    return redirect()->route('admin.angkatan.index');
+    try {
+      $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
+      $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
+      if (Angkatan::create($validatedData)) return Session::flash('sukses', 'Berhasil menambahkan data Angkatan Baru');
+      else return Session::flash('error', 'Data tidak valid, silahkan periksa kembali');
+      return back();
+    } catch (\Exception $e) {
+      return back()->with('error', $e->getMessage());
+    }
   }
 
   /**
    * Display the specified resource.
    *
-   * @param  int  $id
+   * @param  Angkatan  $angkatan
    * @return \Illuminate\Http\Response
    */
   public function show(Angkatan $angkatan)
   {
-    return response()->json($angkatan);
+    try {
+      return response()->json($angkatan);
+    } catch (\Exception $e) {
+      return back()->with('error', 'Data jenis dokumen tidak ditemukan');
+    }
   }
 
   /**
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
+   * @param  Angkatan  $angkatan
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, Angkatan $angkatan)
   {
-    $request->validate([
-      'id_angkatan' => ['required'],
-      'angkatan_tahun' => ['required'],
-    ]);
-
-    $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
-    if ($angkatan->update($validatedData))
-      return back()->with('sukses', 'berhasil memperbarui data angkatan');
-    else
-      return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    try {
+      $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
+      $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
+      if ($angkatan->update($validatedData)) Session::flash('sukses', 'berhasil memperbarui data angkatan');
+      else Session::flash('error', 'Data tidak valid, silahkan periksa kembali');
+      return back();
+    } catch (\Exception $e) {
+      return back()->with('error', $e->getMessage());
+    }
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
+   * @param  Angkatan  $angkatan
    * @return \Illuminate\Http\Response
    */
   public function destroy(Angkatan $angkatan)
