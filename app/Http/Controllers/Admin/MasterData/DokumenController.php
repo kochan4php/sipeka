@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\MasterData\StoreDokumenRequest;
 use App\Models\Dokumen;
 use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class DokumenController extends Controller
 {
@@ -46,10 +47,11 @@ class DokumenController extends Controller
   {
     try {
       $validatedData = $request->validatedData();
-      if (Dokumen::create($validatedData)) return $this->redirectToMainRoute()->with('sukses', 'Berhasil menambahkan data Jenis Dokumen');
-      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      if (Dokumen::create($validatedData)) return Session::flash('sukses', 'Berhasil menambahkan data Jenis Dokumen');
+      else return Session::flash('error', 'Data tidak valid, silahkan periksa kembali');
+      return back();
     } catch (\Exception $e) {
-      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 
@@ -79,10 +81,11 @@ class DokumenController extends Controller
   {
     try {
       $validatedData = $request->validatedData();
-      if ($dokumen->update($validatedData)) return $this->redirectToMainRoute()->with('sukses', 'Berhasil memperbarui data Jenis Dokumen');
-      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      if ($dokumen->update($validatedData)) Session::flash('sukses', 'Berhasil memperbarui data Jenis Dokumen');
+      else Session::flash('error', 'Data tidak valid, silahkan periksa kembali');
+      return back();
     } catch (\Exception $e) {
-      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+      return back()->with('error', $e->getMessage());
     }
   }
 

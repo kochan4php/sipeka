@@ -7,22 +7,23 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <h3>Tambah Experience</h3>
-            <a href="{{ route('pelamar.experience.index', 'cina') }}" class="btn btn-danger" type="button">Batal</a>
+            <h3>Sunting Experience</h3>
+            <a href="{{ route('pelamar.experience.index') }}" class="btn btn-danger" type="button">Batal</a>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
                 <x-alert-error-validation />
-                <form action="{{ route('pelamar.experience.store', 'layla') }}" method="POST">
+                <form action="{{ route('pelamar.experience.update', $pengalamanKerja->id_pengalaman) }}" method="POST">
                   @csrf
+                  @method('put')
                   <div class="mb-3 row">
                     <label for="judul_posisi" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                       {{ __('Judul Posisi') }}
                     </label>
                     <div class="col-sm-8">
                       <input type="text" class="form-control" id="judul_posisi" name="judul_posisi"
-                        placeholder="UI/UX Designer" required>
+                        placeholder="UI/UX Designer" required value="{{ $pengalamanKerja->judul_posisi }}">
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -31,7 +32,7 @@
                     </label>
                     <div class="col-sm-8">
                       <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                        placeholder="PT. Tokopedia Indonesia" required>
+                        placeholder="PT. Tokopedia Indonesia" required value="{{ $pengalamanKerja->nama_perusahaan }}">
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -42,7 +43,10 @@
                       <select name="id_jenis_pekerjaan" id="id_jenis_pekerjaan" class="form-select" required>
                         <option selected>-- Jenis Pekerjaan --</option>
                         @foreach ($jenisPekerjaan as $jp)
-                          <option value="{{ $jp->id_jenis_pekerjaan }}">{{ $jp->nama_jenis_pekerjaan }}</option>
+                          <option value="{{ $jp->id_jenis_pekerjaan }}"
+                            @if ($jp->id_jenis_pekerjaan === $pengalamanKerja->id_jenis_pekerjaan) @selected(true) @endif>
+                            {{ $jp->nama_jenis_pekerjaan }}
+                          </option>
                         @endforeach
                       </select>
                     </div>
@@ -52,7 +56,8 @@
                       {{ __('Tanggal Masuk') }}
                     </label>
                     <div class="col-sm-8">
-                      <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk">
+                      <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk"
+                        value="{{ $pengalamanKerja->tanggal_masuk }}">
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -60,7 +65,8 @@
                       {{ __('Tanggal Selesai') }}
                     </label>
                     <div class="col-sm-8">
-                      <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai">
+                      <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai"
+                        value="{{ $pengalamanKerja->tanggal_selesai }}">
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -69,13 +75,13 @@
                     </label>
                     <div class="col-sm-8">
                       <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi_pengalaman" name="deskripsi_pengalaman"
-                        rows="3"></textarea>
+                        rows="3">{{ $pengalamanKerja->deskripsi_pengalaman }}</textarea>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8 d-flex gap-2">
-                      <button type="submit" class="btn btn-primary">Tambah</button>
+                      <button type="submit" class="btn btn-primary">Sunting</button>
                     </div>
                   </div>
                 </form>

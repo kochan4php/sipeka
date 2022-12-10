@@ -22,8 +22,8 @@ return new class extends Migration
       $table->integer('id_jenis_pekerjaan');
       $table->string('judul_posisi');
       $table->string('nama_perusahaan');
-      $table->dateTime('tanggal_masuk');
-      $table->dateTime('tanggal_selesai');
+      $table->date('tanggal_masuk');
+      $table->date('tanggal_selesai');
       $table->text('deskripsi_pengalaman');
 
       // Foreign key untuk id_pelamar
