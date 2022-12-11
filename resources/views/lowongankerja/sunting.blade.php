@@ -22,7 +22,7 @@
               </div>
             </div>
           @endif
-          <form action="{{ route('perusahaan.lowongankerja.update', $lowongan->id_lowongan) }}" method="POST">
+          <form action="{{ route('lowongankerja.update', $lowongan->slug) }}" method="POST">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -34,6 +34,23 @@
                   placeholder="IT Consultant" required value="{{ $lowongan->judul_lowongan }}">
               </div>
             </div>
+            @can('admin')
+              <div class="mb-3 row">
+                <label for="id_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                  {{ __('Mitra Perusahaan') }}
+                </label>
+                <div class="col-sm-8">
+                  <select name="id_perusahaan" id="id_perusahaan" class="form-select" required>
+                    <option selected>-- Pilih Perusahaan --</option>
+                    @foreach ($perusahaan as $item)
+                      <option value="{{ $item->id_perusahaan }}" @if ($item->id_perusahaan === $lowongan->id_perusahaan) @selected(true) @endif>
+                        {{ $item->nama_perusahaan }}
+                      </option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            @endcan
             <div class="mb-3 row">
               <label for="deskripsi" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Deskripsi') }}
@@ -73,7 +90,7 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('perusahaan.index') }}" class="btn btn-danger">Batal</a>
+                <a href="{{ route('lowongankerja.index') }}" class="btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

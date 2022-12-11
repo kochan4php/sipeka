@@ -23,6 +23,7 @@ return new class extends Migration
       $table->text('deskripsi_lowongan');
       $table->date('tanggal_dimulai');
       $table->date('tanggal_berakhir');
+      $table->text('slug')->unique();
 
       // Foreign key untuk id_perusahaan
       $table

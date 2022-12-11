@@ -16,7 +16,8 @@
                 {{ __('Nama Lengkap') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Aphrodeo Subarno">
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Aphrodeo Subarno"
+                  value="{{ old('nama') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -45,7 +46,8 @@
                 {{ __('No. Telepon') }}
               </label>
               <div class="col-sm-8">
-                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056">
+                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056"
+                  value="{{ old('no_telp') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -62,7 +64,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                  placeholder="04/18/2005">
+                  placeholder="04/18/2005" value="{{ old('tanggal_lahir') }}">
               </div>
             </div>
             <div class="mb-3 row">

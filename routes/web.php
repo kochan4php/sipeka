@@ -14,9 +14,11 @@ use App\Http\Controllers\{
   Admin\MasterData\AngkatanController,
   Admin\MasterData\DokumenController,
   // All Perusahaan Controller
-  Perusahaan\LowonganController,
+  Perusahaan\PelamarController,
   // All Pelamar Controller
-  Pelamar\PengalamanKerjaController
+  Pelamar\PengalamanKerjaController,
+  // All Admin and Perusahaan Controller
+  AdminDanPerusahaan\LowonganKerjaController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
-  Route::view('/', 'index')->name('home');
+  Route::get('/', \App\Http\Controllers\OuterController::class)->name('home');
 
   Route::middleware(['guest'])->group(function () {
     Route::controller(RegistrationController::class)->group(function () {
@@ -119,20 +121,22 @@ Route::prefix('/sipeka')->group(function () {
 
       // Route Mitra Perusahaan
       Route::prefix('/perusahaan')->middleware('role:perusahaan')->group(function () {
-        Route::controller(LowonganController::class)->group(function () {
-          Route::get('/', 'index')->name('perusahaan.index');
-          Route::get('/tambah-lowongan', 'create')->name('perusahaan.lowongankerja.create');
-          Route::post('/', 'store')->name('perusahaan.lowongankerja.store');
-          Route::get('/{id}/detail', 'show')->name('perusahaan.lowongankerja.detail');
-          Route::get('/{id}/edit', 'edit')->name('perusahaan.lowongankerja.edit');
-          Route::put('/{id}', 'update')->name('perusahaan.lowongankerja.update');
-          Route::delete('/{id}', 'destroy')->name('perusahaan.lowongankerja.delete');
-        });
-
+        Route::get('/', \App\Http\Controllers\Perusahaan\MainController::class)->name('perusahaan.index');
         Route::controller(PelamarController::class)->group(function () {
-          Route::get('/', 'index')->name('perusahaan.pelamar.index');
-          Route::get('/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
+          Route::get('/pelamar', 'index')->name('perusahaan.pelamar.index');
+          Route::get('/pelamar/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
         });
+      });
+
+      // Route Lowongan oleh Admin dan Mitra Perusahaan
+      Route::controller(LowonganKerjaController::class)->prefix('/lowongan')->middleware('role:admin,perusahaan')->group(function () {
+        Route::get('/', 'index')->name('lowongankerja.index');
+        Route::get('/tambah', 'create')->name('lowongankerja.create');
+        Route::post('/', 'store')->name('lowongankerja.store');
+        Route::get('/{lowongan_kerja}/detail', 'show')->name('lowongankerja.detail');
+        Route::get('/{lowongan_kerja}/edit', 'edit')->name('lowongankerja.edit');
+        Route::put('/{lowongan_kerja}', 'update')->name('lowongankerja.update');
+        Route::delete('/{lowongan_kerja}', 'destroy')->name('lowongankerja.delete');
       });
 
       // Route Seleksi oleh Admin dan Mitra Perusahaan
