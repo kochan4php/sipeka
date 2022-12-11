@@ -50,7 +50,7 @@
           </div>
           <div class="row justify-content-end">
             <div class="col">
-              <a href="{{ route('perusahaan.lowongankerja.index') }}" class="btn btn-danger">Kembali</a>
+              <a href="{{ route('perusahaan.index') }}" class="btn btn-danger">Kembali</a>
             </div>
           </div>
         </div>
