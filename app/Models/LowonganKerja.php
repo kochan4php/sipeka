@@ -30,7 +30,8 @@ class LowonganKerja extends Model
     'judul_lowongan',
     'deskripsi_lowongan',
     'tanggal_dimulai',
-    'tanggal_berakhir'
+    'tanggal_berakhir',
+    'slug',
   ];
 
   public function perusahaan(): BelongsTo
@@ -46,5 +47,10 @@ class LowonganKerja extends Model
   public function pendaftaran_lowongan(): HasMany
   {
     return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
+  }
+
+  public function getRouteKeyName()
+  {
+    return 'slug';
   }
 }

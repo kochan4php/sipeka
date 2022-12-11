@@ -17,7 +17,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                  placeholder="PT. Catur Jaya Solusi Bersama">
+                  placeholder="PT. Catur Jaya Solusi Bersama" value="{{ old('nama_perusahaan') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -26,7 +26,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="email" class="form-control" id="email_perusahaan" name="email_perusahaan"
-                  placeholder="example@company.com">
+                  placeholder="example@company.com" value="{{ old('email_perusahaan') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -44,7 +44,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="number" class="form-control" id="no_telepon_perusahaan" name="no_telepon_perusahaan"
-                  placeholder="(021)9987653">
+                  placeholder="08988928239" value="{{ old('no_telepon_perusahaan') }}">
               </div>
             </div>
             <div class="mb-3 row">

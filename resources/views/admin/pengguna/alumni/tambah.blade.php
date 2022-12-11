@@ -16,7 +16,8 @@
                 {{ __('NIS (Nomor Induk Siswa)') }}
               </label>
               <div class="col-sm-8">
-                <input type="number" class="form-control" id="nis" name="nis" placeholder="202115908" required>
+                <input type="number" class="form-control" id="nis" name="nis" placeholder="202115908" required
+                  value="{{ old('nis') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -25,7 +26,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="inputPassword" name="nama"
-                  placeholder="Aphrodeo Subarno" required>
+                  placeholder="Aphrodeo Subarno" required value="{{ old('nama') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -80,7 +81,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                  placeholder="04/18/2005">
+                  placeholder="04/18/2005" value="{{ old('tanggal_lahir') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -88,7 +89,8 @@
                 {{ __('No. Telepon') }}
               </label>
               <div class="col-sm-8">
-                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056">
+                <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056"
+                  value="{{ old('no_telp') }}">
               </div>
             </div>
             <div class="mb-3 row">

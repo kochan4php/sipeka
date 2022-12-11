@@ -81,7 +81,7 @@
       </div>
     </div>
     <div class="col-md-6 col-lg-4 mb-md-3">
-      <div class="card text-bg-success">
+      <div class="card text-bg-primary">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <span class="fs-2 fw-bold leading-1px">{{ $jumlah_angkatan }}</span>
@@ -90,6 +90,21 @@
           <div class="mt-4">
             <a href="{{ route('admin.angkatan.index') }}" class="text-decoration-none stretched-link text-white">
               <h4>Jumlah Angkatan</h4>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-4 mb-md-3">
+      <div class="card text-bg-success">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_lowongan }}</span>
+            <span><i class="fa-solid fa-graduation-cap" style="font-size: 3rem"></i></span>
+          </div>
+          <div class="mt-4">
+            <a href="{{ route('lowongankerja.index') }}" class="text-decoration-none stretched-link text-white">
+              <h4>Jumlah Lowongan Kerja</h4>
             </a>
           </div>
         </div>

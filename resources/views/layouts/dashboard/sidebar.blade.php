@@ -103,6 +103,13 @@
       @endcan
       @canany(['admin', 'perusahaan'])
         <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/lowongan*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('lowongankerja.index') }}">
+            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Lowongan</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <div class="dropdown">
             <button
               class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"

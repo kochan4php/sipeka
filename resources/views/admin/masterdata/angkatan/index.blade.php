@@ -12,45 +12,43 @@
 
   <div class="row">
     <div class="col table-responsive">
-      <div class="card table-responsive">
-        <div class="card-body">
-          <table class="table table-bordered border-secondary border-1 table-striped mb-0">
-            <thead class="table-dark">
+      <div class="table-responsive pb-2">
+        <table class="table table-bordered border-secondary border-1 table-striped mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col" class="text-nowrap text-center">No</th>
+              <th scope="col" class="text-nowrap text-center">Kode Angkatan</th>
+              <th scope="col" class="text-nowrap text-center">Tahun Angkatan</th>
+              <th scope="col" class="text-nowrap text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($angkatan as $item)
               <tr>
-                <th scope="col" class="text-nowrap text-center">No</th>
-                <th scope="col" class="text-nowrap text-center">Kode Angkatan</th>
-                <th scope="col" class="text-nowrap text-center">Tahun Angkatan</th>
-                <th scope="col" class="text-nowrap text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($angkatan as $item)
-                <tr>
-                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                  <td class="text-nowrap text-center">{{ $item->id_angkatan }}</td>
-                  <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
-                  <td class="text-nowrap text-center">
-                    <div class="btn-group">
-                      <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
-                        data-id-angkatan="{{ $item->id_angkatan }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-warning btn-edit">
-                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                        <span>Sunting</span>
-                      </button>
-                      <button data-id-angkatan="{{ $item->id_angkatan }}"
-                        class="btn btn-sm fw-bolder leading-1px
+                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center">{{ $item->id_angkatan }}</td>
+                <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
+                <td class="text-nowrap text-center">
+                  <div class="btn-group">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
+                      data-id-angkatan="{{ $item->id_angkatan }}"
+                      class="btn btn-sm fw-bolder leading-1px btn-warning btn-edit">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
+                    </button>
+                    <button data-id-angkatan="{{ $item->id_angkatan }}"
+                      class="btn btn-sm fw-bolder leading-1px
                         btn-danger btn-delete"
-                        data-bs-toggle="modal" data-bs-target="#modalHapus">
-                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                        <span>Hapus</span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+                      data-bs-toggle="modal" data-bs-target="#modalHapus">
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

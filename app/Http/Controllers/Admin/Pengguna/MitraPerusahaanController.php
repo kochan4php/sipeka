@@ -31,7 +31,7 @@ class MitraPerusahaanController extends Controller
 
   private function generatePerusahaanUsername(string $name): string
   {
-    return Helper::generateUniqueUsername('PRSHN', 5, $name);
+    return Helper::generateUniqueUsername('PRSHN', 5, $name, false);
   }
 
   /**
