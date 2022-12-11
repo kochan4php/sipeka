@@ -25,6 +25,9 @@ class AdminBKK extends Model
   // kasih tau kalau primary key nya bukan bertipe integer
   protected $keyType = 'string';
 
+  // bawa relasinya ketika di query
+  protected $with = ['user'];
+
   /**
    * The attributes that are mass assignable.
    *

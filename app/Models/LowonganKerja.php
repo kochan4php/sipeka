@@ -20,6 +20,9 @@ class LowonganKerja extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // bawa relasinya ketika di query
+  protected $with = ['perusahaan'];
+
   /**
    * The attributes that are mass assignable.
    *
