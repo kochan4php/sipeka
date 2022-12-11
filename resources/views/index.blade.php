@@ -113,8 +113,8 @@
       </div>
 
       <div class="row">
-        <div class="card-group owl-carousel owl-theme">
-          @foreach ($lowongan as $item)
+        @forelse ($lowongan as $item)
+          <div class="card-group owl-carousel owl-theme">
             <div class="card mx-1">
               <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
               <div class="card-body ">
@@ -128,8 +128,12 @@
                 <small class="text-muted">Last updated 3 mins ago</small>
               </div>
             </div>
-          @endforeach
-        </div>
+          </div>
+        @empty
+          <div class="col">
+            <h4 class="text-center fst-italic text-muted">Lowongan kerja belum tersedia.</h4>
+          </div>
+        @endforelse
       </div>
     </section>
   </div>
@@ -137,6 +141,7 @@
   @push('script-owl')
     <script>
       $(document).ready(function() {
+        console.log(document.querySelector('.owl-carousel'));
         $(".owl-carousel").owlCarousel({
           loop: true,
           margin: 10,

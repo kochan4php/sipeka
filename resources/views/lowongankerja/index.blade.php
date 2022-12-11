@@ -26,48 +26,45 @@
             </tr>
           </thead>
           <tbody>
-            @if ($lowongan->count() > 0)
-              @foreach ($lowongan as $item)
-                <tr>
-                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                  <td class="text-nowrap text-center">{{ $item->judul_lowongan }}</td>
-                  @can('admin')
-                    <td class="text-nowrap text-center">{{ $item->perusahaan->nama_perusahaan }}</td>
-                    <td class="text-nowrap text-center">{{ $item->perusahaan->user->email }}</td>
-                  @endcan
-                  <td class="text-nowrap text-center">
-                    {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
-                  </td>
-                  <td class="text-nowrap text-center">
-                    {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
-                  </td>
-                  <td class="text-nowrap text-center">
-                    <div class="btn-group">
-                      <a href="{{ route('lowongankerja.detail', $item->slug) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-success">
-                        <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                        <span>Detail</span>
-                      </a>
-                      <a href="{{ route('lowongankerja.edit', $item->slug) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-warning">
-                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                        <span>Sunting</span>
-                      </a>
-                      <button data-slug="{{ $item->slug }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
-                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                        <span>Hapus</span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              @endforeach
-            @else
+            @forelse ($lowongan as $item)
               <tr>
-                <td colspan="7" class="fs-5 text-center">Data lowongan belum ada, silahkan tambahkan!</td>
+                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center">{{ $item->judul_lowongan }}</td>
+                @can('admin')
+                  <td class="text-nowrap text-center">{{ $item->perusahaan->nama_perusahaan }}</td>
+                  <td class="text-nowrap text-center">{{ $item->perusahaan->user->email }}</td>
+                @endcan
+                <td class="text-nowrap text-center">
+                  {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
+                </td>
+                <td class="text-nowrap text-center">
+                  {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
+                </td>
+                <td class="text-nowrap text-center">
+                  <div class="btn-group">
+                    <a href="{{ route('lowongankerja.detail', $item->slug) }}"
+                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                      <span>Detail</span>
+                    </a>
+                    <a href="{{ route('lowongankerja.edit', $item->slug) }}"
+                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
+                    </a>
+                    <button data-slug="{{ $item->slug }}" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
+                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
+                    </button>
+                  </div>
+                </td>
               </tr>
-            @endif
+            @empty
+              <tr>
+                <td colspan="7" class="fs-5 text-center">Data lowongan kerja belum ada, silahkan tambahkan!</td>
+              </tr>
+            @endforelse
           </tbody>
         </table>
       </div>

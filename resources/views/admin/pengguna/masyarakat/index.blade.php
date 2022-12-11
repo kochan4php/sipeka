@@ -22,40 +22,38 @@
             </tr>
           </thead>
           <tbody>
-            @if ($masyarakat->count() > 0)
-              @foreach ($masyarakat as $item)
-                <tr>
-                  <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                  <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
-                  <td class="text-nowrap text-center">{{ $item->username }}</td>
-                  <td class="text-nowrap text-center">{{ $item->no_telepon ?? '-' }}</td>
-                  <td class="text-nowrap text-center">
-                    <div class="btn-group">
-                      <a href="{{ route('admin.pelamar.detail', $item->username) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-success">
-                        <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                        <span>Detail</span>
-                      </a>
-                      <a href="{{ route('admin.pelamar.edit', $item->username) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-warning">
-                        <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                        <span>Sunting</span>
-                      </a>
-                      <a href="{{ route('admin.pelamar.detail', $item->username) }}"
-                        class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
-                        data-bs-target="#modalHapus" data-username="{{ $item->username }}">
-                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                        <span>Hapus</span>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              @endforeach
-            @else
+            @forelse ($masyarakat as $item)
+              <tr>
+                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
+                <td class="text-nowrap text-center">{{ $item->username }}</td>
+                <td class="text-nowrap text-center">{{ $item->no_telepon ?? '-' }}</td>
+                <td class="text-nowrap text-center">
+                  <div class="btn-group">
+                    <a href="{{ route('admin.pelamar.detail', $item->username) }}"
+                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                      <span>Detail</span>
+                    </a>
+                    <a href="{{ route('admin.pelamar.edit', $item->username) }}"
+                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
+                      <span>Sunting</span>
+                    </a>
+                    <a href="{{ route('admin.pelamar.detail', $item->username) }}"
+                      class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
+                      data-bs-target="#modalHapus" data-username="{{ $item->username }}">
+                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      <span>Hapus</span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            @empty
               <tr>
                 <td colspan="5" class="fs-5 text-center">Data pelamar belum ada, silahkan tambahkan!</td>
               </tr>
-            @endif
+            @endforelse
           </tbody>
         </table>
       </div>
