@@ -20,6 +20,9 @@ class TahapanSeleksi extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // bawa relasinya ketika di query
+  protected $with = ['lowongan'];
+
   /**
    * The attributes that are mass assignable.
    *
@@ -29,7 +32,8 @@ class TahapanSeleksi extends Model
     'id_lowongan',
     'judul_tahapan',
     'ket_tahapan',
-    'urutan_tahapan_ke'
+    'urutan_tahapan_ke',
+    'slug'
   ];
 
   public function lowongan(): BelongsTo
@@ -40,5 +44,10 @@ class TahapanSeleksi extends Model
   public function penilaian_seleksi(): HasMany
   {
     return $this->hasMany(PenilaianSeleksi::class, 'id_tahapan', 'id_tahapan');
+  }
+
+  public function getRouteKeyName()
+  {
+    return 'slug';
   }
 }

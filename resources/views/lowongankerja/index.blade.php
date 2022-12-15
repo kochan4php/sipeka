@@ -53,7 +53,7 @@
                       <span>Sunting</span>
                     </a>
                     <button data-slug="{{ $item->slug }}" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
-                      data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      data-bs-toggle="modal" data-bs-target="#modalHapus">
                       <span><i class="fa-solid fa-trash fa-lg"></i></span>
                       <span>Hapus</span>
                     </button>
@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="modalHapus" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

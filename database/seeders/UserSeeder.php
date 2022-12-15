@@ -22,24 +22,6 @@ class UserSeeder extends Seeder
         'username' => 'admin',
         'email' => 'bkksmkn1bekasi@gmail.com',
         'password' => Hash::make('admin')
-      ],
-      [
-        'id_level' => 'LU02',
-        'username' => 'PT.Suka-suka',
-        'email' => 'Cina@gmail.com',
-        'password' => Hash::make('perusahaan')
-      ],
-      [
-        'id_level' => 'LU02',
-        'username' => 'PT.LaylaBocil',
-        'email' => 'layla@gmail.com',
-        'password' => Hash::make('perusahaan')
-      ],
-      [
-        'id_level' => 'LU03',
-        'username' => 'saiaaa',
-        'email' => 'mrs@gmail.com',
-        'password' => Hash::make('perusahaan')
       ]
     ]);
     $users->each(fn ($user) => User::create($user));

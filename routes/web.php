@@ -19,6 +19,7 @@ use App\Http\Controllers\{
   Pelamar\PengalamanKerjaController,
   // All Admin and Perusahaan Controller
   AdminDanPerusahaan\LowonganKerjaController,
+  AdminDanPerusahaan\SeleksiController,
 };
 use Illuminate\Support\Facades\Route;
 
@@ -129,7 +130,10 @@ Route::prefix('/sipeka')->group(function () {
       });
 
       // Route Lowongan oleh Admin dan Mitra Perusahaan
-      Route::controller(LowonganKerjaController::class)->prefix('/lowongan')->middleware('role:admin,perusahaan')->group(function () {
+      Route::controller(LowonganKerjaController::class)->prefix('/lowongan')->middleware([
+        'role:admin,perusahaan',
+        'if_any_company'
+      ])->group(function () {
         Route::get('/', 'index')->name('lowongankerja.index');
         Route::get('/tambah', 'create')->name('lowongankerja.create');
         Route::post('/', 'store')->name('lowongankerja.store');
@@ -140,8 +144,18 @@ Route::prefix('/sipeka')->group(function () {
       });
 
       // Route Seleksi oleh Admin dan Mitra Perusahaan
-      Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
-        Route::get('/', fn () => 'Hehe');
+      Route::controller(SeleksiController::class)->prefix('/seleksi')->middleware([
+        'role:admin,perusahaan',
+        'if_any_job_vacancy'
+      ])->group(function () {
+        Route::prefix('/tahapan')->group(function () {
+          Route::get('/', 'indexStages')->name('tahapan.seleksi.index');
+          Route::get('/{lowongan_kerja}/tambah', 'addStages')->name('tahapan.seleksi.create');
+          Route::post('/{lowongan_kerja}', 'storeAddStages')->name('tahapan.seleksi.store');
+          Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'editStages')->name('tahapan.seleksi.edit');
+          Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'storeUpdateStages')->name('tahapan.seleksi.update');
+          Route::delete('/{lowongan_kerja}/delete/{tahapan_seleksi}', 'destroyStages')->name('tahapan.seleksi.delete');
+        });
       });
     });
 

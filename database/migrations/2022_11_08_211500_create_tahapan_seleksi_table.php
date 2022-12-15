@@ -22,6 +22,7 @@ return new class extends Migration
       $table->string('judul_tahapan', 200);
       $table->text('ket_tahapan');
       $table->integer('urutan_tahapan_ke');
+      $table->string('slug');
 
       // Foreign key untuk id_tahapan
       $table

@@ -36,7 +36,7 @@ class StoreMitraPerusahaanRequest extends FormRequest
   {
     return [
       'nama_perusahaan' => ['required', 'min:3', 'max:255'],
-      'email_perusahaan' => ['required', 'email', 'min:5', 'max:255'],
+      'email_perusahaan' => ['required', 'email', 'min:5', 'max:255', 'unique:users,email'],
       'password_perusahaan' => ['required'],
       'no_telepon_perusahaan' => ['required', 'min:4', 'max:100'],
       'alamat_perusahaan' => ['required'],
