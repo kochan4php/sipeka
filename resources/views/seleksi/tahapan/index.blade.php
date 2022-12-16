@@ -53,11 +53,11 @@
                                 </div>
                               </div>
                               <div class="btn-group">
-                                <a href="{{ route('tahapan.seleksi.edit', ['lowongan_kerja' => $item->slug, 'tahapan_seleksi' => $tahapan->slug]) }}"
+                                <a href="{{ route('tahapan.seleksi.edit', ['lowongan_kerja' => $item->slug, 'tahapan_seleksi' => $tahapan->id_tahapan]) }}"
                                   class="btn btn-sm btn-warning d-flex align-items-center justify-content-center">
                                   <i class="fa-solid fa-pen-to-square fa-lg"></i>
                                 </a>
-                                <button type="button" data-slug-tahapan="{{ $tahapan->slug }}"
+                                <button type="button" data-id-tahapan="{{ $tahapan->id_tahapan }}"
                                   data-slug-lowongan="{{ $tahapan->lowongan->slug }}"
                                   class="btn btn-sm btn-danger d-flex align-items-center justify-content-center btn-delete"
                                   data-bs-toggle="modal" data-bs-target="#modalHapus">
@@ -119,13 +119,13 @@
           const formModal = document.querySelector('.modal .form-modal');
           const btnCancel = document.querySelector('.modal .btn-cancel');
           const btnClose = document.querySelector('.modal .btn-close');
-          const slugTahapan = btn.dataset.slugTahapan;
+          const idTahapan = btn.dataset.idTahapan;
           const slugLowongan = btn.dataset.slugLowongan;
           const route =
-            "{{ route('tahapan.seleksi.delete', ['lowongan_kerja' => ':slugLowongan', 'tahapan_seleksi' => ':slugTahapan']) }}";
+            "{{ route('tahapan.seleksi.delete', ['lowongan_kerja' => ':slugLowongan', 'tahapan_seleksi' => ':idTahapan']) }}";
           formModal.setAttribute('action', route
             .replace(':slugLowongan', slugLowongan)
-            .replace(':slugTahapan', slugTahapan));
+            .replace(':idTahapan', idTahapan));
           btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
           btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
         });

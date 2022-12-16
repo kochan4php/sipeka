@@ -113,8 +113,8 @@
       </div>
 
       <div class="row">
-        @forelse ($lowongan as $item)
-          <div class="card-group owl-carousel owl-theme">
+        <div class="card-group owl-carousel owl-theme">
+          @forelse ($lowongan as $item)
             <div class="card mx-1">
               <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
               <div class="card-body ">
@@ -128,12 +128,10 @@
                 <small class="text-muted">Last updated 3 mins ago</small>
               </div>
             </div>
-          </div>
-        @empty
-          <div class="col">
-            <h4 class="text-center fst-italic text-muted">Lowongan kerja belum tersedia.</h4>
-          </div>
-        @endforelse
+          @empty
+            Hehe
+          @endforelse
+        </div>
       </div>
     </section>
   </div>

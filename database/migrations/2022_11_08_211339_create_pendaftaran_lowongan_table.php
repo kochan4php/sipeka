@@ -17,7 +17,7 @@ return new class extends Migration
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
       $table->charset = env('DB_CHARSET', 'utf8mb4');
       $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
-      $table->integer('id_pendaftaran', true);
+      $table->uuid('id_pendaftaran')->primary();
       $table->integer('id_pelamar');
       $table->integer('id_lowongan');
       $table->char('kode_pendaftaran', 20);

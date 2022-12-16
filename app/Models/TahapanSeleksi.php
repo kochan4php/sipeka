@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TahapanSeleksi extends Model
 {
-  use HasFactory;
+  use HasFactory, HasUuids;
 
   // kasih tau tabel yang ada di databasenya
   protected $table = 'tahapan_seleksi';
@@ -33,7 +34,6 @@ class TahapanSeleksi extends Model
     'judul_tahapan',
     'ket_tahapan',
     'urutan_tahapan_ke',
-    'slug'
   ];
 
   public function lowongan(): BelongsTo
@@ -48,6 +48,6 @@ class TahapanSeleksi extends Model
 
   public function getRouteKeyName()
   {
-    return 'slug';
+    return 'id_tahapan';
   }
 }

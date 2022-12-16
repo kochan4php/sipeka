@@ -10,7 +10,7 @@
         <div class="card-body pb-0">
           <x-alert-error-validation />
           <form
-            action="{{ route('tahapan.seleksi.update', ['lowongan_kerja' => $lowonganKerja->slug, 'tahapan_seleksi' => $tahapanSeleksi->slug]) }}"
+            action="{{ route('tahapan.seleksi.update', ['lowongan_kerja' => $lowonganKerja->slug, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
             method="POST">
             @csrf
             @method('put')
