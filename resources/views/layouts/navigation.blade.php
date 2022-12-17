@@ -11,17 +11,21 @@
           <a class="nav-link custom-font" href="{{ route('home') }}">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="#lowongan-kerja">Lowongan Kerja</a>
+          <a class="nav-link custom-font" href="/sipeka#perusahaan">Perusahaan</a>
+        </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="#cara-daftar">Cara Daftar</a>
+          <a class="nav-link custom-font" href="/sipeka#lowongan-kerja">Lowongan</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-font" href="/sipeka/cara-daftar">Cara Daftar</a>
         </li>
       </ul>
       <ul class="navbar-nav">
         @auth
           <li class="nav-item">
             <div class="dropdown">
-              <button class="btn custom-btn btn-primary dropdown-toggle w-100 d-flex gap-2 align-items-center custom-font"
+              <button class="btn custom-btn btn-primary dropdown-toggle w-100 d-flex gap-2 align-items-center"
                 type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-user"></i>
                 <span>{{ Auth::user()->username }}</span>

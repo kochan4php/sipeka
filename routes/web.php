@@ -17,8 +17,9 @@ use App\Http\Controllers\{
   Perusahaan\PelamarController,
   // All Pelamar Controller
   Pelamar\PengalamanKerjaController,
+  Pelamar\LowonganKerjaController as PlmrLowonganKerjaController,
   // All Admin and Perusahaan Controller
-  AdminDanPerusahaan\LowonganKerjaController,
+  AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
 };
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,9 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
   Route::get('/', \App\Http\Controllers\OuterController::class)->name('home');
+
+  // Route Lowongan Kerja yand dilihat oleh pelamar
+  Route::get('/lowongan-kerja/{lowongan_kerja}', PlmrLowonganKerjaController::class)->name('lowongan_kerja');
 
   Route::middleware(['guest'])->group(function () {
     Route::controller(RegistrationController::class)->group(function () {
@@ -130,7 +134,7 @@ Route::prefix('/sipeka')->group(function () {
       });
 
       // Route Lowongan oleh Admin dan Mitra Perusahaan
-      Route::controller(LowonganKerjaController::class)->prefix('/lowongan')->middleware([
+      Route::controller(AMPLowonganKerjaController::class)->prefix('/lowongan')->middleware([
         'role:admin,perusahaan',
         'if_any_company'
       ])->group(function () {

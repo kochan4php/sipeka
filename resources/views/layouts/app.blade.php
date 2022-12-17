@@ -20,6 +20,8 @@
   <div>
     @yield('container')
   </div>
+  @include('layouts.footer')
+
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="{{ asset('assets/owl-carousel/dist/owl.carousel.min.js') }}"></script>
 

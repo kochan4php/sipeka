@@ -1,6 +1,6 @@
 *::selection {
-  background-color: #f9a8d4;
-  color: #9d174d;
+  background-color: rgb(255, 145, 163);
+  color: #ae0046;
 }
 
 .custom-font {
@@ -12,7 +12,7 @@
 }
 
 .py-2-3 {
-  padding: 13px 0 !important;
+  padding: 11px 0 !important;
 }
 
 .navbar .navbar-toggler {

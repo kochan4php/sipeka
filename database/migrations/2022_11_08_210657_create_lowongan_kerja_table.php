@@ -24,6 +24,7 @@ return new class extends Migration
       $table->date('tanggal_dimulai');
       $table->date('tanggal_berakhir');
       $table->text('slug')->unique();
+      $table->timestamps();
 
       // Foreign key untuk id_perusahaan
       $table
