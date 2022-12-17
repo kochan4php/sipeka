@@ -9,6 +9,7 @@ class LowonganKerjaController extends Controller
 {
   public function __invoke(LowonganKerja $lowonganKerja)
   {
-    return view('lowongan', compact('lowonganKerja'));
+    $lowongan = LowonganKerja::where('slug', '!=', $lowonganKerja->slug)->inRandomOrder()->limit(10)->get();
+    return view('lowongan', compact('lowonganKerja', 'lowongan'));
   }
 }
