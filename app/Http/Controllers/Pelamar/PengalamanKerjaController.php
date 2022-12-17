@@ -71,6 +71,7 @@ class PengalamanKerjaController extends Controller
   public function destroy($id)
   {
     try {
+      $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja()->where('id_pengalaman', $id)->first();
       if ($pengalamanKerja->delete()) return back()->with('sukses', 'Berhasil di hapus ');
       else return redirect()->back()->with('error', 'Gagal menghapus');
     } catch (\Exception $e) {
