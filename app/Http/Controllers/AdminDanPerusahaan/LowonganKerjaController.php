@@ -5,12 +5,9 @@ namespace App\Http\Controllers\AdminDanPerusahaan;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
-use App\Models\LowonganKerja;
-use App\Models\MitraPerusahaan;
+use App\Models\{LowonganKerja, MitraPerusahaan};
 use App\Traits\HasMainRoute;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\{Auth, Gate};
 use Illuminate\Support\ItemNotFoundException;
 
 class LowonganKerjaController extends Controller
@@ -97,7 +94,7 @@ class LowonganKerjaController extends Controller
       $perusahaan = null;
 
       if (Gate::check('perusahaan')) {
-        $lowongan = Auth::user()->perusahaan->lowongan->where('id_lowongan', $lowonganKerja->id_lowongan)->first();
+        $lowongan = Auth::user()->perusahaan->lowongan->firstWhere('id_lowongan', $lowonganKerja->id_lowongan);
       } else if (Gate::check('admin')) {
         $lowongan = $lowonganKerja;
         $perusahaan = MitraPerusahaan::all();
@@ -125,8 +122,9 @@ class LowonganKerjaController extends Controller
         $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
       endif;
 
-      if (Gate::check('perusahaan')) Auth::user()->perusahaan->lowongan()->where('slug', $lowonganKerja->slug)->update($validatedData);
-      else if (Gate::check('admin')) {
+      if (Gate::check('perusahaan')) {
+        Auth::user()->perusahaan->lowongan()->firstWhere('slug', $lowonganKerja->slug)->update($validatedData);
+      } else if (Gate::check('admin')) {
         $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();
         $lowonganKerja->update($validatedData);
       }
@@ -146,10 +144,8 @@ class LowonganKerjaController extends Controller
   public function destroy(LowonganKerja $lowonganKerja)
   {
     try {
-      $deleteLowongan = $lowonganKerja->delete();
-      if ($deleteLowongan) Session::flash('sukses', 'Berhasil hapus data lowongan');
-      else Session::flash('error', 'Gagal menghapus data lowongan');
-      return back();
+      $lowonganKerja->delete();
+      return back()->with('sukses', 'Berhasil hapus data lowongan');
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }

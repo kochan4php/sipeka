@@ -30,13 +30,13 @@ class TahapanSeleksiController extends Controller
     try {
       $validatedData = $request->validatedData();
       $insertOneStage = $lowonganKerja->tahapan_seleksi()->create($validatedData);
-      $successMessage = "Berhasil menambahkan tahapan seleksi baru untuk lowongan {$lowonganKerja->judul_lowongan}";
+      $successMsg = "Berhasil menambahkan tahapan seleksi baru untuk lowongan {$lowonganKerja->judul_lowongan}";
 
       if (Gate::check('admin')) :
-        $successMessage .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
+        $successMsg .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
       endif;
 
-      if ($insertOneStage) return to_route($this->tahapanSeleksiMainRoute)->with('sukses', $successMessage);
+      if ($insertOneStage) return to_route($this->tahapanSeleksiMainRoute)->with('sukses', $successMsg);
       else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return to_route($this->tahapanSeleksiMainRoute)->with('error', $e->getMessage());
@@ -52,14 +52,14 @@ class TahapanSeleksiController extends Controller
   {
     try {
       $validatedData = $request->validatedData();
-      $updateOneStage = $lowonganKerja->tahapan_seleksi()->where('id_tahapan', $tahapanSeleksi->id_tahapan)->update($validatedData);
-      $successMessage = "Berhasil memperbarui tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
+      $updateOneStage = $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->update($validatedData);
+      $successMsg = "Berhasil memperbarui tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
 
       if (Gate::check('admin')) :
-        $successMessage .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
+        $successMsg .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
       endif;
 
-      if ($updateOneStage) return to_route($this->tahapanSeleksiMainRoute)->with('sukses', $successMessage);
+      if ($updateOneStage) return to_route($this->tahapanSeleksiMainRoute)->with('sukses', $successMsg);
       else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
     } catch (\Exception $e) {
       return to_route($this->tahapanSeleksiMainRoute)->with('error', $e->getMessage());
@@ -68,8 +68,12 @@ class TahapanSeleksiController extends Controller
 
   public function destroy(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi)
   {
-    $lowonganKerja->tahapan_seleksi()->where('id_tahapan', $tahapanSeleksi->id_tahapan)->delete();
-    $successMessage = "Berhasil menghapus tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
-    return to_route($this->tahapanSeleksiMainRoute)->with('sukses', $successMessage);
+    try {
+      $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->delete();
+      $successMsg = "Berhasil menghapus tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
+      return back()->with('sukses', $successMsg);
+    } catch (\Exception $e) {
+      return back()->with('error', $e->getMessage());
+    }
   }
 }
