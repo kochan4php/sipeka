@@ -13,6 +13,11 @@ class Helper
     return $uppercase ? strtoupper($username) : strtolower($username);
   }
 
+  public static function generateUniqueSlug(string $name): string
+  {
+    return strtolower(Str::slug($name) . '-' . Str::random(10));
+  }
+
   public static function deleteFileIfExistsInStorageFolder(?string $path): void
   {
     if (!is_null($path) && Storage::exists($path)) Storage::delete($path);

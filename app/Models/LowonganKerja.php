@@ -20,6 +20,9 @@ class LowonganKerja extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // bawa relasinya ketika di query
+  protected $with = ['perusahaan'];
+
   /**
    * The attributes that are mass assignable.
    *
@@ -30,7 +33,8 @@ class LowonganKerja extends Model
     'judul_lowongan',
     'deskripsi_lowongan',
     'tanggal_dimulai',
-    'tanggal_berakhir'
+    'tanggal_berakhir',
+    'slug',
   ];
 
   public function perusahaan(): BelongsTo
@@ -46,5 +50,10 @@ class LowonganKerja extends Model
   public function pendaftaran_lowongan(): HasMany
   {
     return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
+  }
+
+  public function getRouteKeyName()
+  {
+    return 'slug';
   }
 }

@@ -114,74 +114,23 @@
 
       <div class="row">
         <div class="card-group owl-carousel owl-theme">
-          <div class="card mx-1">
-            <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
-            <div class="card-body ">
-              <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
-                <h4>IT Consultant</h4>
-              </a>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                content.
-                This content is a little bit longer.</p>
+          @forelse ($lowongan as $item)
+            <div class="card mx-1">
+              <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
+              <div class="card-body ">
+                <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
+                  <h4>{{ $item->judul_lowongan }}</h4>
+                </a>
+                <p class="card-text">Perusahaan : {{ $item->perusahaan->nama_perusahaan }}</p>
+                <p class="card-text">{{ $item->deskripsi_lowongan }}</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </div>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-          </div>
-          <div class="card mx-1">
-            <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
-            <div class="card-body">
-              <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
-                <h4>System Analyst</h4>
-              </a>
-              <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-          </div>
-          <div class="card mx-1">
-            <img src="{{ asset('assets/images/4.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
-            <div class="card-body">
-              <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
-                <h4>Fullstack Dev</h4>
-              </a>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                content.
-                This card has even longer content than the first to show that equal height action.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-          </div>
-          <div class="card mx-1">
-            <img src="{{ asset('assets/images/3.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
-            <div class="card-body">
-              <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
-                <h4>Fullstack Dev</h4>
-              </a>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                content.
-                This card has even longer content than the first to show that equal height action.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-          </div>
-          <div class="card mx-1">
-            <img src="{{ asset('assets/images/2.jpeg') }}" class="card-img-top w-100 img-thumbnail" alt="...">
-            <div class="card-body">
-              <a class="card-title text-decoration-none text-black font-bolder stretched-link" href="/">
-                <h4>Fullstack Dev</h4>
-              </a>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-                content.
-                This card has even longer content than the first to show that equal height action.</p>
-            </div>
-            <div class="card-footer">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </div>
-          </div>
+          @empty
+            Hehe
+          @endforelse
         </div>
       </div>
     </section>
@@ -190,6 +139,7 @@
   @push('script-owl')
     <script>
       $(document).ready(function() {
+        console.log(document.querySelector('.owl-carousel'));
         $(".owl-carousel").owlCarousel({
           loop: true,
           margin: 10,

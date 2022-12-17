@@ -16,7 +16,26 @@ body {
   letter-spacing: 1px;
 }
 
+.bg-purple {
+  background-color: var(--bg-purple) !important;
+}
+
 .text-bg-indigo {
+  background-color: var(--bs-indigo);
+  color: var(--bs-white);
+}
+
+.text-bg-purple {
+  background-color: var(--bs-purple);
+  color: var(--bs-white);
+}
+
+.text-bg-orange {
+  background-color: var(--bs-orange);
+  color: var(--bs-white);
+}
+
+.text-bg-pink {
   background-color: var(--bs-pink);
   color: var(--bs-white);
 }

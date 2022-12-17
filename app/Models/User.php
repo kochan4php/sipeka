@@ -23,6 +23,9 @@ class User extends Authenticatable
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // bawa relasinya ketika di query
+  protected $with = ['level_user'];
+
   /**
    * The attributes that are mass assignable.
    *

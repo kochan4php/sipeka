@@ -33,13 +33,18 @@ class MainController extends Controller
       ->firstOrFail()
       ->jumlah_angkatan;
 
+    $jumlah_lowongan = collect(DB::select("SELECT * FROM jumlah_lowongan"))
+      ->firstOrFail()
+      ->jumlah_lowongan;
+
     return view('admin.index', compact(
       'jumlah_pengguna',
       'jumlah_alumni',
       'jumlah_masyarakat',
       'jumlah_mitra_perusahaan',
       'jumlah_jurusan',
-      'jumlah_angkatan'
+      'jumlah_angkatan',
+      'jumlah_lowongan',
     ));
   }
 }
