@@ -32,9 +32,12 @@
                             <a href="{{ route('pelamar.experience.edit', $pk->id_pengalaman) }}" class="btn btn-warning">
                               <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                             </a>
-                            <a href="{{ route('pelamar.experience.delete', $pk->id_pengalaman) }}" class="btn btn-danger">
-                              <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                            </a>
+                            <form action="{{ route('pelamar.experience.delete', $pk->id_pengalaman) }}" method="post">
+                              @csrf
+                              @method('delete')
+                              <button type="submit" class="btn btn-danger">
+                                <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                              </button>
                             </form>
                           </div>
                         </div>
