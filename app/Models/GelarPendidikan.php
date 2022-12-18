@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class TingkatanPendidikan extends Model
+class GelarPendidikan extends Model
 {
-  use HasFactory;
+  use HasFactory, HasUuids;
 
   // kasih tau tabel yang ada di databasenya
-  protected $table = 'tingkatan_pendidikan';
+  protected $table = 'gelar_pendidikan';
 
   // kasih tau primary key yang ada di tabel yang bersangkutan
-  protected $primaryKey = 'id_tingkatan';
+  protected $primaryKey = 'id_gelar';
 
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
@@ -31,12 +32,11 @@ class TingkatanPendidikan extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    'id_tingkatan',
-    'nama_tingkatan'
+    'nama_gelar'
   ];
 
-  public function riwayat_pendidikan_pengguna(): HasMany
+  public function riwayat_pendidikan(): HasMany
   {
-    return $this->hasMany(RiwayatPendidikanPengguna::class, 'id_tingkatan', 'id_tingkatan');
+    return $this->hasMany(RiwayatPendidikan::class, 'kualifikasi', 'id_gelar');
   }
 }

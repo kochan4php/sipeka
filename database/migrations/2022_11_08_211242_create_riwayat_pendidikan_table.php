@@ -13,22 +13,20 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('riwayat_pendidikan_pengguna', function (Blueprint $table) {
+    Schema::create('riwayat_pendidikan', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
       $table->charset = env('DB_CHARSET', 'utf8mb4');
       $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
-      $table->integer('id_riwayat', true);
-      $table->char('id_tingkatan', 8);
+      $table->uuid('id_riwayat')->primary();
+
+      // Foreign key untuk kualifikasi
+      $table
+        ->foreignUuid('kualifikasi')
+        ->constrained('gelar_pendidikan', 'id_gelar')
+        ->cascadeOnDelete();
+
       $table->integer('id_pelamar');
       $table->string('nama_institut');
-
-      // Foreign key untuk id_tingkatan
-      $table
-        ->foreign('id_tingkatan')
-        ->references('id_tingkatan')
-        ->on('tingkatan_pendidikan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
 
       // Foreign key untuk id_pelamar
       $table

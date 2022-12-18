@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RiwayatPendidikanPengguna extends Model
+class RiwayatPendidikan extends Model
 {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
-  protected $table = 'riwayat_pendidikan_pengguna';
+  protected $table = 'riwayat_pendidikan';
 
   // kasih tau primary key yang ada di tabel yang bersangkutan
   protected $primaryKey = 'id_riwayat';
@@ -19,20 +19,26 @@ class RiwayatPendidikanPengguna extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // kasih tau kalau primary key nya bukan integer AI
+  public $incrementing = false;
+
+  // kasih tau kalau primary key nya bukan bertipe integer
+  protected $keyType = 'string';
+
   /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
   protected $fillable = [
-    'id_tingkatan',
+    'kualifikasi',
     'id_pelamar',
     'nama_institut'
   ];
 
-  public function tingkatan(): BelongsTo
+  public function gelar_pendidikan(): BelongsTo
   {
-    return $this->belongsTo(TingkatanPendidikan::class, 'id_tingkatan', 'id_tingkatan');
+    return $this->belongsTo(GelarPendidikan::class, 'kualifikasi', 'id_gelar');
   }
 
   public function pelamar(): BelongsTo
