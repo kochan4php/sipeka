@@ -47,7 +47,7 @@ class Pelamar extends Model
 
   public function riwayat_pendidikan(): HasMany
   {
-    return $this->hasMany(RiwayatPendidikanPengguna::class, 'id_pelamar', 'id_pelamar');
+    return $this->hasMany(RiwayatPendidikan::class, 'id_pelamar', 'id_pelamar');
   }
 
   public function pengalaman_bekerja(): HasMany

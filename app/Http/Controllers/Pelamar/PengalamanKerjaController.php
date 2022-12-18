@@ -41,18 +41,17 @@ class PengalamanKerjaController extends Controller
     ]);
 
     Auth::user()->pelamar->pengalaman_bekerja()->create($validatedData);
-    return redirect()->route('pelamar.experience.index',);
+    return to_route('pelamar.experience.index', Auth::user()->username);
   }
 
-  public function edit($id)
+  public function edit(string $username, int $id)
   {
-    // $pengalamanKerja = PengalamanKerja::where('id_pengalaman', $id)->first();
     $jenisPekerjaan = $this->jenisPekerjaan;
-    $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja->where('id_pengalaman', $id)->first();
+    $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja->firstWhere('id_pengalaman', $id);
     return view('pelamar.experience.sunting', compact('pengalamanKerja', 'jenisPekerjaan'));
   }
 
-  public function update(Request $request, $id)
+  public function update(Request $request, string $username, int $id)
   {
     $validatedData = $request->only([
       "judul_posisi",
@@ -63,16 +62,15 @@ class PengalamanKerjaController extends Controller
       "deskripsi_pengalaman"
     ]);
 
-    // PengalamanKerja::where('id_pengalaman', $id)->update($validatedData);
-    Auth::user()->pelamar->pengalaman_bekerja()->where('id_pengalaman', $id)->update($validatedData);
-    return redirect()->route('pelamar.experience.index')->with('sukses', 'berhasil memperbarui data pengalaman');
+    Auth::user()->pelamar->pengalaman_bekerja()->firstWhere('id_pengalaman', $id)->update($validatedData);
+    return to_route('pelamar.experience.index', $username)->with('sukses', 'berhasil memperbarui data pengalaman');
   }
 
-  public function destroy($id)
+  public function destroy(string $username, int $id)
   {
     try {
-      $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja()->where('id_pengalaman', $id)->first();
-      if ($pengalamanKerja->delete()) return back()->with('sukses', 'Berhasil di hapus ');
+      $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja()->firstWhere('id_pengalaman', $id)->delete();
+      if ($pengalamanKerja) return back()->with('sukses', 'Berhasil di hapus ');
       else return redirect()->back()->with('error', 'Gagal menghapus');
     } catch (\Exception $e) {
       return redirect()->back()->with('error', $e->getMessage());

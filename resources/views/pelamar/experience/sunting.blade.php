@@ -8,13 +8,16 @@
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
             <h3>Sunting Experience</h3>
-            <a href="{{ route('pelamar.experience.index') }}" class="btn btn-danger" type="button">Batal</a>
+            <a href="{{ route('pelamar.experience.index', Auth::user()->username) }}" class="btn btn-danger"
+              type="button">Batal</a>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
                 <x-alert-error-validation />
-                <form action="{{ route('pelamar.experience.update', $pengalamanKerja->id_pengalaman) }}" method="POST">
+                <form
+                  action="{{ route('pelamar.experience.update', ['username' => Auth::user()->username, 'id' => $pengalamanKerja->id_pengalaman]) }}"
+                  method="POST">
                   @csrf
                   @method('put')
                   <div class="mb-3 row">

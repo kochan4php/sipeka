@@ -46,7 +46,8 @@
                     </a>
                   @endcan
                   @can('pelamar')
-                    <a class="dropdown-item d-flex gap-2 align-items-center" href="{{ route('pelamar.index') }}">
+                    <a class="dropdown-item d-flex gap-2 align-items-center"
+                      href="{{ route('pelamar.index', Auth::user()->username) }}">
                       <i class="fa-solid fa-address-card fa-lg"></i>
                       <span class="custom-font">Profile Saya</span>
                     </a>

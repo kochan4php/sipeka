@@ -7,35 +7,32 @@
       <div class="col-lg-8">
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <h3>Experience Saya</h3>
+            <h3>Pendidikan Saya</h3>
             <a href="{{ route('pelamar.experience.add', Auth::user()->username) }}" class="btn custom-btn btn-primary"
               type="button">Tambah</a>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12 d-flex flex-column gap-3">
-                @forelse ($pengalamanKerja as $pk)
+                @forelse ($pendidikan as $pdnk)
                   <div class="card">
-                    <div class="card-body pb-0">
+                    <div class="card-body">
                       <div class="d-flex justify-content-between">
                         <div>
-                          <h4>{{ $pk->judul_posisi }}</h4>
-                          <h5>{{ $pk->nama_perusahaan }}</h5>
+                          <h5>{{ $pdnk->institut_or_universitas }}</h5>
+                          <h6 class="text-muted">{{ $pdnk->tahun_kelulusan }}</h6>
                           <div class="d-flex gap-2">
-                            <p>{{ \Carbon\Carbon::parse($pk->tanggal_masuk)->format('d M Y') }}</p>
-                            <span>-</span>
-                            <p>{{ \Carbon\Carbon::parse($pk->tanggal_selesai)->format('d M Y') }}</p>
+                            <span>{{ $pdnk->gelar_pendidikan->nama_gelar }}</span>
                           </div>
-                          <p>Indonesia</p>
                         </div>
                         <div>
                           <div class="d-flex gap-1">
-                            <a href="{{ route('pelamar.experience.edit', ['username' => Auth::user()->username, 'id' => $pk->id_pengalaman]) }}"
+                            <a href="{{ route('pelamar.experience.edit', ['username' => Auth::user()->username, 'id' => $pdnk->id_riwayat]) }}"
                               class="btn custom-btn btn-warning">
                               <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                             </a>
                             <form
-                              action="{{ route('pelamar.experience.delete', ['username' => Auth::user()->username, 'id' => $pk->id_pengalaman]) }}"
+                              action="{{ route('pelamar.experience.delete', ['username' => Auth::user()->username, 'id' => $pdnk->id_riwayat]) }}"
                               method="post">
                               @csrf
                               @method('delete')
@@ -51,7 +48,7 @@
                 @empty
                   <div class="card">
                     <div class="card-body custom-font text-center">
-                      Kamu belum memiliki pengalaman kerja.
+                      Kamu belum memiliki data pendidikan.
                     </div>
                   </div>
                 @endforelse

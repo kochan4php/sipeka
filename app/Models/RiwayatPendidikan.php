@@ -25,6 +25,9 @@ class RiwayatPendidikan extends Model
   // kasih tau kalau primary key nya bukan bertipe integer
   protected $keyType = 'string';
 
+  // bawa relasinya ketika di query
+  protected $with = ['gelar_pendidikan'];
+
   /**
    * The attributes that are mass assignable.
    *
