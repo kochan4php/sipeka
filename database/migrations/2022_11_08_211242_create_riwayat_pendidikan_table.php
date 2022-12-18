@@ -26,7 +26,9 @@ return new class extends Migration
         ->cascadeOnDelete();
 
       $table->integer('id_pelamar');
-      $table->string('nama_institut');
+      $table->string('institut_or_universitas');
+      $table->string('tahun_kelulusan');
+      $table->text('informasi_tambahan');
 
       // Foreign key untuk id_pelamar
       $table
