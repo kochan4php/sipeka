@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RiwayatPendidikan extends Model
 {
-  use HasFactory;
+  use HasFactory, HasUuids;
 
   // kasih tau tabel yang ada di databasenya
   protected $table = 'riwayat_pendidikan';
@@ -36,7 +37,9 @@ class RiwayatPendidikan extends Model
   protected $fillable = [
     'kualifikasi',
     'id_pelamar',
-    'nama_institut'
+    'institut_or_universitas',
+    'tahun_kelulusan',
+    'informasi_tambahan'
   ];
 
   public function gelar_pendidikan(): BelongsTo

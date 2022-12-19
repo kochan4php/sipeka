@@ -5,10 +5,11 @@
     <div class="row gap-4 gap-md-0">
       @include('pelamar.action')
       <div class="col-lg-8">
+        <x-alert-session />
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
             <h3>Pendidikan Saya</h3>
-            <a href="{{ route('pelamar.experience.add', Auth::user()->username) }}" class="btn custom-btn btn-primary"
+            <a href="{{ route('pelamar.pendidikan.add', Auth::user()->username) }}" class="btn custom-btn btn-primary"
               type="button">Tambah</a>
           </div>
           <div class="card-body">

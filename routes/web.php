@@ -180,6 +180,8 @@ Route::prefix('/sipeka')->group(function () {
 
       Route::prefix('/pendidikan')->controller(PendidikanController::class)->group(function () {
         Route::get('/', 'index')->name('pelamar.pendidikan.index');
+        Route::get('/tambah', 'create')->name('pelamar.pendidikan.add');
+        Route::post('/', 'store')->name('pelamar.pendidikan.store');
       });
 
       Route::prefix('/lamaran-kerja')->group(function () {
