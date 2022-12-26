@@ -21,8 +21,8 @@ return new class extends Migration
       $table->integer('id_pelamar');
       $table->integer('id_lowongan');
       $table->char('kode_pendaftaran', 20);
-      $table->enum('verifikasi', ['Sudah', 'Belum']);
-      $table->enum('status_seleksi', ['Lulus', 'Tidak']);
+      $table->enum('verifikasi', ['Sudah', 'Belum'])->default('Belum');
+      $table->enum('status_seleksi', ['Lulus', 'Tidak', 'Belum tuntas mengikuti seleksi'])->default('Belum tuntas mengikuti seleksi');
 
       // Foreign key untuk id_pelamar
       $table

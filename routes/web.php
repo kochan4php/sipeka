@@ -23,6 +23,7 @@ use App\Http\Controllers\{
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
 };
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,7 +42,8 @@ Route::prefix('/sipeka')->group(function () {
   Route::get('/', \App\Http\Controllers\OuterController::class)->name('home');
 
   // Route Lowongan Kerja yand dilihat oleh pelamar
-  Route::get('/lowongan-kerja/{lowongan_kerja}', PlmrLowonganKerjaController::class)->name('lowongan_kerja');
+  Route::get('/lowongan-kerja/{lowongan_kerja}', [PlmrLowonganKerjaController::class, 'show'])->name('lowongan_kerja');
+  Route::post('/lowongan-kerja/{lowongan_kerja}', [PlmrLowonganKerjaController::class, 'applyJob'])->name('lowongan.apply');
 
   Route::middleware(['guest'])->group(function () {
     Route::controller(RegistrationController::class)->group(function () {
@@ -188,5 +190,11 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
       });
     });
+  });
+
+  // Artisan command
+  Route::get('/artisan', function () {
+    Artisan::call('about');
+    return Artisan::output();
   });
 });

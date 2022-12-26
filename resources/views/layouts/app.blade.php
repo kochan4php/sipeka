@@ -12,12 +12,14 @@
   <link rel="stylesheet" href="{{ asset('assets/owl-carousel/dist/assets/owl.carousel.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/owl-carousel/dist/assets/owl.theme.default.min.css') }}">
 
+  @stack('style')
+
   <title>Beranda | SIPEKA</title>
 </head>
 
 <body>
   @include('layouts.navigation')
-  <div>
+  <div class="mainlayout">
     @yield('container')
   </div>
   @include('layouts.footer')
@@ -27,6 +29,7 @@
 
   @stack('script-owl')
   <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
+  <script src="{{ asset('assets/js/enable_tooltip.js') }}"></script>
 </body>
 
 </html>

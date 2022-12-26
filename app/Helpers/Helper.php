@@ -15,7 +15,12 @@ class Helper
 
   public static function generateUniqueSlug(string $name): string
   {
-    return strtolower(Str::slug($name) . '-' . Str::random(10));
+    return strtolower(Str::slug($name) . '-' . Str::random(20));
+  }
+
+  public static function generateUniqueCode(string $prefix, string $separator = '-', int $length = 10)
+  {
+    return strtoupper($prefix . $separator . Str::random($length));
   }
 
   public static function deleteFileIfExistsInStorageFolder(?string $path): void

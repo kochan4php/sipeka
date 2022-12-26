@@ -28,6 +28,7 @@
   </div>
   @stack('script')
   <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
+  <script src="{{ asset('assets/js/enable_tooltip.js') }}"></script>
 </body>
 
 </html>
