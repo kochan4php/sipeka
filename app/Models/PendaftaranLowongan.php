@@ -21,6 +21,12 @@ class PendaftaranLowongan extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  // kasih tau kalau primary key nya bukan integer AI
+  public $incrementing = false;
+
+  // kasih tau kalau primary key nya bukan bertipe integer
+  protected $keyType = 'string';
+
   /**
    * The attributes that are mass assignable.
    *
@@ -44,8 +50,18 @@ class PendaftaranLowongan extends Model
     return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
   }
 
+  public function tahapan_seleksi(): HasMany
+  {
+    return $this->hasMany(TahapanSeleksi::class, 'id_pendaftaran', 'id_pendaftaran');
+  }
+
   public function penilaian_seleksi(): HasMany
   {
     return $this->hasMany(PenilaianSeleksi::class, 'id_pendaftaran', 'id_pendaftaran');
+  }
+
+  public function getRouteKeyName()
+  {
+    return 'id_pendaftaran';
   }
 }

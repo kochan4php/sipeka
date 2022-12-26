@@ -12,7 +12,7 @@ class LowonganKerjaController extends Controller
 {
   private function getApplicantId(): int|bool
   {
-    return Auth::check() ? Auth::user()->pelamar->id_pelamar : false;
+    return Auth::check() && Auth::user()->pelamar ? Auth::user()->pelamar->id_pelamar : false;
   }
 
   public function show(LowonganKerja $lowonganKerja)

@@ -21,8 +21,13 @@ class TahapanSeleksi extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
-  // bawa relasinya ketika di query
-  protected $with = ['lowongan'];
+  // kasih tau kalau primary key nya bukan integer AI
+  public $incrementing = false;
+
+  // kasih tau kalau primary key nya bukan bertipe integer
+  protected $keyType = 'string';
+
+  protected $with = ['pendaftaran'];
 
   /**
    * The attributes that are mass assignable.
@@ -36,9 +41,9 @@ class TahapanSeleksi extends Model
     'urutan_tahapan_ke',
   ];
 
-  public function lowongan(): BelongsTo
+  public function pendaftaran(): BelongsTo
   {
-    return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
+    return $this->belongsTo(PendaftaranLowongan::class, 'id_pendaftaran', 'id_pendaftaran');
   }
 
   public function penilaian_seleksi(): HasMany

@@ -130,7 +130,7 @@
                 <li>
                   <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/tahapan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
                     href="{{ route('tahapan.seleksi.index') }}">
-                    <span>Tahapan Seleksi</span>
+                    <span>Lamaran Kerja</span>
                     <i class="fa-solid fa-code-branch fa-lg"></i>
                   </a>
                 </li>

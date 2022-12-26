@@ -22,6 +22,7 @@ use App\Http\Controllers\{
   // All Admin and Perusahaan Controller
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
+  VerifikasiPendaftaranLowonganController,
 };
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -150,15 +151,20 @@ Route::prefix('/sipeka')->group(function () {
         Route::delete('/{lowongan_kerja}', 'destroy')->name('lowongankerja.delete');
       });
 
+      // Verifikasi lamaran kerja pelamar oleh admin
+      Route::post('/pendaftaran-lowongan/verifikasi/{pendaftaran_lowongan}', [VerifikasiPendaftaranLowonganController::class, 'verification'])
+        ->name('pendaftaran_lowongan.verifikasi');
+
       // Route Seleksi oleh Admin dan Mitra Perusahaan
       Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
-        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->middleware('if_any_job_vacancy')->group(function () {
+        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
           Route::get('/', 'index')->name('tahapan.seleksi.index');
-          Route::get('/{lowongan_kerja}/tambah', 'create')->name('tahapan.seleksi.create');
-          Route::post('/{lowongan_kerja}', 'store')->name('tahapan.seleksi.store');
-          Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'edit')->name('tahapan.seleksi.edit');
-          Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'update')->name('tahapan.seleksi.update');
-          Route::delete('/{lowongan_kerja}/delete/{tahapan_seleksi}', 'destroy')->name('tahapan.seleksi.delete');
+          Route::get('/{pendaftaran_lowongan}/tambah', 'create')->name('tahapan.seleksi.create');
+          Route::post('/{pendaftaran_lowongan}', 'store')->name('tahapan.seleksi.store');
+          Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')->name('tahapan.seleksi.jobApplicationDetails');
+          Route::get('/{pendaftaran_lowongan}/edit/{tahapan_seleksi}', 'edit')->name('tahapan.seleksi.edit');
+          Route::put('/{pendaftaran_lowongan}/update/{tahapan_seleksi}', 'update')->name('tahapan.seleksi.update');
+          Route::delete('/{pendaftaran_lowongan}/delete/{tahapan_seleksi}', 'destroy')->name('tahapan.seleksi.delete');
         });
       });
     });

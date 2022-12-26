@@ -15,12 +15,6 @@
 @section('container')
   <div class="container my-5 pt-5">
     <x-alert-session />
-    @if ($lowonganKerja->tahapan_seleksi->count() === 0)
-      <div class="alert alert-danger custom-font" role="alert">
-        <span>Kamu tidak bisa mendaftar di lowongan ini karena lowongan ini belum memiliki Tahapan Seleksi.</span>
-        <span class="fw-bold">Silahkan hubungi Admin.</span>
-      </div>
-    @endif
     <div class="row gap-3 gap-lg-0">
       <div class="col-lg-8">
         <div class="card">
@@ -43,30 +37,6 @@
             <hr />
 
             <div>
-              <h5 class="fw-bolder">Tahapan Seleksi</h5>
-            </div>
-            <div class="mb-4 d-flex flex-column gap-3">
-              @forelse ($lowonganKerja->tahapan_seleksi as $tahapan)
-                <div class="card cursor-pointer">
-                  <div class="card-body">
-                    <div class="custom-font d-flex flex-column gap-2">
-                      <span>Urutan tahapan : Ke-{{ $tahapan->urutan_tahapan_ke }}</span>
-                      <span>Judul tahapan : {{ $tahapan->judul_tahapan }}</span>
-                    </div>
-                  </div>
-                </div>
-              @empty
-                <div class="card">
-                  <div class="card-body">
-                    Kosong
-                  </div>
-                </div>
-              @endforelse
-            </div>
-
-            <hr />
-
-            <div>
               <h5 class="fw-bolder">Deskripsi Perusahaan</h5>
             </div>
             <div class="mb-4 custom-font">
@@ -79,23 +49,21 @@
                   <i class="fa-regular fa-bookmark fa-lg"></i>
                   <span>Simpan</span>
                 </a>
-                @if ($lowonganKerja->tahapan_seleksi->count() > 0)
-                  <form action="{{ route('lowongan.apply', $lowonganKerja->slug) }}" method="post">
-                    @csrf
-                    <button type="submit"
-                      class="btn custom-font leading-1px btn-primary btn-delete d-flex align-items-center gap-2"
-                      @disabled(Auth::user()->pelamar->id_pelamar === $registeredApplicantId)>
-                      <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                      <span class="text-wrap">
-                        @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
-                          Kamu sudah melamar lowongan ini.
-                        @else
-                          Lamar sekarang
-                        @endif
-                      </span>
-                    </button>
-                  </form>
-                @endif
+                <form action="{{ route('lowongan.apply', $lowonganKerja->slug) }}" method="post">
+                  @csrf
+                  <button type="submit"
+                    class="btn custom-font leading-1px btn-primary btn-delete d-flex align-items-center gap-2"
+                    @disabled(Auth::user()->pelamar->id_pelamar === $registeredApplicantId)>
+                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                    <span class="text-wrap">
+                      @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
+                        Kamu sudah melamar lowongan ini.
+                      @else
+                        Lamar sekarang
+                      @endif
+                    </span>
+                  </button>
+                </form>
               </div>
             @endcan
           </div>
