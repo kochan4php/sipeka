@@ -27,9 +27,11 @@
       </main>
     </div>
   </div>
-  @stack('script')
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
   <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
   <script src="{{ asset('assets/js/enable_tooltip.js') }}"></script>
+  @stack('script')
 </body>
 
 </html>

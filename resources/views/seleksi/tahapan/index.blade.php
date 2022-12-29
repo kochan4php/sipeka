@@ -15,17 +15,21 @@
             <tr>
               <th scope="col" class="text-nowrap text-center">No</th>
               <th scope="col" class="text-nowrap text-center">Judul Lowongan</th>
+              @can('admin')
+                <th scope="col" class="text-nowrap text-center">Perusahaan</th>
+              @endcan
               <th scope="col" class="text-nowrap text-center">Nama Pelamar</th>
               <th scope="col" class="text-nowrap text-center">Alumni / Kandidat Luar</th>
-              <th scope="col" class="text-nowrap text-center">Status Verifikasi</th>
-              <th scope="col" class="text-nowrap text-center">Lakukan Verifikasi</th>
+              @canany(['admin', 'perusahaan'])
+                <th scope="col" class="text-nowrap text-center">Status Verifikasi</th>
+              @endcanany
               @canany(['admin', 'perusahaan'])
                 <th scope="col" class="text-nowrap text-center">Aksi</th>
               @endcanany
             </tr>
           </thead>
           <tbody>
-            @foreach ($lamaranKerja as $item)
+            @forelse ($lamaranKerja as $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
                   {{ $loop->iteration }}.
@@ -33,6 +37,11 @@
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->lowongan->judul_lowongan }}
                 </td>
+                @can('admin')
+                  <td class="text-nowrap text-center vertical-align-middle custom-font">
+                    {{ $item->lowongan->perusahaan->nama_perusahaan }}
+                  </td>
+                @endcan
                 @if (!is_null($item->pelamar->alumni))
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     {{ $item->pelamar->alumni->nama_lengkap }}
@@ -48,41 +57,61 @@
                     Kandidat Luar
                   </td>
                 @endif
-                @can('admin')
+                @canany(['admin', 'perusahaan'])
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     {{ $item->verifikasi }}
                   </td>
-                  <td
-                    class="text-nowrap d-flex justify-content-center gap-2 align-items-center vertical-align-middle custom-font">
+                @endcanany
+                <td
+                  class="text-nowrap d-flex justify-content-center gap-2 align-items-center vertical-align-middle custom-font">
+                  @can('admin')
                     <form action="{{ route('pendaftaran_lowongan.verifikasi', $item->id_pendaftaran) }}" method="post">
                       @csrf
                       <button type="submit" name="verification" value="true"
-                        class="btn btn-warning fw-semibold custom-btn d-flex align-items-center gap-2"
-                        @disabled($item->verifikasi !== 'Belum' || $item->verifikasi === 'Sudah')>
+                        class="btn btn-warning custom-btn btn-verification" @disabled($item->verifikasi !== 'Belum' || $item->verifikasi === 'Sudah')>
                         <i class="fa-solid fa-square-check fa-lg"></i>
-                        <span>Verifikasi Pendaftaran</span>
                       </button>
                     </form>
-                    <a href="" class="btn btn-info fw-semibold custom-btn d-flex align-items-center gap-2">
+                    <a href="" class="btn btn-info custom-btn btn-pdf">
                       <i class="fa-solid fa-file-pdf fa-lg"></i>
-                      <span>Bukti Pendaftaran</span>
                     </a>
-                  </td>
-                @endcan
-                @canany(['admin', 'perusahaan'])
-                  <td class="text-nowrap text-center vertical-align-middle">
+                  @endcan
+                  @canany(['admin', 'perusahaan'])
                     <a href="{{ route('tahapan.seleksi.jobApplicationDetails', $item->id_pendaftaran) }}"
-                      class="btn btn-primary custom-btn fw-semibold @if ($item->verifikasi === 'Belum') disabled cursor-not-allowed @endif"
+                      class="btn btn-primary custom-btn btn-detail @if ($item->verifikasi === 'Belum') disabled cursor-not-allowed @endif"
                       style="font-size: 0.9rem">
-                      Detail Lamaran Kerja
+                      <i class="fa-solid fa-circle-info fa-lg"></i>
                     </a>
-                  </td>
-                @endcanany
+                  @endcanany
+                </td>
               </tr>
-            @endforeach
+            @empty
+              <tr>
+                <td colspan="7" class="text-nowrap text-center vertical-align-middle custom-font">
+                  Belum ada pelamar yang melamar lowongan.
+                </td>
+              </tr>
+            @endforelse
           </tbody>
         </table>
       </div>
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    tippy('.btn-verification', {
+      content: 'Verifikasi Pendaftaran',
+      arrow: true,
+    })
+    tippy('.btn-pdf', {
+      content: 'Bukti Pendaftaran',
+      arrow: true,
+    })
+    tippy('.btn-detail', {
+      content: 'Detail Lamaran Kerja',
+      arrow: true,
+    })
+  </script>
+@endpush

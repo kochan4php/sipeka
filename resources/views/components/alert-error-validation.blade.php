@@ -1,7 +1,7 @@
 @if (!empty($errors->all()))
   <div class="row">
     <div class="col">
-      <div class="alert pb-0 alert-danger alert-dismissible fade show fs-6" role="alert">
+      <div class="alert pb-0 alert-danger alert-dismissible fade show custom-font" role="alert">
         <ul>
           @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>

@@ -20,17 +20,17 @@
                   value="{{ $pendaftaranLowongan->lowongan->judul_lowongan }}" readonly disabled>
               </div>
             </div>
-            @can('admin')
-              <div class="mb-3 row">
-                <label for="nama_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                  {{ __('Nama Perusahaan') }}
-                </label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                    value="{{ $pendaftaranLowongan->lowongan->perusahaan->nama_perusahaan }}" readonly disabled>
-                </div>
+            {{-- @can('admin') --}}
+            <div class="mb-3 row">
+              <label for="nama_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Nama Perusahaan') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
+                  value="{{ $pendaftaranLowongan->lowongan->perusahaan->nama_perusahaan }}" readonly disabled>
               </div>
-            @endcan
+            </div>
+            {{-- @endcan --}}
             <div class="mb-3 row">
               <label for="urutan_tahapan_ke" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Urutan tahapan') }}

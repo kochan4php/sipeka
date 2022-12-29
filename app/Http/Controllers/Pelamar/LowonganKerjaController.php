@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class LowonganKerjaController extends Controller
 {
-  private function getApplicantId(): int|bool
+  private function getApplicantId(): ?int
   {
-    return Auth::check() && Auth::user()->pelamar ? Auth::user()->pelamar->id_pelamar : false;
+    return Auth::check() && Auth::user()->pelamar ? Auth::user()->pelamar->id_pelamar : null;
   }
 
   public function show(LowonganKerja $lowonganKerja)
