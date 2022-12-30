@@ -16,11 +16,10 @@ class TahapanSeleksiController extends Controller
     PendaftaranLowongan $pendaftaranLowongan,
     string $message
   ): void {
-    if (
-      (Gate::check('perusahaan')) &&
-      ($pendaftaranLowongan->lowongan->perusahaan->id_perusahaan !== UserHelper::getCompanyData()->id_perusahaan)
-    ) :
-      abort(403, $message);
+    if ((Gate::check('perusahaan'))) :
+      if (($pendaftaranLowongan->lowongan->perusahaan->id_perusahaan !== UserHelper::getCompanyData()->id_perusahaan)) :
+        abort(403, $message);
+      endif;
     endif;
   }
 

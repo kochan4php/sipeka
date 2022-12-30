@@ -23,6 +23,8 @@ use App\Http\Controllers\{
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
   VerifikasiPendaftaranLowonganController,
+  // All Profile Controller
+  Admin\ProfileController as AdminProfileController
 };
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -125,6 +127,11 @@ Route::prefix('/sipeka')->group(function () {
             Route::put('/{dokumen}', 'update')->name('admin.dokumen.update');
             Route::delete('/{dokumen}', 'destroy')->name('admin.dokumen.delete');
           });
+        });
+
+        Route::prefix('/profile')->controller(AdminProfileController::class)->group(function () {
+          Route::get('/{admin}', 'index')->name('admin.profile.index');
+          Route::put('/{admin}', 'update')->name('admin.profile.update');
         });
       });
 

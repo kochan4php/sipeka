@@ -41,4 +41,9 @@ class AdminBKK extends Model
   {
     return $this->belongsTo(User::class, 'id_user', 'id_user');
   }
+
+  public function getRouteKeyName()
+  {
+    return 'id_admin';
+  }
 }
