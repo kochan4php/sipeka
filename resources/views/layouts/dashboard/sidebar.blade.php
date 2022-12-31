@@ -155,6 +155,22 @@
           </a>
         </li>
       @endcan
+      @can('perusahaan')
+        <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/perusahaan/profile*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('admin.profile.index', Auth::user()->perusahaan) }}">
+            <i class="fa-regular fa-id-card fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Profil Saya</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/perusahaan/pelamar*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('perusahaan.pelamar.index') }}">
+            <i class="fa-solid fa-file-contract fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Pelamar</span>
+          </a>
+        </li>
+      @endcan
     </ul>
 
     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-white">

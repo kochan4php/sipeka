@@ -13,9 +13,7 @@
             <span><i class="fa-solid fa-user-graduate" style="font-size: 3rem"></i></span>
           </div>
           <div class="mt-4">
-            <a href="{{ route('admin.alumni.index') }}" class="text-decoration-none stretched-link text-dark">
-              <h4>Jumlah Alumni</h4>
-            </a>
+            <h4>Jumlah Alumni</h4>
           </div>
         </div>
       </div>
@@ -25,13 +23,13 @@
       <div class="card text-bg-info">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fs-2 fw-bold leading-1px">{{ __('3') }}</span>
+            <span class="fs-2 fw-bold leading-1px">{{ $jumlah_lowongan }}</span>
             <span>
               <i class="fa-solid fa-magnifying-glass" style="font-size: 3rem"></i>
             </span>
           </div>
           <div class="mt-4">
-            <h4>Jumlah Lowongan</h4>
+            <h4>Jumlah Lowongan Kerja</h4>
           </div>
         </div>
       </div>

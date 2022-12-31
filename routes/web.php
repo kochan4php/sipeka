@@ -140,7 +140,7 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/', \App\Http\Controllers\Perusahaan\MainController::class)->name('perusahaan.index');
         Route::controller(PelamarController::class)->group(function () {
           Route::get('/pelamar', 'index')->name('perusahaan.pelamar.index');
-          Route::get('/pelamar/{id}/detail', 'show')->name('perusahaan.pelamar.detail');
+          Route::get('/pelamar/{user}/detail', 'show')->name('perusahaan.pelamar.detail');
         });
       });
 

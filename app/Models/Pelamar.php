@@ -21,6 +21,8 @@ class Pelamar extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
+  protected $with = ['user'];
+
   /**
    * The attributes that are mass assignable.
    *

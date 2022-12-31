@@ -72,4 +72,9 @@ class User extends Authenticatable
   {
     return $this->hasOne(Pelamar::class, 'id_user', 'id_user');
   }
+
+  public function getRouteKeyName(): string
+  {
+    return 'username';
+  }
 }

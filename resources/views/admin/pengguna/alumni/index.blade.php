@@ -14,21 +14,23 @@
         <table class="table table-bordered border-secondary border-1 table-striped mb-0">
           <thead class="table-dark">
             <tr>
-              <th scope="col" class="text-nowrap text-center">No</th>
-              <th scope="col" class="text-nowrap text-center">Nama Alumni</th>
-              <th scope="col" class="text-nowrap text-center">Kode Alumni / Username Alumni</th>
-              <th scope="col" class="text-nowrap text-center">Tahun Angkatan</th>
-              <th scope="col" class="text-nowrap text-center">Aksi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Nama Alumni</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Kode Alumni / Username
+                Alumni</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Tahun Angkatan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Aksi</th>
             </tr>
           </thead>
           <tbody>
             @forelse ($alumni as $item)
               <tr>
-                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center">{{ $item->nama_lengkap }}</td>
-                <td class="text-nowrap text-center">{{ $item->username }}</td>
-                <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
-                <td class="text-nowrap text-center">
+                <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
+                  {{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_lengkap }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->username }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->angkatan_tahun }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="btn-group">
                     <a href="{{ route('admin.alumni.detail', $item->username) }}"
                       class="btn btn-sm fw-bolder leading-1px btn-success">
