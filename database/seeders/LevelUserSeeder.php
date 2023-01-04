@@ -7,15 +7,13 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class LevelUserSeeder extends Seeder
-{
+class LevelUserSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
+  public function run() {
     $admin = 'Admin';
     $mitraPerusahaan = 'Perusahaan';
     $pelamar = 'Pelamar';

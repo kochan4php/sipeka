@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Angkatan extends Model
-{
+class Angkatan extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -35,13 +34,11 @@ class Angkatan extends Model
     'angkatan_tahun'
   ];
 
-  public function alumni(): HasMany
-  {
+  public function alumni(): HasMany {
     return $this->hasMany(SiswaAlumni::class, 'id_angkatan', 'id_angkatan');
   }
 
-  public function getRouteKeyName()
-  {
+  public function getRouteKeyName() {
     return 'id_angkatan';
   }
 }

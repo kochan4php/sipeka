@@ -13,21 +13,22 @@
         <table class="table table-bordered border-secondary border-1 table-striped mb-0">
           <thead class="table-dark">
             <tr>
-              <th scope="col" class="text-nowrap text-center">No</th>
-              <th scope="col" class="text-nowrap text-center">Kode Jurusan</th>
-              <th scope="col" class="text-nowrap text-center">Nama Jurusan</th>
-              <th scope="col" class="text-nowrap text-center">Keterangan Jurusan</th>
-              <th scope="col" class="text-nowrap text-center">Aksi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Kode Jurusan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Nama Jurusan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Keterangan Jurusan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Aksi</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($jurusan as $item)
               <tr>
-                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center">{{ $item->id_jurusan }}</td>
-                <td class="text-nowrap text-center">{{ $item->nama_jurusan }}</td>
-                <td class="text-nowrap text-center">{{ $item->keterangan }}</td>
-                <td class="text-nowrap text-center">
+                <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
+                  {{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->id_jurusan }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_jurusan }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->keterangan }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="btn-group">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
                       data-kode-jurusan="{{ $item->id_jurusan }}"

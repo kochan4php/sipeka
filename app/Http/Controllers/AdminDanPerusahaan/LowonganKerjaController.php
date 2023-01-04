@@ -10,12 +10,10 @@ use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\{Auth, Gate};
 use Illuminate\Support\ItemNotFoundException;
 
-class LowonganKerjaController extends Controller
-{
+class LowonganKerjaController extends Controller {
   use HasMainRoute;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->setMainRoute('lowongankerja.index');
   }
 
@@ -24,8 +22,7 @@ class LowonganKerjaController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $lowongan = null;
     if (Gate::check('admin')) $lowongan = LowonganKerja::all();
     else if (Gate::check('perusahaan')) $lowongan = Auth::user()->perusahaan->lowongan;
@@ -37,8 +34,7 @@ class LowonganKerjaController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
-  {
+  public function create() {
     $perusahaan = null;
     if (Gate::check('admin')) $perusahaan = MitraPerusahaan::all();
     return view('lowongankerja.tambah', compact('perusahaan'));
@@ -50,8 +46,7 @@ class LowonganKerjaController extends Controller
    * @param  \App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(StoreLowonganKerjaRequest $request)
-  {
+  public function store(StoreLowonganKerjaRequest $request) {
     try {
       $validatedData = $request->validatedData();
       $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
@@ -73,8 +68,7 @@ class LowonganKerjaController extends Controller
    * @param  LowonganKerja $lowonganKerja
    * @return \Illuminate\Http\Response
    */
-  public function show(LowonganKerja $lowonganKerja)
-  {
+  public function show(LowonganKerja $lowonganKerja) {
     try {
       return view('lowongankerja.detail', compact('lowonganKerja'));
     } catch (ItemNotFoundException $e) {
@@ -87,8 +81,7 @@ class LowonganKerjaController extends Controller
    * @param  LowonganKerja $lowonganKerja
    * @return \Illuminate\Http\Response
    */
-  public function edit(LowonganKerja $lowonganKerja)
-  {
+  public function edit(LowonganKerja $lowonganKerja) {
     try {
       $lowongan = null;
       $perusahaan = null;
@@ -113,8 +106,7 @@ class LowonganKerjaController extends Controller
    * @param  LowonganKerja $lowonganKerja
    * @return \Illuminate\Http\Response
    */
-  public function update(StoreLowonganKerjaRequest $request, LowonganKerja $lowonganKerja)
-  {
+  public function update(StoreLowonganKerjaRequest $request, LowonganKerja $lowonganKerja) {
     try {
       $validatedData = $request->validatedData();
 
@@ -141,8 +133,7 @@ class LowonganKerjaController extends Controller
    * @param  LowonganKerja $lowonganKerja
    * @return \Illuminate\Http\Response
    */
-  public function destroy(LowonganKerja $lowonganKerja)
-  {
+  public function destroy(LowonganKerja $lowonganKerja) {
     try {
       $lowonganKerja->delete();
       return back()->with('sukses', 'Berhasil hapus data lowongan');

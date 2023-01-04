@@ -5,8 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IfAnyCompany
-{
+class IfAnyCompany {
   /**
    * Handle an incoming request.
    *
@@ -14,8 +13,7 @@ class IfAnyCompany
    * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
    * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
    */
-  public function handle(Request $request, Closure $next)
-  {
+  public function handle(Request $request, Closure $next) {
     $message = 'Data perusahaan belum ada. Silahkan tambah data Perusahaan jika ingin menambahkan data Lowongan baru.';
     abort_if(\App\Models\MitraPerusahaan::all()->count() === 0, 403, $message);
     return $next($request);

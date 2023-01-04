@@ -10,7 +10,7 @@
         <div class="card-body pb-0">
           <x-alert-error-validation />
           <form
-            action="{{ route('tahapan.seleksi.update', ['lowongan_kerja' => $lowonganKerja->slug, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
+            action="{{ route('tahapan.seleksi.update', ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
             method="POST">
             @csrf
             @method('put')
@@ -20,7 +20,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="judul_lowongan" name="judul_lowongan"
-                  value="{{ $lowonganKerja->judul_lowongan }}" readonly disabled>
+                  value="{{ $pendaftaranLowongan->lowongan->judul_lowongan }}" readonly disabled>
               </div>
             </div>
             @can('admin')
@@ -30,7 +30,7 @@
                 </label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                    value="{{ $lowonganKerja->perusahaan->nama_perusahaan }}" readonly disabled>
+                    value="{{ $pendaftaranLowongan->lowongan->perusahaan->nama_perusahaan }}" readonly disabled>
                 </div>
               </div>
             @endcan
@@ -69,7 +69,8 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
                 <button type="submit" class="btn btn-primary">Perbarui</button>
-                <a href="{{ route('tahapan.seleksi.index') }}" class="btn btn-danger">Batal</a>
+                <a href="{{ route('tahapan.seleksi.jobApplicationDetails', $pendaftaranLowongan->id_pendaftaran) }}"
+                  class="btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

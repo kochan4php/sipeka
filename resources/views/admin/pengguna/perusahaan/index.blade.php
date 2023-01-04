@@ -16,21 +16,23 @@
         <table class="table table-bordered border-secondary border-1 table-striped mb-0">
           <thead class="table-dark">
             <tr>
-              <th scope="col" class="text-nowrap text-center">No</th>
-              <th scope="col" class="text-nowrap text-center">Nama Perusahaan</th>
-              <th scope="col" class="text-nowrap text-center">Username Perusahaan</th>
-              <th scope="col" class="text-nowrap text-center">Email Perusahaan</th>
-              <th scope="col" class="text-nowrap text-center">Aksi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Nama Perusahaan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Username Perusahaan
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Email Perusahaan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Aksi</th>
             </tr>
           </thead>
           <tbody>
             @forelse ($perusahaan as $item)
               <tr>
-                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center">{{ $item->nama_perusahaan }}</td>
-                <td class="text-nowrap text-center">{{ $item->username }}</td>
-                <td class="text-nowrap text-center">{{ $item->email }}</td>
-                <td class="text-nowrap text-center">
+                <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
+                  {{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_perusahaan }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->username }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->email }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="btn-group">
                     <a href="{{ route('admin.perusahaan.detail', $item->username) }}"
                       class="btn btn-sm fw-bolder leading-1px btn-success">

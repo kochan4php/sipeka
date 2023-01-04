@@ -8,13 +8,14 @@
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
             <h3>Tambah Experience</h3>
-            <a href="{{ route('pelamar.experience.index', 'cina') }}" class="btn btn-danger" type="button">Batal</a>
+            <a href="{{ route('pelamar.experience.index', Auth::user()->username) }}" class="btn btn-danger"
+              type="button">Batal</a>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
                 <x-alert-error-validation />
-                <form action="{{ route('pelamar.experience.store', 'layla') }}" method="POST">
+                <form action="{{ route('pelamar.experience.store', Auth::user()->username) }}" method="POST">
                   @csrf
                   <div class="mb-3 row">
                     <label for="judul_posisi" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">

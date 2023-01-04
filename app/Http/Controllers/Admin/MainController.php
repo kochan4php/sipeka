@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-class MainController extends Controller
-{
-  public function __invoke()
-  {
+class MainController extends Controller {
+  public function __invoke() {
     $jumlah_pengguna = collect(DB::select("SELECT * FROM jumlah_pengguna"))
       ->firstOrFail()
       ->jumlah_pengguna;

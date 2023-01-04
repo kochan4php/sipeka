@@ -9,17 +9,14 @@ use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class DokumenController extends Controller
-{
+class DokumenController extends Controller {
   use HasMainRoute;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->setMainRoute('admin.dokumen.index');
   }
 
-  private function generateKodeDokumenBaru(): string
-  {
+  private function generateKodeDokumenBaru(): string {
     return collect(DB::select('SELECT generate_new_kode_jenis_dokumen() AS new_kode_jenis_dokumen'))
       ->firstOrFail()
       ->new_kode_jenis_dokumen;
@@ -30,8 +27,7 @@ class DokumenController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $dokumen = Dokumen::all();
     $kodeBaru = $this->generateKodeDokumenBaru();
     return view('admin.masterdata.dokumen.index', compact('dokumen', 'kodeBaru'));
@@ -43,8 +39,7 @@ class DokumenController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(StoreDokumenRequest $request)
-  {
+  public function store(StoreDokumenRequest $request) {
     try {
       $validatedData = $request->validatedData();
       if (Dokumen::create($validatedData)) return Session::flash('sukses', 'Berhasil menambahkan data Jenis Dokumen');
@@ -61,8 +56,7 @@ class DokumenController extends Controller
    * @param  Dokumen  $dokumen
    * @return \Illuminate\Http\Response
    */
-  public function show(Dokumen $dokumen)
-  {
+  public function show(Dokumen $dokumen) {
     try {
       return response()->json($dokumen);
     } catch (\Exception $e) {
@@ -77,8 +71,7 @@ class DokumenController extends Controller
    * @param  Dokumen  $dokumen
    * @return \Illuminate\Http\Response
    */
-  public function update(StoreDokumenRequest $request, Dokumen $dokumen)
-  {
+  public function update(StoreDokumenRequest $request, Dokumen $dokumen) {
     try {
       $validatedData = $request->validatedData();
       if ($dokumen->update($validatedData)) Session::flash('sukses', 'Berhasil memperbarui data Jenis Dokumen');
@@ -95,8 +88,7 @@ class DokumenController extends Controller
    * @param  Dokumen  $dokumen
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Dokumen $dokumen)
-  {
+  public function destroy(Dokumen $dokumen) {
     try {
       if ($dokumen->delete()) return back()->with('sukses', 'Berhasil hapus data jenis dokumen');
       else return back()->with('error', 'Gagal menghapus data jenis dokumen');

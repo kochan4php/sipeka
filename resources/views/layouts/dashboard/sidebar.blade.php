@@ -111,41 +111,64 @@
             </a>
           </li>
         @endif
-        @if (\App\Models\LowonganKerja::all()->count() > 0)
-          <li class="nav-item">
-            <div class="dropdown">
-              <button
-                class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"
-                style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#penilaian"
-                aria-expanded="false" aria-controls="penilaian">
-                <div class="d-flex align-items-center gap-2">
-                  <span><i class="fa-solid fa-user-check fa-lg"></i></span>
-                  <span style="font-size: 15.5px !important;">Seleksi</span>
-                </div>
-                <div>
-                  <i class="fa-solid fa-angle-left fa-lg"></i>
-                </div>
-              </button>
-              <ul class="collapse list-unstyled bg-dark" id="penilaian">
-                <li>
-                  <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/tahapan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                    href="{{ route('tahapan.seleksi.index') }}">
-                    <span>Tahapan Seleksi</span>
-                    <i class="fa-solid fa-code-branch fa-lg"></i>
-                  </a>
-                </li>
-                <li>
-                  <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                    href="">
-                    <span>Penilaian Seleksi</span>
-                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        @endif
+        <li class="nav-item">
+          <div class="dropdown">
+            <button
+              class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"
+              style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#penilaian"
+              aria-expanded="false" aria-controls="penilaian">
+              <div class="d-flex align-items-center gap-2">
+                <span><i class="fa-solid fa-user-check fa-lg"></i></span>
+                <span style="font-size: 15.5px !important;">Seleksi</span>
+              </div>
+              <div>
+                <i class="fa-solid fa-angle-left fa-lg"></i>
+              </div>
+            </button>
+            <ul class="collapse list-unstyled bg-dark" id="penilaian">
+              <li>
+                <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/tahapan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
+                  href="{{ route('tahapan.seleksi.index') }}">
+                  <span>Lamaran Kerja</span>
+                  <i class="fa-solid fa-code-branch fa-lg"></i>
+                </a>
+              </li>
+              <li>
+                <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
+                  href="">
+                  <span>Penilaian Seleksi</span>
+                  <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
       @endcanany
+      @can('admin')
+        <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/admin/profile*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('admin.profile.index', Auth::user()->admin->id_admin) }}">
+            <i class="fa-regular fa-id-card fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Profil Saya</span>
+          </a>
+        </li>
+      @endcan
+      @can('perusahaan')
+        <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/perusahaan/profile*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('admin.profile.index', Auth::user()->perusahaan) }}">
+            <i class="fa-regular fa-id-card fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Profil Saya</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/perusahaan/pelamar*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('perusahaan.pelamar.index') }}">
+            <i class="fa-solid fa-file-contract fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Pelamar</span>
+          </a>
+        </li>
+      @endcan
     </ul>
 
     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-white">

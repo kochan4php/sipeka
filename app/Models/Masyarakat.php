@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Masyarakat extends Model
-{
+class Masyarakat extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -35,8 +34,7 @@ class Masyarakat extends Model
     'foto'
   ];
 
-  public function pelamar(): BelongsTo
-  {
+  public function pelamar(): BelongsTo {
     return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
   }
 }

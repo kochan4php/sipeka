@@ -4,8 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class CardAdmin extends Component
-{
+class CardAdmin extends Component {
   /**
    * Create a new component instance.
    *
@@ -24,8 +23,7 @@ class CardAdmin extends Component
    *
    * @return \Illuminate\Contracts\View\View|\Closure|string
    */
-  public function render()
-  {
+  public function render() {
     return view('components.card-admin');
   }
 }

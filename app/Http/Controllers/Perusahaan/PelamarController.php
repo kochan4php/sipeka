@@ -3,20 +3,18 @@
 namespace App\Http\Controllers\Perusahaan;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Pelamar;
+use App\Models\User;
 
-class PelamarController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // $angkatan = DB::table('angkatan')->paginate(10);
-        $pelamar = DB::table('masyarakat')->select()->get();
-        return view('perusahaan.pelamar.index', ['pelamar' => $pelamar]);
-    }
+class PelamarController extends Controller {
+  public function index() {
+    $pelamar = Pelamar::all();
+    return view('perusahaan.pelamar.index', compact('pelamar'));
+  }
+
+  public function show(User $user) {
+    return !is_null($user->pelamar->alumni) ?
+      view('perusahaan.pelamar.alumni', ['alumni' => $user->pelamar->alumni]) :
+      view('perusahaan.pelamar.kandidat_luar', ['kandidat_luar' => $user->pelamar->masyarakat]);
+  }
 }

@@ -5,8 +5,7 @@ namespace App\Http\Requests\AdminDanPerusahaan;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class StoreLowonganKerjaRequest extends FormRequest
-{
+class StoreLowonganKerjaRequest extends FormRequest {
   private array $column = ['judul_lowongan', 'deskripsi_lowongan', 'tanggal_dimulai', 'tanggal_berakhir'];
 
   /**
@@ -14,8 +13,7 @@ class StoreLowonganKerjaRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return Gate::check('admin') || Gate::check('perusahaan');
   }
 
@@ -24,8 +22,7 @@ class StoreLowonganKerjaRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       'judul_lowongan' => ['required', 'min:10', 'max:255'],
       'deskripsi_lowongan' => ['required'],
@@ -34,8 +31,7 @@ class StoreLowonganKerjaRequest extends FormRequest
     ];
   }
 
-  public function validatedData(): array
-  {
+  public function validatedData(): array {
     return $this->only($this->column);
   }
 }

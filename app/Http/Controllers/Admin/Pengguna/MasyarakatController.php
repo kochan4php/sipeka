@@ -10,27 +10,22 @@ use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{ItemNotFoundException, Collection};
 
-class MasyarakatController extends Controller
-{
+class MasyarakatController extends Controller {
   use HasMainRoute;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->setMainRoute('admin.pelamar.index');
   }
 
-  private function getAllPersons(): Collection
-  {
+  private function getAllPersons(): Collection {
     return collect(DB::select('SELECT * FROM get_all_masyarakat'));
   }
 
-  private function getOnePersonByUsername(string $username): object
-  {
+  private function getOnePersonByUsername(string $username): object {
     return collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->firstOrFail();
   }
 
-  private function generateKandidatUsername(string $name): string
-  {
+  private function generateKandidatUsername(string $name): string {
     return Helper::generateUniqueUsername('KDT', 5, $name);
   }
 
@@ -39,8 +34,7 @@ class MasyarakatController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $masyarakat = $this->getAllPersons();
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
@@ -50,8 +44,7 @@ class MasyarakatController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
-  {
+  public function create() {
     return view('admin.pengguna.masyarakat.tambah');
   }
 
@@ -61,8 +54,7 @@ class MasyarakatController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(StorePersonRequest $request)
-  {
+  public function store(StorePersonRequest $request) {
     try {
       $validatedData = $request->validatedDataPerson();
       $validatedData['username'] = $this->generateKandidatUsername($validatedData['nama']);
@@ -93,8 +85,7 @@ class MasyarakatController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function show(string $username)
-  {
+  public function show(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       return view('admin.pengguna.masyarakat.detail', compact('orang'));
@@ -109,8 +100,7 @@ class MasyarakatController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function edit(string $username)
-  {
+  public function edit(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       return view('admin.pengguna.masyarakat.sunting', compact('orang'));
@@ -126,8 +116,7 @@ class MasyarakatController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function update(StorePersonRequest $request, string $username)
-  {
+  public function update(StorePersonRequest $request, string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedDataPerson();
@@ -162,8 +151,7 @@ class MasyarakatController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function destroy(string $username)
-  {
+  public function destroy(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       $deleteOrang = User::whereUsername($orang->username)->delete();

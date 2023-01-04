@@ -4,8 +4,7 @@ namespace App\Http\Requests\Admin\Pengguna;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMitraPerusahaanRequest extends FormRequest
-{
+class StoreMitraPerusahaanRequest extends FormRequest {
   private array $column = [
     'nama_perusahaan',
     'email_perusahaan',
@@ -22,8 +21,7 @@ class StoreMitraPerusahaanRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return true;
   }
 
@@ -32,8 +30,7 @@ class StoreMitraPerusahaanRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       'nama_perusahaan' => ['required', 'min:3', 'max:255'],
       'email_perusahaan' => ['required', 'email', 'min:5', 'max:255', 'unique:users,email'],
@@ -46,8 +43,7 @@ class StoreMitraPerusahaanRequest extends FormRequest
     ];
   }
 
-  private function validatedData(): array
-  {
+  private function validatedData(): array {
     $validatedData = $this->only($this->column);
 
     $validatedData['deskripsi_perusahaan'] = !is_null($validatedData['deskripsi_perusahaan']) ?
@@ -56,8 +52,7 @@ class StoreMitraPerusahaanRequest extends FormRequest
     return $validatedData;
   }
 
-  public function validatedDataPerusahaan(): array
-  {
+  public function validatedDataPerusahaan(): array {
     $validatedData = $this->validatedData();
 
     if ($this->hasFile('foto_sampul_perusahaan')) {

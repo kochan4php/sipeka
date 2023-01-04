@@ -6,15 +6,13 @@ use App\Models\JenisPekerjaan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class JenisPekerjaanSeeder extends Seeder
-{
+class JenisPekerjaanSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
+  public function run() {
     JenisPekerjaan::insert([
       ['nama_jenis_pekerjaan' => 'Full-time'],
       ['nama_jenis_pekerjaan' => 'Part-time'],

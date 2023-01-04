@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class TahapanSeleksi extends Model
-{
+class TahapanSeleksi extends Model {
   use HasFactory, HasUuids;
 
   // kasih tau tabel yang ada di databasenya
@@ -21,8 +20,13 @@ class TahapanSeleksi extends Model
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
 
-  // bawa relasinya ketika di query
-  protected $with = ['lowongan'];
+  // kasih tau kalau primary key nya bukan integer AI
+  public $incrementing = false;
+
+  // kasih tau kalau primary key nya bukan bertipe integer
+  protected $keyType = 'string';
+
+  protected $with = ['pendaftaran'];
 
   /**
    * The attributes that are mass assignable.
@@ -36,18 +40,15 @@ class TahapanSeleksi extends Model
     'urutan_tahapan_ke',
   ];
 
-  public function lowongan(): BelongsTo
-  {
-    return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
+  public function pendaftaran(): BelongsTo {
+    return $this->belongsTo(PendaftaranLowongan::class, 'id_pendaftaran', 'id_pendaftaran');
   }
 
-  public function penilaian_seleksi(): HasMany
-  {
+  public function penilaian_seleksi(): HasMany {
     return $this->hasMany(PenilaianSeleksi::class, 'id_tahapan', 'id_tahapan');
   }
 
-  public function getRouteKeyName()
-  {
+  public function getRouteKeyName() {
     return 'id_tahapan';
   }
 }

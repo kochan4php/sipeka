@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PengalamanKerja extends Model
-{
+class PengalamanKerja extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -34,13 +33,11 @@ class PengalamanKerja extends Model
     'deskripsi_pengalaman',
   ];
 
-  public function pelamar(): BelongsTo
-  {
+  public function pelamar(): BelongsTo {
     return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
   }
 
-  public function jenis_pekerjaan(): BelongsTo
-  {
+  public function jenis_pekerjaan(): BelongsTo {
     return $this->belongsTo(JenisPekerjaan::class, 'id_jenis_pekerjaan', 'id_jenis_pekerjaan');
   }
 }

@@ -8,12 +8,10 @@ use App\Traits\HasMainRoute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class JurusanController extends Controller
-{
+class JurusanController extends Controller {
   use HasMainRoute;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->setMainRoute('admin.jurusan.index');
   }
 
@@ -22,8 +20,7 @@ class JurusanController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $jurusan = Jurusan::all();
     return view('admin.masterdata.jurusan.index', compact('jurusan'));
   }
@@ -34,8 +31,7 @@ class JurusanController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
-  {
+  public function store(Request $request) {
     $jurusan = new Jurusan;
     $jurusan->id_jurusan = $request->input('kode_jurusan');
     $jurusan->nama_jurusan = $request->input('nama_jurusan');
@@ -51,8 +47,7 @@ class JurusanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id)
-  {
+  public function show($id) {
     $data = collect(DB::select('SELECT * FROM jurusan WHERE id_jurusan = :kode_jurusan', [
       'kode_jurusan' => $id
     ]))->first();
@@ -67,8 +62,7 @@ class JurusanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
-  {
+  public function update(Request $request, $id) {
     $request->validate([
       'kode_jurusan' => ['required'],
       'nama_jurusan' => ['required'],
@@ -101,8 +95,7 @@ class JurusanController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($kodejurusan)
-  {
+  public function destroy($kodejurusan) {
     try {
       $deletejurusan = DB::delete("DELETE FROM jurusan WHERE id_jurusan = :kodejurusan", compact('kodejurusan'));
       if ($deletejurusan) return back()->with('sukses', 'Berhasil hapus jurusan');

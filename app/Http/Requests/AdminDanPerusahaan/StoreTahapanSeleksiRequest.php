@@ -5,8 +5,7 @@ namespace App\Http\Requests\AdminDanPerusahaan;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class StoreTahapanSeleksiRequest extends FormRequest
-{
+class StoreTahapanSeleksiRequest extends FormRequest {
   private array $columm = ['urutan_tahapan_ke', 'judul_tahapan', 'ket_tahapan'];
 
   /**
@@ -14,8 +13,7 @@ class StoreTahapanSeleksiRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return Gate::check('admin') || Gate::check('perusahaan');
   }
 
@@ -24,8 +22,7 @@ class StoreTahapanSeleksiRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       'urutan_tahapan_ke' => ['required'],
       'judul_tahapan' => ['required', 'min:5', 'max:200'],
@@ -33,8 +30,7 @@ class StoreTahapanSeleksiRequest extends FormRequest
     ];
   }
 
-  public function validatedData(): array
-  {
+  public function validatedData(): array {
     return $this->only($this->columm);
   }
 }

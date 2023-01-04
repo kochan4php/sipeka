@@ -5,8 +5,7 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class StoreRegistrasiAlumniRequest extends FormRequest
-{
+class StoreRegistrasiAlumniRequest extends FormRequest {
   private array $column = [
     'username',
     'email',
@@ -23,8 +22,7 @@ class StoreRegistrasiAlumniRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return true;
   }
 
@@ -33,8 +31,7 @@ class StoreRegistrasiAlumniRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       'username' => ['required', 'alpha_dash', 'unique:users', 'min:3', 'max:255'],
       'email' => ['required', 'email', 'unique:users', 'min:5', 'max:255'],
@@ -46,8 +43,7 @@ class StoreRegistrasiAlumniRequest extends FormRequest
     ];
   }
 
-  public function validatedDataAlumni(): array
-  {
+  public function validatedDataAlumni(): array {
     return $this->only($this->column);
   }
 }

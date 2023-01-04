@@ -4,15 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
   /**
    * Run the migrations.
    *
    * @return void
    */
-  public function up()
-  {
+  public function up() {
     Schema::create('pendaftaran_lowongan', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
       $table->charset = env('DB_CHARSET', 'utf8mb4');
@@ -21,8 +19,8 @@ return new class extends Migration
       $table->integer('id_pelamar');
       $table->integer('id_lowongan');
       $table->char('kode_pendaftaran', 20);
-      $table->enum('verifikasi', ['Sudah', 'Belum']);
-      $table->enum('status_seleksi', ['Lulus', 'Tidak']);
+      $table->enum('verifikasi', ['Sudah', 'Belum'])->default('Belum');
+      $table->enum('status_seleksi', ['Lulus', 'Tidak', 'Belum tuntas mengikuti seleksi'])->default('Belum tuntas mengikuti seleksi');
 
       // Foreign key untuk id_pelamar
       $table
@@ -47,8 +45,7 @@ return new class extends Migration
    *
    * @return void
    */
-  public function down()
-  {
+  public function down() {
     Schema::dropIfExists('pendaftaran_lowongan');
   }
 };

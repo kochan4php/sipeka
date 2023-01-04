@@ -16,19 +16,20 @@
         <table class="table table-bordered border-secondary border-1 table-striped mb-0">
           <thead class="table-dark">
             <tr>
-              <th scope="col" class="text-nowrap text-center">No</th>
-              <th scope="col" class="text-nowrap text-center">Kode Angkatan</th>
-              <th scope="col" class="text-nowrap text-center">Tahun Angkatan</th>
-              <th scope="col" class="text-nowrap text-center">Aksi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Kode Angkatan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Tahun Angkatan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Aksi</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($angkatan as $item)
               <tr>
-                <th class="text-nowrap text-center" scope="row">{{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center">{{ $item->id_angkatan }}</td>
-                <td class="text-nowrap text-center">{{ $item->angkatan_tahun }}</td>
-                <td class="text-nowrap text-center">
+                <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
+                  {{ $loop->iteration }}</th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->id_angkatan }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->angkatan_tahun }}</td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="btn-group">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
                       data-id-angkatan="{{ $item->id_angkatan }}"

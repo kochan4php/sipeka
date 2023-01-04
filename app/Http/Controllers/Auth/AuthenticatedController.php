@@ -6,15 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticatedController extends Controller
-{
-  public function index()
-  {
+class AuthenticatedController extends Controller {
+  public function index() {
     return view('auth.login');
   }
 
-  public function authenticate(Request $request)
-  {
+  public function authenticate(Request $request) {
     $request->validate(['username' => ['required'], 'password' => ['required']]);
     $credentials = $request->only(['username', 'password']);
     $remember = $request->has('remember') ? true : false;
