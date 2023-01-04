@@ -3,15 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
+return new class extends Migration {
   /**
    * Run the migrations.
    *
    * @return void
    */
-  public function up()
-  {
+  public function up() {
     DB::unprepared("DROP PROCEDURE IF EXISTS update_one_perusahaan_by_username");
     DB::unprepared(
       "CREATE PROCEDURE update_one_perusahaan_by_username(old_username varchar(255), new_username_perusahaan varchar(255), email_perusahaan varchar(255), nama_perusahaan varchar(255), nomor_telp_perusahaan varchar(255), alamat_perusahaan text, foto_sampul_perusahaan varchar(255), logo_perusahaan varchar(255), deskripsi_perusahaan text)

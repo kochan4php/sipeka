@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Dokumen extends Model
-{
+class Dokumen extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -35,13 +34,11 @@ class Dokumen extends Model
     'nama_dokumen'
   ];
 
-  public function dokumen_pengguna(): HasMany
-  {
+  public function dokumen_pengguna(): HasMany {
     return $this->hasMany(DokumenPengguna::class, 'id_jenis_dokumen', 'id_jenis_dokumen');
   }
 
-  public function getRouteKeyName()
-  {
+  public function getRouteKeyName() {
     return 'id_jenis_dokumen';
   }
 }

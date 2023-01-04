@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class LowonganKerja extends Model
-{
+class LowonganKerja extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -36,25 +35,21 @@ class LowonganKerja extends Model
     'slug',
   ];
 
-  protected function createdAt(): Attribute
-  {
+  protected function createdAt(): Attribute {
     return Attribute::make(
       get: fn ($value) => Carbon::parse($value)->diffForHumans()
     );
   }
 
-  public function perusahaan(): BelongsTo
-  {
+  public function perusahaan(): BelongsTo {
     return $this->belongsTo(MitraPerusahaan::class, 'id_perusahaan', 'id_perusahaan');
   }
 
-  public function pendaftaran_lowongan(): HasMany
-  {
+  public function pendaftaran_lowongan(): HasMany {
     return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
   }
 
-  public function getRouteKeyName()
-  {
+  public function getRouteKeyName() {
     return 'slug';
   }
 }

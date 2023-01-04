@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AdminBKK extends Model
-{
+class AdminBKK extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -37,13 +36,11 @@ class AdminBKK extends Model
     'nip'
   ];
 
-  public function user(): BelongsTo
-  {
+  public function user(): BelongsTo {
     return $this->belongsTo(User::class, 'id_user', 'id_user');
   }
 
-  public function getRouteKeyName()
-  {
+  public function getRouteKeyName() {
     return 'id_admin';
   }
 }

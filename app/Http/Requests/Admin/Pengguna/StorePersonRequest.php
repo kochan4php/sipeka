@@ -5,8 +5,7 @@ namespace App\Http\Requests\Admin\Pengguna;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePersonRequest extends FormRequest
-{
+class StorePersonRequest extends FormRequest {
   private array $column = [
     "nama",
     "password",
@@ -23,8 +22,7 @@ class StorePersonRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return true;
   }
 
@@ -33,8 +31,7 @@ class StorePersonRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       "nama" => ['required', 'min:3', 'max:255'],
       "password" => ['nullable'],
@@ -47,8 +44,7 @@ class StorePersonRequest extends FormRequest
     ];
   }
 
-  private function validatedData(): array
-  {
+  private function validatedData(): array {
     $validatedData = $this->only($this->column);
 
     $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
@@ -66,8 +62,7 @@ class StorePersonRequest extends FormRequest
     return $validatedData;
   }
 
-  public function validatedDataPerson(): array
-  {
+  public function validatedDataPerson(): array {
     $validatedData = $this->validatedData();
 
     if ($this->hasFile('foto_pelamar')) {

@@ -10,27 +10,22 @@ use App\Http\Requests\Admin\Pengguna\StoreMitraPerusahaanRequest;
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Illuminate\Support\Facades\{DB, Hash};
 
-class MitraPerusahaanController extends Controller
-{
+class MitraPerusahaanController extends Controller {
   use HasMainRoute;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->setMainRoute('admin.perusahaan.index');
   }
 
-  private function getAllPerusahaan(): Collection
-  {
+  private function getAllPerusahaan(): Collection {
     return collect(DB::select('SELECT * FROM get_all_perusahaan'));
   }
 
-  private function getOnePerusahaanByUsername(string $username): object
-  {
+  private function getOnePerusahaanByUsername(string $username): object {
     return collect(DB::select('CALL get_one_perusahaan_by_username(?)', [$username]))->firstOrFail();
   }
 
-  private function generatePerusahaanUsername(string $name): string
-  {
+  private function generatePerusahaanUsername(string $name): string {
     return Helper::generateUniqueUsername('PRSHN', 5, $name, false);
   }
 
@@ -39,8 +34,7 @@ class MitraPerusahaanController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $perusahaan = $this->getAllPerusahaan();
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
@@ -50,8 +44,7 @@ class MitraPerusahaanController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
-  {
+  public function create() {
     return view('admin.pengguna.perusahaan.tambah');
   }
 
@@ -61,8 +54,7 @@ class MitraPerusahaanController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(StoreMitraPerusahaanRequest $request)
-  {
+  public function store(StoreMitraPerusahaanRequest $request) {
     try {
       $validatedData = $request->validatedDataPerusahaan();
       $validatedData['username_perusahaan'] = $this->generatePerusahaanUsername($validatedData['nama_perusahaan']);
@@ -92,8 +84,7 @@ class MitraPerusahaanController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function show(string $username)
-  {
+  public function show(string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       return view('admin.pengguna.perusahaan.detail', compact('perusahaan'));
@@ -108,8 +99,7 @@ class MitraPerusahaanController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function edit(string $username)
-  {
+  public function edit(string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       return view('admin.pengguna.perusahaan.sunting', compact('perusahaan'));
@@ -125,8 +115,7 @@ class MitraPerusahaanController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function update(StoreMitraPerusahaanRequest $request, string $username)
-  {
+  public function update(StoreMitraPerusahaanRequest $request, string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       $validatedData = $request->validatedDataPerusahaan();
@@ -168,8 +157,7 @@ class MitraPerusahaanController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function destroy(string $username)
-  {
+  public function destroy(string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       $deletePerusahaan = User::whereUsername($perusahaan->username)->delete();

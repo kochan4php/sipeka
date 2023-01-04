@@ -13,17 +13,17 @@
             <div class="row">
               <div class="col-md-8 d-flex gap-2">
                 <img src="{{ asset('assets/images/7.jpeg') }}" style="width: 95px" alt="image">
-                <h4 class="fw-bold fs-1">Manager</h4>
+                <h4 class="fw-medium fs-2">Cina</h4>
               </div>
               <div class="col-md-4">
                 <div style="text-align: right">
-                  <h1 class="fw-bold fs-1">Gagal</h1>
+                  <h1 class="fw-medium fs-2">Gagal</h1>
                 </div>
               </div>
             </div>
             <div class="row mt-3">
               <div class="col">
-                <p class="text-muted small">PT SOPI</p>
+                <p class="text-muted">PT SOPI</p>
               </div>
             </div>
             <div class="row mt-1">

@@ -8,15 +8,12 @@ use App\Models\LowonganKerja;
 use App\Models\PendaftaranLowongan;
 use Illuminate\Support\Facades\Auth;
 
-class LowonganKerjaController extends Controller
-{
-  private function getApplicantId(): ?int
-  {
+class LowonganKerjaController extends Controller {
+  private function getApplicantId(): ?int {
     return Auth::check() && Auth::user()->pelamar ? Auth::user()->pelamar->id_pelamar : null;
   }
 
-  public function show(LowonganKerja $lowonganKerja)
-  {
+  public function show(LowonganKerja $lowonganKerja) {
     $lowongan = LowonganKerja::where('slug', '!=', $lowonganKerja->slug)->inRandomOrder()->limit(10)->get();
     $registeredApplicantId = PendaftaranLowongan::firstWhere([
       'id_pelamar' => $this->getApplicantId(),
@@ -25,8 +22,7 @@ class LowonganKerjaController extends Controller
     return view('lowongan', compact('lowonganKerja', 'lowongan', 'registeredApplicantId'));
   }
 
-  public function applyJob(LowonganKerja $lowonganKerja)
-  {
+  public function applyJob(LowonganKerja $lowonganKerja) {
     try {
       $id_pelamar = $this->getApplicantId();
       $id_lowongan = $lowonganKerja->id_lowongan;

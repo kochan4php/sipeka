@@ -5,8 +5,7 @@ namespace App\Http\Requests\Admin\Pengguna;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAlumniRequest extends FormRequest
-{
+class StoreAlumniRequest extends FormRequest {
   private array $column = [
     'jurusan',
     'angkatan',
@@ -25,8 +24,7 @@ class StoreAlumniRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return true;
   }
 
@@ -35,8 +33,7 @@ class StoreAlumniRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       'jurusan' => ['required'],
       'angkatan' => ['required'],
@@ -51,8 +48,7 @@ class StoreAlumniRequest extends FormRequest
     ];
   }
 
-  private function validatedData(): array
-  {
+  private function validatedData(): array {
     $validatedData = $this->only($this->column);
 
     $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
@@ -70,8 +66,7 @@ class StoreAlumniRequest extends FormRequest
     return $validatedData;
   }
 
-  public function validatedDataAlumni(): array
-  {
+  public function validatedDataAlumni(): array {
     $validatedData = $this->validatedData();
 
     if ($this->hasFile('foto_alumni')) {

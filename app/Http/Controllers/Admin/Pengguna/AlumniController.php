@@ -10,32 +10,26 @@ use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
 
-class AlumniController extends Controller
-{
+class AlumniController extends Controller {
   use HasMainRoute;
 
-  public function __construct()
-  {
+  public function __construct() {
     $this->setMainRoute('admin.alumni.index');
   }
 
-  private function getJurusan(): Collection
-  {
+  private function getJurusan(): Collection {
     return collect(DB::select('SELECT * FROM jurusan'));
   }
 
-  private function getAngkatan(): Collection
-  {
+  private function getAngkatan(): Collection {
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  private function getOneAlumniByUsername(string $username): object
-  {
+  private function getOneAlumniByUsername(string $username): object {
     return collect(DB::select('CALL get_one_alumni_by_username(?)', [$username]))->firstOrFail();
   }
 
-  private function generateAlumniUsername(string $name): string
-  {
+  private function generateAlumniUsername(string $name): string {
     return Helper::generateUniqueUsername('ALUMNI', 5, $name);
   }
 
@@ -44,8 +38,7 @@ class AlumniController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $alumni = collect(DB::select('SELECT * FROM get_all_siswa_alumni'));
     return view('admin.pengguna.alumni.index', compact('alumni'));
   }
@@ -55,8 +48,7 @@ class AlumniController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
-  {
+  public function create() {
     $jurusan = $this->getJurusan();
     $angkatan = $this->getAngkatan();
     return view('admin.pengguna.alumni.tambah', compact('jurusan', 'angkatan'));
@@ -68,8 +60,7 @@ class AlumniController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(StoreAlumniRequest $request)
-  {
+  public function store(StoreAlumniRequest $request) {
     try {
       $validatedData = $request->validatedDataAlumni();
       $validatedData['username'] = $this->generateAlumniUsername($validatedData['nis']);
@@ -103,8 +94,7 @@ class AlumniController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function show(string $username)
-  {
+  public function show(string $username) {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       return view('admin.pengguna.alumni.detail', compact('alumni'));
@@ -119,8 +109,7 @@ class AlumniController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function edit(string $username)
-  {
+  public function edit(string $username) {
     try {
       $jurusan = $this->getJurusan();
       $angkatan = $this->getAngkatan();
@@ -138,8 +127,7 @@ class AlumniController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function update(StoreAlumniRequest $request, string $username)
-  {
+  public function update(StoreAlumniRequest $request, string $username) {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       $validatedData = $request->validatedDataAlumni();
@@ -183,8 +171,7 @@ class AlumniController extends Controller
    * @param  string  $username
    * @return \Illuminate\Http\Response
    */
-  public function destroy(string $username)
-  {
+  public function destroy(string $username) {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       $deleteAlumni = User::whereUsername($alumni->username)->delete();

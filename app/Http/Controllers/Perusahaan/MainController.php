@@ -7,10 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\LowonganKerja;
 use Illuminate\Support\Facades\DB;
 
-class MainController extends Controller
-{
-  public function __invoke()
-  {
+class MainController extends Controller {
+  public function __invoke() {
     $jumlah_alumni = collect(DB::select("SELECT * FROM jumlah_alumni"))
       ->firstOrFail()
       ->jumlah_alumni;

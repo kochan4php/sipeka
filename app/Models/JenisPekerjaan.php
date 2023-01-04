@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class JenisPekerjaan extends Model
-{
+class JenisPekerjaan extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -26,8 +25,7 @@ class JenisPekerjaan extends Model
    */
   protected $fillable = ['nama_jenis_pekerjaan'];
 
-  public function pengalaman_user(): HasMany
-  {
+  public function pengalaman_user(): HasMany {
     return $this->hasMany(PengalamanKerja::class, 'id_jenis_pekerjaan', 'id_jenis_pekerjaan');
   }
 }

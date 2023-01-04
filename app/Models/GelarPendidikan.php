@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class GelarPendidikan extends Model
-{
+class GelarPendidikan extends Model {
   use HasFactory, HasUuids;
 
   // kasih tau tabel yang ada di databasenya
@@ -35,8 +34,7 @@ class GelarPendidikan extends Model
     'nama_gelar'
   ];
 
-  public function riwayat_pendidikan(): HasMany
-  {
+  public function riwayat_pendidikan(): HasMany {
     return $this->hasMany(RiwayatPendidikan::class, 'kualifikasi', 'id_gelar');
   }
 }

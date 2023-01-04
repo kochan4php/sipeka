@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Jurusan extends Model
-{
+class Jurusan extends Model {
   use HasFactory;
 
   // kasih tau tabel yang ada di databasenya
@@ -36,8 +35,7 @@ class Jurusan extends Model
     'keterangan'
   ];
 
-  public function alumni(): HasMany
-  {
+  public function alumni(): HasMany {
     return $this->hasMany(SiswaAlumni::class, 'id_jurusan', 'id_jurusan');
   }
 }

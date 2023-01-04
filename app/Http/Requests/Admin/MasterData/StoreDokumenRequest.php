@@ -4,8 +4,7 @@ namespace App\Http\Requests\Admin\MasterData;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDokumenRequest extends FormRequest
-{
+class StoreDokumenRequest extends FormRequest {
   private array $column = ['id_jenis_dokumen', 'nama_dokumen'];
 
   /**
@@ -13,8 +12,7 @@ class StoreDokumenRequest extends FormRequest
    *
    * @return bool
    */
-  public function authorize(): bool
-  {
+  public function authorize(): bool {
     return true;
   }
 
@@ -23,16 +21,14 @@ class StoreDokumenRequest extends FormRequest
    *
    * @return array<string, mixed>
    */
-  public function rules(): array
-  {
+  public function rules(): array {
     return [
       'id_jenis_dokumen' => ['required'],
       'nama_dokumen' => ['required']
     ];
   }
 
-  public function validatedData(): array
-  {
+  public function validatedData(): array {
     return $this->only($this->column);
   }
 }

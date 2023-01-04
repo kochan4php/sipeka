@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PenilaianSeleksi extends Model
-{
+class PenilaianSeleksi extends Model {
   use HasFactory, HasUuids;
 
   // kasih tau tabel yang ada di databasenya
@@ -34,18 +33,15 @@ class PenilaianSeleksi extends Model
     'is_lanjut'
   ];
 
-  public function pelamar(): BelongsTo
-  {
+  public function pelamar(): BelongsTo {
     return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
   }
 
-  public function tahapan(): BelongsTo
-  {
+  public function tahapan(): BelongsTo {
     return $this->belongsTo(TahapanSeleksi::class, 'id_tahapan', 'id_tahapan');
   }
 
-  public function pendaftaran(): BelongsTo
-  {
+  public function pendaftaran(): BelongsTo {
     return $this->belongsTo(PendaftaranLowongan::class, 'id_pendaftaran', 'id_pendaftaran');
   }
 }

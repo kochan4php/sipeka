@@ -6,15 +6,13 @@ use App\Models\Dokumen;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DokumenSeeder extends Seeder
-{
+class DokumenSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
+  public function run() {
     $dokumen = collect([
       [
         'id_jenis_dokumen' => 'DKMN001',

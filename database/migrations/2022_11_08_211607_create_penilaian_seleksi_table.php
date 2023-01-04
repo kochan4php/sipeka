@@ -4,15 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
   /**
    * Run the migrations.
    *
    * @return void
    */
-  public function up()
-  {
+  public function up() {
     Schema::create('penilaian_seleksi', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
       $table->charset = env('DB_CHARSET', 'utf8mb4');
@@ -36,7 +34,7 @@ return new class extends Migration
 
       $table->tinyInteger('nilai');
       $table->enum('keterangan', ['Lulus', 'Gagal']);
-      $table->enum('is_lanjut', ['Ya', 'Tidak']);
+      $table->enum('is_lanjut', ['Ya', 'Tidak'])->default('Tidak');
 
       // Foreign key untuk id_pelamar
       $table
@@ -53,8 +51,7 @@ return new class extends Migration
    *
    * @return void
    */
-  public function down()
-  {
+  public function down() {
     Schema::dropIfExists('penilaian_seleksi');
   }
 };

@@ -4,15 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
   /**
    * Run the migrations.
    *
    * @return void
    */
-  public function up()
-  {
+  public function up() {
     // Ini pivot table yaa, artinya table pembantu dari relasi Many to Many
     Schema::create('rekomendasi_lowongan', function (Blueprint $table) {
       $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
@@ -44,8 +42,7 @@ return new class extends Migration
    *
    * @return void
    */
-  public function down()
-  {
+  public function down() {
     Schema::dropIfExists('rekomendasi_lowongan');
   }
 };

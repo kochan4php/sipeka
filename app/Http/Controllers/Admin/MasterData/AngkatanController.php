@@ -8,15 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class AngkatanController extends Controller
-{
+class AngkatanController extends Controller {
   /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
-  {
+  public function index() {
     $angkatan = Angkatan::all();
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
@@ -27,8 +25,7 @@ class AngkatanController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
-  {
+  public function store(Request $request) {
     try {
       $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
       $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
@@ -46,8 +43,7 @@ class AngkatanController extends Controller
    * @param  Angkatan  $angkatan
    * @return \Illuminate\Http\Response
    */
-  public function show(Angkatan $angkatan)
-  {
+  public function show(Angkatan $angkatan) {
     try {
       return response()->json($angkatan);
     } catch (\Exception $e) {
@@ -62,8 +58,7 @@ class AngkatanController extends Controller
    * @param  Angkatan  $angkatan
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Angkatan $angkatan)
-  {
+  public function update(Request $request, Angkatan $angkatan) {
     try {
       $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
       $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
@@ -81,8 +76,7 @@ class AngkatanController extends Controller
    * @param  Angkatan  $angkatan
    * @return \Illuminate\Http\Response
    */
-  public function destroy(Angkatan $angkatan)
-  {
+  public function destroy(Angkatan $angkatan) {
     try {
       if ($angkatan->delete()) return back()->with('sukses', 'Berhasil hapus angkatan');
       else return back()->with('error', 'gagal menghapus angkatan');

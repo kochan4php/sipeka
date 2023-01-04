@@ -6,22 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\{StoreRegistrasiAlumniRequest, StoreRegistrasiKandidatRequest};
 use Illuminate\Support\Facades\{DB, Hash};
 
-class RegistrationController extends Controller
-{
-  public function kandidat()
-  {
+class RegistrationController extends Controller {
+  public function kandidat() {
     return view('auth.register.kandidat');
   }
 
-  public function alumni()
-  {
+  public function alumni() {
     $jurusan = collect(DB::select('SELECT * FROM jurusan'));
     $angkatan = collect(DB::select('SELECT * FROM angkatan'));
     return view('auth.register.alumni', compact('jurusan', 'angkatan'));
   }
 
-  public function kandidatStore(StoreRegistrasiKandidatRequest $request)
-  {
+  public function kandidatStore(StoreRegistrasiKandidatRequest $request) {
     $validatedData = $request->validatedDataKandidat();
     $registerKandidat = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
       'username' => $validatedData['username'],
@@ -40,8 +36,7 @@ class RegistrationController extends Controller
     else return back()->withErrors(['Data tidak valid! Silahkan coba lagi.']);
   }
 
-  public function alumniStore(StoreRegistrasiAlumniRequest $request)
-  {
+  public function alumniStore(StoreRegistrasiAlumniRequest $request) {
     $validatedData = $request->validatedDataAlumni();
     $registerAlumni = DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
       'username' => $validatedData['username'],

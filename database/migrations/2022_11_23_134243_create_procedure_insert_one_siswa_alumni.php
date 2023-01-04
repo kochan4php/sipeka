@@ -3,15 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
+return new class extends Migration {
   /**
    * Run the migrations.
    *
    * @return void
    */
-  public function up()
-  {
+  public function up() {
     DB::unprepared('DROP PROCEDURE IF EXISTS insert_one_siswa_alumni');
     DB::unprepared(
       "CREATE PROCEDURE insert_one_siswa_alumni(username varchar(255), email varchar(255), password varchar(255), jurusan char(7), tahun_angkatan char(8), nis varchar(18), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), tempat_lahir varchar(100), tanggal_lahir date, no_telepon varchar(20), alamat_tempat_tinggal text, foto varchar(255))

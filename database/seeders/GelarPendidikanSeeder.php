@@ -6,15 +6,13 @@ use App\Models\GelarPendidikan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class GelarPendidikanSeeder extends Seeder
-{
+class GelarPendidikanSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
+  public function run() {
     $gelar = collect([
       ['nama_gelar' => 'SMA/SMK/SMU'],
       ['nama_gelar' => 'Associate Degree'],

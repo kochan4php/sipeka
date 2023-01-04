@@ -6,15 +6,13 @@ use App\Models\Angkatan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AngkatanSeeder extends Seeder
-{
+class AngkatanSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
    * @return void
    */
-  public function run()
-  {
+  public function run() {
     $angkatan = collect([
       [
         'id_angkatan' => 'AGKT0001',

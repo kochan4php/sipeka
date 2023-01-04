@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PendaftaranLowongan;
 use Illuminate\Http\Request;
 
-class VerifikasiPendaftaranLowonganController extends Controller
-{
-  public function verification(Request $request, PendaftaranLowongan $pendaftaranLowongan)
-  {
+class VerifikasiPendaftaranLowonganController extends Controller {
+  public function verification(Request $request, PendaftaranLowongan $pendaftaranLowongan) {
     try {
       $verification = $request->boolean('verification');
       $pendaftaranLowongan->update(['verifikasi' => $verification]);
