@@ -28,7 +28,8 @@
             </div>
             <div class="row mt-1">
               <div class="col">
-                <a href="#" class="btn btn-primary">lihat progress</a>
+                <a href="{{ route('pelamar.lamaran_kerja.detail') }}" class="btn btn-primary">lihat
+                  progress</a>
               </div>
             </div>
           </div>

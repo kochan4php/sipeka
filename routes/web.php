@@ -22,6 +22,7 @@ use App\Http\Controllers\{
   AdminDanPerusahaan\TahapanSeleksiController,
 };
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,6 +171,16 @@ Route::prefix('/sipeka')->group(function () {
       });
       Route::prefix('/lamaran-kerja')->group(function () {
         Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
+        // Route::get('/pelamar/lamaran_kerja/detail', 'show')->name('pelamar.lamaran_kerja.detail');
+        // Route::get('progress', 'ProgressController@show')->name('pelamar.lamaran_kerja.detail');
+        // Route::get('/', fn () => view('pelamar.lamaran_kerja.detail'))->name('pelamar.lamarn_kerja.detail');
+        // Route::get('/lamaran_kerja.detail', [ProgressController::class, 'index']);
+        // Route::get('/lamaran_kerja', fn () => view('lamaran-kerja.detail'))->name('lamaran-kerja.detail');
+        // Route::get('/', '')->name('lamaran_kerja.detail');
+        // Route::get('/pelamar', fn () => view('pelamar.lamaran_kerja.detail'))->name('pelamar.lamaran.detail');
+        // Route::post('pelamar.lamaran_kerja', 'detail');
+        Route::get('/', 'pelamar.lamaran_kerja.detail')->name('pelamar.lamaran.detail');
+        // Route::get('pelamar', fn () => view('pelamar.lamaran.kerja.detail'))->name('pelamar.lamaran.detail');
       });
     });
   });
