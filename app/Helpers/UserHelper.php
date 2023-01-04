@@ -10,18 +10,18 @@ class UserHelper extends AuthHelper {
   }
 
   public static function getAdminData(): ?object {
-    return self::whoIsLoggedInNow() === 'admin' ? parent::user()->admin : null;
+    return self::whoIsLoggedInNow() === 'admin' ? parent::user()?->admin : null;
   }
 
   public static function getCompanyData(): ?object {
-    return self::whoIsLoggedInNow() === 'perusahaan' ? parent::user()->perusahaan : null;
+    return self::whoIsLoggedInNow() === 'perusahaan' ? parent::user()?->perusahaan : null;
   }
 
   public static function getAlumniData(): ?object {
-    return self::whoIsLoggedInNow() === 'alumni' ? parent::user()->pelamar->alumni : null;
+    return self::whoIsLoggedInNow() === 'alumni' ? parent::user()?->pelamar?->alumni : null;
   }
 
   public static function getCandidateDataFromOutsideTheSchool(): ?object {
-    return self::whoIsLoggedInNow() === 'kandidat-luar' ? parent::user()->pelamar->masyarakat : null;
+    return self::whoIsLoggedInNow() === 'kandidat-luar' ? parent::user()?->pelamar?->masyarakat : null;
   }
 }

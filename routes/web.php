@@ -19,6 +19,7 @@ use App\Http\Controllers\{
   Pelamar\PengalamanKerjaController,
   Pelamar\PendidikanController,
   Pelamar\LowonganKerjaController as PlmrLowonganKerjaController,
+  Pelamar\PendaftaranLowonganController,
   // All Admin and Perusahaan Controller
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
@@ -199,8 +200,8 @@ Route::prefix('/sipeka')->group(function () {
         Route::post('/', 'store')->name('pelamar.pendidikan.store');
       });
 
-      Route::prefix('/lamaran-kerja')->group(function () {
-        Route::get('/', fn () => view('pelamar.lamaran_kerja.index'))->name('pelamar.lamaran.index');
+      Route::prefix('/lamaran-kerja')->controller(PendaftaranLowonganController::class)->group(function () {
+        Route::get('/', 'index')->name('pelamar.lamaran.index');
       });
     });
   });
