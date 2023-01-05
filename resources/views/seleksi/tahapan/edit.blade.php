@@ -9,8 +9,9 @@
         </div>
         <div class="card-body pb-0">
           <x-alert-error-validation />
+          <x-alert-error />
           <form
-            action="{{ route('tahapan.seleksi.update', ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
+            action="{{ route('tahapan.seleksi.update', ['lowongan_kerja' => $lowonganKerja->slug, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
             method="POST">
             @csrf
             @method('put')
@@ -20,7 +21,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="judul_lowongan" name="judul_lowongan"
-                  value="{{ $pendaftaranLowongan->lowongan->judul_lowongan }}" readonly disabled>
+                  value="{{ $lowonganKerja->judul_lowongan }}" readonly disabled>
               </div>
             </div>
             @can('admin')
@@ -30,7 +31,7 @@
                 </label>
                 <div class="col-sm-8">
                   <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                    value="{{ $pendaftaranLowongan->lowongan->perusahaan->nama_perusahaan }}" readonly disabled>
+                    value="{{ $lowonganKerja->perusahaan->nama_perusahaan }}" readonly disabled>
                 </div>
               </div>
             @endcan
@@ -39,8 +40,12 @@
                 {{ __('Urutan tahapan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="urutan_tahapan_ke" name="urutan_tahapan_ke" placeholder="1"
-                  readonly value="{{ $tahapanSeleksi->urutan_tahapan_ke }}">
+                <select class="form-control" name="urutan_tahapan_ke" id="urutan_tahapan_ke">
+                  <option selected>-- Pilih Urutan Tahapan --</option>
+                  @foreach (range(1, 100) as $i)
+                    <option value="{{ $i }}" @selected($tahapanSeleksi->urutan_tahapan_ke === $i)>{{ $i }}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
             <div class="mb-3 row">
@@ -68,9 +73,9 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Perbarui</button>
-                <a href="{{ route('tahapan.seleksi.jobApplicationDetails', $pendaftaranLowongan->id_pendaftaran) }}"
-                  class="btn btn-danger">Batal</a>
+                <button type="submit" class="btn btn-primary custom-btn">Perbarui</button>
+                <a href="{{ route('tahapan.seleksi.detail_lowongan', $lowonganKerja->slug) }}"
+                  class="btn btn-danger custom-btn">Batal</a>
               </div>
             </div>
           </form>

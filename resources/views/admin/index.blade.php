@@ -109,7 +109,7 @@
           <a href="{{ route('tahapan.seleksi.index') }}"
             class="text-decoration-none btn w-100 fs-5 btn-info d-flex justify-content-center gap-2 align-items-center">
             <i class="fa-solid fa-code-branch"></i>
-            <span>Lamaran Kerja</span>
+            <span>Tahapan Seleksi</span>
           </a>
           <a href="{{ route('tahapan.seleksi.index') }}"
             class="text-decoration-none btn w-100 fs-5 btn-primary d-flex justify-content-center gap-2 align-items-center">

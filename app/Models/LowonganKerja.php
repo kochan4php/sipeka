@@ -45,6 +45,10 @@ class LowonganKerja extends Model {
     return $this->belongsTo(MitraPerusahaan::class, 'id_perusahaan', 'id_perusahaan');
   }
 
+  public function tahapan_seleksi(): HasMany {
+    return $this->hasMany(TahapanSeleksi::class, 'id_lowongan', 'id_lowongan');
+  }
+
   public function pendaftaran_lowongan(): HasMany {
     return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
   }

@@ -165,14 +165,14 @@ Route::prefix('/sipeka')->group(function () {
 
       // Route Seleksi oleh Admin dan Mitra Perusahaan
       Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
-        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
+        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->middleware('if_any_job_vacancy')->group(function () {
           Route::get('/', 'index')->name('tahapan.seleksi.index');
-          Route::get('/{pendaftaran_lowongan}/tambah', 'create')->name('tahapan.seleksi.create');
-          Route::post('/{pendaftaran_lowongan}', 'store')->name('tahapan.seleksi.store');
-          Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')->name('tahapan.seleksi.jobApplicationDetails');
-          Route::get('/{pendaftaran_lowongan}/edit/{tahapan_seleksi}', 'edit')->name('tahapan.seleksi.edit');
-          Route::put('/{pendaftaran_lowongan}/update/{tahapan_seleksi}', 'update')->name('tahapan.seleksi.update');
-          Route::delete('/{pendaftaran_lowongan}/delete/{tahapan_seleksi}', 'destroy')->name('tahapan.seleksi.delete');
+          Route::get('/{lowongan_kerja}/tambah', 'create')->name('tahapan.seleksi.create');
+          Route::get('/{lowongan_kerja}/detail', 'jobDetail')->name('tahapan.seleksi.detail_lowongan');
+          Route::post('/{lowongan_kerja}', 'store')->name('tahapan.seleksi.store');
+          Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'edit')->name('tahapan.seleksi.edit');
+          Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'update')->name('tahapan.seleksi.update');
+          Route::delete('/{lowongan_kerja}/delete/{tahapan_seleksi}', 'destroy')->name('tahapan.seleksi.delete');
         });
       });
     });
@@ -202,6 +202,7 @@ Route::prefix('/sipeka')->group(function () {
 
       Route::prefix('/lamaran-kerja')->controller(PendaftaranLowonganController::class)->group(function () {
         Route::get('/', 'index')->name('pelamar.lamaran.index');
+        Route::get('/{pendaftaran_lowongan}/detail', 'show')->name('pelamar.lamaran.detail');
       });
     });
   });

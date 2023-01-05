@@ -49,21 +49,16 @@
                   {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  <div class="btn-group">
-                    <a href="{{ route('lowongankerja.detail', $item->slug) }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                  <div class="d-flex gap-2 align-items-center">
+                    <a href="{{ route('lowongankerja.detail', $item->slug) }}" class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
                     </a>
-                    <a href="{{ route('lowongankerja.edit', $item->slug) }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                    <a href="{{ route('lowongankerja.edit', $item->slug) }}" class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
                     </a>
-                    <button data-slug="{{ $item->slug }}" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
+                    <button data-slug="{{ $item->slug }}" class="btn custom-btn btn-danger btn-delete"
                       data-bs-toggle="modal" data-bs-target="#modalHapus">
                       <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
                     </button>
                   </div>
                 </td>

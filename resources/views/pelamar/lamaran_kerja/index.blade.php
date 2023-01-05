@@ -33,7 +33,10 @@
                   </div>
                   <div class="row mt-1">
                     <div class="col">
-                      <a href="#" class="btn btn-primary">lihat progress</a>
+                      <a href="{{ route('pelamar.lamaran.detail', ['username' => Auth::user()->username, 'pendaftaran_lowongan' => $item->id_pendaftaran]) }}"
+                        class="btn btn-primary custom-btn">
+                        Lihat Progress
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -45,6 +48,5 @@
         </div>
       </div>
     </div>
-  </div>
   </div>
 @endsection

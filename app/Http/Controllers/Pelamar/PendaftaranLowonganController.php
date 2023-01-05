@@ -19,4 +19,8 @@ class PendaftaranLowonganController extends Controller {
     $pendaftaranLowongan = $data->pelamar->pendaftaran_lowongan;
     return view('pelamar.lamaran_kerja.index', compact('pendaftaranLowongan'));
   }
+
+  public function show(string $username, PendaftaranLowongan $pendaftaranLowongan) {
+    dd($username, $pendaftaranLowongan);
+  }
 }

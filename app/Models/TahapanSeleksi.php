@@ -26,8 +26,6 @@ class TahapanSeleksi extends Model {
   // kasih tau kalau primary key nya bukan bertipe integer
   protected $keyType = 'string';
 
-  protected $with = ['pendaftaran'];
-
   /**
    * The attributes that are mass assignable.
    *
@@ -40,8 +38,8 @@ class TahapanSeleksi extends Model {
     'urutan_tahapan_ke',
   ];
 
-  public function pendaftaran(): BelongsTo {
-    return $this->belongsTo(PendaftaranLowongan::class, 'id_pendaftaran', 'id_pendaftaran');
+  public function lowongan(): BelongsTo {
+    return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
   }
 
   public function penilaian_seleksi(): HasMany {

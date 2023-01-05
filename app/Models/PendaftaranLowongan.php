@@ -47,10 +47,6 @@ class PendaftaranLowongan extends Model {
     return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
   }
 
-  public function tahapan_seleksi(): HasMany {
-    return $this->hasMany(TahapanSeleksi::class, 'id_pendaftaran', 'id_pendaftaran');
-  }
-
   public function penilaian_seleksi(): HasMany {
     return $this->hasMany(PenilaianSeleksi::class, 'id_pendaftaran', 'id_pendaftaran');
   }

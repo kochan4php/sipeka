@@ -16,17 +16,18 @@ return new class extends Migration {
       $table->charset = env('DB_CHARSET', 'utf8mb4');
       $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
       $table->uuid('id_tahapan')->primary();
-
-      // Foreign key untuk id_pendaftaran
-      $table
-        ->foreignUuid('id_pendaftaran')
-        ->constrained('pendaftaran_lowongan', 'id_pendaftaran')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
-
+      $table->integer('id_lowongan');
       $table->string('judul_tahapan', 200);
       $table->text('ket_tahapan');
       $table->integer('urutan_tahapan_ke');
+
+      // Foreign key untuk id_lowongan
+      $table
+        ->foreign('id_lowongan')
+        ->references('id_lowongan')
+        ->on('lowongan_kerja')
+        ->cascadeOnUpdate()
+        ->cascadeOnDelete();
     });
   }
 

@@ -2,126 +2,92 @@
 
 namespace App\Http\Controllers\AdminDanPerusahaan;
 
-use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreTahapanSeleksiRequest;
-use App\Models\{LowonganKerja, PendaftaranLowongan, TahapanSeleksi};
-use Illuminate\Support\Facades\Gate;
+use App\Models\{LowonganKerja, TahapanSeleksi};
+use Illuminate\Support\Facades\{Auth, Gate};
 
 class TahapanSeleksiController extends Controller {
-  private string $tahapanSeleksiMainRoute = 'tahapan.seleksi.jobApplicationDetails';
-
-  private function checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow(
-    PendaftaranLowongan $pendaftaranLowongan,
-    string $message
-  ): void {
-    if ((Gate::check('perusahaan'))) :
-      if (($pendaftaranLowongan->lowongan->perusahaan->id_perusahaan !== UserHelper::getCompanyData()->id_perusahaan)) :
-        abort(403, $message);
-      endif;
-    endif;
-  }
-
-  private function getApplicantName(PendaftaranLowongan $pendaftaranLowongan): string {
-    $pelamar = $pendaftaranLowongan->pelamar;
-    return $pelamar->alumni ? $pelamar->alumni->nama_lengkap : $pelamar->masyarakat->nama_lengkap;
-  }
+  private string $tahapanSeleksiMainRoute = 'tahapan.seleksi.detail_lowongan';
 
   public function index() {
-    $lamaranKerja = null;
-
-    if (Gate::check('admin')) {
-      $lamaranKerja = PendaftaranLowongan::with(['pelamar', 'lowongan'])->get()->load('tahapan_seleksi');
-    } else if (Gate::check('perusahaan')) {
-      $perusahaan = UserHelper::getCompanyData();
-      $beberapaIdLowogan = LowonganKerja::whereIdPerusahaan($perusahaan->id_perusahaan)->get()->pluck('id_lowongan');
-      $lamaranKerja = PendaftaranLowongan::with(['pelamar', 'lowongan'])
-        ->select()
-        ->whereIn('id_lowongan', $beberapaIdLowogan)
-        ->get();
-    }
-
-    return view('seleksi.tahapan.index', compact('lamaranKerja'));
+    $lowongan = null;
+    if (Gate::check('admin')) $lowongan = LowonganKerja::all()->load('tahapan_seleksi');
+    else if (Gate::check('perusahaan')) $lowongan = Auth::user()->perusahaan->lowongan->load('tahapan_seleksi');
+    return view('seleksi.tahapan.index', compact('lowongan'));
   }
 
-  public function create(PendaftaranLowongan $pendaftaranLowongan) {
-    $message = 'Kamu tidak bisa membuat tahapan seleksi baru dari lamaran kerja yang berasal dari lowongan kerja yang bukan milikmu.';
-    $this->checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow($pendaftaranLowongan, $message);
-
-    $urutanTahapanTerakhir = $pendaftaranLowongan->tahapan_seleksi()->max('urutan_tahapan_ke') + 1;
-    return view('seleksi.tahapan.create', compact('pendaftaranLowongan', 'urutanTahapanTerakhir'));
+  public function create(LowonganKerja $lowonganKerja) {
+    $urutanTahapanTerakhir = $lowonganKerja->tahapan_seleksi()->max('urutan_tahapan_ke') + 1;
+    return view('seleksi.tahapan.create', compact('lowonganKerja', 'urutanTahapanTerakhir'));
   }
 
-  public function store(StoreTahapanSeleksiRequest $request, PendaftaranLowongan $pendaftaranLowongan) {
+  public function store(StoreTahapanSeleksiRequest $request, LowonganKerja $lowonganKerja) {
     try {
-      $message = 'Kamu tidak bisa menambahkan tahapan seleksi baru dari lamaran kerja yang berasal dari lowongan kerja yang bukan milikmu.';
-      $this->checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow($pendaftaranLowongan, $message);
-
       $validatedData = $request->validatedData();
-      $pendaftaranLowongan->tahapan_seleksi()->create($validatedData);
-      $namaPelamar = $this->getApplicantName($pendaftaranLowongan);
+      $lowonganKerja->tahapan_seleksi()->create($validatedData);
+      $successMessage = "Berhasil menambahkan tahapan seleksi baru untuk lowongan {$lowonganKerja->judul_lowongan}";
 
-      $successMsg = "Berhasil menambahkan tahapan seleksi baru untuk {$namaPelamar}";
+      if (Gate::check('admin')) :
+        $successMessage .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
+      endif;
+
       return to_route(
         $this->tahapanSeleksiMainRoute,
-        $pendaftaranLowongan->id_pendaftaran
-      )->with('sukses', $successMsg);
+        $lowonganKerja->slug
+      )->with('sukses', $successMessage);
     } catch (\Exception $e) {
       return to_route(
         $this->tahapanSeleksiMainRoute,
-        $pendaftaranLowongan->id_pendaftaran
+        $lowonganKerja->slug
       )->with('error', $e->getMessage());
     }
   }
 
-  public function jobApplicationDetails(PendaftaranLowongan $pendaftaranLowongan) {
-    $message = 'Kamu tidak bisa melihat detail dari lamaran kerja yang berasal dari lowongan kerja yang bukan milikmu.';
-    $this->checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow($pendaftaranLowongan, $message);
-
-    return view('seleksi.tahapan.job_application_details', compact('pendaftaranLowongan'));
+  public function jobDetail(LowonganKerja $lowonganKerja) {
+    return view('seleksi.tahapan.job_detail', compact('lowonganKerja'));
   }
 
-  public function edit(PendaftaranLowongan $pendaftaranLowongan, TahapanSeleksi $tahapanSeleksi) {
-    $message = 'Kamu tidak bisa mengedit tahapan seleksi dari lamaran kerja yang berasal dari lowongan kerja yang bukan milikmu.';
-    $this->checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow($pendaftaranLowongan, $message);
-
-    return view('seleksi.tahapan.edit', compact('pendaftaranLowongan', 'tahapanSeleksi'));
+  public function edit(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
+    return view('seleksi.tahapan.edit', compact('lowonganKerja', 'tahapanSeleksi'));
   }
 
-  public function update(StoreTahapanSeleksiRequest $request, PendaftaranLowongan $pendaftaranLowongan, TahapanSeleksi $tahapanSeleksi) {
+  public function update(StoreTahapanSeleksiRequest $request, LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
     try {
-      $message = 'Kamu tidak bisa memperbarui tahapan seleksi dari lamaran kerja yang berasal dari lowongan kerja yang bukan milikmu.';
-      $this->checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow($pendaftaranLowongan, $message);
-
       $validatedData = $request->validatedData();
-      $pendaftaranLowongan->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->update($validatedData);
-      $namaPelamar = $this->getApplicantName($pendaftaranLowongan);
+      $existsUrutanTahapan = $lowonganKerja->tahapan_seleksi->firstWhere('urutan_tahapan_ke', $validatedData['urutan_tahapan_ke']);
 
-      $successMsg = "Berhasil memperbarui tahapan seleksi baru untuk {$namaPelamar}";
+      if (!is_null($existsUrutanTahapan?->urutan_tahapan_ke) && $existsUrutanTahapan?->id_tahapan !== $tahapanSeleksi->id_tahapan) :
+        if ((int) $validatedData['urutan_tahapan_ke'] === $existsUrutanTahapan->urutan_tahapan_ke) :
+          return back()->with('error', "Urutan tahapan ke-{$existsUrutanTahapan->urutan_tahapan_ke} sudah ada.");
+        endif;
+      endif;
+
+      $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->update($validatedData);
+      $successMessage = "Berhasil memperbarui tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
+
+      if (Gate::check('admin')) :
+        $successMessage .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
+      endif;
+
       return to_route(
         $this->tahapanSeleksiMainRoute,
-        $pendaftaranLowongan->id_pendaftaran
-      )->with('sukses', $successMsg);
+        $lowonganKerja->slug
+      )->with('sukses', $successMessage);
     } catch (\Exception $e) {
       return to_route(
         $this->tahapanSeleksiMainRoute,
-        $pendaftaranLowongan->id_pendaftaran
+        $lowonganKerja->slug
       )->with('error', $e->getMessage());
     }
   }
 
-  public function destroy(PendaftaranLowongan $pendaftaranLowongan, TahapanSeleksi $tahapanSeleksi) {
-    try {
-      $message = 'Kamu tidak bisa menghapus tahapan seleksi dari lamaran kerja yang berasal dari lowongan kerja yang bukan milikmu.';
-      $this->checkIfThisJobApplicationComesFromAVacancyFromACompanyThatIsCurrentlyLoggedInNow($pendaftaranLowongan, $message);
-
-      $pendaftaranLowongan->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->delete();
-      $namaPelamar = $this->getApplicantName($pendaftaranLowongan);
-
-      $successMsg = "Berhasil menghapus tahapan seleksi untuk {$namaPelamar}";
-      return back()->with('sukses', $successMsg);
-    } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
-    }
+  public function destroy(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
+    $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->delete();
+    $successMessage = "Berhasil menghapus tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
+    return to_route(
+      $this->tahapanSeleksiMainRoute,
+      $lowonganKerja->slug
+    )->with('sukses', $successMessage);
   }
 }
