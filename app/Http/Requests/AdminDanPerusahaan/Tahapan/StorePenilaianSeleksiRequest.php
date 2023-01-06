@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\AdminDanPerusahaan;
+namespace App\Http\Requests\AdminDanPerusahaan\Tahapan;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
-class StoreTahapanSeleksiRequest extends FormRequest {
-  private array $columm = ['urutan_tahapan_ke', 'judul_tahapan', 'ket_tahapan'];
+class StorePenilaianSeleksiRequest extends FormRequest {
+  private array $column = ['nilai', 'keterangan', 'is_lanjut'];
 
   /**
    * Determine if the user is authorized to make this request.
@@ -22,15 +22,15 @@ class StoreTahapanSeleksiRequest extends FormRequest {
    *
    * @return array<string, mixed>
    */
-  public function rules(): array {
+  public function rules() {
     return [
-      'urutan_tahapan_ke' => ['required'],
-      'judul_tahapan' => ['required', 'min:5', 'max:200'],
-      'ket_tahapan' => ['required']
+      'nilai' => ['required', 'numeric', 'min:1', 'max:100'],
+      'keterangan' => ['required'],
+      'is_lanjut' => ['required']
     ];
   }
 
   public function validatedData(): array {
-    return $this->only($this->columm);
+    return $this->only($this->column);
   }
 }

@@ -5,14 +5,6 @@
     <h3 class="text-center">
       {{ __("Tahapan Seleksi Lowongan {$lowonganKerja->judul_lowongan} {$lowonganKerja->perusahaan->nama_perusahaan}") }}
     </h3>
-    <div>
-      <a href="{{ route('tahapan.seleksi.index') }}" class="btn btn-primary custom-btn mt-3">
-        Kembali
-      </a>
-      <a href="{{ route('tahapan.seleksi.create', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn mt-3">
-        Tambah tahapan seleksi
-      </a>
-    </div>
   </div>
 
   <x-alert-session />
@@ -86,6 +78,15 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div>
+    <a href="{{ route('tahapan.seleksi.index') }}" class="btn btn-primary custom-btn mt-3">
+      Kembali
+    </a>
+    <a href="{{ route('tahapan.seleksi.create', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn mt-3">
+      Tambah tahapan seleksi
+    </a>
   </div>
 
   @push('script')

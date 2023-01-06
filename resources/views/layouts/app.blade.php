@@ -26,8 +26,11 @@
 
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="{{ asset('assets/owl-carousel/dist/owl.carousel.min.js') }}"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
 
   @stack('script-owl')
+  @stack('script')
   <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
   <script src="{{ asset('assets/js/enable_tooltip.js') }}"></script>
 </body>

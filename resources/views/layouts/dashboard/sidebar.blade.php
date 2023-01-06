@@ -136,7 +136,7 @@
                 </li>
                 <li>
                   <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                    href="">
+                    href="{{ route('penilaian.seleksi.index') }}">
                     <span>Penilaian Seleksi</span>
                     <i class="fa-solid fa-clipboard-check fa-lg"></i>
                   </a>

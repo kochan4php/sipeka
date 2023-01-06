@@ -6,6 +6,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Pelamar;
 use App\Models\PendaftaranLowongan;
+use App\Models\PenilaianSeleksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,10 @@ class PendaftaranLowonganController extends Controller {
   }
 
   public function show(string $username, PendaftaranLowongan $pendaftaranLowongan) {
-    dd($username, $pendaftaranLowongan);
+    $penilaianSeleksi = PenilaianSeleksi::where([
+      'id_pelamar' => Auth::user()->pelamar->id_pelamar,
+      'id_pendaftaran' => $pendaftaranLowongan->id_pendaftaran
+    ])->get();
+    return view('pelamar.lamaran_kerja.detail', compact('pendaftaranLowongan', 'penilaianSeleksi'));
   }
 }

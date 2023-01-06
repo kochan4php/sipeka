@@ -1,9 +1,15 @@
 @php
   $username = Auth::user()->username;
+  $nama = \App\Helpers\UserHelper::getApplicantName(Auth::user()->pelamar);
 @endphp
 <div class="col-lg-4">
-  <img src="{{ asset('assets/images/6.jpeg') }}" style="height: 290px; object-fit: cover; object-position: center"
-    class="img-fluid d-block w-100 rounded" alt="...">
+  @if (!is_null(null))
+    <img src="{{ Avatar::create($nama) }}" style="height: 290px; object-fit: cover; object-position: center"
+      class="img-fluid d-block w-100 rounded" alt="...">
+  @else
+    <img src="{{ asset('assets/images/no-photo.png') }}" style="height: 290px; object-fit: cover; object-position: center"
+      class="img-fluid d-block w-100 rounded">
+  @endif
   <div class="btn-group-vertical w-100 mt-4">
     <a href="{{ route('pelamar.index', $username) }}"
       class="btn @if (Request::is('sipeka/pelamar/' . $username . '/profile*')) bg-dark text-white @endif btn-outline-dark btn-block custom-font">

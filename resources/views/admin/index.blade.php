@@ -111,7 +111,7 @@
             <i class="fa-solid fa-code-branch"></i>
             <span>Tahapan Seleksi</span>
           </a>
-          <a href="{{ route('tahapan.seleksi.index') }}"
+          <a href="{{ route('penilaian.seleksi.index') }}"
             class="text-decoration-none btn w-100 fs-5 btn-primary d-flex justify-content-center gap-2 align-items-center">
             <i class="fa-solid fa-clipboard-check"></i>
             <span>Penilaian Seleksi</span>

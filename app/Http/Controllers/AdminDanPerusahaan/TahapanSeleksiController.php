@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AdminDanPerusahaan;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminDanPerusahaan\StoreTahapanSeleksiRequest;
+use App\Http\Requests\AdminDanPerusahaan\Tahapan\StoreTahapanSeleksiRequest;
 use App\Models\{LowonganKerja, TahapanSeleksi};
 use Illuminate\Support\Facades\{Auth, Gate};
 
