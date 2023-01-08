@@ -10,7 +10,6 @@
             <h3>Dokumen saya</h3>
             <div class="gap-2 d-flex justify-content-md-end">
               <button class="btn btn-primary custom-btn" type="button">Upload</button>
-              <button class="btn btn-primary custom-btn" type="button">Ubah</button>
             </div>
           </div>
           <div id="tableDokumen_wrapper" class="card-body pb-0">

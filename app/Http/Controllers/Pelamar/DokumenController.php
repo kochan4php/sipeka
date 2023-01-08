@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pelamar;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Dokumen;
 use App\Models\User;
@@ -17,7 +18,17 @@ class DokumenController extends Controller {
 
 	public function store(Request $request, User $username, Dokumen $dokumen) {
 		try {
+			$existsDocument = Auth::user()
+				->pelamar
+				->dokumen
+				->firstWhere('id_jenis_dokumen', $dokumen->id_jenis_dokumen);
+
 			if ($request->hasFile('file')) :
+				if ($existsDocument?->nama_file) :
+					Helper::deleteFileIfExistsInStorageFolder($existsDocument?->nama_file);
+					$existsDocument->delete();
+				endif;
+
 				Auth::user()->pelamar->dokumen()->create([
 					'id_jenis_dokumen' => $dokumen->id_jenis_dokumen,
 					'nama_file' => $request->file('file')->store('pelamar/dokumen')
