@@ -28,8 +28,11 @@ use App\Http\Controllers\{
   // All Profile Controller
   Admin\ProfileController as AdminProfileController
 };
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -307,8 +310,16 @@ Route::prefix('/sipeka')->group(function () {
   });
 
   // Artisan command
-  Route::get('/artisan', function () {
-    Artisan::call('about');
-    return Artisan::output();
+  Route::prefix('/artisan')->group(function () {
+    Route::get('/storage-link-74RK3SYG', function (Request $request) {
+      if (!$request->hasValidSignature()) abort(401);
+      Artisan::call('storage:link');
+      return to_route('home');
+    })->name('storage.link');
+
+    Route::get('/storage-link', function () {
+      $url = URL::temporarySignedRoute('storage.link', now()->addSeconds('60'));
+      return new JsonResponse(compact('url'));
+    });
   });
 });

@@ -98,7 +98,7 @@
               </tr>
             @empty
               <tr>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                <td colspan="7" class="text-nowrap text-center vertical-align-middle custom-font">
                   Belum ada pelamar yang melamar lowongan saat ini.
                 </td>
               </tr>
