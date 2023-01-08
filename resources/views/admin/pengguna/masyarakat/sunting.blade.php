@@ -84,9 +84,9 @@
             <div class="row">
               <div class="col-sm-4"></div>
               <div class="col-sm-8">
-                @if ($alumni->foto)
+                @if ($orang->foto)
                   <img class="d-block mb-3 image-preview rounded" width="300"
-                    src="{{ asset('storage/' . $alumni->foto) }}">
+                    src="{{ asset('storage/' . $orang->foto) }}">
                 @else
                   <img class="d-block image-preview rounded" width="300">
                 @endif

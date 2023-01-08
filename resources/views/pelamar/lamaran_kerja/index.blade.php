@@ -4,7 +4,7 @@
   <div class="container mb-5" style="margin-top: 120px;">
     <div class="row gap-4 gap-md-0">
       @include('pelamar.action')
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <div class="card rounded shadow">
           <div class="card-header d-flex align-items-center justify-content-between pb-0">
             <h4>Progress Lamaran Kerja</h4>

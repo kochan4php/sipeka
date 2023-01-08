@@ -4,7 +4,7 @@
   <div class="container mb-5" style="margin-top: 120px;">
     <div class="row gap-4 gap-md-0">
       @include('pelamar.action')
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <x-alert-session />
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">

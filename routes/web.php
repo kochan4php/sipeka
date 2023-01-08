@@ -20,6 +20,7 @@ use App\Http\Controllers\{
   Pelamar\PendidikanController,
   Pelamar\LowonganKerjaController as PlmrLowonganKerjaController,
   Pelamar\PendaftaranLowonganController,
+  Pelamar\DokumenController as PlmrDokumenController,
   // All Admin and Perusahaan Controller
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
@@ -28,6 +29,7 @@ use App\Http\Controllers\{
   // All Profile Controller
   Admin\ProfileController as AdminProfileController
 };
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -268,11 +270,11 @@ Route::prefix('/sipeka')->group(function () {
 
     // Route Pelamar (Masyarakat dan Siswa Alumni)
     Route::prefix('/pelamar/{username}')->middleware('role:pelamar')->group(function () {
-      Route::get('/profile', fn () => view('pelamar.profile'))
+      Route::get('/profile', \App\Http\Controllers\Pelamar\MainController::class)
         ->name('pelamar.index');
 
-      Route::prefix('/dokumen')->group(function () {
-        Route::get('/', fn () => view('pelamar.dokumen'))
+      Route::prefix('/dokumen')->controller(PlmrDokumenController::class)->group(function () {
+        Route::get('/', 'index')
           ->name('pelamar.dokumen');
       });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminDanPerusahaan;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\Tahapan\StorePenilaianSeleksiRequest;
+use App\Models\Dokumen;
 use App\Models\PendaftaranLowongan;
 use App\Models\PenilaianSeleksi;
 use App\Models\TahapanSeleksi;
@@ -12,7 +13,8 @@ use App\Models\TahapanSeleksi;
 class PenilaianSeleksiController extends Controller {
   public function index() {
     $pendaftaranLowongan = PendaftaranLowongan::all();
-    return view('seleksi.penilaian.index', compact('pendaftaranLowongan'));
+    $jenisDokumen = Dokumen::all();
+    return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }
 
   public function jobApplicationDetails(PendaftaranLowongan $pendaftaranLowongan) {

@@ -4,123 +4,75 @@
   <div class="container mb-5" style="margin-top: 120px;">
     <div class="row gap-4 gap-md-0">
       @include('pelamar.action')
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <div class="card">
           <div class="card-header d-flex align-items-center justify-content-between">
-            <h3 class="mb-">Dokumen saya</h3>
+            <h3>Dokumen saya</h3>
             <div class="gap-2 d-flex justify-content-md-end">
-              <button class="btn btn-primary btn-sm" type="button">Upload</button>
-              <button class="btn btn-primary btn-sm" type="button">Ubah</button>
+              <button class="btn btn-primary custom-btn" type="button">Upload</button>
+              <button class="btn btn-primary custom-btn" type="button">Ubah</button>
             </div>
           </div>
           <div id="tableDokumen_wrapper" class="card-body pb-0">
             <div class="row">
               <div class="col-sm-12 table-responsive">
-                <table id="tableDokumen"
-                  class="table table-bordered table-striped table-hover dataTable no-footer dtr-inline" role="grid"
-                  aria-describedby="tableDokumen_info">
-                  <thead>
+                <table id="tableDokumen" class="table table-bordered border-dark">
+                  <thead class="table-dark">
                     <tr role="row">
-                      <th class="text-nowrap" rowspan="1" colspan="1" aria-label="NAMA DOKUMEN">NAMA DOKUMEN
+                      <th
+                        class="text-nowrap text-center vertical-align-middle d-flex justify-content-center align-items-center gap-2">
+                        <span>NAMA DOKUMEN</span>
+                        <span>
+                          <a href="#" type="button" class="text-white text-decoration-none p-2"
+                            data-bs-toggle="modal" data-bs-target="#modalPetunjuk">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                              class="bi bi-question-circle" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                              <path
+                                d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                            </svg>
+                          </a>
+                        </span>
                       </th>
-                      <th class="text-nowrap" rowspan="1" colspan="1" aria-label="STATUS UPLOAD"
-                        style="width: 30%;">
-                        STATUS UPLOAD</th>
-                      <th class="text-nowrap" tabindex="0" aria-controls="tableDokumen" rowspan="1" colspan="1"
-                        style="width: 30%;">AKSI</th>
+                      <th class="text-nowrap text-center vertical-align-middle">
+                        AKSI
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr role="row" class="odd">
-                      <td>KTP</td>
-                      <td>Belum Upload</td>
-                      <td class="d-flex gap-2">
-                        <a href="#">
-                          <button class="btn btn-sm btn-primary btnUpload" attr-id="1">
+                    @foreach ($jenisDokumen as $item)
+                      <tr role="row" class="odd">
+                        <td class="text-nowrap text-center vertical-align-middle">
+                          <div class="d-flex align-items-center gap-2 justify-content-center">
+                            <span>{{ $item->nama_dokumen }}</span>
+                            @foreach ($dokumen as $dkmn)
+                              @if ($dkmn->id_jenis_dokumen === $item->id_jenis_dokumen)
+                                <span>
+                                  <i class="fa-solid fa-check fa-lg text-success"></i>
+                                </span>
+                              @endif
+                            @endforeach
+                          </div>
+                        </td>
+                        <td class="text-nowrap text-center vertical-align-middle">
+                          <button class="btn custom-btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUpload"
+                            data-jenis-dokumen="{{ $item->id_jenis_dokumen }}">
                             <i class="fas fa-upload"></i>
                             <span>Upload</span>
                           </button>
-                        </a>
-                        <a href="#">
-                          <button class="btn btn-sm btn-success btnUpload">
-                            <i class="fas fa-eye"></i>
-                            <span>Lihat</span>
-                          </button>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr role="row" class="even">
-                      <td>Kartu Pencari Kerja</td>
-                      <td>Belum Upload</td>
-                      <td class="d-flex gap-2">
-                        <a href="#">
-                          <button class="btn btn-sm btn-primary btnUpload" attr-id="1">
-                            <i class="fas fa-upload"></i>
-                            <span>Upload</span>
-                          </button>
-                        </a>
-                        <a href="#">
-                          <button class="btn btn-sm btn-success btnUpload">
-                            <i class="fas fa-eye"></i>
-                            <span>Lihat</span>
-                          </button>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr role="row" class="odd">
-                      <td>Ijasah</td>
-                      <td>Sudah Upload</td>
-                      <td class="d-flex gap-2">
-                        <a href="#">
-                          <button class="btn btn-sm btn-primary btnUpload" attr-id="1">
-                            <i class="fas fa-upload"></i>
-                            <span>Upload</span>
-                          </button>
-                        </a>
-                        <a href="#">
-                          <button class="btn btn-sm btn-success btnUpload">
-                            <i class="fas fa-eye"></i>
-                            <span>Lihat</span>
-                          </button>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr role="row" class="even">
-                      <td>Transkip Nilai</td>
-                      <td>Belum Upload</td>
-                      <td class="d-flex gap-2">
-                        <a href="#">
-                          <button class="btn btn-sm btn-primary btnUpload" attr-id="1">
-                            <i class="fas fa-upload"></i>
-                            <span>Upload</span>
-                          </button>
-                        </a>
-                        <a href="#">
-                          <button class="btn btn-sm btn-success btnUpload">
-                            <i class="fas fa-eye"></i>
-                            <span>Lihat</span>
-                          </button>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr role="row" class="odd">
-                      <td>Surat Keterangan Catatan Kepolisian</td>
-                      <td>Belum Upload</td>
-                      <td class="d-flex gap-2">
-                        <a href="#">
-                          <button class="btn btn-sm btn-primary btnUpload" attr-id="1">
-                            <i class="fas fa-upload"></i>
-                            <span>Upload</span>
-                          </button>
-                        </a>
-                        <a href="#">
-                          <button class="btn btn-sm btn-success btnUpload">
-                            <i class="fas fa-eye"></i>
-                            <span>Lihat</span>
-                          </button>
-                        </a>
-                      </td>
-                    </tr>
+                          @foreach ($dokumen as $dkmn)
+                            @if ($dkmn->id_jenis_dokumen === $item->id_jenis_dokumen)
+                              <a href="#">
+                                <button class="btn custom-btn btn-success">
+                                  <i class="fas fa-eye"></i>
+                                  <span>Lihat</span>
+                                </button>
+                              </a>
+                            @endif
+                          @endforeach
+                        </td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -130,4 +82,28 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="modalUpload" tabindex="-1" aria-labelledby="modalUploadLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="labelModalUpload">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn custom-btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn custom-btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <x-modal-petunjuk-dokumen>
+    Jika pada kolom NAMA DOKUMEN di profil kamu terdapat icon centang hijau &#40; <span>
+      <i class="fa-solid fa-check fa-lg text-success"></i>
+    </span>&#41;&#791; artinya kamu sudah mengupload dokumen tersebut.
+  </x-modal-petunjuk-dokumen>
 @endsection

@@ -17,6 +17,20 @@
               <th scope="col" class="text-nowrap text-center">Lowongan Yang Dilamar</th>
               <th scope="col" class="text-nowrap text-center">Nama Pelamar</th>
               <th scope="col" class="text-nowrap text-center">Alumni / Kandidat Luar</th>
+              <th scope="col" class="text-nowrap text-center">
+                <span>Kelengkapan Dokumen</span>
+                <span>
+                  <a href="#" type="button" class="text-white text-decoration-none p-2" data-bs-toggle="modal"
+                    data-bs-target="#modalPetunjuk">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                      class="bi bi-question-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                      <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                    </svg>
+                  </a>
+                </span>
+              </th>
               <th scope="col" class="text-nowrap text-center">Status Seleksi</th>
               <th scope="col" class="text-nowrap text-center">Status Verifikasi</th>
               @canany(['admin', 'perusahaan'])
@@ -48,6 +62,22 @@
                     Kandidat Luar
                   </td>
                 @endif
+                <td class="text-nowrap vertical-align-middle custom-font">
+                  <div class="d-flex flex-column gap-2">
+                    @foreach ($jenisDokumen as $jd)
+                      <div>
+                        <span>{{ $jd->nama_dokumen }}</span>
+                        @foreach ($item->pelamar->dokumen as $dokumenPelamar)
+                          @if ($dokumenPelamar->id_jenis_dokumen === $jd->id_jenis_dokumen)
+                            <span>
+                              <i class="fa-solid fa-check fa-lg text-success"></i>
+                            </span>
+                          @endif
+                        @endforeach
+                      </div>
+                    @endforeach
+                  </div>
+                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 justify-content-center align-items-center">
                     @if ($item->status_seleksi === 'Lulus')
@@ -78,7 +108,7 @@
                     </div>
                   </td>
                   <td
-                    class="text-nowrap d-flex justify-content-center gap-2 align-items-center vertical-align-middle custom-font">
+                    class="text-nowrap d-flex flex-column justify-content-center gap-2 align-items-center vertical-align-middle custom-font">
                     <form action="{{ route('pendaftaran_lowongan.verifikasi', $item->id_pendaftaran) }}" method="post">
                       @csrf
                       <button type="submit" name="verification" value="true" class="btn btn-warning custom-btn"
@@ -108,4 +138,13 @@
       </div>
     </div>
   </div>
+
+  <x-modal-petunjuk-dokumen>
+    Jika pada kolom Kelengkapan Dokumen terdapat icon centang hijau &#40; <span>
+      <i class="fa-solid fa-check fa-lg text-success"></i>
+    </span>&#41;&#791; artinya pelamar sudah mengupload dokumen tersebut. Dan sebaliknya, jika tidak terdapat icon centang
+    hijau &#40; <span>
+      <i class="fa-solid fa-check fa-lg text-success"></i>
+    </span>&#41;&#791; pada kolom Kelengkapan Dokumen, maka pelamar tersebut belum mengupload jenis dokumen tersebut.
+  </x-modal-petunjuk-dokumen>
 @endsection

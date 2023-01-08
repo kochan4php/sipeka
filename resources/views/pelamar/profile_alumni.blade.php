@@ -4,65 +4,67 @@
   <div class="container mb-5" style="margin-top: 120px;">
     <div class="row gap-4 gap-md-0">
       @include('pelamar.action')
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <div class="card card-outline-secondary">
-          <div class="card-header d-flex align-items-center justify-content-between">
-            <h3 class="mb-">Profil Saya </h3>
-            <h5 class="mb-0">Bonong</h5>
+          <div class="card-header d-flex align-items-center justify-content-between pb-0">
+            <h3>Profil Saya</h3>
+            <h5>{{ $data->pelamar->user->username }}</h5>
           </div>
-          <div class="card-body">
+          <div class="card-body custom-font">
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Nama Lengkap</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                Bonong jenong
+                {{ $data->nama_lengkap }}
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <h6 class="mb-0">Agama</h6>
+                <h6 class="mb-0">NIS</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                ada
+                {{ $data->nis }}
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <h6 class="mb-0">Tempat Tanggal Lahir</h6>
+                <h6 class="mb-0">Tempat Lahir</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                bojong gede 19 mei 2022
+                @if (is_null($data->tempat_lahir))
+                  {{ __('Data tempat lahir tidak ada') }}
+                @else
+                  {{ $data->tempat_lahir }}
+                @endif
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <h6 class="mb-0">Tinggi dan Berat Badan</h6>
+                <h6 class="mb-0">Tanggal Lahir</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                10 cm 1 kg
+                @if (is_null($data->tanggal_lahir))
+                  {{ __('Data tanggal lahir tidak ada') }}
+                @else
+                  {{ \Carbon\Carbon::parse($data->tanggal_lahir)->format('d M Y') }}
+                @endif
               </div>
             </div>
             <hr>
-
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Jenis Kelamin</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                cwk
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Latar Belakang Pendidikan</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                esdeh
+                @if ($data->jenis_kelamin === 'L')
+                  {{ __('Laki-laki') }}
+                @elseif ($data->jenis_kelamin === 'P')
+                  {{ __('Perempuan') }}
+                @endif
               </div>
             </div>
             <hr>
@@ -70,8 +72,12 @@
               <div class="col-sm-3">
                 <h6 class="mb-0">Alamat</h6>
               </div>
-              bojong gede kalideres
               <div class="col-sm-9 text-secondary">
+                @if (is_null($data->alamat_tempat_tinggal))
+                  {{ __('Data alamat tempat tinggal siswa tidak ada') }}
+                @else
+                  {{ __($data->alamat_tempat_tinggal) }}
+                @endif
               </div>
             </div>
             <hr>
@@ -80,43 +86,32 @@
                 <h6 class="mb-0">Email</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                bonong@gmail.com
+                @if (is_null($data->pelamar->user->email))
+                  {{ __('Email tidak ada') }}
+                @else
+                  {{ __($data->pelamar->user->email) }}
+                @endif
               </div>
             </div>
             <hr>
-
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">No Hp</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                09876543
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Facebook</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                bonong manies
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Twitter</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                bonong_ajah
+                @if (is_null($data->no_telepon))
+                  {{ __('No. Telp tidak ada') }}
+                @else
+                  {{ __($data->no_telepon) }}
+                @endif
               </div>
             </div>
             <hr>
             <a href="">
-              <button class="btn btn-sm btn-primary">Edit Profil</button>
+              <button class="btn custom-btn btn-primary">Edit Profil</button>
             </a>
             <a href="">
-              <button class="btn btn-sm btn-green">Ubah Password</button>
+              <button class="btn custom-btn btn-success">Ubah Password</button>
             </a>
           </div>
         </div>
