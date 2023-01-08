@@ -2,7 +2,7 @@
 
 @section('container')
   <div class="container mb-5" style="margin-top: 120px;">
-    <div class="row gap-4 gap-md-0">
+    <div class="row gap-4 gap-xl-0">
       @include('pelamar.action')
       <div class="col-lg-9">
         <div class="card">
@@ -16,6 +16,7 @@
           <div id="tableDokumen_wrapper" class="card-body pb-0">
             <div class="row">
               <div class="col-sm-12 table-responsive">
+                <x-alert-session />
                 <table id="tableDokumen" class="table table-bordered border-dark">
                   <thead class="table-dark">
                     <tr role="row">
@@ -55,8 +56,9 @@
                           </div>
                         </td>
                         <td class="text-nowrap text-center vertical-align-middle">
-                          <button class="btn custom-btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUpload"
-                            data-jenis-dokumen="{{ $item->id_jenis_dokumen }}">
+                          <button class="btn custom-btn btn-primary btn-upload" data-bs-toggle="modal"
+                            data-bs-target="#modalUpload" data-jenis-dokumen="{{ $item->id_jenis_dokumen }}"
+                            data-nama-dokumen="{{ $item->nama_dokumen }}" data-username="{{ Auth::user()->username }}">
                             <i class="fas fa-upload"></i>
                             <span>Upload</span>
                           </button>
@@ -90,13 +92,19 @@
           <h1 class="modal-title fs-5" id="labelModalUpload">Modal title</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn custom-btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-          <button type="button" class="btn custom-btn btn-primary">Save changes</button>
-        </div>
+        <form class="form-modal" method="POST" enctype="multipart/form-data">
+          <div class="modal-body">
+            @csrf
+            <div class="mb-3">
+              <label for="formFile" class="form-label">Upload file</label>
+              <input class="form-control" type="file" id="formFile" name="file" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn custom-btn btn-danger btn-cancel" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn custom-btn btn-primary">Upload</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -106,4 +114,33 @@
       <i class="fa-solid fa-check fa-lg text-success"></i>
     </span>&#41;&#791; artinya kamu sudah mengupload dokumen tersebut.
   </x-modal-petunjuk-dokumen>
+
+  @push('script')
+    <script>
+      const btnUpload = document.querySelectorAll('.btn-upload');
+      btnUpload.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const formModal = document.querySelector('.form-modal');
+          const formLabel = document.querySelector('.form-modal .form-label');
+          const btnClose = document.querySelector('.btn-close');
+          const btnCancel = document.querySelector('.btn-cancel');
+          const formLabelText = formLabel.textContent;
+
+          const namaDokumen = btn.dataset.namaDokumen;
+          const jenisDokumen = btn.dataset.jenisDokumen;
+          const username = btn.dataset.username;
+          const route = "{{ route('pelamar.dokumen.store', ['username' => ':username', 'dokumen' => ':dokumen']) }}"
+            .replace(':username', username)
+            .replace(':dokumen', jenisDokumen);
+
+          formLabel.textContent = `${formLabelText} ${namaDokumen}`;
+          formModal.setAttribute('action', route);
+
+          const removeActionAttr = () => formModal.removeAttribute('action');
+          btnClose.addEventListener('click', removeActionAttr);
+          btnCancel.addEventListener('click', removeActionAttr);
+        });
+      });
+    </script>
+  @endpush
 @endsection

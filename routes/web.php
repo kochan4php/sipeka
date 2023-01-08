@@ -276,6 +276,8 @@ Route::prefix('/sipeka')->group(function () {
       Route::prefix('/dokumen')->controller(PlmrDokumenController::class)->group(function () {
         Route::get('/', 'index')
           ->name('pelamar.dokumen');
+        Route::post('/{dokumen}', 'store')
+          ->name('pelamar.dokumen.store');
       });
 
       Route::prefix('/pengalaman-kerja')->controller(PengalamanKerjaController::class)->group(function () {
