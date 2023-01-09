@@ -13,11 +13,11 @@
         <table class="table table-bordered border-secondary border-1 table-striped mb-0">
           <thead class="table-dark">
             <tr>
-              <th scope="col" class="text-nowrap text-center">No</th>
-              <th scope="col" class="text-nowrap text-center">Lowongan Yang Dilamar</th>
-              <th scope="col" class="text-nowrap text-center">Nama Pelamar</th>
-              <th scope="col" class="text-nowrap text-center">Alumni / Kandidat Luar</th>
-              <th scope="col" class="text-nowrap text-center">
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">No</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">Lowongan Yang Dilamar</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">Nama Pelamar</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">Alumni / Kandidat Luar</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">
                 <span>Kelengkapan Dokumen</span>
                 <span>
                   <a href="#" type="button" class="text-white text-decoration-none p-2" data-bs-toggle="modal"
@@ -31,10 +31,10 @@
                   </a>
                 </span>
               </th>
-              <th scope="col" class="text-nowrap text-center">Status Seleksi</th>
-              <th scope="col" class="text-nowrap text-center">Status Verifikasi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">Status Seleksi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle">Status Verifikasi</th>
               @canany(['admin', 'perusahaan'])
-                <th scope="col" class="text-nowrap text-center">Aksi</th>
+                <th scope="col" class="text-nowrap text-center vertical-align-middle">Aksi</th>
               @endcanany
             </tr>
           </thead>
@@ -107,22 +107,23 @@
                       <span>{{ $item->verifikasi }}</span>
                     </div>
                   </td>
-                  <td
-                    class="text-nowrap d-flex flex-column justify-content-center gap-2 align-items-center vertical-align-middle custom-font">
+                  <td class="text-nowrap vertical-align-middle custom-font">
                     <form action="{{ route('pendaftaran_lowongan.verifikasi', $item->id_pendaftaran) }}" method="post">
-                      @csrf
-                      <button type="submit" name="verification" value="true" class="btn btn-warning custom-btn"
-                        @disabled($item->verifikasi !== 'Belum' || $item->verifikasi === 'Sudah')>
-                        <i class="fa-solid fa-square-check fa-lg"></i>
-                      </button>
+                      <div class="btn-group-vertical">
+                        @csrf
+                        <button type="submit" name="verification" value="true" class="btn custom-font btn-warning"
+                          @disabled($item->verifikasi !== 'Belum' || $item->verifikasi === 'Sudah')>
+                          <i class="fa-solid fa-square-check fa-lg"></i>
+                        </button>
+                        <a href="" class="btn custom-font btn-info">
+                          <i class="fa-solid fa-file-pdf fa-lg"></i>
+                        </a>
+                        <a href="{{ route('penilaian.seleksi.job_application_details', $item->id_pendaftaran) }}"
+                          class="btn custom-font btn-primary @if ($item->verifikasi !== 'Sudah' || $item->verifikasi === 'Belum') disabled @endif">
+                          <i class="fa-solid fa-info-circle fa-lg"></i>
+                        </a>
+                      </div>
                     </form>
-                    <a href="" class="btn btn-info custom-btn">
-                      <i class="fa-solid fa-file-pdf fa-lg"></i>
-                    </a>
-                    <a href="{{ route('penilaian.seleksi.job_application_details', $item->id_pendaftaran) }}"
-                      class="btn btn-primary custom-btn @if ($item->verifikasi !== 'Sudah' || $item->verifikasi === 'Belum') disabled @endif">
-                      <i class="fa-solid fa-info-circle fa-lg"></i>
-                    </a>
                   </td>
                 @endcan
               </tr>

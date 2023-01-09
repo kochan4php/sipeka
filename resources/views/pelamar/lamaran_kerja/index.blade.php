@@ -21,7 +21,7 @@
                       </div>
                       <div>
                         <h4>{{ $item->lowongan->judul_lowongan }}</h4>
-                        <h5>{{ $item->status_seleksi }}</h5>
+                        <h5>{{ __("Status Lulus : {$item->status_seleksi}") }}</h5>
                       </div>
                     </div>
                   </div>
