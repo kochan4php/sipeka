@@ -111,7 +111,8 @@
   <x-modal-petunjuk-dokumen>
     Jika pada kolom NAMA DOKUMEN di profil kamu terdapat icon centang hijau &#40; <span>
       <i class="fa-solid fa-check fa-lg text-success"></i>
-    </span>&#41;&#791; artinya kamu sudah mengupload dokumen tersebut.
+    </span>&#41;&#791; artinya kamu sudah mengupload dokumen tersebut. Jika tidak ada, maka kamu belum mengupload dokumen
+    tersebut.
   </x-modal-petunjuk-dokumen>
 
   @push('script')

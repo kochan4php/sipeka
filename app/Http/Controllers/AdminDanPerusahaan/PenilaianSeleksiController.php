@@ -11,15 +11,20 @@ use App\Models\PenilaianSeleksi;
 use App\Models\TahapanSeleksi;
 
 class PenilaianSeleksiController extends Controller {
+  private function getIdPendaftaran(PendaftaranLowongan $pendaftaranLowongan): string {
+    return $pendaftaranLowongan->id_pendaftaran;
+  }
+
   public function index() {
-    $pendaftaranLowongan = PendaftaranLowongan::all();
+    $pendaftaranLowongan = PendaftaranLowongan::latest()->get();
     $jenisDokumen = Dokumen::all();
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }
 
   public function jobApplicationDetails(PendaftaranLowongan $pendaftaranLowongan) {
-    $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
-    return view('seleksi.penilaian.job_application_details', compact('pendaftaranLowongan', 'namaPelamar'));
+    $dataPelamar = UserHelper::getApplicantData($pendaftaranLowongan->pelamar);
+    $namaPelamar = $dataPelamar->nama_lengkap;
+    return view('seleksi.penilaian.job_application_details', compact('pendaftaranLowongan', 'namaPelamar', 'dataPelamar'));
   }
 
   public function passApplicants(PendaftaranLowongan $pendaftaranLowongan) {
@@ -50,15 +55,20 @@ class PenilaianSeleksiController extends Controller {
       $validatedData['id_pendaftaran'] = $pendaftaranLowongan->id_pendaftaran;
       PenilaianSeleksi::create($validatedData);
 
-      return to_route(
-        'penilaian.seleksi.job_application_details',
-        ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran]
-      )->with('sukses', "Berhasil memberi penilaian untuk tahapan seleksi {$tahapanSeleksi->judul_tahapan}");
+      if ($validatedData['keterangan'] === 'Gagal' || $validatedData['is_lanjut'] === 'Tidak') :
+        $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
+        $pendaftaranLowongan->update(['status_seleksi' => 'Tidak']);
+
+        return to_route('penilaian.seleksi.index')->with('sukses', "Berhasil menggagalkan {$namaPelamar}");
+      endif;
+
+      $pendaftaran_lowongan = $this->getIdPendaftaran($pendaftaranLowongan);
+
+      return to_route('penilaian.seleksi.job_application_details', compact('pendaftaran_lowongan'))
+        ->with('sukses', "Berhasil memberi penilaian untuk tahapan seleksi {$tahapanSeleksi->judul_tahapan}");
     } catch (\Exception $e) {
-      return to_route(
-        'penilaian.seleksi.job_application_details',
-        ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran]
-      )->with('error', $e->getMessage());
+      return to_route('penilaian.seleksi.job_application_details', compact('pendaftaran_lowongan'))
+        ->with('error', $e->getMessage());
     }
   }
 
@@ -81,15 +91,13 @@ class PenilaianSeleksiController extends Controller {
       $validatedData = $request->validatedData();
       $penilaianSeleksi->update($validatedData);
 
-      return to_route(
-        'penilaian.seleksi.job_application_details',
-        ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran]
-      )->with('sukses', "Berhasil mengedit penilaian untuk tahapan seleksi {$tahapanSeleksi->judul_tahapan}");
+      $pendaftaran_lowongan = $this->getIdPendaftaran($pendaftaranLowongan);
+
+      return to_route('penilaian.seleksi.job_application_details', compact('pendaftaran_lowongan'))
+        ->with('sukses', "Berhasil mengedit penilaian untuk tahapan seleksi {$tahapanSeleksi->judul_tahapan}");
     } catch (\Exception $e) {
-      return to_route(
-        'penilaian.seleksi.job_application_details',
-        ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran]
-      )->with('error', $e->getMessage());
+      return to_route('penilaian.seleksi.job_application_details', compact('pendaftaran_lowongan'))
+        ->with('error', $e->getMessage());
     }
   }
 }

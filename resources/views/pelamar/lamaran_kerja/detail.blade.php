@@ -17,7 +17,7 @@
                 </div>
                 <div>
                   <h4>{{ $pendaftaranLowongan->lowongan->judul_lowongan }}</h4>
-                  <h5>{{ $pendaftaranLowongan->status_seleksi }}</h5>
+                  <h5>{{ __("Status Lulus : {$pendaftaranLowongan->status_seleksi}") }}</h5>
                 </div>
               </div>
             </div>
@@ -26,6 +26,26 @@
                 <p class="text-muted">
                   {{ $pendaftaranLowongan->lowongan->perusahaan->nama_perusahaan }}
                 </p>
+              </div>
+            </div>
+            <div class="row mt-3 mb-5">
+              <div class="col-12">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <button class="nav-link active">Pengumuman</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-12 mt-3 table-responsive px-3">
+                <div class="card">
+                  <div class="card-header">
+                    <h2>Pemberitahuan</h2>
+                  </div>
+                  <div class="card-body custom-font d-flex gap-2 flex-column">
+                    <span class="fs-5">{{ $notifikasiSeleksi->pesan }}</span>
+                    <span class="text-muted">Added {{ $notifikasiSeleksi->created_at->diffForHumans() }}</span>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row mt-3">
@@ -47,7 +67,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($pendaftaranLowongan->lowongan->tahapan_seleksi as $item)
+                    @forelse ($pendaftaranLowongan->lowongan->tahapan_seleksi as $item)
                       <tr>
                         <th class="text-nowrap text-center vertical-align-middle custom-font">
                           {{ $loop->iteration }}
@@ -68,7 +88,13 @@
                           </td>
                         @endif
                       </tr>
-                    @endforeach
+                    @empty
+                      <tr>
+                        <td colspan="4" class="text-nowrap text-center vertical-align-middle custom-font">
+                          Belum ada tahapan seleksi untuk lowongan ini. Silahkan hubungi admin segera!
+                        </td>
+                      </tr>
+                    @endforelse
                   </tbody>
                 </table>
               </div>

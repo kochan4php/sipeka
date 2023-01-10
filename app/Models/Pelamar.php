@@ -62,4 +62,12 @@ class Pelamar extends Model {
   public function penilaian_seleksi(): HasMany {
     return $this->hasMany(PenilaianSeleksi::class, 'id_pelamar', 'id_pelamar');
   }
+
+  public function notifikasi_seleksi(): HasMany {
+    return $this->hasMany(NotifikasiSeleksi::class, 'id_pelamar', 'id_pelamar');
+  }
+
+  public function getRouteKeyName() {
+    return 'id_pelamar';
+  }
 }

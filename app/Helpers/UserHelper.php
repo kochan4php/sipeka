@@ -25,11 +25,7 @@ class UserHelper extends AuthHelper {
       ? parent::user()?->perusahaan : null;
   }
 
-  public static function getAlumniData(): ?object {
-    return self::whoIsLoggedInNow() === 'alumni' ? parent::user()?->pelamar?->alumni : null;
-  }
-
-  public static function getCandidateDataFromOutsideTheSchool(): ?object {
-    return self::whoIsLoggedInNow() === 'kandidat-luar' ? parent::user()?->pelamar?->masyarakat : null;
+  public static function getApplicantData(Pelamar $pelamar): object {
+    return $pelamar->alumni ? $pelamar->alumni : $pelamar->masyarakat;
   }
 }

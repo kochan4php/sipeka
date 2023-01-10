@@ -29,7 +29,7 @@ use App\Http\Controllers\{
   // All Profile Controller
   Admin\ProfileController as AdminProfileController
 };
-
+use App\Http\Controllers\Admin\NotifikasiSeleksiController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -249,21 +249,32 @@ Route::prefix('/sipeka')->group(function () {
             ->name('tahapan.seleksi.delete');
         });
 
-        Route::controller(PenilaianSeleksiController::class)->prefix('/penilaian')->group(function () {
-          Route::get('/', 'index')
-            ->name('penilaian.seleksi.index');
-          Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
-            ->name('penilaian.seleksi.job_application_details');
-          Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
-            ->name('penilaian.seleksi.create');
-          Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
-            ->name('penilaian.seleksi.store');
-          Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
-            ->name('penilaian.seleksi.edit');
-          Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
-            ->name('penilaian.seleksi.update');
-          Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
-            ->name('penilaian.seleksi.pass_applicants');
+        Route::prefix('/penilaian')->group(function () {
+          Route::controller(PenilaianSeleksiController::class)->group(function () {
+            Route::get('/', 'index')
+              ->name('penilaian.seleksi.index');
+            Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
+              ->name('penilaian.seleksi.job_application_details');
+            Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
+              ->name('penilaian.seleksi.create');
+            Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
+              ->name('penilaian.seleksi.store');
+            Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
+              ->name('penilaian.seleksi.edit');
+            Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
+              ->name('penilaian.seleksi.update');
+            Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
+              ->name('penilaian.seleksi.pass_applicants');
+          });
+
+          Route::prefix('/notifikasi-seleksi')->controller(NotifikasiSeleksiController::class)->group(function () {
+            Route::get('/{pelamar}', 'index')
+              ->name('notifikasi.seleksi.index');
+            Route::post('/{pelamar}', 'store')
+              ->name('notifikasi.seleksi.store');
+            Route::delete('/{pelamar}/delete/{notifikasi_seleksi}', 'destroy')
+              ->name('notifikasi.seleksi.destroy');
+          });
         });
       });
     });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pelamar;
 
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
+use App\Models\NotifikasiSeleksi;
 use App\Models\Pelamar;
 use App\Models\PendaftaranLowongan;
 use App\Models\PenilaianSeleksi;
@@ -26,6 +27,11 @@ class PendaftaranLowonganController extends Controller {
       'id_pelamar' => Auth::user()->pelamar->id_pelamar,
       'id_pendaftaran' => $pendaftaranLowongan->id_pendaftaran
     ])->get();
-    return view('pelamar.lamaran_kerja.detail', compact('pendaftaranLowongan', 'penilaianSeleksi'));
+
+    $notifikasiSeleksi = NotifikasiSeleksi::where('id_pelamar', Auth::user()->pelamar->id_pelamar)
+      ->latest()
+      ->first();
+
+    return view('pelamar.lamaran_kerja.detail', compact('pendaftaranLowongan', 'penilaianSeleksi', 'notifikasiSeleksi'));
   }
 }
