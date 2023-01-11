@@ -8,6 +8,7 @@ use App\Models\Dokumen;
 use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DokumenController extends Controller {
   use HasMainRoute;
@@ -28,8 +29,12 @@ class DokumenController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $dokumen = Dokumen::all();
+    $dokumen = QueryBuilder::for(Dokumen::class)
+      ->allowedFilters('angkatan_tahun')
+      ->get();
+
     $kodeBaru = $this->generateKodeDokumenBaru();
+
     return view('admin.masterdata.dokumen.index', compact('dokumen', 'kodeBaru'));
   }
 

@@ -24,7 +24,6 @@ class AppServiceProvider extends ServiceProvider {
    * @return void
    */
   public function boot() {
-    Paginator::useBootstrapFive();
     Gate::define(
       'admin',
       fn (User $user) => ($user->level_user->identifier === 'admin') || (Auth::user()->level_user->identifier === 'admin')

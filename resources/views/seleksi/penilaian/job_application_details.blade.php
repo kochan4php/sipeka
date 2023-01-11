@@ -9,7 +9,8 @@
 
   <div class="row">
     <div class="col table-responsive">
-      <table class="table table-bordered border-secondary border-1 table-striped mb-0">
+      <table @if ($pendaftaranLowongan->lowongan->tahapan_seleksi->count() > 0) id="myTable" @endif
+        class="table table-bordered border-secondary table-striped py-2">
         <thead class="table-dark">
           <tr>
             <th scope="col" class="text-nowrap text-center">No</th>

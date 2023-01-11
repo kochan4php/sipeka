@@ -18,9 +18,6 @@ class LowonganKerja extends Model {
   // kasih tau primary key yang ada di tabel yang bersangkutan
   protected $primaryKey = 'id_lowongan';
 
-  // bawa relasinya ketika di query
-  protected $with = ['perusahaan'];
-
   /**
    * The attributes that are mass assignable.
    *

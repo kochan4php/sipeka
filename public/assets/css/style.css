@@ -3,6 +3,10 @@
   color: #ae0046;
 }
 
+*:focus {
+  box-shadow: none !important;
+}
+
 .custom-font {
   font-size: 1rem !important;
 }

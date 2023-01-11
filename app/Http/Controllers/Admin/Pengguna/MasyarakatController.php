@@ -7,8 +7,10 @@ use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
+use App\Models\Masyarakat;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{ItemNotFoundException, Collection};
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MasyarakatController extends Controller {
   use HasMainRoute;
@@ -35,7 +37,11 @@ class MasyarakatController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $masyarakat = $this->getAllPersons();
+    $masyarakat = QueryBuilder::for(Masyarakat::class)
+      ->allowedFilters('nama_lengkap')
+      ->allowedSorts('id')
+      ->get();
+
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
 

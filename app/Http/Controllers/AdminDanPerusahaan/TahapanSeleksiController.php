@@ -6,14 +6,24 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\Tahapan\StoreTahapanSeleksiRequest;
 use App\Models\{LowonganKerja, TahapanSeleksi};
 use Illuminate\Support\Facades\{Auth, Gate};
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TahapanSeleksiController extends Controller {
   private string $tahapanSeleksiMainRoute = 'tahapan.seleksi.detail_lowongan';
 
   public function index() {
     $lowongan = null;
-    if (Gate::check('admin')) $lowongan = LowonganKerja::all()->load('tahapan_seleksi');
-    else if (Gate::check('perusahaan')) $lowongan = Auth::user()->perusahaan->lowongan->load('tahapan_seleksi');
+
+    if (Gate::check('admin')) {
+      $lowongan = QueryBuilder::for(LowonganKerja::class)
+        ->allowedFilters('angkatan_tahun')
+        ->with('perusahaan')
+        ->get();
+    } else if (Gate::check('perusahaan')) {
+      $lowongan = QueryBuilder::for(Auth::user()->perusahaan->lowongan)
+        ->allowedFilters('angkatan_tahun')
+        ->get();
+    }
     return view('seleksi.tahapan.index', compact('lowongan'));
   }
 

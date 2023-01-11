@@ -7,6 +7,7 @@ use App\Models\Angkatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AngkatanController extends Controller {
   /**
@@ -15,7 +16,10 @@ class AngkatanController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $angkatan = Angkatan::all();
+    $angkatan = QueryBuilder::for(Angkatan::class)
+      ->allowedFilters('angkatan_tahun')
+      ->get();
+
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
 

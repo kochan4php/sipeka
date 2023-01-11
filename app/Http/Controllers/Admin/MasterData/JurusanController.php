@@ -7,6 +7,7 @@ use App\Models\Jurusan;
 use App\Traits\HasMainRoute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class JurusanController extends Controller {
   use HasMainRoute;
@@ -21,7 +22,10 @@ class JurusanController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $jurusan = Jurusan::all();
+    $jurusan =  QueryBuilder::for(Jurusan::class)
+      ->allowedFilters('angkatan_tahun')
+      ->get();
+
     return view('admin.masterdata.jurusan.index', compact('jurusan'));
   }
 

@@ -7,8 +7,11 @@ use App\Models\User;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
+use App\Models\SiswaAlumni;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
+use Spatie\QueryBuilder\QueryBuilder;
+use Yajra\DataTables\DataTables;
 
 class AlumniController extends Controller {
   use HasMainRoute;
@@ -39,7 +42,13 @@ class AlumniController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $alumni = collect(DB::select('SELECT * FROM get_all_siswa_alumni'));
+    $alumni = QueryBuilder::for(SiswaAlumni::class)
+      ->allowedFilters(['nama_lengkap', 'nis'])
+      ->allowedSorts('id')
+      ->allowedIncludes(['jurusan', 'angkatan'])
+      ->with(['jurusan', 'angkatan'])
+      ->get();
+
     return view('admin.pengguna.alumni.index', compact('alumni'));
   }
 

@@ -10,7 +10,8 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table class="table table-bordered border-secondary border-1 table-striped mb-0">
+        <table @if ($jurusan->count() > 0) id="myTable" @endif
+          class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
@@ -29,18 +30,14 @@
                 <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_jurusan }}</td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->keterangan }}</td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  <div class="btn-group">
+                  <div class="d-flex gap-2 align-items-center justify-content-center">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
-                      data-kode-jurusan="{{ $item->id_jurusan }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning btn-edit">
+                      data-kode-jurusan="{{ $item->id_jurusan }}" class="btn custom-btn btn-warning btn-edit">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
                     </button>
-                    <button data-kode-jurusan="{{ $item->id_jurusan }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete" data-bs-toggle="modal"
-                      data-bs-target="#modalHapus">
+                    <button data-kode-jurusan="{{ $item->id_jurusan }}" class="btn custom-btn btn-danger btn-delete"
+                      data-bs-toggle="modal" data-bs-target="#modalHapus">
                       <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
                     </button>
                   </div>
                 </td>

@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreMitraPerusahaanRequest;
+use App\Models\MitraPerusahaan;
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Illuminate\Support\Facades\{DB, Hash};
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MitraPerusahaanController extends Controller {
   use HasMainRoute;
@@ -35,7 +37,11 @@ class MitraPerusahaanController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $perusahaan = $this->getAllPerusahaan();
+    $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
+      ->allowedFilters('nama_perusahaan')
+      ->allowedSorts('id')
+      ->get();
+
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
 

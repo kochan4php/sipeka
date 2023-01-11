@@ -9,6 +9,7 @@ use App\Models\Dokumen;
 use App\Models\PendaftaranLowongan;
 use App\Models\PenilaianSeleksi;
 use App\Models\TahapanSeleksi;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PenilaianSeleksiController extends Controller {
   private function getIdPendaftaran(PendaftaranLowongan $pendaftaranLowongan): string {
@@ -16,8 +17,13 @@ class PenilaianSeleksiController extends Controller {
   }
 
   public function index() {
-    $pendaftaranLowongan = PendaftaranLowongan::latest()->get();
+    $pendaftaranLowongan = QueryBuilder::for(PendaftaranLowongan::class)
+      ->allowedFilters(['kode_pendaftaran', 'verifikasi', 'status_seleksi'])
+      ->latest()
+      ->get();
+
     $jenisDokumen = Dokumen::all();
+
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }
 

@@ -9,6 +9,7 @@ use App\Models\{LowonganKerja, MitraPerusahaan};
 use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\{Auth, Gate};
 use Illuminate\Support\ItemNotFoundException;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class LowonganKerjaController extends Controller {
   use HasMainRoute;
@@ -24,8 +25,15 @@ class LowonganKerjaController extends Controller {
    */
   public function index() {
     $lowongan = null;
-    if (Gate::check('admin')) $lowongan = LowonganKerja::all();
-    else if (Gate::check('perusahaan')) $lowongan = Auth::user()->perusahaan->lowongan;
+    if (Gate::check('admin')) {
+      $lowongan = QueryBuilder::for(LowonganKerja::class)
+        ->allowedFilters('angkatan_tahun')
+        ->get();
+    } else if (Gate::check('perusahaan')) {
+      $lowongan = QueryBuilder::for(Auth::user()->perusahaan->lowongan)
+        ->allowedFilters('angkatan_tahun')
+        ->get();
+    }
     return view('lowongankerja.index', compact('lowongan'));
   }
 

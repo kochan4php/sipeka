@@ -13,7 +13,8 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table class="table table-bordered border-secondary border-1 table-striped mb-0">
+        <table @if ($perusahaan->count() > 0) id="myTable" @endif
+          class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
@@ -28,26 +29,30 @@
             @forelse ($perusahaan as $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_perusahaan }}</td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->username }}</td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->email }}</td>
+                  {{ $loop->iteration }}
+                </th>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  <div class="btn-group">
-                    <a href="{{ route('admin.perusahaan.detail', $item->username) }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-success">
+                  {{ $item->nama_perusahaan }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->user->username }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->user->email }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  <div class="d-flex gap-2 align-items-center justify-content-center">
+                    <a href="{{ route('admin.perusahaan.detail', $item->user->username) }}"
+                      class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                      <span>Detail</span>
                     </a>
-                    <a href="{{ route('admin.perusahaan.edit', $item->username) }}"
-                      class="btn btn-sm fw-bolder leading-1px btn-warning">
+                    <a href="{{ route('admin.perusahaan.edit', $item->user->username) }}"
+                      class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                      <span>Sunting</span>
                     </a>
-                    <button type="button" class="btn btn-sm fw-bolder leading-1px btn-danger btn-delete"
-                      data-bs-toggle="modal" data-bs-target="#modalHapus" data-username="{{ $item->username }}">
+                    <button type="button" class="btn custom-btn btn-danger btn-delete" data-bs-toggle="modal"
+                      data-bs-target="#modalHapus" data-username="{{ $item->user->username }}">
                       <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                      <span>Hapus</span>
                     </button>
                   </div>
                 </td>
