@@ -40,7 +40,7 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($lowongan as $item)
+            @foreach ($lowongan->load('tahapan_seleksi') as $item)
               <tr class="@if ($item->tahapan_seleksi->count() === 0) no-tahapan @endif">
                 <th
                   class="text-nowrap text-center vertical-align-middle custom-font @if ($item->tahapan_seleksi->count() === 0) bg-danger text-white @endif"

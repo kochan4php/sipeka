@@ -102,49 +102,45 @@
         </li>
       @endcan
       @canany(['admin', 'perusahaan'])
-        @if (\App\Models\MitraPerusahaan::all()->count() > 0)
-          <li class="nav-item">
-            <a class="nav-link @if (Request::is('sipeka/dashboard/lowongan*')) active @endif d-flex align-items-center gap-2"
-              aria-current="page" href="{{ route('lowongankerja.index') }}">
-              <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-              <span style="font-size: 15.5px !important;">Lowongan</span>
-            </a>
-          </li>
-        @endif
-        @if (\App\Models\LowonganKerja::all()->count() > 0)
-          <li class="nav-item">
-            <div class="dropdown">
-              <button
-                class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"
-                style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#penilaian"
-                aria-expanded="false" aria-controls="penilaian">
-                <div class="d-flex align-items-center gap-2">
-                  <span><i class="fa-solid fa-user-check fa-lg"></i></span>
-                  <span style="font-size: 15.5px !important;">Seleksi</span>
-                </div>
-                <div>
-                  <i class="fa-solid fa-angle-left fa-lg"></i>
-                </div>
-              </button>
-              <ul class="collapse list-unstyled bg-dark" id="penilaian">
-                <li>
-                  <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/tahapan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                    href="{{ route('tahapan.seleksi.index') }}">
-                    <span>Tahapan Seleksi</span>
-                    <i class="fa-solid fa-code-branch fa-lg"></i>
-                  </a>
-                </li>
-                <li>
-                  <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                    href="{{ route('penilaian.seleksi.index') }}">
-                    <span>Penilaian Seleksi</span>
-                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        @endif
+        <li class="nav-item">
+          <a class="nav-link @if (Request::is('sipeka/dashboard/lowongan*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('lowongankerja.index') }}">
+            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Lowongan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <div class="dropdown">
+            <button
+              class="nav-link btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"
+              style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#penilaian"
+              aria-expanded="false" aria-controls="penilaian">
+              <div class="d-flex align-items-center gap-2">
+                <span><i class="fa-solid fa-user-check fa-lg"></i></span>
+                <span style="font-size: 15.5px !important;">Seleksi</span>
+              </div>
+              <div>
+                <i class="fa-solid fa-angle-left fa-lg"></i>
+              </div>
+            </button>
+            <ul class="collapse list-unstyled bg-dark" id="penilaian">
+              <li>
+                <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/tahapan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
+                  href="{{ route('tahapan.seleksi.index') }}">
+                  <span>Tahapan Seleksi</span>
+                  <i class="fa-solid fa-code-branch fa-lg"></i>
+                </a>
+              </li>
+              <li>
+                <a class="nav-link dropdown-item @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
+                  href="{{ route('penilaian.seleksi.index') }}">
+                  <span>Penilaian Seleksi</span>
+                  <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
       @endcanany
       @can('admin')
         <li class="nav-item">

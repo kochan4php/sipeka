@@ -8,7 +8,8 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table class="table table-bordered border-secondary border-1 table-striped mb-0">
+        <table @if ($pelamar->count() > 0) id="myTable" @endif
+          class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -29,12 +30,12 @@
             </tr>
           </thead>
           <tbody class="custom-font">
-            @forelse ($pelamar as $item)
+            @forelse ($pelamar->load(['alumni', 'masyarakat']) as $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
                   {{ $loop->iteration }}
                 </th>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                <td class="d-flex justify-content-center vertical-align-middle custom-font">
                   @if ($item->alumni)
                     @if (is_null($item->alumni->foto))
                       <img src="{{ Avatar::create($item->alumni->nama_lengkap) }}" alt="{{ $item->user->username }}"

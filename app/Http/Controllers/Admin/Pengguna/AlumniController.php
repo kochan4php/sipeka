@@ -46,7 +46,7 @@ class AlumniController extends Controller {
       ->allowedFilters(['nama_lengkap', 'nis'])
       ->allowedSorts('id')
       ->allowedIncludes(['jurusan', 'angkatan'])
-      ->with(['jurusan', 'angkatan'])
+      ->with(['jurusan', 'angkatan', 'pelamar'])
       ->get();
 
     return view('admin.pengguna.alumni.index', compact('alumni'));

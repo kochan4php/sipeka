@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Pelamar;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +21,8 @@ class UserHelper extends AuthHelper {
       ? Auth::user()?->admin : null;
   }
 
-  public static function getCompanyData(): ?object {
-    return (Auth::check() && is_null(Auth::user()?->admin) && is_null(Auth::user()?->pelamar) && !is_null(Auth::user()?->perusahaan))
-      ? parent::user()?->perusahaan : null;
+  public static function getCompanyData(User $user): object {
+    return $user->perusahaan;
   }
 
   public static function getApplicantData(Pelamar $pelamar): object {

@@ -18,6 +18,8 @@ class LowonganKerja extends Model {
   // kasih tau primary key yang ada di tabel yang bersangkutan
   protected $primaryKey = 'id_lowongan';
 
+  protected $with = ['perusahaan'];
+
   /**
    * The attributes that are mass assignable.
    *

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class MitraPerusahaan extends Model {
   use HasFactory;
@@ -18,6 +19,8 @@ class MitraPerusahaan extends Model {
 
   // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
   public $timestamps = false;
+
+  protected $with = ['user'];
 
   /**
    * The attributes that are mass assignable.
@@ -40,5 +43,16 @@ class MitraPerusahaan extends Model {
 
   public function lowongan(): HasMany {
     return $this->hasMany(LowonganKerja::class, 'id_perusahaan', 'id_perusahaan');
+  }
+
+  public function pendaftaran_lowongan(): HasManyThrough {
+    return $this->hasManyThrough(
+      PendaftaranLowongan::class,
+      LowonganKerja::class,
+      'id_perusahaan',
+      'id_lowongan',
+      'id_perusahaan',
+      'id_lowongan'
+    );
   }
 }

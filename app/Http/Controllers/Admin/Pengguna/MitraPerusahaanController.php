@@ -40,6 +40,7 @@ class MitraPerusahaanController extends Controller {
     $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
       ->allowedFilters('nama_perusahaan')
       ->allowedSorts('id')
+      ->with('user')
       ->get();
 
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));

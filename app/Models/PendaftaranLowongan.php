@@ -26,6 +26,8 @@ class PendaftaranLowongan extends Model {
   // kasih tau kalau primary key nya bukan bertipe integer
   protected $keyType = 'string';
 
+  protected $with = ['lowongan', 'pelamar'];
+
   /**
    * The attributes that are mass assignable.
    *

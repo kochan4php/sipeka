@@ -30,9 +30,7 @@ class LowonganKerjaController extends Controller {
         ->allowedFilters('angkatan_tahun')
         ->get();
     } else if (Gate::check('perusahaan')) {
-      $lowongan = QueryBuilder::for(Auth::user()->perusahaan->lowongan)
-        ->allowedFilters('angkatan_tahun')
-        ->get();
+      $lowongan = Auth::user()->perusahaan->lowongan;
     }
     return view('lowongankerja.index', compact('lowongan'));
   }

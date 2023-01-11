@@ -9,6 +9,8 @@ use App\Models\Dokumen;
 use App\Models\PendaftaranLowongan;
 use App\Models\PenilaianSeleksi;
 use App\Models\TahapanSeleksi;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PenilaianSeleksiController extends Controller {
@@ -17,10 +19,16 @@ class PenilaianSeleksiController extends Controller {
   }
 
   public function index() {
-    $pendaftaranLowongan = QueryBuilder::for(PendaftaranLowongan::class)
-      ->allowedFilters(['kode_pendaftaran', 'verifikasi', 'status_seleksi'])
-      ->latest()
-      ->get();
+    $pendaftaranLowongan = null;
+
+    if (Gate::check('admin')) {
+      $pendaftaranLowongan = QueryBuilder::for(PendaftaranLowongan::class)
+        ->allowedFilters(['kode_pendaftaran', 'verifikasi', 'status_seleksi'])
+        ->latest()
+        ->get();
+    } else if (Gate::check('perusahaan')) {
+      $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan;
+    }
 
     $jenisDokumen = Dokumen::all();
 

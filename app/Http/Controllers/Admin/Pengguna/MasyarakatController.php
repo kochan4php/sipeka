@@ -40,6 +40,7 @@ class MasyarakatController extends Controller {
     $masyarakat = QueryBuilder::for(Masyarakat::class)
       ->allowedFilters('nama_lengkap')
       ->allowedSorts('id')
+      ->with('pelamar')
       ->get();
 
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));

@@ -23,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($pendaftaranLowongan->lowongan->tahapan_seleksi as $item)
+          @forelse ($pendaftaranLowongan->lowongan->tahapan_seleksi as $item)
             <tr>
               <th class="text-nowrap text-center vertical-align-middle custom-font">
                 {{ $loop->iteration }}
@@ -87,7 +87,13 @@
                 </button>
               </td>
             </tr>
-          @endforeach
+          @empty
+            <tr>
+              <td colspan="7" class="text-nowrap text-center vertical-align-middle custom-font">
+                Belum ada tahapan seleksi untuk lowongan ini.
+              </td>
+            </tr>
+          @endforelse
         </tbody>
       </table>
     </div>

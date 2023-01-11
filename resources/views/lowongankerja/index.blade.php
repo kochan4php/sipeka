@@ -15,15 +15,29 @@
           class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Judul Lowongan</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                No
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Judul Lowongan
+              </th>
               @can('admin')
-                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Nama Perusahaan</th>
-                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Email Perusahaan</th>
+                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                  Nama Perusahaan
+                </th>
+                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                  Email Perusahaan
+                </th>
               @endcan
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Tanggal Dimulai</th>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Tanggal Berakhir</th>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">Aksi</th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Tanggal Dimulai
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Tanggal Berakhir
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Aksi
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -50,7 +64,7 @@
                   {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  <div class="d-flex gap-2 align-items-center">
+                  <div class="d-flex gap-2 align-items-center justify-content-center">
                     <a href="{{ route('lowongankerja.detail', $item->slug) }}" class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>

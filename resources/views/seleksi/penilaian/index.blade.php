@@ -107,44 +107,44 @@
                     <span>{{ $item->status_seleksi }}</span>
                   </div>
                 </td>
-                @can('admin')
-                  <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    <div class="d-flex gap-2 justify-content-center align-items-center">
-                      @if ($item->verifikasi === 'Sudah')
-                        <span>
-                          <i class="fa-solid fa-check fa-lg text-success"></i>
-                        </span>
-                      @else
-                        <span>
-                          <i class="fa-solid fa-xmark fa-lg text-danger"></i>
-                        </span>
-                      @endif
-                      <span>{{ $item->verifikasi }}</span>
-                    </div>
-                  </td>
-                  <td class="text-nowrap vertical-align-middle custom-font">
-                    <form action="{{ route('pendaftaran_lowongan.verifikasi', $item->id_pendaftaran) }}" method="post">
-                      <div class="d-flex gap-2">
-                        @csrf
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  <div class="d-flex gap-2 justify-content-center align-items-center">
+                    @if ($item->verifikasi === 'Sudah')
+                      <span>
+                        <i class="fa-solid fa-check fa-lg text-success"></i>
+                      </span>
+                    @else
+                      <span>
+                        <i class="fa-solid fa-xmark fa-lg text-danger"></i>
+                      </span>
+                    @endif
+                    <span>{{ $item->verifikasi }}</span>
+                  </div>
+                </td>
+                <td class="text-nowrap vertical-align-middle custom-font">
+                  <form action="{{ route('pendaftaran_lowongan.verifikasi', $item->id_pendaftaran) }}" method="post">
+                    <div class="d-flex gap-2">
+                      @csrf
+                      @can('admin')
                         <button type="submit" name="verification" value="true" class="btn custom-btn btn-warning"
                           @disabled($item->verifikasi !== 'Belum' || $item->verifikasi === 'Sudah')>
                           <i class="fa-solid fa-square-check fa-lg"></i>
                         </button>
-                        <a href="" class="btn custom-btn btn-info">
-                          <i class="fa-solid fa-file-pdf fa-lg"></i>
-                        </a>
-                        <a href="{{ route('penilaian.seleksi.job_application_details', $item->id_pendaftaran) }}"
-                          class="btn custom-btn btn-primary">
-                          <i class="fa-solid fa-info-circle fa-lg"></i>
-                        </a>
-                        <a href="{{ route('notifikasi.seleksi.index', $item->pelamar->id_pelamar) }}"
-                          class="btn custom-btn btn-success btn-notif">
-                          <i class="fa-solid fa-envelope fa-lg"></i>
-                        </a>
-                      </div>
-                    </form>
-                  </td>
-                @endcan
+                      @endcan
+                      <a href="" class="btn custom-btn btn-info">
+                        <i class="fa-solid fa-file-pdf fa-lg"></i>
+                      </a>
+                      <a href="{{ route('penilaian.seleksi.job_application_details', $item->id_pendaftaran) }}"
+                        class="btn custom-btn btn-primary">
+                        <i class="fa-solid fa-info-circle fa-lg"></i>
+                      </a>
+                      <a href="{{ route('notifikasi.seleksi.index', $item->pelamar->id_pelamar) }}"
+                        class="btn custom-btn btn-success btn-notif">
+                        <i class="fa-solid fa-envelope fa-lg"></i>
+                      </a>
+                    </div>
+                  </form>
+                </td>
               </tr>
             @empty
               <tr>

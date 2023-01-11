@@ -20,9 +20,7 @@ class TahapanSeleksiController extends Controller {
         ->with('perusahaan')
         ->get();
     } else if (Gate::check('perusahaan')) {
-      $lowongan = QueryBuilder::for(Auth::user()->perusahaan->lowongan)
-        ->allowedFilters('angkatan_tahun')
-        ->get();
+      $lowongan = Auth::user()->perusahaan->lowongan;
     }
     return view('seleksi.tahapan.index', compact('lowongan'));
   }

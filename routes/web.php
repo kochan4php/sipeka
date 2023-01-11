@@ -210,10 +210,7 @@ Route::prefix('/sipeka')->group(function () {
       });
 
       // Route Lowongan oleh Admin dan Mitra Perusahaan
-      Route::controller(AMPLowonganKerjaController::class)->prefix('/lowongan')->middleware([
-        'role:admin,perusahaan',
-        'if_any_company'
-      ])->group(function () {
+      Route::controller(AMPLowonganKerjaController::class)->prefix('/lowongan')->middleware('role:admin,perusahaan')->group(function () {
         Route::get('/', 'index')
           ->name('lowongankerja.index');
         Route::get('/tambah', 'create')
@@ -238,7 +235,7 @@ Route::prefix('/sipeka')->group(function () {
 
       // Route Seleksi oleh Admin dan Mitra Perusahaan
       Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
-        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->middleware('if_any_job_vacancy')->group(function () {
+        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
           Route::get('/', 'index')
             ->name('tahapan.seleksi.index');
           Route::get('/{lowongan_kerja}/tambah', 'create')
