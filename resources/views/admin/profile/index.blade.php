@@ -1,8 +1,8 @@
 @extends('layouts.dashboard.app')
 
 @section('container-dashboard')
-  <div class="row pt-3 pb-1 mb-1 gap-4 gap-lg-0">
-    <div class="col-lg-6">
+  <div class="row pt-3 pb-1 mb-1 gap-4">
+    <div class="col-12">
       <div class="card">
         <div class="card-header text-center pb-0">
           <h3>Profile</h3>
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-12">
       <div class="card">
         <div class="card-header text-center pb-0">
           <h3>Edit Profile</h3>
@@ -62,7 +62,50 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Perbarui</button>
+                <button type="submit" class="btn custom-btn btn-primary">Perbarui</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header text-center pb-0">
+          <h3>Ubah Password</h3>
+        </div>
+        <div class="card-body pb-0">
+          <form action="{{ route('change.password') }}" method="POST">
+            @csrf
+            <div class="mb-3 row custom-font">
+              <label for="old_password" class="col-sm-4 col-form-label text-md-end">
+                {{ __('Password lama') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control" id="old_password" name="old_password" required>
+              </div>
+            </div>
+            <div class="mb-3 row custom-font">
+              <label for="new_password" class="col-sm-4 col-form-label text-md-end">
+                {{ __('Password baru') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control" id="new_password" name="new_password" required>
+              </div>
+            </div>
+            <div class="mb-3 row custom-font">
+              <label for="new_password_confirmation" class="col-sm-4 col-form-label text-md-end">
+                {{ __('Konfirmasi password baru') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control" id="new_password_confirmation"
+                  name="new_password_confirmation" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8 d-flex gap-2">
+                <button type="submit" class="btn custom-btn btn-primary">Perbarui password</button>
               </div>
             </div>
           </form>

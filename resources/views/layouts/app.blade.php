@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="icon" href="{{ asset('assets/images/sipeka_logo_2.png') }}">
-
+  @notifyCss
   @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/owl-carousel/dist/assets/owl.carousel.min.css') }}">
@@ -33,6 +33,8 @@
   @stack('script')
   <script src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
   <script src="{{ asset('assets/js/enable_tooltip.js') }}"></script>
+  <x:notify-messages />
+  @notifyJs
 </body>
 
 </html>

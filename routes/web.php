@@ -26,10 +26,13 @@ use App\Http\Controllers\{
   AdminDanPerusahaan\TahapanSeleksiController,
   AdminDanPerusahaan\PenilaianSeleksiController,
   VerifikasiPendaftaranLowonganController,
-  // All Profile Controller
-  Admin\ProfileController as AdminProfileController
+  // All Admin Sensitive Controller
+  Admin\ProfileController as AdminProfileController,
+  Admin\NotifikasiSeleksiController,
+  // Change password for all users
+  ChangePasswordController,
 };
-use App\Http\Controllers\Admin\NotifikasiSeleksiController;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -81,6 +84,9 @@ Route::prefix('/sipeka')->group(function () {
   Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/logout', LogoutController::class)
       ->name('logout');
+
+    Route::post('/change-password', [ChangePasswordController::class, 'updatePassword'])
+      ->name('change.password');
 
     // Dashboard
     Route::prefix('/dashboard')->group(function () {

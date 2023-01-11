@@ -22,6 +22,8 @@ class AuthenticatedController extends Controller {
       $request->session()->regenerate();
       $role = Auth::user()->level_user->identifier;
 
+      notify("Selamat datang kembali", "Notifikasi");
+
       switch ($role) {
         case 'admin':
           return redirect(route('admin.index'));

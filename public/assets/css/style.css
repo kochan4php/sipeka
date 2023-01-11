@@ -7,6 +7,10 @@
   box-shadow: none !important;
 }
 
+.notify {
+  align-items: flex-end !important;
+}
+
 .custom-font {
   font-size: 1rem !important;
 }
