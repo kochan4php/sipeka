@@ -18,7 +18,7 @@
                 <x-alert-session />
                 <table id="tableDokumen" class="table table-bordered border-dark">
                   <thead class="table-dark">
-                    <tr role="row">
+                    <tr>
                       <th
                         class="text-nowrap text-center vertical-align-middle d-flex justify-content-center align-items-center gap-2">
                         <span>NAMA DOKUMEN</span>
@@ -41,7 +41,7 @@
                   </thead>
                   <tbody>
                     @foreach ($jenisDokumen as $item)
-                      <tr role="row" class="odd">
+                      <tr>
                         <td class="text-nowrap text-center vertical-align-middle">
                           <div class="d-flex align-items-center gap-2 justify-content-center">
                             <span>{{ $item->nama_dokumen }}</span>

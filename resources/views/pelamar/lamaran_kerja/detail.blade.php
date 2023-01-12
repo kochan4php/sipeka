@@ -42,8 +42,12 @@
                     <h2>Pemberitahuan</h2>
                   </div>
                   <div class="card-body custom-font d-flex gap-2 flex-column">
-                    <span class="fs-5">{{ $notifikasiSeleksi->pesan }}</span>
-                    <span class="text-muted">Added {{ $notifikasiSeleksi->created_at->diffForHumans() }}</span>
+                    @if (!is_null($notifikasiSeleksi))
+                      <span class="fs-5">{{ $notifikasiSeleksi->pesan }}</span>
+                      <span class="text-muted">Added {{ $notifikasiSeleksi->created_at->diffForHumans() }}</span>
+                    @else
+                      <span class="fs-5">Belum ada pemberitahuan seleksi.</span>
+                    @endif
                   </div>
                 </div>
               </div>
