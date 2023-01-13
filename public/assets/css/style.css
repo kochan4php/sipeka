@@ -9,6 +9,7 @@
 
 .notify {
   align-items: flex-end !important;
+  z-index: 100000000 !important;
 }
 
 .custom-font {
