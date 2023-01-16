@@ -286,6 +286,10 @@ Route::prefix('/sipeka')->group(function () {
     Route::prefix('/pelamar/{username}')->middleware('role:pelamar')->group(function () {
       Route::get('/profile', \App\Http\Controllers\Pelamar\MainController::class)
         ->name('pelamar.index');
+      Route::get('/profile/edit', [\App\Http\Controllers\Pelamar\MainController::class, 'profileEdit'])
+        ->name('pelamar.profile.edit');
+      Route::put('/profile', [\App\Http\Controllers\Pelamar\MainController::class, 'profileUpdate'])
+        ->name('pelamar.profile.update');
 
       Route::prefix('/dokumen')->controller(PlmrDokumenController::class)->group(function () {
         Route::get('/', 'index')
@@ -323,6 +327,8 @@ Route::prefix('/sipeka')->group(function () {
           ->name('pelamar.lamaran.index');
         Route::get('/{pendaftaran_lowongan}/detail', 'show')
           ->name('pelamar.lamaran.detail');
+        Route::get('/{pendaftaran_lowongan}/pdf-verifikasi', 'PDFVerifikasi')
+          ->name('pelamar.lamaran.pdf-verifikasi');
       });
     });
   });

@@ -32,11 +32,19 @@
               <div class="col-12">
                 <ul class="nav nav-tabs">
                   <li class="nav-item">
-                    <button class="nav-link active">Pengumuman</button>
+                    <button onclick="openLink(event, 'Pemberitahuan')" class="nav-link tab-btn">Pengumuman</button>
+                  </li>
+                  <li class="nav-item">
+                    <button onclick="openLink(event, 'TahapanSeleksi')" class="nav-link tab-btn">Daftar Tahapan
+                      Seleksi</button>
+                  </li>
+                  <li class="nav-item">
+                    <button onclick="openLink(event, 'PenilaianSeleksi')" class="nav-link tab-btn">Penilaian
+                      Seleksi</button>
                   </li>
                 </ul>
               </div>
-              <div class="col-12 mt-3 table-responsive px-3">
+              <div class="col-12 mt-3 table-responsive px-3 d-none" id="Pemberitahuan">
                 <div class="card">
                   <div class="card-header">
                     <h2>Pemberitahuan</h2>
@@ -51,16 +59,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <button class="nav-link active">Daftar Tahapan Seleksi</button>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-12 mt-3 table-responsive">
+              <div class="col-12 mt-3 table-responsive d-none" id="TahapanSeleksi">
                 <table class="table table-bordered border-secondary border-1 table-striped mb-0">
                   <thead class="table-dark">
                     <tr>
@@ -102,16 +101,7 @@
                   </tbody>
                 </table>
               </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-12">
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <button class="nav-link active">Penilaian Seleksi</button>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-12 mt-3 table-responsive">
+              <div class="col-12 mt-3 table-responsive d-none" id="PenilaianSeleksi">
                 <table class="table table-bordered border-secondary border-1 table-striped mb-0">
                   <thead class="table-dark">
                     <tr>
@@ -134,7 +124,9 @@
                           {{ __("{$pendaftaranLowongan->verifikasi} verifikasi") }}
                         </span>
                         <span>
-                          <button class="btn btn-primary btn-sm">
+                          <button type="button" data-username="{{ Auth::user()->username }}"
+                            data-id-pendaftaran="{{ $pendaftaranLowongan->id_pendaftaran }}"
+                            class="btn btn-primary btn-sm btn-print-verifikasi">
                             <i class="fa-solid fa-print"></i>
                           </button>
                         </span>
@@ -170,6 +162,44 @@
   </div>
 
   @push('script')
+    <script>
+      const btnPrintVerifikasi = document.querySelector('.btn-print-verifikasi');
+      const username = btnPrintVerifikasi.dataset.username;
+      const idPendaftaran = btnPrintVerifikasi.dataset.idPendaftaran;
+      const url =
+        (
+          `{{ route('pelamar.lamaran.pdf-verifikasi', ['username' => ':username', 'pendaftaran_lowongan' => ':idPendaftaran']) }}`
+        )
+        .replace(':username', username)
+        .replace(':idPendaftaran', idPendaftaran);
+
+      btnPrintVerifikasi.addEventListener('click', () => printExternal(url));
+
+      function printExternal(url) {
+        const printWindow = window.open(url, '_blank', 'resizable=0');
+
+        printWindow.addEventListener('load', function() {
+          if (Boolean(printWindow.chrome)) {
+            printWindow.print();
+            setTimeout(function() {
+              printWindow.close();
+            }, 500);
+          } else {
+            printWindow.print();
+            printWindow.close();
+          }
+        }, true);
+      }
+    </script>
+    <script>
+      function openLink(e, id) {
+        // console.dir(e.target);
+        e.target.classList.toggle('active');
+        const element = document.getElementById(id);
+        element.classList.toggle('d-none');
+        element.classList.toggle('d-block');
+      }
+    </script>
     <script>
       tippy('.checked-tahapan', {
         content: 'Tuntas',

@@ -32,6 +32,21 @@ class PendaftaranLowonganController extends Controller {
       ->latest()
       ->first();
 
-    return view('pelamar.lamaran_kerja.detail', compact('pendaftaranLowongan', 'penilaianSeleksi', 'notifikasiSeleksi'));
+    return view(
+      'pelamar.lamaran_kerja.detail',
+      compact('pendaftaranLowongan', 'penilaianSeleksi', 'notifikasiSeleksi')
+    );
+  }
+
+  public function PDFVerifikasi(string $username, PendaftaranLowongan $pendaftaranLowongan) {
+    $penilaianSeleksi = PenilaianSeleksi::where([
+      'id_pelamar' => Auth::user()->pelamar->id_pelamar,
+      'id_pendaftaran' => $pendaftaranLowongan->id_pendaftaran
+    ])->get();
+
+    return view(
+      'pelamar.lamaran_kerja.pdf.pdf_verifikasi',
+      compact('pendaftaranLowongan', 'penilaianSeleksi')
+    );
   }
 }

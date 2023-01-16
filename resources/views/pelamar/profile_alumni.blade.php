@@ -107,11 +107,11 @@
               </div>
             </div>
             <hr>
-            <a href="">
-              <button class="btn custom-btn btn-primary">Edit Profil</button>
+            <a href="{{ route('pelamar.profile.edit', Auth::user()->username) }}" class="btn custom-btn btn-primary">
+              Edit Profil
             </a>
-            <a href="">
-              <button class="btn custom-btn btn-success">Ubah Password</button>
+            <a href="" class="btn custom-btn btn-success">
+              Ubah Password
             </a>
           </div>
         </div>
