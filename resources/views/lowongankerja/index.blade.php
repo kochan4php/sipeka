@@ -36,14 +36,19 @@
                 Tanggal Berakhir
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Jumlah Tahapan
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Aksi
               </th>
             </tr>
           </thead>
           <tbody>
             @forelse ($lowongan as $item)
-              <tr>
-                <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
+              <tr class="@if ($item->tahapan_seleksi->count() === 0) no-tahapan @endif">
+                <th
+                  class="text-nowrap text-center vertical-align-middle custom-font @if ($item->tahapan_seleksi->count() === 0) bg-danger text-white @endif"
+                  scope="row">
                   {{ $loop->iteration }}
                 </th>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
@@ -64,23 +69,33 @@
                   {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->tahapan_seleksi->count() }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('lowongankerja.detail', $item->slug) }}" class="btn custom-btn btn-success">
+                    <a href="{{ route('lowongankerja.detail', $item->slug) }}"
+                      class="btn btn-detail custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ route('lowongankerja.edit', $item->slug) }}" class="btn custom-btn btn-warning">
+                    <a href="{{ route('lowongankerja.edit', $item->slug) }}" class="btn btn-edit custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
                     <button data-slug="{{ $item->slug }}" class="btn custom-btn btn-danger btn-delete"
                       data-bs-toggle="modal" data-bs-target="#modalHapus">
                       <span><i class="fa-solid fa-trash fa-lg"></i></span>
                     </button>
+                    <a href="{{ route('tahapan.seleksi.detail_lowongan', $item->slug) }}"
+                      class="btn custom-btn btn-primary btn-tahapan">
+                      <span> <i class="fa-solid fa-code-branch fa-lg"></i></span>
+                    </a>
                   </div>
                 </td>
               </tr>
             @empty
               <tr>
-                <td colspan="7" class="fs-5 text-center">Data lowongan kerja belum ada, silahkan tambahkan!</td>
+                <td colspan="8" class="fs-5 text-center">
+                  <x-svg-empty-icon />
+                </td>
               </tr>
             @endforelse
           </tbody>
@@ -123,6 +138,28 @@
           btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
           btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
         });
+      });
+    </script>
+    <script>
+      tippy('.btn-tahapan', {
+        content: 'Tahapan Seleksi',
+        placement: 'left'
+      });
+      tippy('.btn-delete', {
+        content: 'Hapus data',
+        placement: 'left'
+      });
+      tippy('.btn-edit', {
+        content: 'Edit data',
+        placement: 'left'
+      });
+      tippy('.btn-detail', {
+        content: 'Detail data',
+        placement: 'left'
+      });
+      tippy('.no-tahapan', {
+        content: 'Lowongan ini belum memiliki tahapan seleksi.',
+        placement: 'bottom',
       });
     </script>
   @endpush

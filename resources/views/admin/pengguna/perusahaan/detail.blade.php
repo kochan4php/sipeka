@@ -72,7 +72,7 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Deskripsi') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {!! $perusahaan->deskripsi_perusahaan ?? 'Belum ada deskripsi perusahaan' !!}
+                      {!! $perusahaan->deskripsi_perusahaan ?? '-' !!}
                     </td>
                   </tr>
                   <tr>

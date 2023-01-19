@@ -14,6 +14,7 @@ class StoreMitraPerusahaanRequest extends FormRequest {
     'foto_sampul_perusahaan',
     'logo_perusahaan',
     'deskripsi_perusahaan',
+    'jenis_perusahaan'
   ];
 
   /**
@@ -40,6 +41,7 @@ class StoreMitraPerusahaanRequest extends FormRequest {
       'foto_sampul_perusahaan' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:5120'],
       'logo_perusahaan' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:3072'],
       'deskripsi_perusahaan' => ['nullable'],
+      'jenis_perusahaan' => ['required']
     ];
   }
 

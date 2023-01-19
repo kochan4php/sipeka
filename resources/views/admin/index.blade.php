@@ -13,7 +13,7 @@
         </div>
       @endslot
       <button type="button" class="btn p-0 border-0 text-decoration-none stretched-link text-dark">
-        <h4>Jumlah Pengguna</h4>
+        <h4>Pengguna</h4>
       </button>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-warning">
@@ -24,7 +24,7 @@
         </div>
       @endslot
       <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-dark">
-        <h4>Jumlah Kandidat Luar</h4>
+        <h4>Kandidat Luar</h4>
       </a>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-pink">
@@ -35,7 +35,7 @@
         </div>
       @endslot
       <a href="{{ route('admin.alumni.index') }}" class="text-decoration-none stretched-link text-white">
-        <h4>Jumlah Alumni</h4>
+        <h4>Alumni</h4>
       </a>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-indigo">
@@ -46,7 +46,7 @@
         </div>
       @endslot
       <a href="{{ route('admin.perusahaan.index') }}" class="text-decoration-none stretched-link text-white">
-        <h4>Jumlah Perusahaan</h4>
+        <h4>Perusahaan</h4>
       </a>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-danger">
@@ -57,7 +57,7 @@
         </div>
       @endslot
       <a href="{{ route('admin.jurusan.index') }}" class="text-decoration-none stretched-link text-white">
-        <h4>Jumlah Jurusan</h4>
+        <h4>Jurusan</h4>
       </a>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-primary">
@@ -68,7 +68,7 @@
         </div>
       @endslot
       <a href="{{ route('admin.angkatan.index') }}" class="text-decoration-none stretched-link text-white">
-        <h4>Jumlah Angkatan</h4>
+        <h4>Angkatan</h4>
       </a>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-orange">
@@ -79,7 +79,7 @@
         </div>
       @endslot
       <a href="{{ route('lowongankerja.index') }}" class="text-decoration-none stretched-link text-white">
-        <h4>Jumlah Lowongan Kerja</h4>
+        <h4>Lowongan Kerja</h4>
       </a>
     </x-card-admin>
     <x-card-admin bgcolor="text-bg-success">

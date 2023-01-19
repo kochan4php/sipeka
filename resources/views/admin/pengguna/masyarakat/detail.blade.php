@@ -64,7 +64,7 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
                       @if (is_null($orang->tempat_lahir))
-                        {{ __('Data tempat lahir pelamar tidak ada') }}
+                        {{ __('-') }}
                       @else
                         {{ __($orang->tempat_lahir) }}
                       @endif
@@ -75,7 +75,7 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
                       @if (is_null($orang->tanggal_lahir))
-                        {{ __('Data tanggal lahir pelamar tidak ada') }}
+                        {{ __('-') }}
                       @else
                         {{ \Carbon\Carbon::parse($orang->tanggal_lahir)->format('d M Y') }}
                       @endif
@@ -86,7 +86,7 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
                       @if (is_null($orang->no_telepon))
-                        {{ __('Data nomor telepon pelamar tidak ada') }}
+                        {{ __('-') }}
                       @else
                         {{ __($orang->no_telepon) }}
                       @endif
@@ -97,7 +97,7 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
                       @if (is_null($orang->alamat_tempat_tinggal))
-                        {{ __('Data alamat tempat tinggal pelamar tidak ada') }}
+                        {{ __('-') }}
                       @else
                         {{ __($orang->alamat_tempat_tinggal) }}
                       @endif

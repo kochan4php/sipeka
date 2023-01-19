@@ -23,6 +23,7 @@ return new class extends Migration {
       $table->string('logo_perusahaan')->nullable()->default(null);
       $table->text('deskripsi_perusahaan')->nullable()->default(null);
       $table->text('alamat_perusahaan');
+      $table->enum('jenis_perusahaan', ['PT', 'CV']);
 
       // Foreign key untuk id_user
       $table

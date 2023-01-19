@@ -42,6 +42,18 @@
               </div>
             </div>
             <div class="mb-3 row">
+              <label for="jenis_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Jenis Perusahaan') }}
+              </label>
+              <div class="col-sm-8">
+                <select name="jenis_perusahaan" id="jenis_perusahaan" class="form-select" required>
+                  <option selected>-- Pilih jenis perusahaan --</option>
+                  <option value="PT" @selected($perusahaan->jenis_perusahaan === 'PT')>PT</option>
+                  <option value="CV" @selected($perusahaan->jenis_perusahaan === 'CV')>CV</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3 row">
               <label for="no_telepon_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('No. Telepon Perusahaan') }}
               </label>
@@ -92,8 +104,8 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Perbarui</button>
-                <a href="{{ route('admin.perusahaan.index') }}" class="btn btn-danger">Batal</a>
+                <button type="submit" class="btn custom-btn btn-primary">Perbarui</button>
+                <a href="{{ route('admin.perusahaan.index') }}" class="btn custom-btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

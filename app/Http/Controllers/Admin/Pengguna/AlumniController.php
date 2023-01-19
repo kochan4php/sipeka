@@ -72,7 +72,7 @@ class AlumniController extends Controller {
   public function store(StoreAlumniRequest $request) {
     try {
       $validatedData = $request->validatedDataAlumni();
-      $validatedData['username'] = $this->generateAlumniUsername($validatedData['nis']);
+      $validatedData['username'] = $validatedData['nis'];
 
       $insertOneAlumni = DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
         'username' => $validatedData['username'],
@@ -145,7 +145,7 @@ class AlumniController extends Controller {
 
       if ($alumni->nis !== $validatedData['nis']) :
         $validatedData['password'] = Hash::make($validatedData['nis']);
-        $validatedData['new_username'] = $this->generateAlumniUsername($validatedData['nis']);
+        $validatedData['new_username'] = $validatedData['nis'];
       else :
         $validatedData['password'] = null;
         $validatedData['new_username'] = null;

@@ -71,7 +71,9 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="fs-5 text-center">Data alumni belum ada, silahkan tambahkan!</td>
+                <td colspan="6" class="fs-5 text-center">
+                  <x-svg-empty-icon />
+                </td>
               </tr>
             @endforelse
           </tbody>

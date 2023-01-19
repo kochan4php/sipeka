@@ -6,6 +6,7 @@ use App\Http\Controllers\{
   Auth\AuthenticatedController,
   Auth\LogoutController,
   // All Pengguna Controller
+  Admin\PenggunaController,
   Admin\Pengguna\AlumniController,
   Admin\Pengguna\MasyarakatController,
   Admin\Pengguna\MitraPerusahaanController,
@@ -32,7 +33,6 @@ use App\Http\Controllers\{
   // Change password for all users
   ChangePasswordController,
 };
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -95,57 +95,62 @@ Route::prefix('/sipeka')->group(function () {
         Route::get('/', \App\Http\Controllers\Admin\MainController::class)
           ->name('admin.index');
 
-        Route::prefix('/pengguna')->group(function () {
-          Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {
-            Route::get('/', 'index')
-              ->name('admin.alumni.index');
-            Route::get('/tambah', 'create')
-              ->name('admin.alumni.create');
-            Route::post('/', 'store')
-              ->name('admin.alumni.store');
-            Route::get('/{nis}/detail', 'show')
-              ->name('admin.alumni.detail');
-            Route::get('/{nis}/sunting', 'edit')
-              ->name('admin.alumni.edit');
-            Route::put('/{nis}', 'update')
-              ->name('admin.alumni.update');
-            Route::delete('/{nis}', 'destroy')
-              ->name('admin.alumni.delete');
-          });
+        Route::prefix('/pengguna')->controller(PenggunaController::class)->group(function () {
+          Route::get('/', 'index')
+            ->name('admin.pengguna.index');
+          Route::get('/detail/{username}', 'show')
+            ->name('admin.pengguna.show');
+        });
 
-          Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {
-            Route::get('/', 'index')
-              ->name('admin.pelamar.index');
-            Route::get('/tambah', 'create')
-              ->name('admin.pelamar.create');
-            Route::post('/', 'store')
-              ->name('admin.pelamar.store');
-            Route::get('/{username}/detail', 'show')
-              ->name('admin.pelamar.detail');
-            Route::get('/{username}/sunting', 'edit')
-              ->name('admin.pelamar.edit');
-            Route::put('/{username}', 'update')
-              ->name('admin.pelamar.update');
-            Route::delete('/{username}', 'destroy')
-              ->name('admin.pelamar.delete');
-          });
+        Route::prefix('/alumni')->controller(AlumniController::class)->group(function () {
+          Route::get('/', 'index')
+            ->name('admin.alumni.index');
+          Route::get('/tambah', 'create')
+            ->name('admin.alumni.create');
+          Route::post('/', 'store')
+            ->name('admin.alumni.store');
+          Route::get('/{nis}/detail', 'show')
+            ->name('admin.alumni.detail');
+          Route::get('/{nis}/sunting', 'edit')
+            ->name('admin.alumni.edit');
+          Route::put('/{nis}', 'update')
+            ->name('admin.alumni.update');
+          Route::delete('/{nis}', 'destroy')
+            ->name('admin.alumni.delete');
+        });
 
-          Route::prefix('/perusahaan')->controller(MitraPerusahaanController::class)->group(function () {
-            Route::get('/', 'index')
-              ->name('admin.perusahaan.index');
-            Route::get('/tambah', 'create')
-              ->name('admin.perusahaan.create');
-            Route::post('/', 'store')
-              ->name('admin.perusahaan.store');
-            Route::get('/{username}/detail', 'show')
-              ->name('admin.perusahaan.detail');
-            Route::get('/{username}/sunting', 'edit')
-              ->name('admin.perusahaan.edit');
-            Route::put('/{username}', 'update')
-              ->name('admin.perusahaan.update');
-            Route::delete('/{username}', 'destroy')
-              ->name('admin.perusahaan.delete');
-          });
+        Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {
+          Route::get('/', 'index')
+            ->name('admin.pelamar.index');
+          Route::get('/tambah', 'create')
+            ->name('admin.pelamar.create');
+          Route::post('/', 'store')
+            ->name('admin.pelamar.store');
+          Route::get('/{username}/detail', 'show')
+            ->name('admin.pelamar.detail');
+          Route::get('/{username}/sunting', 'edit')
+            ->name('admin.pelamar.edit');
+          Route::put('/{username}', 'update')
+            ->name('admin.pelamar.update');
+          Route::delete('/{username}', 'destroy')
+            ->name('admin.pelamar.delete');
+        });
+
+        Route::prefix('/perusahaan')->controller(MitraPerusahaanController::class)->group(function () {
+          Route::get('/', 'index')
+            ->name('admin.perusahaan.index');
+          Route::get('/tambah', 'create')
+            ->name('admin.perusahaan.create');
+          Route::post('/', 'store')
+            ->name('admin.perusahaan.store');
+          Route::get('/{username}/detail', 'show')
+            ->name('admin.perusahaan.detail');
+          Route::get('/{username}/sunting', 'edit')
+            ->name('admin.perusahaan.edit');
+          Route::put('/{username}', 'update')
+            ->name('admin.perusahaan.update');
+          Route::delete('/{username}', 'destroy')
+            ->name('admin.perusahaan.delete');
         });
 
         Route::prefix('/masterdata')->group(function () {
