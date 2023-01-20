@@ -16,7 +16,7 @@
 <body style="background-color: #00FFFF;">
   <div class="container my-3">
     <div class="row d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-      <div class="col-md-6">
+      <div data-aos="fade-right" class="col-md-6">
         <div class="card px-4 pt-4 pb-2">
           <div class="card-body">
             @yield('register')
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 d-none d-md-block">
+      <div data-aos="fade-left" class="col-md-6 d-none d-md-block">
         <a href="{{ route('home') }}">
           <img src="{{ asset('assets/images/sipeka_logo.png') }}" class="img-fluid" alt="Logo SIPEKA">
         </a>

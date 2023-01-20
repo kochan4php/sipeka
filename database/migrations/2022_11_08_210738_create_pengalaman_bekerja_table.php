@@ -12,9 +12,6 @@ return new class extends Migration {
    */
   public function up() {
     Schema::create('pengalaman_kerja', function (Blueprint $table) {
-      $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
-      $table->charset = env('DB_CHARSET', 'utf8mb4');
-      $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
       $table->integer('id_pengalaman', true);
       $table->integer('id_pelamar');
       $table->integer('id_jenis_pekerjaan');

@@ -60,12 +60,16 @@ class StoreMitraPerusahaanRequest extends FormRequest {
     if ($this->hasFile('foto_sampul_perusahaan')) {
       $file = $this->file('foto_sampul_perusahaan');
       $validatedData['foto_sampul_perusahaan'] = $file->storeAs('images/perusahaan/foto_sampul', 'prs-' . $file->hashName());
-    } else $validatedData['foto_sampul_perusahaan'] = null;
+    } else {
+      $validatedData['foto_sampul_perusahaan'] = null;
+    }
 
     if ($this->hasFile('logo_perusahaan')) {
       $file = $this->file('logo_perusahaan');
       $validatedData['logo_perusahaan'] = $file->storeAs('images/perusahaan/logo', 'prs-' . $file->hashName());
-    } else $validatedData['logo_perusahaan'] = null;
+    } else {
+      $validatedData['logo_perusahaan'] = null;
+    }
 
     return $validatedData;
   }

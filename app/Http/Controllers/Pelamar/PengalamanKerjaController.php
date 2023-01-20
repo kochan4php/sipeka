@@ -17,11 +17,13 @@ class PengalamanKerjaController extends Controller {
 
   public function index() {
     $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja;
+
     return view('pelamar.experience.index', compact('pengalamanKerja'));
   }
 
   public function create() {
     $jenisPekerjaan = $this->jenisPekerjaan;
+
     return view('pelamar.experience.tambah', compact('jenisPekerjaan'));
   }
 
@@ -42,6 +44,7 @@ class PengalamanKerjaController extends Controller {
   public function edit(string $username, int $id) {
     $jenisPekerjaan = $this->jenisPekerjaan;
     $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja->firstWhere('id_pengalaman', $id);
+
     return view('pelamar.experience.sunting', compact('pengalamanKerja', 'jenisPekerjaan'));
   }
 
@@ -56,12 +59,14 @@ class PengalamanKerjaController extends Controller {
     ]);
 
     Auth::user()->pelamar->pengalaman_bekerja()->firstWhere('id_pengalaman', $id)->update($validatedData);
+
     return to_route('pelamar.experience.index', $username)->with('sukses', 'berhasil memperbarui data pengalaman');
   }
 
   public function destroy(string $username, int $id) {
     try {
       $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja()->firstWhere('id_pengalaman', $id)->delete();
+
       if ($pengalamanKerja) return back()->with('sukses', 'Berhasil di hapus ');
       else return redirect()->back()->with('error', 'Gagal menghapus');
     } catch (\Exception $e) {

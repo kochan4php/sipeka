@@ -31,11 +31,6 @@ class MasyarakatController extends Controller {
     return Helper::generateUniqueUsername('KDT', 5, $name);
   }
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function index() {
     $masyarakat = QueryBuilder::for(Masyarakat::class)
       ->allowedFilters('nama_lengkap')
@@ -46,27 +41,16 @@ class MasyarakatController extends Controller {
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function create() {
     return view('admin.pengguna.masyarakat.tambah');
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(StorePersonRequest $request) {
     try {
       $validatedData = $request->validatedDataPerson();
       $validatedData['username'] = $this->generateKandidatUsername($validatedData['nama']);
 
-      $insertOnePerson = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+      DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'username' => $validatedData['username'],
         'password' => Hash::make($validatedData['password']),
         'nama_lengkap' => $validatedData['nama'],
@@ -79,61 +63,45 @@ class MasyarakatController extends Controller {
         'email' => NULL
       ]);
 
-      if ($insertOnePerson) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
-      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
+      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
     } catch (\Exception $e) {
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  string  $username
-   * @return \Illuminate\Http\Response
-   */
   public function show(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
+
       return view('admin.pengguna.masyarakat.detail', compact('orang'));
-    } catch (ItemNotFoundException $e) {
+    } catch (ItemNotFoundException) {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  string  $username
-   * @return \Illuminate\Http\Response
-   */
   public function edit(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
+
       return view('admin.pengguna.masyarakat.sunting', compact('orang'));
     } catch (ItemNotFoundException $e) {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  string  $username
-   * @return \Illuminate\Http\Response
-   */
   public function update(StorePersonRequest $request, string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedDataPerson();
 
-      if ($request->hasFile('foto_pelamar')) Helper::deleteFileIfExistsInStorageFolder($orang->foto);
+      if ($request->hasFile('foto_pelamar')) {
+        Helper::deleteFileIfExistsInStorageFolder($orang->foto);
+      }
 
       $validatedData['new_username'] = ($orang->nama_lengkap !== $validatedData['nama']) ?
         $this->generateKandidatUsername($validatedData['nama']) : NULL;
 
-      $updatePerson = DB::update("CALL update_one_person_by_username(:current_username, :nama_lengkap, :new_username, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+      DB::update("CALL update_one_person_by_username(:current_username, :nama_lengkap, :new_username, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
         'current_username' => $orang->username ?? $username,
         'nama_lengkap' => $validatedData['nama'],
         'new_username' => $validatedData['new_username'],
@@ -145,27 +113,19 @@ class MasyarakatController extends Controller {
         'foto' => $validatedData['foto_pelamar']
       ]);
 
-      if ($updatePerson) return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Pelamar');
-      else return back()->with('error', 'Data tidak valid, silahkan periksa kembali');
-    } catch (ItemNotFoundException $e) {
+      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Pelamar');
+    } catch (ItemNotFoundException) {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  string  $username
-   * @return \Illuminate\Http\Response
-   */
   public function destroy(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
-      $deleteOrang = User::whereUsername($orang->username)->delete();
+      User::whereUsername($orang->username)->delete();
       Helper::deleteFileIfExistsInStorageFolder($orang->foto);
 
-      if ($deleteOrang) return back()->with('sukses', 'Berhasil hapus data pelamar');
-      else return back()->with('error', 'Gagal menghapus data pelamar');
+      return back()->with('sukses', 'Berhasil hapus data pelamar');
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }

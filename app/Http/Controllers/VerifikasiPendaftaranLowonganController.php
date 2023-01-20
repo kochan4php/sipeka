@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UserHelper;
 use App\Models\PendaftaranLowongan;
 use Illuminate\Http\Request;
 
@@ -11,13 +12,13 @@ class VerifikasiPendaftaranLowonganController extends Controller {
       $verification = $request->boolean('verification');
       $pendaftaranLowongan->update(['verifikasi' => $verification]);
 
-      $namaPelamar = $pendaftaranLowongan->pelamar->alumni ?
-        $pendaftaranLowongan->pelamar->alumni->nama_lengkap :
-        $pendaftaranLowongan->pelamar->masyarakat->nama_lengkap;
+      $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
 
-      return back()->with('sukses', "Berhasil memverifikasi lamaran kerja dari {$namaPelamar}");
+      return back()
+        ->with('sukses', "Berhasil memverifikasi lamaran kerja dari {$namaPelamar}");
     } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
+      return back()
+        ->with('error', $e->getMessage());
     }
   }
 }

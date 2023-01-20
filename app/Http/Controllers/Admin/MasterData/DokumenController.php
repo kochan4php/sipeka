@@ -23,44 +23,28 @@ class DokumenController extends Controller {
       ->new_kode_jenis_dokumen;
   }
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function index() {
+    $kodeBaru = $this->generateKodeDokumenBaru();
     $dokumen = QueryBuilder::for(Dokumen::class)
       ->allowedFilters('angkatan_tahun')
       ->get();
 
-    $kodeBaru = $this->generateKodeDokumenBaru();
-
     return view('admin.masterdata.dokumen.index', compact('dokumen', 'kodeBaru'));
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(StoreDokumenRequest $request) {
     try {
       $validatedData = $request->validatedData();
-      if (Dokumen::create($validatedData)) return Session::flash('sukses', 'Berhasil menambahkan data Jenis Dokumen');
-      else return Session::flash('error', 'Data tidak valid, silahkan periksa kembali');
+
+      Dokumen::create($validatedData);
+      Session::flash('sukses', 'Berhasil menambahkan data Jenis Dokumen');
+
       return back();
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  Dokumen  $dokumen
-   * @return \Illuminate\Http\Response
-   */
   public function show(Dokumen $dokumen) {
     try {
       return response()->json($dokumen);
@@ -69,34 +53,24 @@ class DokumenController extends Controller {
     }
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  Dokumen  $dokumen
-   * @return \Illuminate\Http\Response
-   */
   public function update(StoreDokumenRequest $request, Dokumen $dokumen) {
     try {
       $validatedData = $request->validatedData();
-      if ($dokumen->update($validatedData)) Session::flash('sukses', 'Berhasil memperbarui data Jenis Dokumen');
-      else Session::flash('error', 'Data tidak valid, silahkan periksa kembali');
+
+      $dokumen->update($validatedData);
+      Session::flash('sukses', 'Berhasil memperbarui data Jenis Dokumen');
+
       return back();
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  Dokumen  $dokumen
-   * @return \Illuminate\Http\Response
-   */
   public function destroy(Dokumen $dokumen) {
     try {
-      if ($dokumen->delete()) return back()->with('sukses', 'Berhasil hapus data jenis dokumen');
-      else return back()->with('error', 'Gagal menghapus data jenis dokumen');
+      $dokumen->delete();
+
+      return back()->with('sukses', 'Berhasil hapus data jenis dokumen');
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }

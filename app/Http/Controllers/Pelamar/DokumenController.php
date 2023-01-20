@@ -13,6 +13,7 @@ class DokumenController extends Controller {
 	public function index() {
 		$dokumen = Auth::user()->pelamar->dokumen;
 		$jenisDokumen = Dokumen::all();
+
 		return view('pelamar.dokumen', compact('dokumen', 'jenisDokumen'));
 	}
 
@@ -23,17 +24,17 @@ class DokumenController extends Controller {
 				->dokumen
 				->firstWhere('id_jenis_dokumen', $dokumen->id_jenis_dokumen);
 
-			if ($request->hasFile('file')) :
-				if ($existsDocument?->nama_file) :
+			if ($request->hasFile('file')) {
+				if ($existsDocument?->nama_file) {
 					Helper::deleteFileIfExistsInStorageFolder($existsDocument?->nama_file);
 					$existsDocument->delete();
-				endif;
+				}
 
 				Auth::user()->pelamar->dokumen()->create([
 					'id_jenis_dokumen' => $dokumen->id_jenis_dokumen,
 					'nama_file' => $request->file('file')->store('pelamar/dokumen')
 				]);
-			endif;
+			}
 
 			return to_route('pelamar.dokumen', $username)
 				->with('sukses', "Berhasil mengupload file {$dokumen->nama_dokumen}");

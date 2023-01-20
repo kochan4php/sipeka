@@ -9,6 +9,7 @@ class OuterController extends Controller {
   public function __invoke() {
     $lowongan = LowonganKerja::all();
     $perusahaan = MitraPerusahaan::all();
+
     return view('index', compact('lowongan', 'perusahaan'));
   }
 }

@@ -20,6 +20,7 @@ class PenilaianSeleksiController extends Controller {
 
   public function index() {
     $pendaftaranLowongan = null;
+    $jenisDokumen = Dokumen::all();
 
     if (Gate::check('admin')) {
       $pendaftaranLowongan = QueryBuilder::for(PendaftaranLowongan::class)
@@ -30,14 +31,13 @@ class PenilaianSeleksiController extends Controller {
       $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan;
     }
 
-    $jenisDokumen = Dokumen::all();
-
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }
 
   public function jobApplicationDetails(PendaftaranLowongan $pendaftaranLowongan) {
     $dataPelamar = UserHelper::getApplicantData($pendaftaranLowongan->pelamar);
     $namaPelamar = $dataPelamar->nama_lengkap;
+
     return view('seleksi.penilaian.job_application_details', compact('pendaftaranLowongan', 'namaPelamar', 'dataPelamar'));
   }
 
@@ -46,14 +46,17 @@ class PenilaianSeleksiController extends Controller {
       $pendaftaranLowongan->update(['status_seleksi' => 'Lulus']);
       $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
 
-      return to_route('penilaian.seleksi.index')->with('sukses', "Berhasil meluluskan {$namaPelamar}");
+      return to_route('penilaian.seleksi.index')
+        ->with('sukses', "Berhasil meluluskan {$namaPelamar}");
     } catch (\Exception $e) {
-      return to_route('penilaian.seleksi.index')->with('error', $e->getMessage());
+      return to_route('penilaian.seleksi.index')
+        ->with('error', $e->getMessage());
     }
   }
 
   public function create(PendaftaranLowongan $pendaftaranLowongan, TahapanSeleksi $tahapanSeleksi) {
     $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
+
     return view('seleksi.penilaian.create', compact('pendaftaranLowongan', 'namaPelamar', 'tahapanSeleksi'));
   }
 
@@ -69,12 +72,12 @@ class PenilaianSeleksiController extends Controller {
       $validatedData['id_pendaftaran'] = $pendaftaranLowongan->id_pendaftaran;
       PenilaianSeleksi::create($validatedData);
 
-      if ($validatedData['keterangan'] === 'Gagal' || $validatedData['is_lanjut'] === 'Tidak') :
+      if ($validatedData['keterangan'] === 'Gagal' || $validatedData['is_lanjut'] === 'Tidak') {
         $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
         $pendaftaranLowongan->update(['status_seleksi' => 'Tidak']);
 
         return to_route('penilaian.seleksi.index')->with('sukses', "Berhasil menggagalkan {$namaPelamar}");
-      endif;
+      }
 
       $pendaftaran_lowongan = $this->getIdPendaftaran($pendaftaranLowongan);
 

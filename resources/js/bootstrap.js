@@ -1,5 +1,8 @@
 import _ from "lodash";
 import "bootstrap";
+import AOS from "aos";
+// ..
+AOS.init();
 
 window._ = _;
 

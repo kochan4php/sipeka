@@ -7,6 +7,8 @@
       Jurusan</button>
   </div>
 
+  <x-alert-session />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">

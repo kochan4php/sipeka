@@ -1,7 +1,7 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse bg-primary navbar-light sidebar-menu"
   style="padding-top: 3.35rem">
   <div class="position-sticky sidebar-sticky">
-    <ul class="nav flex-column gap-1">
+    <ul data-aos="fade-right" class="nav flex-column gap-1">
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="{{ route('home') }}">
           <i class="fa-solid fa-house fa-lg"></i>

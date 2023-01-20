@@ -109,8 +109,8 @@
       </div>
 
       <div class="row">
-        <div class="card-group owl-carousel owl-theme">
-          @forelse ($perusahaan as $item)
+        @forelse ($perusahaan as $item)
+          <div class="card-group owl-carousel owl-theme">
             <div class="card mx-1">
               <img src="{{ $item->logo_perusahaan ?? asset('assets/images/no-photo.png') }}"
                 class="card-img-top w-100 img-thumbnail" alt="{{ $item->nama_perusahaan }}">
@@ -121,10 +121,12 @@
                 <p class="card-text">{{ $item->deskripsi_perusahaan }}</p>
               </div>
             </div>
-          @empty
-            Hehe
-          @endforelse
-        </div>
+          </div>
+        @empty
+          <div class="alert custom-font alert-warning" role="alert">
+            Perusahaan masih kosong.
+          </div>
+        @endforelse
       </div>
     </section>
 
@@ -138,8 +140,8 @@
       </div>
 
       <div class="row">
-        <div class="card-group owl-carousel owl-theme">
-          @forelse ($lowongan as $item)
+        @forelse ($lowongan as $item)
+          <div class="card-group owl-carousel owl-theme">
             <div class="card mx-1">
               <img src="{{ $item->perusahaan->logo_perusahaan ?? asset('assets/images/no-photo.png') }}"
                 class="card-img-top img-thumbnail" alt="{{ $item->judul_lowongan }}">
@@ -158,10 +160,12 @@
                 <small class="text-muted">Created on {{ $item->created_at }}</small>
               </div>
             </div>
-          @empty
-            Hehe
-          @endforelse
-        </div>
+          </div>
+        @empty
+          <div class="alert custom-font alert-warning" role="alert">
+            Loker masih kosong.
+          </div>
+        @endforelse
       </div>
     </section>
   </div>

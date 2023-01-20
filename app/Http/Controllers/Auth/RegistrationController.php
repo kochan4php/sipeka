@@ -14,6 +14,7 @@ class RegistrationController extends Controller {
   public function alumni() {
     $jurusan = collect(DB::select('SELECT * FROM jurusan'));
     $angkatan = collect(DB::select('SELECT * FROM angkatan'));
+
     return view('auth.register.alumni', compact('jurusan', 'angkatan'));
   }
 

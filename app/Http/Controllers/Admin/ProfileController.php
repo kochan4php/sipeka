@@ -15,6 +15,7 @@ class ProfileController extends Controller {
     $request->validate(['nama_admin' => 'required|min:5|max:255', 'nip' => 'required']);
     $validatedData = $request->only('nama_admin', 'nip');
     $admin->update($validatedData);
+
     return back()->with('sukses', 'Berhasil memperbarui data');
   }
 }

@@ -22,11 +22,13 @@ class TahapanSeleksiController extends Controller {
     } else if (Gate::check('perusahaan')) {
       $lowongan = Auth::user()->perusahaan->lowongan;
     }
+
     return view('seleksi.tahapan.index', compact('lowongan'));
   }
 
   public function create(LowonganKerja $lowonganKerja) {
     $urutanTahapanTerakhir = $lowonganKerja->tahapan_seleksi()->max('urutan_tahapan_ke') + 1;
+
     return view('seleksi.tahapan.create', compact('lowonganKerja', 'urutanTahapanTerakhir'));
   }
 
@@ -36,9 +38,9 @@ class TahapanSeleksiController extends Controller {
       $lowonganKerja->tahapan_seleksi()->create($validatedData);
       $successMessage = "Berhasil menambahkan tahapan seleksi baru untuk lowongan {$lowonganKerja->judul_lowongan}";
 
-      if (Gate::check('admin')) :
+      if (Gate::check('admin')) {
         $successMessage .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
-      endif;
+      }
 
       return to_route(
         $this->tahapanSeleksiMainRoute,
@@ -63,20 +65,22 @@ class TahapanSeleksiController extends Controller {
   public function update(StoreTahapanSeleksiRequest $request, LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
     try {
       $validatedData = $request->validatedData();
-      $existsUrutanTahapan = $lowonganKerja->tahapan_seleksi->firstWhere('urutan_tahapan_ke', $validatedData['urutan_tahapan_ke']);
+      $existsUrutanTahapan = $lowonganKerja
+        ->tahapan_seleksi
+        ->firstWhere('urutan_tahapan_ke', $validatedData['urutan_tahapan_ke']);
 
-      if (!is_null($existsUrutanTahapan?->urutan_tahapan_ke) && $existsUrutanTahapan?->id_tahapan !== $tahapanSeleksi->id_tahapan) :
-        if ((int) $validatedData['urutan_tahapan_ke'] === $existsUrutanTahapan->urutan_tahapan_ke) :
+      if (!is_null($existsUrutanTahapan?->urutan_tahapan_ke) && $existsUrutanTahapan?->id_tahapan !== $tahapanSeleksi->id_tahapan) {
+        if ((int) $validatedData['urutan_tahapan_ke'] === $existsUrutanTahapan->urutan_tahapan_ke) {
           return back()->with('error', "Urutan tahapan ke-{$existsUrutanTahapan->urutan_tahapan_ke} sudah ada.");
-        endif;
-      endif;
+        };
+      }
 
       $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->update($validatedData);
       $successMessage = "Berhasil memperbarui tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
 
-      if (Gate::check('admin')) :
+      if (Gate::check('admin')) {
         $successMessage .=  " dari perusahaan {$lowonganKerja->perusahaan->nama_perusahaan}";
-      endif;
+      }
 
       return to_route(
         $this->tahapanSeleksiMainRoute,
@@ -93,6 +97,7 @@ class TahapanSeleksiController extends Controller {
   public function destroy(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
     $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->delete();
     $successMessage = "Berhasil menghapus tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
+
     return to_route(
       $this->tahapanSeleksiMainRoute,
       $lowonganKerja->slug

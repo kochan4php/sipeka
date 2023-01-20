@@ -22,7 +22,7 @@
                 Nama Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                Kode Alumni / Username Alumni
+                NIS / Username Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Jurusan

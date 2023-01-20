@@ -16,11 +16,6 @@ class JurusanController extends Controller {
     $this->setMainRoute('admin.jurusan.index');
   }
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function index() {
     $jurusan =  QueryBuilder::for(Jurusan::class)
       ->allowedFilters('angkatan_tahun')
@@ -29,28 +24,22 @@ class JurusanController extends Controller {
     return view('admin.masterdata.jurusan.index', compact('jurusan'));
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request) {
-    $jurusan = new Jurusan;
-    $jurusan->id_jurusan = $request->input('kode_jurusan');
-    $jurusan->nama_jurusan = $request->input('nama_jurusan');
-    $jurusan->keterangan = $request->input('keterangan_jurusan');
-    $jurusan->save();
+    $request->validate([
+      'kode_jurusan' => ['required'],
+      'nama_jurusan' => ['required'],
+      'keterangan_jurusan' => ['required'],
+    ]);
 
-    return redirect()->route('admin.jurusan.index');
+    $validatedData = $request->only(['kode_jurusan', 'nama_jurusan', 'keterangan_jurusan']);
+    $validatedData['id_jurusan'] = $validatedData['kode_jurusan'];
+    $validatedData['keterangan'] = $validatedData['keterangan_jurusan'];
+    Jurusan::create($validatedData);
+
+    return to_route('admin.jurusan.index')
+      ->with('sukses', 'Berhasil menambahkan jurusan baru');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
   public function show($id) {
     $data = collect(DB::select('SELECT * FROM jurusan WHERE id_jurusan = :kode_jurusan', [
       'kode_jurusan' => $id
@@ -59,13 +48,6 @@ class JurusanController extends Controller {
     return response()->json($data);
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
   public function update(Request $request, $id) {
     $request->validate([
       'kode_jurusan' => ['required'],
@@ -74,38 +56,25 @@ class JurusanController extends Controller {
     ]);
 
     $validatedData = $request->only(['kode_jurusan', 'nama_jurusan', 'keterangan_jurusan']);
+    $validatedData['id_jurusan'] = $validatedData['kode_jurusan'];
+    $validatedData['keterangan'] = $validatedData['keterangan_jurusan'];
+    Jurusan::firstWhere('id_jurusan', $validatedData['id_jurusan'])
+      ->update($validatedData);
 
-    $updateOneJurusan = DB::update(
-      'UPDATE jurusan SET
-      nama_jurusan = :nama_jurusan,
-      keterangan = :keterangan_jurusan
-      WHERE id_jurusan = :kode_jurusan',
-      [
-        'nama_jurusan' => $validatedData['nama_jurusan'],
-        'keterangan_jurusan' => $validatedData['keterangan_jurusan'],
-        'kode_jurusan' => $validatedData['kode_jurusan']
-      ]
-    );
-
-    if ($updateOneJurusan)
-      return $this->redirectToMainRoute()->with('sukses', 'berhasil memperbarui data jurusan');
-    else
-      return $this->redirectToMainRoute()->with('error', 'Data tidak valid, silahkan periksa kembali');
+    return $this->redirectToMainRoute()
+      ->with('sukses', 'berhasil memperbarui data jurusan');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return \Illuminate\Http\Response
-   */
   public function destroy($kodejurusan) {
     try {
-      $deletejurusan = DB::delete("DELETE FROM jurusan WHERE id_jurusan = :kodejurusan", compact('kodejurusan'));
-      if ($deletejurusan) return back()->with('sukses', 'Berhasil hapus jurusan');
-      else return back()->with('error', 'gagal menghapus jurusan');
+      Jurusan::firstWhere('id_jurusan', $kodejurusan)
+        ->delete();
+
+      return back()
+        ->with('sukses', 'Berhasil hapus jurusan');
     } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
+      return back()
+        ->with('error', $e->getMessage());
     }
   }
 }

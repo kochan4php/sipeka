@@ -18,7 +18,10 @@ class AuthenticatedController extends Controller {
 
     $fieldType = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-    if (Auth::attempt([$fieldType => $credentials['username'], 'password' => $credentials['password']], $remember)) {
+    if (Auth::attempt([
+      $fieldType => $credentials['username'],
+      'password' => $credentials['password']
+    ], $remember)) {
       $request->session()->regenerate();
       $role = Auth::user()->level_user->identifier;
 
@@ -36,6 +39,8 @@ class AuthenticatedController extends Controller {
           break;
       }
     }
-    return back()->withErrors(['Username atau Email dan Password salah! Silahkan coba lagi.']);
+
+    return back()
+      ->withErrors(['Username atau Email dan Password salah! Silahkan coba lagi.']);
   }
 }
