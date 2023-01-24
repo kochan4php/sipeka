@@ -1,41 +1,15 @@
 @extends('layouts.app')
 
 @section('container')
-  <div id="carouselExampleControls" class="carousel slide" style="min-height: 650px !important;" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 650px; object-fit: cover; object-position: bottom"
-          class="img-fluid d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1 class="fw-bold">WELCOME TO BKK SMKN 1 KOTA BEKASI</h1>
-          <p>TEMUKAN PEKERJAAN SESUAI KOMPETENSIMU</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 650px; object-fit: cover; object-position: center"
-          class="img-fluid d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>Second slide label</h1>
-          <p>Some representative placeholder content for the second slide.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="{{ asset('assets/images/5.jpg') }}" style="height: 650px; object-fit: cover; object-position: center"
-          class="img-fluid d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>Third slide label</h1>
-          <p>Some representative placeholder content for the third slide.</p>
+  <div style="margin-top: 4rem !important">
+    <div id="banner">
+      <div id="blur">
+        <div class="text-center">
+          <h1 class="fw-bolder">WELCOME TO BKK SMKN 1 KOTA BEKASI</h1>
+          <p class="fw-bold">TEMUKAN PEKERJAAN SESUAI KOMPETENSIMU</p>
         </div>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
 
   <div class="container my-4">
@@ -109,8 +83,8 @@
       </div>
 
       <div class="row">
-        @forelse ($perusahaan as $item)
-          <div class="card-group owl-carousel owl-theme">
+        <div class="card-group @if ($perusahaan->count() > 0) owl-carousel owl-theme @endif">
+          @forelse ($perusahaan as $item)
             <div class="card mx-1">
               <img src="{{ $item->logo_perusahaan ?? asset('assets/images/no-photo.png') }}"
                 class="card-img-top w-100 img-thumbnail" alt="{{ $item->nama_perusahaan }}">
@@ -121,12 +95,12 @@
                 <p class="card-text">{{ $item->deskripsi_perusahaan }}</p>
               </div>
             </div>
-          </div>
-        @empty
-          <div class="alert custom-font alert-warning" role="alert">
-            Perusahaan masih kosong.
-          </div>
-        @endforelse
+          @empty
+            <div class="alert custom-font alert-warning w-full" role="alert">
+              Perusahaan masih kosong.
+            </div>
+          @endforelse
+        </div>
       </div>
     </section>
 
@@ -135,13 +109,13 @@
     <section id="lowongan-kerja" class="pb-5">
       <div class="row text-center justify-content-center pt-4">
         <div class="col">
-          <h2 class="mb-5">Lowongan Tersedia</h2>
+          <h2 class="mb-5">Loker Terbaru</h2>
         </div>
       </div>
 
       <div class="row">
-        @forelse ($lowongan as $item)
-          <div class="card-group owl-carousel owl-theme">
+        <div class="card-group @if ($lowongan->count() > 0) owl-carousel owl-theme @endif">
+          @forelse ($lowongan as $item)
             <div class="card mx-1">
               <img src="{{ $item->perusahaan->logo_perusahaan ?? asset('assets/images/no-photo.png') }}"
                 class="card-img-top img-thumbnail" alt="{{ $item->judul_lowongan }}">
@@ -160,43 +134,43 @@
                 <small class="text-muted">Created on {{ $item->created_at }}</small>
               </div>
             </div>
-          </div>
-        @empty
-          <div class="alert custom-font alert-warning" role="alert">
-            Loker masih kosong.
-          </div>
-        @endforelse
+          @empty
+            <div class="alert custom-font alert-warning w-full" role="alert">
+              Loker masih kosong.
+            </div>
+          @endforelse
+        </div>
       </div>
     </section>
   </div>
-
-  @push('script-owl')
-    <script>
-      $(document).ready(function() {
-        $(".owl-carousel").owlCarousel({
-          loop: true,
-          margin: 10,
-          responsiveClass: true,
-          nav: true,
-          stagePadding: 50,
-          mouseDrag: true,
-          touchDrag: true,
-          responsive: {
-            0: {
-              items: 1
-            },
-            500: {
-              items: 2,
-            },
-            768: {
-              items: 3,
-            },
-            1024: {
-              items: 4,
-            }
-          }
-        });
-      });
-    </script>
-  @endpush
 @endsection
+
+@push('script-owl')
+  <script>
+    $(document).ready(function() {
+      $(".owl-carousel").owlCarousel({
+        loop: true,
+        margin: 10,
+        responsiveClass: true,
+        nav: true,
+        stagePadding: 50,
+        mouseDrag: true,
+        touchDrag: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          500: {
+            items: 2,
+          },
+          768: {
+            items: 3,
+          },
+          1024: {
+            items: 4,
+          }
+        }
+      });
+    });
+  </script>
+@endpush

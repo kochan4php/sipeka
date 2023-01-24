@@ -14,7 +14,7 @@
             @csrf
             @method('put')
             <div class="mb-3 row">
-              <label for="nama_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="nama_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Nama Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="email_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="email_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Email Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="password_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="password_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Password Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -42,19 +42,32 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="jenis_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="kategori_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Kategori Perusahaan') }}
+              </label>
+              <div class="col-sm-8">
+                <select name="kategori_perusahaan" id="kategori_perusahaan" class="form-select" required>
+                  <option selected disabled hidden>-- Pilih kategori perusahaan --</option>
+                  @foreach ($kategori as $item)
+                    <option value="{{ $item }}" @selected($item == $perusahaan->kategori_perusahaan)>{{ $item }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="jenis_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Jenis Perusahaan') }}
               </label>
               <div class="col-sm-8">
                 <select name="jenis_perusahaan" id="jenis_perusahaan" class="form-select" required>
-                  <option selected>-- Pilih jenis perusahaan --</option>
+                  <option selected disabled hidden>-- Pilih jenis perusahaan --</option>
                   <option value="PT" @selected($perusahaan->jenis_perusahaan === 'PT')>PT</option>
                   <option value="CV" @selected($perusahaan->jenis_perusahaan === 'CV')>CV</option>
                 </select>
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="no_telepon_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="no_telepon_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('No. Telepon Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -64,18 +77,7 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="alamat_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Alamat Perusahaan') }}
-              </label>
-              <div class="col-sm-8">
-                <textarea class="form-control" placeholder="Leave a comment here" id="alamat_perusahaan" name="alamat_perusahaan"
-                  rows="3">
-                  {{ $perusahaan->alamat_perusahaan }}
-                </textarea>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="foto_sampul_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="foto_sampul_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Foto Sampul Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -83,7 +85,7 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="logo_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="logo_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Logo Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -91,7 +93,7 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="deskripsi_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="deskripsi_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Deskripsi Perusahaan') }}
               </label>
               <div class="col-sm-8">
@@ -114,3 +116,13 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    const deskripsi = document.getElementById("deskripsi_perusahaan");
+    CKEDITOR.replace(deskripsi, {
+      language: 'en-gb'
+    });
+    CKEDITOR.config.allowedContent = true;
+  </script>
+@endpush

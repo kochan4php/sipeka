@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class JurusanController extends Controller {
+final class JurusanController extends Controller {
   use HasMainRoute;
 
   public function __construct() {
@@ -63,18 +63,5 @@ class JurusanController extends Controller {
 
     return $this->redirectToMainRoute()
       ->with('sukses', 'berhasil memperbarui data jurusan');
-  }
-
-  public function destroy($kodejurusan) {
-    try {
-      Jurusan::firstWhere('id_jurusan', $kodejurusan)
-        ->delete();
-
-      return back()
-        ->with('sukses', 'Berhasil hapus jurusan');
-    } catch (\Exception $e) {
-      return back()
-        ->with('error', $e->getMessage());
-    }
   }
 }

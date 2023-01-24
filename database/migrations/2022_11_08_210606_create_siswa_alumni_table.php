@@ -24,6 +24,7 @@ return new class extends Migration {
       $table->string('no_telepon', 20)->nullable()->default(null);
       $table->text('alamat_tempat_tinggal')->nullable()->default(null);
       $table->string('foto')->nullable()->default(null);
+      $table->boolean('is_active')->nullable()->default(true);
 
       // Foreign key untuk id_pelamar
       $table

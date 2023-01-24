@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,10 +32,10 @@ class MitraPerusahaan extends Model {
     'id_user',
     'nama_perusahaan',
     'nomor_telp_perusahaan',
-    'thumbnail_perusahaan',
+    'foto_sampul_perusahaan',
     'logo_perusahaan',
+    'kategori_perusahaan',
     'deskripsi_perusahaan',
-    'alamat_perusahaan'
   ];
 
   public function user(): BelongsTo {
@@ -53,6 +54,16 @@ class MitraPerusahaan extends Model {
       'id_lowongan',
       'id_perusahaan',
       'id_lowongan'
+    );
+  }
+
+  public function kantor(): HasMany {
+    return $this->hasMany(Kantor::class, 'id_perusahaan', 'id_perusahaan');
+  }
+
+  public function namaPerusahaan(): Attribute {
+    return Attribute::make(
+      get: fn ($value) => "{$this->jenis_perusahaan}. {$value}"
     );
   }
 }

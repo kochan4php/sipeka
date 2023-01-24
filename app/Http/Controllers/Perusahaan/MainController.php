@@ -8,7 +8,7 @@ use App\Models\LowonganKerja;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class MainController extends Controller {
+final class MainController extends Controller {
   public function __invoke() {
     $jumlah_alumni = collect(DB::select("SELECT * FROM jumlah_alumni"))
       ->firstOrFail()

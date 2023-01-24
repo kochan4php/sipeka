@@ -11,7 +11,7 @@ use App\Models\PenilaianSeleksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PendaftaranLowonganController extends Controller {
+final class PendaftaranLowonganController extends Controller {
   public function index() {
     $data = UserHelper::getApplicantData(Auth::user()->pelamar);
     $pendaftaranLowongan = $data->pelamar->pendaftaran_lowongan;

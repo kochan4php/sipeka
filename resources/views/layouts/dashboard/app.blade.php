@@ -46,6 +46,7 @@
       $('#myTable').DataTable();
     });
   </script>
+  <script type="text/javascript" src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
   @stack('script')
   <x:notify-messages />
   @notifyJs

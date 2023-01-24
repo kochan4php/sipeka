@@ -19,8 +19,9 @@ return new class extends Migration {
       $table->string('foto_sampul_perusahaan')->nullable()->default(null);
       $table->string('logo_perusahaan')->nullable()->default(null);
       $table->text('deskripsi_perusahaan')->nullable()->default(null);
-      $table->text('alamat_perusahaan');
       $table->enum('jenis_perusahaan', ['PT', 'CV']);
+      $table->string('kategori_perusahaan');
+      $table->boolean('is_active')->nullable()->default(true);
 
       // Foreign key untuk id_user
       $table

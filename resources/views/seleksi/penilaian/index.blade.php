@@ -2,7 +2,7 @@
 
 @section('container-dashboard')
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-2">
-    <h3>Data Lamaran Kerja</h3>
+    <h3>Lamaran Kerja</h3>
   </div>
 
   <x-alert-session />
@@ -44,7 +44,7 @@
             @forelse ($pendaftaranLowongan as $item)
               @php
                 $namaPelamar = '';
-                
+
                 if (!is_null($item->pelamar->alumni)):
                     $namaPelamar = $item->pelamar->alumni->nama_lengkap;
                 else:
@@ -64,14 +64,18 @@
                 </td>
                 @if (!is_null($item->pelamar->alumni))
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ $item->pelamar->alumni->nama_lengkap }}
+                    <span class="bg-danger text-white px-2 py-1 fw-bold rounded-3">
+                      {{ $item->pelamar->alumni->nama_lengkap }}
+                    </span>
                   </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     Alumni
                   </td>
                 @else
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ $item->pelamar->masyarakat->nama_lengkap }}
+                    <span class="bg-primary text-white px-2 py-1 fw-bold rounded-3">
+                      {{ $item->pelamar->masyarakat->nama_lengkap }}
+                    </span>
                   </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     Kandidat Luar

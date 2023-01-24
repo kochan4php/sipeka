@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class AngkatanController extends Controller {
+final class AngkatanController extends Controller {
   public function index() {
     $angkatan = QueryBuilder::for(Angkatan::class)
       ->allowedFilters('angkatan_tahun')
@@ -52,15 +52,5 @@ class AngkatanController extends Controller {
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }
-  }
-
-  public function destroy(Angkatan $angkatan) {
-    try {
-      $angkatan->delete();
-
-      return back()->with('sukses', 'Berhasil hapus angkatan');
-    } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
-    };
   }
 }

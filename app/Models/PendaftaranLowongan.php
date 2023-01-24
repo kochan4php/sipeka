@@ -38,7 +38,9 @@ class PendaftaranLowongan extends Model {
     'id_lowongan',
     'kode_pendaftaran',
     'verifikasi',
-    'status_seleksi'
+    'status_seleksi',
+    'surat_lamaran_kerja',
+    'applicant_promotion'
   ];
 
   public function pelamar(): BelongsTo {

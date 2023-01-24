@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
-use App\Helpers\Helper;
 use App\Models\User;
+use App\Models\SiswaAlumni;
+use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
-use App\Models\SiswaAlumni;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Spatie\QueryBuilder\QueryBuilder;
-use Yajra\DataTables\DataTables;
 
-class AlumniController extends Controller {
+final class AlumniController extends Controller {
   use HasMainRoute;
 
   public function __construct() {
@@ -36,7 +35,7 @@ class AlumniController extends Controller {
     return Helper::generateUniqueUsername('ALUMNI', 5, $name);
   }
 
-  public function index() {
+  public function getAllAlumniData() {
     $alumni = QueryBuilder::for(SiswaAlumni::class)
       ->allowedFilters(['nama_lengkap', 'nis'])
       ->allowedSorts('id')
@@ -47,13 +46,13 @@ class AlumniController extends Controller {
     return view('admin.pengguna.alumni.index', compact('alumni'));
   }
 
-  public function create() {
+  public function createOneAlumniData() {
     $jurusan = $this->getJurusan();
     $angkatan = $this->getAngkatan();
     return view('admin.pengguna.alumni.tambah', compact('jurusan', 'angkatan'));
   }
 
-  public function store(StoreAlumniRequest $request) {
+  public function storeOneAlumniData(StoreAlumniRequest $request) {
     try {
       $validatedData = $request->validatedDataAlumni();
       $validatedData['username'] = $validatedData['nis'];
@@ -74,33 +73,43 @@ class AlumniController extends Controller {
         'email' => NULL
       ]);
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Alumni');
+      notify()->success('Berhasil Menambahkan Data Alumni', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (\Exception $e) {
-      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+      notify()->error($e->getMessage(), 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function show(string $username) {
+  public function getDetailOneAlumniDataByNIS(string $username) {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
+
       return view('admin.pengguna.alumni.detail', compact('alumni'));
     } catch (ItemNotFoundException) {
-      return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
+      notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function edit(string $username) {
+  public function editOneAlumniData(string $username) {
     try {
       $jurusan = $this->getJurusan();
       $angkatan = $this->getAngkatan();
       $alumni = $this->getOneAlumniByUsername($username);
+
       return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
     } catch (ItemNotFoundException) {
+      notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
+
       return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
     }
   }
 
-  public function update(StoreAlumniRequest $request, string $username) {
+  public function updateOneAlumniData(StoreAlumniRequest $request, string $username) {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       $validatedData = $request->validatedDataAlumni();
@@ -133,21 +142,29 @@ class AlumniController extends Controller {
         'foto_alumni' => $validatedData['foto_alumni'],
       ]);
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Alumni');
+      notify()->success('Berhasil Memperbarui Data Alumni', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (ItemNotFoundException) {
-      return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
+      notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function destroy(string $username) {
+  public function deleteOneAlumniData(string $username) {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       User::whereUsername($alumni->username)->delete();
       Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
 
-      return back()->with('sukses', 'Berhasil hapus data alumni');
+      notify()->success('Berhasil Hapus Data Alumni', 'Notifikasi');
+
+      return back();
     } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
+      notify()->error($e->getMessage(), 'Notifikasi');
+
+      return back();
     }
   }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pelamar;
 use App\Models\User;
 
-class PelamarController extends Controller {
+final class PelamarController extends Controller {
   public function index() {
     $pelamar = Pelamar::all();
     return view('perusahaan.pelamar.index', compact('pelamar'));

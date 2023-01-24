@@ -82,7 +82,7 @@
   </div>
 
   <div>
-    <a href="{{ route('tahapan.seleksi.index') }}" class="btn btn-primary custom-btn mt-3">
+    <a href="{{ route('lowongankerja.index') }}" class="btn btn-primary custom-btn mt-3">
       Kembali
     </a>
     <a href="{{ route('tahapan.seleksi.create', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn mt-3">

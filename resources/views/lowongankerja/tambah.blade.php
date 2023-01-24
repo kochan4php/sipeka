@@ -33,6 +33,39 @@
                   placeholder="IT Consultant" required value="{{ old('judul_lowongan') }}">
               </div>
             </div>
+            <div class="mb-3 row">
+              <label for="posisi" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Posisi') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="posisi" name="posisi" placeholder="Programmer" required
+                  value="{{ old('posisi') }}">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="estimasi_gaji" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Estimasi Gaji') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="estimasi_gaji" name="estimasi_gaji"
+                  placeholder="Rp. 10.000.000" required value="{{ old('estimasi_gaji') }}">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="id_jenis_pekerjaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Jenis Pekerjaan') }}
+              </label>
+              <div class="col-sm-8">
+                <select name="id_jenis_pekerjaan" id="id_jenis_pekerjaan" class="form-select" required>
+                  <option selected disabled hidden>-- Pilih jenis pekerjaan --</option>
+                  @foreach ($jenisPekerjaan as $item)
+                    <option value="{{ $item->id_jenis_pekerjaan }}">
+                      {{ $item->nama_jenis_pekerjaan }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
             @can('admin')
               <div class="mb-3 row">
                 <label for="id_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
@@ -40,9 +73,11 @@
                 </label>
                 <div class="col-sm-8">
                   <select name="id_perusahaan" id="id_perusahaan" class="form-select" required>
-                    <option selected>-- Pilih Perusahaan --</option>
+                    <option selected disabled hidden>-- Pilih Perusahaan --</option>
                     @foreach ($perusahaan as $item)
-                      <option value="{{ $item->id_perusahaan }}">{{ $item->nama_perusahaan }}</option>
+                      <option value="{{ $item->id_perusahaan }}">
+                        {{ __("{$item->jenis_perusahaan}. {$item->nama_perusahaan}") }}
+                      </option>
                     @endforeach
                   </select>
                 </div>
@@ -55,15 +90,6 @@
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi" name="deskripsi_lowongan"
                   rows="5"></textarea>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="tanggal_dimulai" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Tanggal Dimulai') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="date" class="form-control" id="tanggal_dimulai" name="tanggal_dimulai"
-                  placeholder="28/12/2022" value="{{ old('tanggal_dimulai') }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -96,3 +122,29 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    const dengan_rupiah = document.getElementById('estimasi_gaji');
+    dengan_rupiah.addEventListener('keyup', function(e) {
+      dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi */
+    function formatRupiah(angka, prefix) {
+      let number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+  </script>
+@endpush

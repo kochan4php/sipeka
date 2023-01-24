@@ -35,7 +35,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jenis_kelamin" id="jenis_kelamin" class="form-select" required>
-                  <option selected>-- Pilih jenis kelamin --</option>
+                  <option selected disabled hidden>-- Pilih jenis kelamin --</option>
                   <option value="L">Laki-laki</option>
                   <option value="P">Perempuan</option>
                 </select>
@@ -47,7 +47,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jurusan" id="jurusan" class="form-select" required>
-                  <option selected>-- Pilih Jurusan --</option>
+                  <option selected disabled hidden>-- Pilih Jurusan --</option>
                   @foreach ($jurusan as $item)
                     <option value="{{ $item->id_jurusan }}">{{ $item->nama_jurusan }}</option>
                   @endforeach
@@ -60,7 +60,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="angkatan" id="angkatan" class="form-select" required>
-                  <option selected>-- Pilih Tahun Angkatan --</option>
+                  <option selected disabled hidden>-- Pilih Tahun Angkatan --</option>
                   @foreach ($angkatan as $item)
                     <option value="{{ $item->id_angkatan }}">{{ $item->angkatan_tahun }}</option>
                   @endforeach
@@ -119,8 +119,8 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                <a href="{{ route('admin.alumni.index') }}" class="btn btn-danger">Batal</a>
+                <button type="submit" class="btn custom-btn btn-primary">Tambah</button>
+                <a href="{{ route('admin.alumni.index') }}" class="btn custom-btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

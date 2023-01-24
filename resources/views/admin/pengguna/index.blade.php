@@ -5,8 +5,6 @@
     <h2>Daftar Akun</h2>
   </div>
 
-  <x-alert-session />
-
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">

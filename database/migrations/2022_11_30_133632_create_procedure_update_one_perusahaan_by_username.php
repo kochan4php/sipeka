@@ -12,7 +12,7 @@ return new class extends Migration {
   public function up() {
     DB::unprepared("DROP PROCEDURE IF EXISTS update_one_perusahaan_by_username");
     DB::unprepared(
-      "CREATE PROCEDURE update_one_perusahaan_by_username(old_username varchar(255), new_username_perusahaan varchar(255), email_perusahaan varchar(255), nama_perusahaan varchar(255), nomor_telp_perusahaan varchar(255), alamat_perusahaan text, foto_sampul_perusahaan varchar(255), logo_perusahaan varchar(255), deskripsi_perusahaan text, jenis_perusahaan enum('PT', 'CV'))
+      "CREATE PROCEDURE update_one_perusahaan_by_username(old_username varchar(255), new_username_perusahaan varchar(255), email_perusahaan varchar(255), nama_perusahaan varchar(255), nomor_telp_perusahaan varchar(255), foto_sampul_perusahaan varchar(255), logo_perusahaan varchar(255), deskripsi_perusahaan text, jenis_perusahaan enum('PT', 'CV'), kategori_perusahaan varchar(255))
       BEGIN
         DECLARE id_user int(11);
         DECLARE old_email varchar(255);
@@ -48,8 +48,8 @@ return new class extends Migration {
             mitra_perusahaan.nama_perusahaan = nama_perusahaan,
             mitra_perusahaan.nomor_telp_perusahaan = nomor_telp_perusahaan,
             mitra_perusahaan.deskripsi_perusahaan = deskripsi_perusahaan,
-            mitra_perusahaan.alamat_perusahaan = alamat_perusahaan,
-            mitra_perusahaan.jenis_perusahaan = jenis_perusahaan
+            mitra_perusahaan.jenis_perusahaan = jenis_perusahaan,
+            mitra_perusahaan.kategori_perusahaan = kategori_perusahaan
           WHERE users.id_user = id_user;
       END ;"
     );

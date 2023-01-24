@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PengalamanKerjaController extends Controller {
+final class PengalamanKerjaController extends Controller {
   private Collection $jenisPekerjaan;
 
   public function __construct() {

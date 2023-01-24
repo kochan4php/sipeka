@@ -37,10 +37,6 @@
                       data-kode-jurusan="{{ $item->id_jurusan }}" class="btn custom-btn btn-warning btn-edit">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </button>
-                    <button data-kode-jurusan="{{ $item->id_jurusan }}" class="btn custom-btn btn-danger btn-delete"
-                      data-bs-toggle="modal" data-bs-target="#modalHapus">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                    </button>
                   </div>
                 </td>
               </tr>
@@ -155,67 +151,31 @@
       </div>
     </div>
   </div>
-
-  {{-- Modal Hapus --}}
-  <div class="modal fade" id="modalHapus" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHapusLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header border-0 border-bottom-0">
-          <h1 class="modal-title fs-4 text-center" id="modalHapusLabel">Hapus data jurusan?</h1>
-          <button type="button" class="btn-close btn-close-hapus-dokumen" data-bs-dismiss="modal"
-            aria-label="Close"></button>
-        </div>
-        <div class="modal-footer border-0 border-top-0">
-          <form class="form-modal-delete" method="post">
-            @csrf
-            @method('delete')
-            <button type="button" class="btn btn-secondary btn-cancel-hapus-dokumen"
-              data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-danger">Hapus</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  @push('script')
-    <script>
-      const btnDelete = document.querySelectorAll('.btn-delete');
-      btnDelete.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const formModalDelete = document.querySelector('.modal .form-modal-delete');
-          const btnCancel = document.querySelector('.modal .btn-cancel-hapus-dokumen');
-          const btnClose = document.querySelector('.modal .btn-close-hapus-dokumen');
-          const kodeJurusan = btn.dataset.kodeJurusan;
-          const route = "{{ route('admin.jurusan.delete', ':kodeJurusan') }}";
-          formModalDelete.setAttribute('action', route.replace(':kodeJurusan', kodeJurusan));
-          btnCancel.addEventListener('click', () => formModalDelete.removeAttribute('action'));
-          btnClose.addEventListener('click', () => formModalDelete.removeAttribute('action'));
-        });
-      });
-
-      const btnEdit = document.querySelectorAll('.btn-edit');
-      btnEdit.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const formModalEdit = document.querySelector('.modal .form-modal-edit');
-          const btnCancel = document.querySelector('.modal .btn-cancel-edit-dokumen');
-          const btnClose = document.querySelector('.modal .btn-close-edit-dokumen');
-          const kodeJurusan = btn.dataset.kodeJurusan;
-          const route = "{{ route('admin.jurusan.update', ':kodeJurusan') }}";
-
-          fetch(("{{ route('admin.jurusan.detail', ':kodeJurusan') }}").replace(':kodeJurusan', kodeJurusan))
-            .then(res => res.json())
-            .then(data => {
-              console.log(data);
-              document.getElementById('kode_jurusan_edit').value = data.id_jurusan;
-              document.getElementById('nama_jurusan_edit').value = data.nama_jurusan;
-              document.getElementById('keterangan_jurusan_edit').value = data.keterangan;
-            });
-          formModalEdit.setAttribute('action', route.replace(':kodeJurusan', kodeJurusan));
-          btnCancel.addEventListener('click', () => formModalEdit.removeAttribute('action'));
-          btnClose.addEventListener('click', () => formModalEdit.removeAttribute('action'));
-        });
-      });
-    </script>
-  @endpush
 @endsection
+
+@push('script')
+  <script>
+    const btnEdit = document.querySelectorAll('.btn-edit');
+    btnEdit.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const formModalEdit = document.querySelector('.modal .form-modal-edit');
+        const btnCancel = document.querySelector('.modal .btn-cancel-edit-dokumen');
+        const btnClose = document.querySelector('.modal .btn-close-edit-dokumen');
+        const kodeJurusan = btn.dataset.kodeJurusan;
+        const route = "{{ route('admin.jurusan.update', ':kodeJurusan') }}";
+
+        fetch(("{{ route('admin.jurusan.detail', ':kodeJurusan') }}").replace(':kodeJurusan', kodeJurusan))
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            document.getElementById('kode_jurusan_edit').value = data.id_jurusan;
+            document.getElementById('nama_jurusan_edit').value = data.nama_jurusan;
+            document.getElementById('keterangan_jurusan_edit').value = data.keterangan;
+          });
+        formModalEdit.setAttribute('action', route.replace(':kodeJurusan', kodeJurusan));
+        btnCancel.addEventListener('click', () => formModalEdit.removeAttribute('action'));
+        btnClose.addEventListener('click', () => formModalEdit.removeAttribute('action'));
+      });
+    });
+  </script>
+@endpush

@@ -18,6 +18,7 @@
 
 .custom-btn {
   border-radius: 0.2rem !important;
+  font-size: 1rem !important;
 }
 
 .py-2-3 {
@@ -65,4 +66,30 @@
 
 .cursor-not-allowed {
   cursor: not-allowed !important;
+}
+
+#banner {
+  background-image: url("/assets/images/2.webp");
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+
+#banner #blur {
+  min-height: 90vh !important;
+  backdrop-filter: blur(8px);
+  filter: brightness(0.95);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff !important;
+}
+
+#banner #blur h1 {
+  font-size: 3.5rem !important;
+}
+
+#banner #blur p {
+  font-size: 1.5rem !important;
 }

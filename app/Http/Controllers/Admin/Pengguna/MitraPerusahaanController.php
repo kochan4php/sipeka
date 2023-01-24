@@ -7,13 +7,33 @@ use App\Models\User;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreMitraPerusahaanRequest;
+use App\Models\Kantor;
+use App\Models\LevelUser;
 use App\Models\MitraPerusahaan;
+use App\Traits\HasCity;
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Illuminate\Support\Facades\{DB, Hash};
 use Spatie\QueryBuilder\QueryBuilder;
 
-class MitraPerusahaanController extends Controller {
-  use HasMainRoute;
+final class MitraPerusahaanController extends Controller {
+  use HasMainRoute, HasCity;
+
+  private $kategori = [
+    'Akuntansi / Keuangan',
+    'Sumber Daya Manusia',
+    'Penjualan / Pemasaran',
+    'Seni/Media/Komunikasi',
+    'Pelayanan',
+    'Hotel/Restoran',
+    'Pendidikan/Pelatihan',
+    'Komputer/Teknologi Informasi',
+    'Teknik',
+    'Manufaktur',
+    'Bangunan/Konstruksi',
+    'Sains',
+    'Layanan Kesehatan',
+    'Lainnya'
+  ];
 
   public function __construct() {
     $this->setMainRoute('admin.perusahaan.index');
@@ -31,7 +51,7 @@ class MitraPerusahaanController extends Controller {
     return Helper::generateUniqueUsername('PRSHN', 5, $name);
   }
 
-  public function index() {
+  public function getAllMitraData() {
     $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
       ->allowedFilters('nama_perusahaan')
       ->allowedSorts('id')
@@ -41,58 +61,99 @@ class MitraPerusahaanController extends Controller {
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
 
-  public function create() {
-    return view('admin.pengguna.perusahaan.tambah');
+  public function createOneMitraData() {
+    return view('admin.pengguna.perusahaan.tambah', [
+      'kategori' => $this->kategori,
+      'kota' => $this->city
+    ]);
   }
 
-  public function store(StoreMitraPerusahaanRequest $request) {
+  public function storeOneMitraData(StoreMitraPerusahaanRequest $request) {
     try {
-      $validatedData = $request->validatedDataPerusahaan();
-      $validatedData['username_perusahaan'] = $this->generatePerusahaanUsername($validatedData['nama_perusahaan']);
+      $kantor = null;
 
-      DB::insert("CALL insert_one_perusahaan(:username_perusahaan, :email_perusahaan, :password_perusahaan, :nama_perusahaan, :nomor_telp_perusahaan, :alamat_perusahaan, :foto_sampul_perusahaan, :logo_perusahaan, :deskripsi_perusahaan, :jenis_perusahaan)", [
-        'username_perusahaan' => $validatedData['username_perusahaan'],
-        'email_perusahaan' => $validatedData['email_perusahaan'],
-        'password_perusahaan' => Hash::make($validatedData['password_perusahaan']),
-        'nama_perusahaan' => $validatedData['nama_perusahaan'],
-        'nomor_telp_perusahaan' => $validatedData['no_telepon_perusahaan'],
-        'alamat_perusahaan' => $validatedData['alamat_perusahaan'],
-        'foto_sampul_perusahaan' => $validatedData['foto_sampul_perusahaan'],
-        'logo_perusahaan' => $validatedData['logo_perusahaan'],
-        'deskripsi_perusahaan' => $validatedData['deskripsi_perusahaan'],
-        'jenis_perusahaan' => $validatedData['jenis_perusahaan']
+      if ($request->has(['wilayah_kantor', 'status_kantor', 'no_telp_kantor', 'alamat_kantor'])) {
+        // Validasi data kantor
+        $request->validate([
+          'wilayah_kantor' => ['required'],
+          'status_kantor' => ['required'],
+          'no_telp_kantor' => ['required'],
+          'alamat_kantor' => ['required']
+        ]);
+
+        $kantor = $request->validatedDataKantor();
+        $kantor['kantor_utama'] = true;
+      }
+
+      $mitra = $request->validatedDataPerusahaan();
+      $mitra['username_perusahaan'] = $this->generatePerusahaanUsername($mitra['nama_perusahaan']);
+      $mitra['password_perusahaan'] = Hash::make($mitra['password_perusahaan']);
+
+      $level = LevelUser::firstWhere('identifier', 'perusahaan')->id_level;
+
+      $insertUser = User::create([
+        'id_level' => $level,
+        'username' => $mitra['username_perusahaan'],
+        'email' => $mitra['email_perusahaan'],
+        'password' => $mitra['password_perusahaan']
       ]);
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Mitra Perusahaan');
+      $perusahaan = MitraPerusahaan::create([
+        'id_user' => $insertUser->id_user,
+        'nama_perusahaan' => $mitra['nama_perusahaan'],
+        'nomor_telp_perusahaan' => $mitra['no_telepon_perusahaan'],
+        'foto_sampul_perusahaan' => $mitra['foto_sampul_perusahaan'],
+        'logo_perusahaan' => $mitra['logo_perusahaan'],
+        'deskripsi_perusahaan' => $mitra['deskripsi_perusahaan'],
+        'kategori_perusahaan' => $mitra['kategori_perusahaan']
+      ]);
+
+      if (!is_null($kantor)) {
+        $perusahaan->kantor()->create($kantor);
+      }
+
+      notify()->success('Berhasil Menambahkan Data Mitra Perusahaan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (\Exception $e) {
+      notify()->error($e->getMessage(), 'Notifikasi');
+
       return $this->redirectToMainRoute()->with('error', $e->getMessage());
     }
   }
 
-  public function show(string $username) {
+  public function getDetailOneMitraDataByUsername(string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
 
       return view('admin.pengguna.perusahaan.detail', compact('perusahaan'));
     } catch (ItemNotFoundException) {
-      return $this->redirectToMainRoute()->with('error', 'Data perusahaan tidak ditemukan');
+      notify()->error('Data perusahaan tidak ditemukan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function edit(string $username) {
+  public function editOneMitraData(string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
 
-      return view('admin.pengguna.perusahaan.sunting', compact('perusahaan'));
+      return view('admin.pengguna.perusahaan.sunting', [
+        'perusahaan' => $perusahaan,
+        'kategori' => $this->kategori,
+        'kota' => $this->city
+      ]);
     } catch (ItemNotFoundException) {
-      return $this->redirectToMainRoute()->with('error', 'Data perusahaan tidak ditemukan');
+      notify()->error('Data perusahaan tidak ditemukan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function update(StoreMitraPerusahaanRequest $request, string $username) {
+  public function updateOneMitraData(StoreMitraPerusahaanRequest $request, string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
-      $validatedData = $request->validatedDataPerusahaan();
+      $mitra = $request->validatedDataPerusahaan();
 
       if ($request->hasFile('foto_sampul_perusahaan') || $request->hasFile('logo_perusahaan')) {
         Helper::deleteMultipleFileIfExistsInStorageFolder(
@@ -101,40 +162,60 @@ class MitraPerusahaanController extends Controller {
         );
       }
 
-      if ($perusahaan->nama_perusahaan !== $validatedData['nama_perusahaan']) {
-        $validatedData['new_username_perusahaan'] = $this->generatePerusahaanUsername($validatedData['nama_perusahaan']);
+      if ($perusahaan->nama_perusahaan !== $mitra['nama_perusahaan']) {
+        $mitra['new_username_perusahaan'] = $this->generatePerusahaanUsername($mitra['nama_perusahaan']);
       } else {
-        $validatedData['new_username_perusahaan'] = null;
+        $mitra['new_username_perusahaan'] = null;
       }
 
-      DB::update("CALL update_one_perusahaan_by_username(:old_username, :new_username_perusahaan, :email_perusahaan, :nama_perusahaan, :nomor_telp_perusahaan, :alamat_perusahaan, :foto_sampul_perusahaan, :logo_perusahaan, :deskripsi_perusahaan, :jenis_perusahaan)", [
-        'old_username' => $perusahaan->username,
-        'new_username_perusahaan' => $validatedData['new_username_perusahaan'],
-        'email_perusahaan' => $validatedData['email_perusahaan'],
-        'nama_perusahaan' => $validatedData['nama_perusahaan'],
-        'nomor_telp_perusahaan' => $validatedData['no_telepon_perusahaan'],
-        'alamat_perusahaan' => $validatedData['alamat_perusahaan'],
-        'foto_sampul_perusahaan' => $validatedData['foto_sampul_perusahaan'],
-        'logo_perusahaan' => $validatedData['logo_perusahaan'],
-        'deskripsi_perusahaan' => $validatedData['deskripsi_perusahaan'],
-        'jenis_perusahaan' => $validatedData['jenis_perusahaan']
-      ]);
+      DB::update(
+        "CALL update_one_perusahaan_by_username(
+        :old_username,
+        :new_username_perusahaan,
+        :email_perusahaan,
+        :nama_perusahaan,
+        :nomor_telp_perusahaan,
+        :foto_sampul_perusahaan,
+        :logo_perusahaan,
+        :deskripsi_perusahaan,
+        :jenis_perusahaan,
+        :kategori_perusahaan)",
+        [
+          'old_username' => $perusahaan->username,
+          'new_username_perusahaan' => $mitra['new_username_perusahaan'],
+          'email_perusahaan' => $mitra['email_perusahaan'],
+          'nama_perusahaan' => $mitra['nama_perusahaan'],
+          'nomor_telp_perusahaan' => $mitra['no_telepon_perusahaan'],
+          'foto_sampul_perusahaan' => $mitra['foto_sampul_perusahaan'],
+          'logo_perusahaan' => $mitra['logo_perusahaan'],
+          'deskripsi_perusahaan' => $mitra['deskripsi_perusahaan'],
+          'jenis_perusahaan' => $mitra['jenis_perusahaan'],
+          'kategori_perusahaan' => $mitra['kategori_perusahaan']
+        ]
+      );
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Mitra Perusahaan');
+      notify()->success('Berhasil memperbarui data mitra', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (ItemNotFoundException) {
-      return $this->redirectToMainRoute()->with('error',  'Data Mitra Perusahaan tidak ditemukan');
+      notify()->error('Data mitra tidak ditemukan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function destroy(string $username) {
+  public function deleteOneMitraData(string $username) {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       User::whereUsername($perusahaan->username)->delete();
       Helper::deleteMultipleFileIfExistsInStorageFolder($perusahaan->foto_sampul_perusahaan, $perusahaan->logo_perusahaan);
+      notify()->success('Berhasil hapus data mitra', 'Notifikasi');
 
-      return back()->with('sukses', 'Berhasil hapus data Mitra Perusahaan');
+      return back();
     } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
+      notify()->error($e->getMessage(), 'Notifikasi');
+
+      return back();
     }
   }
 }

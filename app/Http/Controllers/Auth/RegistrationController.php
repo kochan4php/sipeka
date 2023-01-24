@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\{StoreRegistrasiAlumniRequest, StoreRegistrasiKandidatRequest};
 use Illuminate\Support\Facades\{DB, Hash};
 
-class RegistrationController extends Controller {
+final class RegistrationController extends Controller {
   public function kandidat() {
     return view('auth.register.kandidat');
   }

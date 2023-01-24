@@ -35,7 +35,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jenis_kelamin" id="jenis_kelamin" class="form-select">
-                  <option selected>-- Pilih jenis kelamin --</option>
+                  <option selected disabled hidden>-- Pilih jenis kelamin --</option>
                   <option value="L">Laki-laki</option>
                   <option value="P">Perempuan</option>
                 </select>
@@ -92,8 +92,8 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                <a href="{{ route('admin.pelamar.index') }}" class="btn btn-danger">Batal</a>
+                <button type="submit" class="btn custom-btn btn-primary">Tambah</button>
+                <a href="{{ route('admin.pelamar.index') }}" class="btn custom-btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

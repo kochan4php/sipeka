@@ -8,23 +8,8 @@ use App\Models\{LowonganKerja, TahapanSeleksi};
 use Illuminate\Support\Facades\{Auth, Gate};
 use Spatie\QueryBuilder\QueryBuilder;
 
-class TahapanSeleksiController extends Controller {
+final class TahapanSeleksiController extends Controller {
   private string $tahapanSeleksiMainRoute = 'tahapan.seleksi.detail_lowongan';
-
-  public function index() {
-    $lowongan = null;
-
-    if (Gate::check('admin')) {
-      $lowongan = QueryBuilder::for(LowonganKerja::class)
-        ->allowedFilters('angkatan_tahun')
-        ->with('perusahaan')
-        ->get();
-    } else if (Gate::check('perusahaan')) {
-      $lowongan = Auth::user()->perusahaan->lowongan;
-    }
-
-    return view('seleksi.tahapan.index', compact('lowongan'));
-  }
 
   public function create(LowonganKerja $lowonganKerja) {
     $urutanTahapanTerakhir = $lowonganKerja->tahapan_seleksi()->max('urutan_tahapan_ke') + 1;

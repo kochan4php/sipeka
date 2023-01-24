@@ -109,7 +109,7 @@
           </div>
           <div class="row justify-content-end">
             <div class="col">
-              <a href="{{ route('admin.pelamar.index') }}" class="btn btn-danger">Kembali</a>
+              <a href="{{ route('admin.pelamar.index') }}" class="btn custom-btn btn-danger">Kembali</a>
             </div>
           </div>
         </div>

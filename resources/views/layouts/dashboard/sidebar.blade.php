@@ -1,7 +1,7 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse bg-primary navbar-light sidebar-menu"
   style="padding-top: 3.35rem">
   <div class="position-sticky sidebar-sticky">
-    <ul data-aos="fade-right" class="nav flex-column gap-1">
+    <ul class="nav flex-column gap-1">
       <li class="nav-item">
         <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="{{ route('home') }}">
           <i class="fa-solid fa-house fa-lg"></i>
@@ -79,7 +79,7 @@
         <li>
           <a class="nav-link  @if (Request::is('sipeka/dashboard/admin/perusahaan*')) active @endif d-flex align-items-center gap-2"
             href="{{ route('admin.perusahaan.index') }}">
-            <span><i class="fa-solid fa-building fa-lg"></i></span>
+            <span><i class="fa-solid fa-city fa-lg"></i></span>
             <span>Mitra Perusahaan</span>
           </a>
         </li>
@@ -94,44 +94,26 @@
         </li>
       @endcan
       @canany(['admin', 'perusahaan'])
+        <li>
+          <a class="nav-link @if (Request::is('sipeka/dashboard/kantor*')) active @endif d-flex align-items-center gap-2"
+            href="{{ route('kantor.index') }}">
+            <span><i class="fa-solid fa-building fa-lg"></i></span>
+            <span>Kantor</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link  @if (Request::is('sipeka/dashboard/lowongan*')) active @endif d-flex align-items-center gap-2"
             aria-current="page" href="{{ route('lowongankerja.index') }}">
-            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <i class="fa-solid fa-briefcase fa-lg"></i>
             <span style="font-size: 15.5px !important;">Lowongan</span>
           </a>
         </li>
         <li class="nav-item">
-          <div class="dropdown">
-            <button
-              class="nav-link  btn-dropdown bg-transparent border-0 text-left d-flex align-items-center justify-content-between gap-1 @if (Request::is('sipeka/dashboard/seleksi*')) active @endif"
-              style="width: 100%;" type="button" data-bs-toggle="collapse" data-bs-target="#penilaian"
-              aria-expanded="false" aria-controls="penilaian">
-              <div class="d-flex align-items-center gap-2">
-                <span><i class="fa-solid fa-user-check fa-lg"></i></span>
-                <span style="font-size: 15.5px !important;">Seleksi</span>
-              </div>
-              <div>
-                <i class="fa-solid fa-angle-left fa-lg"></i>
-              </div>
-            </button>
-            <ul class="collapse list-unstyled bg-dark" id="penilaian">
-              <li>
-                <a class="nav-link  dropdown-item @if (Request::is('sipeka/dashboard/seleksi/tahapan*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                  href="{{ route('tahapan.seleksi.index') }}">
-                  <span>Tahapan Seleksi</span>
-                  <i class="fa-solid fa-code-branch fa-lg"></i>
-                </a>
-              </li>
-              <li>
-                <a class="nav-link  dropdown-item @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) dropdown-item-active @endif d-flex justify-content-between gap-2 align-items-center"
-                  href="{{ route('penilaian.seleksi.index') }}">
-                  <span>Penilaian Seleksi</span>
-                  <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
+          <a class="nav-link  @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) active @endif d-flex gap-2 align-items-center"
+            href="{{ route('penilaian.seleksi.index') }}">
+            <i class="fa-solid fa-clipboard-check fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Penilaian Seleksi</span>
+          </a>
         </li>
       @endcanany
       @can('admin')

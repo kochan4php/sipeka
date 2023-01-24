@@ -36,7 +36,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jenis_kelamin" id="jenis_kelamin" class="form-select" required>
-                  <option selected>-- Pilih jenis kelamin --</option>
+                  <option selected disabled hidden>-- Pilih jenis kelamin --</option>
                   <option value="L" @if ($alumni->jenis_kelamin === 'L') @selected(true) @endif>Laki-laki</option>
                   <option value="P" @if ($alumni->jenis_kelamin === 'P') @selected(true) @endif>Perempuan</option>
                 </select>
@@ -48,7 +48,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="jurusan" id="jurusan" class="form-select" required>
-                  <option selected value="">-- Pilih Jurusan --</option>
+                  <option selected disabled hidden>-- Pilih Jurusan --</option>
                   @foreach ($jurusan as $item)
                     <option value="{{ $item->id_jurusan }}" @if ($item->id_jurusan === $alumni->id_jurusan) @selected(true) @endif>
                       {{ $item->nama_jurusan }}
@@ -63,7 +63,7 @@
               </label>
               <div class="col-sm-8">
                 <select name="angkatan" id="angkatan" class="form-select" required>
-                  <option selected>-- Pilih Tahun Angkatan --</option>
+                  <option selected disabled hidden>-- Pilih Tahun Angkatan --</option>
                   @foreach ($angkatan as $item)
                     <option value="{{ $item->id_angkatan }}" @if ($item->id_angkatan === $alumni->id_angkatan) @selected(true) @endif>
                       {{ $item->angkatan_tahun }}
@@ -131,8 +131,8 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Perbarui</button>
-                <a href="{{ route('admin.alumni.index') }}" class="btn btn-danger">Batal</a>
+                <button type="submit" class="custom-btn btn btn-primary">Perbarui</button>
+                <a href="{{ route('admin.alumni.index') }}" class="custom-btn btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

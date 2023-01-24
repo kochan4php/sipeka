@@ -6,6 +6,33 @@
     <a href="{{ route('lowongankerja.create') }}" class="btn btn-primary">Tambah Lowongan Kerja</a>
   </div>
 
+  @can('admin')
+    <div class="row my-3 gap-3 gap-md-0">
+      <x-card-admin bgcolor="text-bg-warning">
+        @slot('data')
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fs-3 fw-medium">Setujui Pelamar</span>
+            <span><i class="fa-solid fa-user-check" style="font-size: 3rem"></i></span>
+          </div>
+        @endslot
+        <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-dark">
+          <h4>Selengkapnya</h4>
+        </a>
+      </x-card-admin>
+      <x-card-admin bgcolor="text-bg-indigo">
+        @slot('data')
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fs-3 fw-medium">Setujui Lowongan Kerja</span>
+            <span><i class="fa-solid fa-clipboard-check" style="font-size: 3rem"></i></span>
+          </div>
+        @endslot
+        <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-white">
+          <h4>Selengkapnya</h4>
+        </a>
+      </x-card-admin>
+    </div>
+  @endcan
+
   <x-alert-session />
 
   <div class="row">
@@ -25,15 +52,15 @@
                 <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                   Nama Perusahaan
                 </th>
-                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                  Email Perusahaan
-                </th>
               @endcan
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Tanggal Dimulai
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Tanggal Berakhir
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Status
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Jumlah Tahapan
@@ -56,10 +83,7 @@
                 </td>
                 @can('admin')
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ $item->perusahaan->nama_perusahaan }}
-                  </td>
-                  <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ $item->perusahaan->user->email }}
+                    {{ __("{$item->perusahaan->jenis_perusahaan}. {$item->perusahaan->nama_perusahaan}") }}
                   </td>
                 @endcan
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
@@ -67,6 +91,13 @@
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  @if ($item->active)
+                    {{ __('Aktif') }}
+                  @else
+                    {{ __('Non-Aktif') }}
+                  @endif
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->tahapan_seleksi->count() }}
@@ -80,13 +111,17 @@
                     <a href="{{ route('lowongankerja.edit', $item->slug) }}" class="btn btn-edit custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
-                    <button data-slug="{{ $item->slug }}" class="btn custom-btn btn-danger btn-delete"
-                      data-bs-toggle="modal" data-bs-target="#modalHapus">
-                      <span><i class="fa-solid fa-trash fa-lg"></i></span>
-                    </button>
+                    @if ($item->active)
+                      <form action="{{ route('lowongankerja.nonactive', $item->slug) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn custom-btn btn-info btn-nonactive">
+                          <span><i class="fa-solid fa-box-archive fa-lg"></i></span>
+                        </button>
+                      </form>
+                    @endif
                     <a href="{{ route('tahapan.seleksi.detail_lowongan', $item->slug) }}"
                       class="btn custom-btn btn-primary btn-tahapan">
-                      <span> <i class="fa-solid fa-code-branch fa-lg"></i></span>
+                      <span><i class="fa-solid fa-code-branch fa-lg"></i></span>
                     </a>
                   </div>
                 </td>
@@ -104,49 +139,14 @@
     </div>
   </div>
 
-  <div class="modal fade" id="modalHapus" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header border-0 border-bottom-0">
-          <h1 class="modal-title fs-4 text-center" id="exampleModalLabel">Hapus data lowongan?</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-footer border-0 border-top-0">
-          <form method="post" class="form-modal">
-            @csrf
-            @method('delete')
-            <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-danger">Hapus</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
   @push('script')
-    <script>
-      const btnDelete = document.querySelectorAll('.btn-delete');
-      btnDelete.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const formModal = document.querySelector('.modal .form-modal');
-          const btnCancel = document.querySelector('.modal .btn-cancel');
-          const btnClose = document.querySelector('.modal .btn-close');
-          const slug = btn.dataset.slug;
-          const route = "{{ route('lowongankerja.delete', ':slug') }}";
-          formModal.setAttribute('action', route.replace(':slug', slug));
-          btnCancel.addEventListener('click', () => formModal.removeAttribute('action'));
-          btnClose.addEventListener('click', () => formModal.removeAttribute('action'));
-        });
-      });
-    </script>
     <script>
       tippy('.btn-tahapan', {
         content: 'Tahapan Seleksi',
         placement: 'left'
       });
-      tippy('.btn-delete', {
-        content: 'Hapus data',
+      tippy('.btn-nonactive', {
+        content: 'Non-Aktifkan Lowongan',
         placement: 'left'
       });
       tippy('.btn-edit', {

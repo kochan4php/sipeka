@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class PenilaianSeleksiController extends Controller {
+final class PenilaianSeleksiController extends Controller {
   private function getIdPendaftaran(PendaftaranLowongan $pendaftaranLowongan): string {
     return $pendaftaranLowongan->id_pendaftaran;
   }
@@ -25,10 +25,16 @@ class PenilaianSeleksiController extends Controller {
     if (Gate::check('admin')) {
       $pendaftaranLowongan = QueryBuilder::for(PendaftaranLowongan::class)
         ->allowedFilters(['kode_pendaftaran', 'verifikasi', 'status_seleksi'])
+        ->where('verifikasi', 'Sudah')
         ->latest()
         ->get();
     } else if (Gate::check('perusahaan')) {
-      $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan;
+      $pendaftaranLowongan = Auth::user()
+        ->perusahaan
+        ->pendaftaran_lowongan
+        ->where('verifikasi', 'Sudah')
+        ->latest()
+        ->get();
     }
 
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));

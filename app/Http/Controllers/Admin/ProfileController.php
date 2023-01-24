@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminBKK;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller {
+final class ProfileController extends Controller {
   public function index(AdminBKK $admin) {
     return view('admin.profile.index', compact('admin'));
   }

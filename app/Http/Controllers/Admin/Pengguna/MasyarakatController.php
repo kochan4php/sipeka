@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{ItemNotFoundException, Collection};
 use Spatie\QueryBuilder\QueryBuilder;
 
-class MasyarakatController extends Controller {
+final class MasyarakatController extends Controller {
   use HasMainRoute;
 
   public function __construct() {
@@ -31,7 +31,7 @@ class MasyarakatController extends Controller {
     return Helper::generateUniqueUsername('KDT', 5, $name);
   }
 
-  public function index() {
+  public function getAllCandidateDataFromOutsideSchool() {
     $masyarakat = QueryBuilder::for(Masyarakat::class)
       ->allowedFilters('nama_lengkap')
       ->allowedSorts('id')
@@ -41,11 +41,11 @@ class MasyarakatController extends Controller {
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
 
-  public function create() {
+  public function createOneCandidateDataFromOutsideSchool() {
     return view('admin.pengguna.masyarakat.tambah');
   }
 
-  public function store(StorePersonRequest $request) {
+  public function storeOneCandidateDataFromOutsideSchool(StorePersonRequest $request) {
     try {
       $validatedData = $request->validatedDataPerson();
       $validatedData['username'] = $this->generateKandidatUsername($validatedData['nama']);
@@ -63,33 +63,41 @@ class MasyarakatController extends Controller {
         'email' => NULL
       ]);
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Menambahkan Data Pelamar');
+      notify()->success('Berhasil Menambahkan Data Kandidat Luar', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (\Exception $e) {
-      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+      notify()->error($e->getMessage(), 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function show(string $username) {
+  public function getDetailOneCandidateDataFromOutsideSchoolByUsername(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
 
       return view('admin.pengguna.masyarakat.detail', compact('orang'));
     } catch (ItemNotFoundException) {
-      return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
+      notify()->error('Data pelamar tidak ditemukan', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
-  public function edit(string $username) {
+  public function editOneCandidateDataFromOutsideSchool(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
 
       return view('admin.pengguna.masyarakat.sunting', compact('orang'));
-    } catch (ItemNotFoundException $e) {
+    } catch (ItemNotFoundException) {
+      notify()->error('Data pelamar tidak ditemukan', 'Notifikasi');
+
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
   }
 
-  public function update(StorePersonRequest $request, string $username) {
+  public function updateOneCandidateDataFromOutsideSchool(StorePersonRequest $request, string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedDataPerson();
@@ -113,13 +121,17 @@ class MasyarakatController extends Controller {
         'foto' => $validatedData['foto_pelamar']
       ]);
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil Memperbarui Data Pelamar');
+      notify()->success('Berhasil memperbarui data kandidat luar', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (ItemNotFoundException) {
+      notify()->error('Data pelamar tidak ditemukan', 'Notifikasi');
+
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
   }
 
-  public function destroy(string $username) {
+  public function deleteOneCandidateDataFromOutsideSchool(string $username) {
     try {
       $orang = $this->getOnePersonByUsername($username);
       User::whereUsername($orang->username)->delete();
@@ -127,7 +139,9 @@ class MasyarakatController extends Controller {
 
       return back()->with('sukses', 'Berhasil hapus data pelamar');
     } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
+      notify()->error($e->getMessage(), 'Notifikasi');
+
+      return back();
     }
   }
 }

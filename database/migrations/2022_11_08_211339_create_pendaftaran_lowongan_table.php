@@ -17,9 +17,14 @@ return new class extends Migration {
       $table->integer('id_lowongan');
       $table->char('kode_pendaftaran', 20);
       $table->string('surat_lamaran_kerja');
-      $table->text('resume');
       $table->enum('verifikasi', ['Sudah', 'Belum'])->default('Belum');
-      $table->enum('status_seleksi', ['Lulus', 'Tidak', 'Belum tuntas mengikuti seleksi'])->default('Belum tuntas mengikuti seleksi');
+      $table->enum('status_seleksi', [
+        'Lulus',
+        'Tidak',
+        'Belum tuntas mengikuti seleksi'
+      ])->default('Belum tuntas mengikuti seleksi');
+      $table->text('applicant_promotion')->nullable()->default(null);
+      $table->boolean('is_active')->nullable()->default(true);
 
       // Foreign key untuk id_pelamar
       $table

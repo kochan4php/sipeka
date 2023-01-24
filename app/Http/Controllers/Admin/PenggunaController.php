@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Yajra\DataTables\DataTables;
 
-class PenggunaController extends Controller {
+final class PenggunaController extends Controller {
   public function index(Request $request) {
     $users = QueryBuilder::for(User::class)
       ->allowedFilters(['username', 'email'])

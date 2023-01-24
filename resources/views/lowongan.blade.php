@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@push('head')
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+  <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
+@endpush
+
 @push('style')
   <style>
     .mainlayout {
@@ -14,7 +19,7 @@
 
 @section('container')
   <div class="container my-5 pt-5">
-    <x-alert-session />
+    <x-alert-error-validation />
     <div class="row gap-3 gap-lg-0">
       <div class="col-lg-8">
         <div class="card">
@@ -25,19 +30,30 @@
             </div>
             <div class="mb-4">
               <h1>{{ $lowonganKerja->judul_lowongan }}</h1>
-              <h5 class="fst-italic">{{ $lowonganKerja->perusahaan->nama_perusahaan }}</h5>
+              <h5 class="fst-italic">
+                {{ __("{$lowonganKerja->perusahaan->jenis_perusahaan}. {$lowonganKerja->perusahaan->nama_perusahaan}") }}
+              </h5>
             </div>
             <div>
-              <h5 class="fw-bolder">Deskripsi Pekerjaan</h5>
+              <h4 class="fw-normal">Posisi</h4>
             </div>
-            <div class="mb-4">
+            <div class="mb-4 custom-font">
+              {{ $lowonganKerja->posisi }}
+            </div>
+
+            <hr />
+
+            <div>
+              <h4 class="fw-normal">Deskripsi Pekerjaan</h4>
+            </div>
+            <div class="mb-4 custom-font">
               {!! $lowonganKerja->deskripsi_lowongan !!}
             </div>
 
             <hr />
 
             <div>
-              <h5 class="fw-bolder">Deskripsi Perusahaan</h5>
+              <h4 class="fw-normal">Deskripsi Perusahaan</h4>
             </div>
             <div class="mb-4 custom-font">
               {!! $lowonganKerja->perusahaan->deskripsi_perusahaan ?? 'Perusahaan ini belum memiliki deskripsi' !!}
@@ -45,25 +61,22 @@
             @can('pelamar')
               <div class="d-flex gap-2 w-100">
                 <a href="{{ route('admin.perusahaan.edit', '') }}"
-                  class="btn custom-font d-flex gap-2 align-items-center justify-content-center leading-1px btn-info">
+                  class="btn custom-btn d-flex gap-2 align-items-center justify-content-center leading-1px btn-info">
                   <i class="fa-regular fa-bookmark fa-lg"></i>
                   <span>Simpan</span>
                 </a>
-                <form action="{{ route('lowongan.apply', $lowonganKerja->slug) }}" method="post">
-                  @csrf
-                  <button type="submit"
-                    class="btn custom-font leading-1px btn-primary btn-delete d-flex align-items-center gap-2"
-                    @disabled(Auth::user()->pelamar->id_pelamar === $registeredApplicantId)>
-                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                    <span class="text-wrap">
-                      @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
-                        Kamu sudah melamar lowongan ini.
-                      @else
-                        Lamar sekarang
-                      @endif
-                    </span>
-                  </button>
-                </form>
+                <button type="button"
+                  class="btn custom-btn leading-1px btn-primary btn-delete d-flex align-items-center gap-2"
+                  data-bs-toggle="modal" data-bs-target="#modalLamarLoker" @disabled(Auth::user()->pelamar->id_pelamar === $registeredApplicantId)>
+                  <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                  <span class="text-wrap">
+                    @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
+                      Kamu sudah melamar lowongan ini.
+                    @else
+                      Lamar sekarang
+                    @endif
+                  </span>
+                </button>
               </div>
             @endcan
           </div>
@@ -107,4 +120,78 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="modalLamarLoker" tabindex="-1" aria-labelledby="labelModalLamarLoker" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3" id="labelModalLamarLoker">Lamar loker ini</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{{ route('lowongan.apply', $lowonganKerja->slug) }}" method="post" enctype="multipart/form-data">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="surat_lamaran_kerja" class="form-label custom-font">Surat Lamaran Kerja</label>
+              <input type="file" class="form-control" id="surat_lamaran_kerja" name="surat_lamaran_kerja">
+            </div>
+            <div>
+              <label for="applicant_promotion" class="form-label custom-font">Promosikan diri kamu!</label>
+              <input id="applicant_promotion" type="hidden" name="applicant_promotion">
+              <trix-editor input="applicant_promotion"></trix-editor>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="custom-btn btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="custom-btn btn btn-primary" id="formSubmit">
+              <i class="fa-solid fa-clipboard-check fa-lg"></i>
+              <span class="text-wrap">
+                @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
+                  Kamu sudah melamar lowongan ini.
+                @else
+                  Lamar sekarang
+                @endif
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 @endsection
+
+{{-- @push('script')
+  <script>
+    $(document).ready(function() {
+      $('#formSubmit').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+          }
+        });
+        $.ajax({
+          url: "{{ url('/books') }}",
+          method: 'post',
+          data: {
+            name: $('#name').val(),
+            auther_name: $('#auther_name').val(),
+            description: $('#description').val(),
+          },
+          success: function(result) {
+            if (result.errors) {
+              $('.alert-danger').html('');
+              $.each(result.errors, function(key, value) {
+                $('.alert-danger').show();
+                $('.alert-danger').append('<li>' + value + '</li>');
+              });
+            } else {
+              $('.alert-danger').hide();
+              $('#exampleModal').modal('hide');
+            }
+          }
+        });
+      });
+    });
+  </script>
+@endpush --}}

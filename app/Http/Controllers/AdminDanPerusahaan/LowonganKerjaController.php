@@ -5,13 +5,13 @@ namespace App\Http\Controllers\AdminDanPerusahaan;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
-use App\Models\{LowonganKerja, MitraPerusahaan};
+use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowongan};
 use App\Traits\HasMainRoute;
 use Illuminate\Support\Facades\{Auth, Gate};
 use Illuminate\Support\ItemNotFoundException;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class LowonganKerjaController extends Controller {
+final class LowonganKerjaController extends Controller {
   use HasMainRoute;
 
   public function __construct() {
@@ -24,22 +24,25 @@ class LowonganKerjaController extends Controller {
     if (Gate::check('admin')) {
       $lowongan = QueryBuilder::for(LowonganKerja::class)
         ->allowedFilters('angkatan_tahun')
+        ->with('perusahaan')
         ->get();
+      $pendaftaranLowongan = PendaftaranLowongan::count();
     } else if (Gate::check('perusahaan')) {
       $lowongan = Auth::user()->perusahaan->lowongan;
     }
 
-    return view('lowongankerja.index', compact('lowongan'));
+    return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan'));
   }
 
   public function create() {
     $perusahaan = null;
+    $jenisPekerjaan = JenisPekerjaan::all();
 
     if (Gate::check('admin')) {
       $perusahaan = MitraPerusahaan::all();
     }
 
-    return view('lowongankerja.tambah', compact('perusahaan'));
+    return view('lowongankerja.tambah', compact('perusahaan', 'jenisPekerjaan'));
   }
 
   public function store(StoreLowonganKerjaRequest $request) {
@@ -51,12 +54,18 @@ class LowonganKerjaController extends Controller {
         Auth::user()->perusahaan->lowongan()->create($validatedData);
       } else if (Gate::check('admin')) {
         $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();
+        $validatedData['is_approve'] = true;
+
         LowonganKerja::create($validatedData);
       }
 
-      return $this->redirectToMainRoute()->with('sukses', 'Berhasil menambahkan data Lowongan baru.');
+      notify()->success('Berhasil menambahkan data Lowongan baru.', 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     } catch (\Exception $e) {
-      return $this->redirectToMainRoute()->with('error', $e->getMessage());
+      notify()->error($e->getMessage(), 'Notifikasi');
+
+      return $this->redirectToMainRoute();
     }
   }
 
@@ -107,13 +116,14 @@ class LowonganKerjaController extends Controller {
     }
   }
 
-  public function destroy(LowonganKerja $lowonganKerja) {
+  public function nonActive(LowonganKerja $lowonganKerja) {
     try {
-      $lowonganKerja->delete();
-
-      return back()->with('sukses', 'Berhasil hapus data lowongan');
+      $lowonganKerja->update(['active' => false]);
+      notify()->success('Berhasil menonaktifkan lowongan', 'Notifikasi');
+      return back();
     } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
+      notify()->success($e->getMessage(), 'Notifikasi');
+      return back();
     }
   }
 }

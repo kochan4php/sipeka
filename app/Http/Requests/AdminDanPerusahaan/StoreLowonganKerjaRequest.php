@@ -6,7 +6,16 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
 class StoreLowonganKerjaRequest extends FormRequest {
-  private array $column = ['judul_lowongan', 'deskripsi_lowongan', 'tanggal_dimulai', 'tanggal_berakhir'];
+  private array $column = [
+    'id_perusahaan',
+    'judul_lowongan',
+    'posisi',
+    'estimasi_gaji',
+    'id_jenis_pekerjaan',
+    'deskripsi_lowongan',
+    'tanggal_berakhir',
+    'slug',
+  ];
 
   /**
    * Determine if the user is authorized to make this request.
@@ -25,8 +34,10 @@ class StoreLowonganKerjaRequest extends FormRequest {
   public function rules(): array {
     return [
       'judul_lowongan' => ['required', 'min:10', 'max:255'],
+      'posisi' => ['required', 'min:4', 'max:255'],
+      'estimasi_gaji' => ['required', 'min:6', 'max:255'],
+      'id_jenis_pekerjaan' => ['required'],
       'deskripsi_lowongan' => ['required'],
-      'tanggal_dimulai' => ['required'],
       'tanggal_berakhir' => ['required']
     ];
   }

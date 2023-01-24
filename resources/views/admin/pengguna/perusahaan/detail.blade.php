@@ -42,12 +42,19 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Perusahaan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->nama_perusahaan) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      {{ __("{$perusahaan->jenis_perusahaan}. $perusahaan->nama_perusahaan") }}
+                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Email Perusahaan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->email) }}</td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Kategori Perusahaan') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->kategori_perusahaan) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
@@ -75,20 +82,13 @@
                       {!! $perusahaan->deskripsi_perusahaan ?? '-' !!}
                     </td>
                   </tr>
-                  <tr>
-                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">
-                      {{ __($perusahaan->alamat_perusahaan) }}
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
           <div class="row justify-content-end">
             <div class="col">
-              <a href="{{ route('admin.perusahaan.index') }}" class="btn btn-danger">Kembali</a>
+              <a href="{{ route('admin.perusahaan.index') }}" class="btn custom-btn btn-danger">Kembali</a>
             </div>
           </div>
         </div>

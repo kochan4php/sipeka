@@ -28,38 +28,11 @@
                 </p>
               </div>
             </div>
-            <div class="row mt-3 mb-5">
+            <div class="row mt-3 mb-4">
               <div class="col-12">
-                <ul class="nav nav-tabs">
-                  <li class="nav-item">
-                    <button onclick="openLink(event, 'Pemberitahuan')" class="nav-link tab-btn">Pengumuman</button>
-                  </li>
-                  <li class="nav-item">
-                    <button onclick="openLink(event, 'TahapanSeleksi')" class="nav-link tab-btn">Daftar Tahapan
-                      Seleksi</button>
-                  </li>
-                  <li class="nav-item">
-                    <button onclick="openLink(event, 'PenilaianSeleksi')" class="nav-link tab-btn">Penilaian
-                      Seleksi</button>
-                  </li>
-                </ul>
+                <h3>Tahapan Seleksi</h3>
               </div>
-              <div class="col-12 mt-3 table-responsive px-3 d-none" id="Pemberitahuan">
-                <div class="card">
-                  <div class="card-header">
-                    <h2>Pemberitahuan</h2>
-                  </div>
-                  <div class="card-body custom-font d-flex gap-2 flex-column">
-                    @if (!is_null($notifikasiSeleksi))
-                      <span class="fs-5">{{ $notifikasiSeleksi->pesan }}</span>
-                      <span class="text-muted">Added {{ $notifikasiSeleksi->created_at->diffForHumans() }}</span>
-                    @else
-                      <span class="fs-5">Belum ada pemberitahuan seleksi.</span>
-                    @endif
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 mt-3 table-responsive d-none" id="TahapanSeleksi">
+              <div class="col-12 mt-3 table-responsive">
                 <table class="table table-bordered border-secondary border-1 table-striped mb-0">
                   <thead class="table-dark">
                     <tr>
@@ -101,7 +74,12 @@
                   </tbody>
                 </table>
               </div>
-              <div class="col-12 mt-3 table-responsive d-none" id="PenilaianSeleksi">
+            </div>
+            <div class="row mt-3 mb-4">
+              <div class="col-12">
+                <h3>Penilaian</h3>
+              </div>
+              <div class="col-12 mt-3 table-responsive">
                 <table class="table table-bordered border-secondary border-1 table-striped mb-0">
                   <thead class="table-dark">
                     <tr>
@@ -160,55 +138,47 @@
       </div>
     </div>
   </div>
-
-  @push('script')
-    <script>
-      const btnPrintVerifikasi = document.querySelector('.btn-print-verifikasi');
-      const username = btnPrintVerifikasi.dataset.username;
-      const idPendaftaran = btnPrintVerifikasi.dataset.idPendaftaran;
-      const url =
-        (
-          `{{ route('pelamar.lamaran.pdf-verifikasi', ['username' => ':username', 'pendaftaran_lowongan' => ':idPendaftaran']) }}`
-        )
-        .replace(':username', username)
-        .replace(':idPendaftaran', idPendaftaran);
-
-      btnPrintVerifikasi.addEventListener('click', () => printExternal(url));
-
-      function printExternal(url) {
-        const printWindow = window.open(url, '_blank', 'resizable=0');
-
-        printWindow.addEventListener('load', function() {
-          if (Boolean(printWindow.chrome)) {
-            printWindow.print();
-            setTimeout(function() {
-              printWindow.close();
-            }, 500);
-          } else {
-            printWindow.print();
-            printWindow.close();
-          }
-        }, true);
-      }
-    </script>
-    <script>
-      function openLink(e, id) {
-        // console.dir(e.target);
-        e.target.classList.toggle('active');
-        const element = document.getElementById(id);
-        element.classList.toggle('d-none');
-        element.classList.toggle('d-block');
-      }
-    </script>
-    <script>
-      tippy('.checked-tahapan', {
-        content: 'Tuntas',
-        placement: 'left'
-      });
-      tippy('.xmark-tahapan', {
-        content: 'Belum Tuntas',
-        placement: 'left'
-      });
-    </script>
-  @endpush
+  </div>
 @endsection
+
+@push('script')
+  <script>
+    const btnPrintVerifikasi = document.querySelector('.btn-print-verifikasi');
+    const username = btnPrintVerifikasi.dataset.username;
+    const idPendaftaran = btnPrintVerifikasi.dataset.idPendaftaran;
+    const url =
+      (
+        `{{ route('pelamar.lamaran.pdf-verifikasi', ['username' => ':username', 'pendaftaran_lowongan' => ':idPendaftaran']) }}`
+      )
+      .replace(':username', username)
+      .replace(':idPendaftaran', idPendaftaran);
+
+    btnPrintVerifikasi.addEventListener('click', () => printExternal(url));
+
+    function printExternal(url) {
+      const printWindow = window.open(url, '_blank', 'resizable=0');
+
+      printWindow.addEventListener('load', function() {
+        if (Boolean(printWindow.chrome)) {
+          printWindow.print();
+          setTimeout(function() {
+            printWindow.close();
+          }, 500);
+        } else {
+          printWindow.print();
+          printWindow.close();
+        }
+      }, true);
+    }
+  </script>
+  <script>
+    tippy('.checked-tahapan', {
+      content: 'Tuntas',
+      placement: 'left'
+    });
+    tippy('.xmark-tahapan', {
+      content: 'Belum Tuntas',
+      placement: 'left'
+    });
+  </script>
+@endpush

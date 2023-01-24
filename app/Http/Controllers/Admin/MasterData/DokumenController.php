@@ -10,12 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class DokumenController extends Controller {
+final class DokumenController extends Controller {
   use HasMainRoute;
-
-  public function __construct() {
-    $this->setMainRoute('admin.dokumen.index');
-  }
 
   private function generateKodeDokumenBaru(): string {
     return collect(DB::select('SELECT generate_new_kode_jenis_dokumen() AS new_kode_jenis_dokumen'))
@@ -61,16 +57,6 @@ class DokumenController extends Controller {
       Session::flash('sukses', 'Berhasil memperbarui data Jenis Dokumen');
 
       return back();
-    } catch (\Exception $e) {
-      return back()->with('error', $e->getMessage());
-    }
-  }
-
-  public function destroy(Dokumen $dokumen) {
-    try {
-      $dokumen->delete();
-
-      return back()->with('sukses', 'Berhasil hapus data jenis dokumen');
     } catch (\Exception $e) {
       return back()->with('error', $e->getMessage());
     }

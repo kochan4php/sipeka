@@ -7,7 +7,7 @@ use App\Models\GelarPendidikan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PendidikanController extends Controller {
+final class PendidikanController extends Controller {
   public function index() {
     $pendidikan = Auth::user()->pelamar->riwayat_pendidikan;
 

@@ -6,7 +6,7 @@ use App\Helpers\UserHelper;
 use App\Models\PendaftaranLowongan;
 use Illuminate\Http\Request;
 
-class VerifikasiPendaftaranLowonganController extends Controller {
+final class VerifikasiPendaftaranLowonganController extends Controller {
   public function verification(Request $request, PendaftaranLowongan $pendaftaranLowongan) {
     try {
       $verification = $request->boolean('verification');

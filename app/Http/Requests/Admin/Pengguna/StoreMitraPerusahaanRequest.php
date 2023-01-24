@@ -5,16 +5,23 @@ namespace App\Http\Requests\Admin\Pengguna;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMitraPerusahaanRequest extends FormRequest {
-  private array $column = [
+  private array $columnMitra = [
     'nama_perusahaan',
     'email_perusahaan',
     'password_perusahaan',
     'no_telepon_perusahaan',
-    'alamat_perusahaan',
     'foto_sampul_perusahaan',
     'logo_perusahaan',
     'deskripsi_perusahaan',
-    'jenis_perusahaan'
+    'jenis_perusahaan',
+    'kategori_perusahaan'
+  ];
+
+  private array $columnKantor = [
+    'wilayah_kantor',
+    'status_kantor',
+    'no_telp_kantor',
+    'alamat_kantor'
   ];
 
   /**
@@ -34,19 +41,23 @@ class StoreMitraPerusahaanRequest extends FormRequest {
   public function rules(): array {
     return [
       'nama_perusahaan' => ['required', 'min:3', 'max:255'],
-      'email_perusahaan' => ['required', 'email', 'min:5', 'max:255', 'unique:users,email'],
+      'email_perusahaan' => ['required', 'email', 'min:5', 'max:255'],
       'password_perusahaan' => ['required'],
       'no_telepon_perusahaan' => ['required', 'min:4', 'max:100'],
-      'alamat_perusahaan' => ['required'],
       'foto_sampul_perusahaan' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:5120'],
       'logo_perusahaan' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:3072'],
       'deskripsi_perusahaan' => ['nullable'],
-      'jenis_perusahaan' => ['required']
+      'jenis_perusahaan' => ['required'],
+      'kategori_perusahaan' => ['required'],
     ];
   }
 
+  public function validatedDataKantor(): array {
+    return $this->only($this->columnKantor);
+  }
+
   private function validatedData(): array {
-    $validatedData = $this->only($this->column);
+    $validatedData = $this->only($this->columnMitra);
 
     $validatedData['deskripsi_perusahaan'] = !is_null($validatedData['deskripsi_perusahaan']) ?
       $validatedData['deskripsi_perusahaan'] : null;

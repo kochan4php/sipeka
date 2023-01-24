@@ -2,7 +2,7 @@
 
 return [
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Notify Theme
     |--------------------------------------------------------------------------
@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'theme' => env('NOTIFY_THEME', 'light'),
+  'theme' => env('NOTIFY_THEME', 'light'),
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Demo URL
     |--------------------------------------------------------------------------
@@ -25,9 +25,9 @@ return [
     |
     */
 
-    'demo' => true,
+  'demo' => true,
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Notification timeout
     |--------------------------------------------------------------------------
@@ -36,9 +36,9 @@ return [
     |
     */
 
-    'timeout'   => 5000,
+  'timeout'   => 15000,
 
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Preset Messages
     |--------------------------------------------------------------------------
@@ -48,14 +48,14 @@ return [
     |
     */
 
-    'preset-messages' => [
-        // An example preset 'user updated' Connectify notification.
-        'user-updated' => [
-            'message' => 'The user has been updated successfully.',
-            'type'    => 'success',
-            'model'   => 'connect',
-            'title'   => 'User Updated',
-        ],
+  'preset-messages' => [
+    // An example preset 'user updated' Connectify notification.
+    'user-updated' => [
+      'message' => 'The user has been updated successfully.',
+      'type'    => 'success',
+      'model'   => 'connect',
+      'title'   => 'User Updated',
     ],
+  ],
 
 ];

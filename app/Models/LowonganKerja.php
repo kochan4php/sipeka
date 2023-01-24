@@ -27,11 +27,15 @@ class LowonganKerja extends Model {
    */
   protected $fillable = [
     'id_perusahaan',
+    'id_jenis_pekerjaan',
     'judul_lowongan',
+    'posisi',
+    'estimasi_gaji',
     'deskripsi_lowongan',
-    'tanggal_dimulai',
     'tanggal_berakhir',
     'slug',
+    'is_approve',
+    'active'
   ];
 
   protected function createdAt(): Attribute {
