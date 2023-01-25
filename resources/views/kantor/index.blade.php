@@ -87,9 +87,16 @@
                     <a href="{{ route('kantor.detail', $item->id_kantor) }}" class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ '' }}" class="btn custom-btn btn-warning">
+                    <a href="{{ route('kantor.edit', $item->id_kantor) }}" class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
+                    <form action="{{ route('kantor.delete', $item->id_kantor) }}" method="post">
+                      @csrf
+                      @method('delete')
+                      <button type="submit" class="btn custom-btn btn-danger">
+                        <span><i class="fa-solid fa-trash fa-lg"></i></span>
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>

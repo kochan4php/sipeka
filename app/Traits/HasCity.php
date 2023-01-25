@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 trait HasCity {
-  private $city = [
+  private array $city = [
     'Banda Aceh',
     'Langsa',
     'Lhokseumawe',
