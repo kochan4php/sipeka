@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 final class ChangePasswordController extends Controller {
-  public function updatePassword(Request $request) {
+  public function updatePassword(Request $request): RedirectResponse {
     $request->validate([
       'old_password' => 'required',
       'new_password' => 'required|confirmed'

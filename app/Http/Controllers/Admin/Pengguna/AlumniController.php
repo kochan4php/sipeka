@@ -8,6 +8,8 @@ use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -35,7 +37,7 @@ final class AlumniController extends Controller {
     return Helper::generateUniqueUsername('ALUMNI', 5, $name);
   }
 
-  public function getAllAlumniData() {
+  public function getAllAlumniData(): View {
     $alumni = QueryBuilder::for(SiswaAlumni::class)
       ->allowedFilters(['nama_lengkap', 'nis'])
       ->allowedSorts('id')
@@ -46,13 +48,13 @@ final class AlumniController extends Controller {
     return view('admin.pengguna.alumni.index', compact('alumni'));
   }
 
-  public function createOneAlumniData() {
+  public function createOneAlumniData(): View {
     $jurusan = $this->getJurusan();
     $angkatan = $this->getAngkatan();
     return view('admin.pengguna.alumni.tambah', compact('jurusan', 'angkatan'));
   }
 
-  public function storeOneAlumniData(StoreAlumniRequest $request) {
+  public function storeOneAlumniData(StoreAlumniRequest $request): RedirectResponse {
     try {
       $validatedData = $request->validatedDataAlumni();
       $validatedData['username'] = $validatedData['nis'];
@@ -83,7 +85,7 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function getDetailOneAlumniDataByNIS(string $username) {
+  public function getDetailOneAlumniDataByNIS(string $username): View|RedirectResponse {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
 
@@ -95,7 +97,7 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function editOneAlumniData(string $username) {
+  public function editOneAlumniData(string $username): View|RedirectResponse {
     try {
       $jurusan = $this->getJurusan();
       $angkatan = $this->getAngkatan();
@@ -109,7 +111,7 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function updateOneAlumniData(StoreAlumniRequest $request, string $username) {
+  public function updateOneAlumniData(StoreAlumniRequest $request, string $username): RedirectResponse {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       $validatedData = $request->validatedDataAlumni();
@@ -152,7 +154,7 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function deleteOneAlumniData(string $username) {
+  public function deleteOneAlumniData(string $username): RedirectResponse {
     try {
       $alumni = $this->getOneAlumniByUsername($username);
       User::whereUsername($alumni->username)->delete();

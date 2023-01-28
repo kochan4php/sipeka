@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin\MasterData;
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
 use App\Traits\HasMainRoute;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -16,7 +19,7 @@ final class JurusanController extends Controller {
     $this->setMainRoute('admin.jurusan.index');
   }
 
-  public function index() {
+  public function index(): View {
     $jurusan =  QueryBuilder::for(Jurusan::class)
       ->allowedFilters('angkatan_tahun')
       ->get();
@@ -24,7 +27,7 @@ final class JurusanController extends Controller {
     return view('admin.masterdata.jurusan.index', compact('jurusan'));
   }
 
-  public function store(Request $request) {
+  public function store(Request $request): RedirectResponse {
     $request->validate([
       'kode_jurusan' => ['required'],
       'nama_jurusan' => ['required'],
@@ -40,7 +43,7 @@ final class JurusanController extends Controller {
       ->with('sukses', 'Berhasil menambahkan jurusan baru');
   }
 
-  public function show($id) {
+  public function show($id): JsonResponse {
     $data = collect(DB::select('SELECT * FROM jurusan WHERE id_jurusan = :kode_jurusan', [
       'kode_jurusan' => $id
     ]))->first();
@@ -48,7 +51,7 @@ final class JurusanController extends Controller {
     return response()->json($data);
   }
 
-  public function update(Request $request, $id) {
+  public function update(Request $request, $id): RedirectResponse {
     $request->validate([
       'kode_jurusan' => ['required'],
       'nama_jurusan' => ['required'],

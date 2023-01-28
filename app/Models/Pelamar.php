@@ -67,7 +67,7 @@ class Pelamar extends Model {
     return $this->hasMany(NotifikasiSeleksi::class, 'id_pelamar', 'id_pelamar');
   }
 
-  public function getRouteKeyName() {
+  public function getRouteKeyName(): string {
     return 'id_pelamar';
   }
 }

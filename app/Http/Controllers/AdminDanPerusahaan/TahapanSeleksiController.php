@@ -5,19 +5,21 @@ namespace App\Http\Controllers\AdminDanPerusahaan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\Tahapan\StoreTahapanSeleksiRequest;
 use App\Models\{LowonganKerja, TahapanSeleksi};
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{Auth, Gate};
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class TahapanSeleksiController extends Controller {
   private string $tahapanSeleksiMainRoute = 'tahapan.seleksi.detail_lowongan';
 
-  public function create(LowonganKerja $lowonganKerja) {
+  public function create(LowonganKerja $lowonganKerja): View {
     $urutanTahapanTerakhir = $lowonganKerja->tahapan_seleksi()->max('urutan_tahapan_ke') + 1;
 
     return view('seleksi.tahapan.create', compact('lowonganKerja', 'urutanTahapanTerakhir'));
   }
 
-  public function store(StoreTahapanSeleksiRequest $request, LowonganKerja $lowonganKerja) {
+  public function store(StoreTahapanSeleksiRequest $request, LowonganKerja $lowonganKerja): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
       $lowonganKerja->tahapan_seleksi()->create($validatedData);
@@ -39,15 +41,19 @@ final class TahapanSeleksiController extends Controller {
     }
   }
 
-  public function jobDetail(LowonganKerja $lowonganKerja) {
+  public function jobDetail(LowonganKerja $lowonganKerja): View {
     return view('seleksi.tahapan.job_detail', compact('lowonganKerja'));
   }
 
-  public function edit(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
+  public function edit(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi): View {
     return view('seleksi.tahapan.edit', compact('lowonganKerja', 'tahapanSeleksi'));
   }
 
-  public function update(StoreTahapanSeleksiRequest $request, LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
+  public function update(
+    StoreTahapanSeleksiRequest $request,
+    LowonganKerja $lowonganKerja,
+    TahapanSeleksi $tahapanSeleksi
+  ): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
       $existsUrutanTahapan = $lowonganKerja
@@ -79,7 +85,7 @@ final class TahapanSeleksiController extends Controller {
     }
   }
 
-  public function destroy(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi) {
+  public function destroy(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi): RedirectResponse {
     $lowonganKerja->tahapan_seleksi()->firstWhere('id_tahapan', $tahapanSeleksi->id_tahapan)->delete();
     $successMessage = "Berhasil menghapus tahapan seleksi untuk lowongan {$lowonganKerja->judul_lowongan}";
 

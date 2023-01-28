@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider {
    *
    * @return void
    */
-  public function boot() {
+  public function boot(): void {
     Gate::define(
       'admin',
       fn (User $user) => ($user->level_user->identifier === 'admin') || (Auth::user()->level_user->identifier === 'admin')

@@ -9,6 +9,8 @@ use App\Models\Dokumen;
 use App\Models\PendaftaranLowongan;
 use App\Models\PenilaianSeleksi;
 use App\Models\TahapanSeleksi;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -18,7 +20,7 @@ final class PenilaianSeleksiController extends Controller {
     return $pendaftaranLowongan->id_pendaftaran;
   }
 
-  public function index() {
+  public function index(): View {
     $pendaftaranLowongan = null;
     $jenisDokumen = Dokumen::all();
 
@@ -40,14 +42,14 @@ final class PenilaianSeleksiController extends Controller {
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }
 
-  public function jobApplicationDetails(PendaftaranLowongan $pendaftaranLowongan) {
+  public function jobApplicationDetails(PendaftaranLowongan $pendaftaranLowongan): View {
     $dataPelamar = UserHelper::getApplicantData($pendaftaranLowongan->pelamar);
     $namaPelamar = $dataPelamar->nama_lengkap;
 
     return view('seleksi.penilaian.job_application_details', compact('pendaftaranLowongan', 'namaPelamar', 'dataPelamar'));
   }
 
-  public function passApplicants(PendaftaranLowongan $pendaftaranLowongan) {
+  public function passApplicants(PendaftaranLowongan $pendaftaranLowongan): RedirectResponse {
     try {
       $pendaftaranLowongan->update(['status_seleksi' => 'Lulus']);
       $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
@@ -60,7 +62,7 @@ final class PenilaianSeleksiController extends Controller {
     }
   }
 
-  public function create(PendaftaranLowongan $pendaftaranLowongan, TahapanSeleksi $tahapanSeleksi) {
+  public function create(PendaftaranLowongan $pendaftaranLowongan, TahapanSeleksi $tahapanSeleksi): View {
     $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
 
     return view('seleksi.penilaian.create', compact('pendaftaranLowongan', 'namaPelamar', 'tahapanSeleksi'));
@@ -70,7 +72,7 @@ final class PenilaianSeleksiController extends Controller {
     StorePenilaianSeleksiRequest $request,
     PendaftaranLowongan $pendaftaranLowongan,
     TahapanSeleksi $tahapanSeleksi
-  ) {
+  ): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
       $validatedData['id_pelamar'] = $pendaftaranLowongan->pelamar->id_pelamar;
@@ -99,7 +101,7 @@ final class PenilaianSeleksiController extends Controller {
     PendaftaranLowongan $pendaftaranLowongan,
     TahapanSeleksi $tahapanSeleksi,
     PenilaianSeleksi $penilaianSeleksi
-  ) {
+  ): View {
     $namaPelamar = UserHelper::getApplicantName($pendaftaranLowongan->pelamar);
     return view('seleksi.penilaian.edit', compact('pendaftaranLowongan', 'tahapanSeleksi', 'penilaianSeleksi', 'namaPelamar'));
   }
@@ -109,7 +111,7 @@ final class PenilaianSeleksiController extends Controller {
     PendaftaranLowongan $pendaftaranLowongan,
     TahapanSeleksi $tahapanSeleksi,
     PenilaianSeleksi $penilaianSeleksi
-  ) {
+  ): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
       $penilaianSeleksi->update($validatedData);

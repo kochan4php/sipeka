@@ -7,11 +7,13 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\LowonganKerja;
 use App\Models\PendaftaranLowongan;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class LowonganKerjaController extends Controller {
-  public function show(LowonganKerja $lowonganKerja) {
+  public function show(LowonganKerja $lowonganKerja): View {
     $lowongan = LowonganKerja::where('slug', '!=', $lowonganKerja->slug)->inRandomOrder()->limit(10)->get();
     $registeredApplicantId = PendaftaranLowongan::firstWhere([
       'id_pelamar' => UserHelper::getApplicantData(Auth::user()->pelamar)->pelamar->id_pelamar,
@@ -21,7 +23,7 @@ final class LowonganKerjaController extends Controller {
     return view('lowongan', compact('lowonganKerja', 'lowongan', 'registeredApplicantId'));
   }
 
-  public function applyJob(Request $request, LowonganKerja $lowonganKerja) {
+  public function applyJob(Request $request, LowonganKerja $lowonganKerja): RedirectResponse {
     $request->validate([
       'surat_lamaran_kerja' => ['required', 'mimes:pdf,doc,docx', 'max:2048'],
       'applicant_promotion' => ['nullable']

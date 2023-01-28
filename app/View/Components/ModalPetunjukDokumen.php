@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class ModalPetunjukDokumen extends Component {
@@ -19,7 +20,7 @@ class ModalPetunjukDokumen extends Component {
 	 *
 	 * @return \Illuminate\Contracts\View\View|\Closure|string
 	 */
-	public function render() {
+	public function render(): View {
 		return view('components.modal-petunjuk-dokumen');
 	}
 }

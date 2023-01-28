@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
 final class MainController extends Controller {
-  public function __invoke() {
+  public function __invoke(): View {
     $jumlah_pengguna = collect(DB::select("SELECT * FROM jumlah_pengguna"))
       ->firstOrFail()
       ->jumlah_pengguna;

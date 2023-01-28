@@ -55,7 +55,7 @@ class PendaftaranLowongan extends Model {
     return $this->hasMany(PenilaianSeleksi::class, 'id_pendaftaran', 'id_pendaftaran');
   }
 
-  public function getRouteKeyName() {
+  public function getRouteKeyName(): string {
     return 'id_pendaftaran';
   }
 }

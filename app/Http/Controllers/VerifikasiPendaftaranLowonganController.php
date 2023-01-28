@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\UserHelper;
 use App\Models\PendaftaranLowongan;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 final class VerifikasiPendaftaranLowonganController extends Controller {
-  public function verification(Request $request, PendaftaranLowongan $pendaftaranLowongan) {
+  public function verification(Request $request, PendaftaranLowongan $pendaftaranLowongan): RedirectResponse {
     try {
       $verification = $request->boolean('verification');
       $pendaftaranLowongan->update(['verifikasi' => $verification]);

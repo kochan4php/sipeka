@@ -25,6 +25,10 @@ return new class extends Migration {
       $table->text('alamat_tempat_tinggal')->nullable()->default(null);
       $table->string('foto')->nullable()->default(null);
       $table->boolean('is_active')->nullable()->default(true);
+      $table
+        ->enum('status_kegiatan', ['Mahasiswa', 'Bekerja', 'Wirausaha', 'Belum Memiliki Kegiatan'])
+        ->nullable()
+        ->default(null);
 
       // Foreign key untuk id_pelamar
       $table

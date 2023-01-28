@@ -22,7 +22,7 @@ class StorePenilaianSeleksiRequest extends FormRequest {
    *
    * @return array<string, mixed>
    */
-  public function rules() {
+  public function rules(): array {
     return [
       'nilai' => ['required', 'numeric', 'min:1', 'max:100'],
       'keterangan' => ['required'],

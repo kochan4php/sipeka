@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
 use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowongan};
 use App\Traits\HasMainRoute;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{Auth, Gate};
 use Illuminate\Support\ItemNotFoundException;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -18,7 +20,7 @@ final class LowonganKerjaController extends Controller {
     $this->setMainRoute('lowongankerja.index');
   }
 
-  public function index() {
+  public function index(): View {
     $lowongan = null;
 
     if (Gate::check('admin')) {
@@ -34,7 +36,7 @@ final class LowonganKerjaController extends Controller {
     return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan'));
   }
 
-  public function create() {
+  public function create(): View {
     $perusahaan = null;
     $jenisPekerjaan = JenisPekerjaan::all();
 
@@ -45,7 +47,7 @@ final class LowonganKerjaController extends Controller {
     return view('lowongankerja.tambah', compact('perusahaan', 'jenisPekerjaan'));
   }
 
-  public function store(StoreLowonganKerjaRequest $request) {
+  public function store(StoreLowonganKerjaRequest $request): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
       $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
@@ -69,7 +71,7 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function show(LowonganKerja $lowonganKerja) {
+  public function show(LowonganKerja $lowonganKerja): View|RedirectResponse {
     try {
       return view('lowongankerja.detail', compact('lowonganKerja'));
     } catch (ItemNotFoundException) {
@@ -77,7 +79,7 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function edit(LowonganKerja $lowonganKerja) {
+  public function edit(LowonganKerja $lowonganKerja): View|RedirectResponse {
     try {
       $lowongan = null;
       $perusahaan = null;
@@ -95,7 +97,7 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function update(StoreLowonganKerjaRequest $request, LowonganKerja $lowonganKerja) {
+  public function update(StoreLowonganKerjaRequest $request, LowonganKerja $lowonganKerja): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
 
@@ -116,7 +118,7 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function nonActive(LowonganKerja $lowonganKerja) {
+  public function nonActive(LowonganKerja $lowonganKerja): RedirectResponse {
     try {
       $lowonganKerja->update(['active' => false]);
       notify()->success('Berhasil menonaktifkan lowongan', 'Notifikasi');

@@ -38,7 +38,7 @@ class Dokumen extends Model {
     return $this->hasMany(DokumenPengguna::class, 'id_jenis_dokumen', 'id_jenis_dokumen');
   }
 
-  public function getRouteKeyName() {
+  public function getRouteKeyName(): string {
     return 'id_jenis_dokumen';
   }
 }

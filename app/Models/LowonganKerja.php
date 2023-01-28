@@ -56,7 +56,7 @@ class LowonganKerja extends Model {
     return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
   }
 
-  public function getRouteKeyName() {
+  public function getRouteKeyName(): string {
     return 'slug';
   }
 }

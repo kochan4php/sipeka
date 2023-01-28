@@ -7,10 +7,11 @@ use App\Models\User;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreMitraPerusahaanRequest;
-use App\Models\Kantor;
 use App\Models\LevelUser;
 use App\Models\MitraPerusahaan;
 use App\Traits\HasCity;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Illuminate\Support\Facades\{DB, Hash};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -51,7 +52,7 @@ final class MitraPerusahaanController extends Controller {
     return Helper::generateUniqueUsername('PRSHN', 5, $name);
   }
 
-  public function getAllMitraData() {
+  public function getAllMitraData(): View {
     $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
       ->allowedFilters('nama_perusahaan')
       ->allowedSorts('id')
@@ -61,14 +62,14 @@ final class MitraPerusahaanController extends Controller {
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }
 
-  public function createOneMitraData() {
+  public function createOneMitraData(): View {
     return view('admin.pengguna.perusahaan.tambah', [
       'kategori' => $this->kategori,
       'kota' => $this->city
     ]);
   }
 
-  public function storeOneMitraData(StoreMitraPerusahaanRequest $request) {
+  public function storeOneMitraData(StoreMitraPerusahaanRequest $request): RedirectResponse {
     try {
       $kantor = null;
 
@@ -122,7 +123,7 @@ final class MitraPerusahaanController extends Controller {
     }
   }
 
-  public function getDetailOneMitraDataByUsername(string $username) {
+  public function getDetailOneMitraDataByUsername(string $username): View|RedirectResponse {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
 
@@ -134,7 +135,7 @@ final class MitraPerusahaanController extends Controller {
     }
   }
 
-  public function editOneMitraData(string $username) {
+  public function editOneMitraData(string $username): View|RedirectResponse {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
 
@@ -150,7 +151,7 @@ final class MitraPerusahaanController extends Controller {
     }
   }
 
-  public function updateOneMitraData(StoreMitraPerusahaanRequest $request, string $username) {
+  public function updateOneMitraData(StoreMitraPerusahaanRequest $request, string $username): RedirectResponse {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       $mitra = $request->validatedDataPerusahaan();
@@ -204,7 +205,7 @@ final class MitraPerusahaanController extends Controller {
     }
   }
 
-  public function deleteOneMitraData(string $username) {
+  public function deleteOneMitraData(string $username): RedirectResponse {
     try {
       $perusahaan = $this->getOnePerusahaanByUsername($username);
       User::whereUsername($perusahaan->username)->delete();

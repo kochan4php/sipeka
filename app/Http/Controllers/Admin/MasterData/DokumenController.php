@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\MasterData\StoreDokumenRequest;
 use App\Models\Dokumen;
 use App\Traits\HasMainRoute;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\{JsonResponse, RedirectResponse};
+use Illuminate\Support\Facades\{DB, Session};
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class DokumenController extends Controller {
@@ -19,7 +20,7 @@ final class DokumenController extends Controller {
       ->new_kode_jenis_dokumen;
   }
 
-  public function index() {
+  public function index(): View {
     $kodeBaru = $this->generateKodeDokumenBaru();
     $dokumen = QueryBuilder::for(Dokumen::class)
       ->allowedFilters('angkatan_tahun')
@@ -28,7 +29,7 @@ final class DokumenController extends Controller {
     return view('admin.masterdata.dokumen.index', compact('dokumen', 'kodeBaru'));
   }
 
-  public function store(StoreDokumenRequest $request) {
+  public function store(StoreDokumenRequest $request): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
 
@@ -41,7 +42,7 @@ final class DokumenController extends Controller {
     }
   }
 
-  public function show(Dokumen $dokumen) {
+  public function show(Dokumen $dokumen): JsonResponse|RedirectResponse {
     try {
       return response()->json($dokumen);
     } catch (\Exception $e) {
@@ -49,7 +50,7 @@ final class DokumenController extends Controller {
     }
   }
 
-  public function update(StoreDokumenRequest $request, Dokumen $dokumen) {
+  public function update(StoreDokumenRequest $request, Dokumen $dokumen): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
 

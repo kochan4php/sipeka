@@ -6,18 +6,20 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Dokumen;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class DokumenController extends Controller {
-  public function index() {
+  public function index(): View {
     $dokumen = Auth::user()->pelamar->dokumen;
     $jenisDokumen = Dokumen::all();
 
     return view('pelamar.dokumen', compact('dokumen', 'jenisDokumen'));
   }
 
-  public function store(Request $request, User $username, Dokumen $dokumen) {
+  public function store(Request $request, User $username, Dokumen $dokumen): RedirectResponse {
     try {
       $existsDocument = Auth::user()
         ->pelamar

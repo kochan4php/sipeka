@@ -8,6 +8,8 @@ use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
 use App\Models\Masyarakat;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{ItemNotFoundException, Collection};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -31,7 +33,7 @@ final class MasyarakatController extends Controller {
     return Helper::generateUniqueUsername('KDT', 5, $name);
   }
 
-  public function getAllCandidateDataFromOutsideSchool() {
+  public function getAllCandidateDataFromOutsideSchool(): View {
     $masyarakat = QueryBuilder::for(Masyarakat::class)
       ->allowedFilters('nama_lengkap')
       ->allowedSorts('id')
@@ -41,11 +43,11 @@ final class MasyarakatController extends Controller {
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }
 
-  public function createOneCandidateDataFromOutsideSchool() {
+  public function createOneCandidateDataFromOutsideSchool(): View {
     return view('admin.pengguna.masyarakat.tambah');
   }
 
-  public function storeOneCandidateDataFromOutsideSchool(StorePersonRequest $request) {
+  public function storeOneCandidateDataFromOutsideSchool(StorePersonRequest $request): RedirectResponse {
     try {
       $validatedData = $request->validatedDataPerson();
       $validatedData['username'] = $this->generateKandidatUsername($validatedData['nama']);
@@ -73,7 +75,7 @@ final class MasyarakatController extends Controller {
     }
   }
 
-  public function getDetailOneCandidateDataFromOutsideSchoolByUsername(string $username) {
+  public function getDetailOneCandidateDataFromOutsideSchoolByUsername(string $username): View|RedirectResponse {
     try {
       $orang = $this->getOnePersonByUsername($username);
 
@@ -85,7 +87,7 @@ final class MasyarakatController extends Controller {
     }
   }
 
-  public function editOneCandidateDataFromOutsideSchool(string $username) {
+  public function editOneCandidateDataFromOutsideSchool(string $username): View|RedirectResponse {
     try {
       $orang = $this->getOnePersonByUsername($username);
 
@@ -97,7 +99,7 @@ final class MasyarakatController extends Controller {
     }
   }
 
-  public function updateOneCandidateDataFromOutsideSchool(StorePersonRequest $request, string $username) {
+  public function updateOneCandidateDataFromOutsideSchool(StorePersonRequest $request, string $username): RedirectResponse {
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedDataPerson();
@@ -131,7 +133,7 @@ final class MasyarakatController extends Controller {
     }
   }
 
-  public function deleteOneCandidateDataFromOutsideSchool(string $username) {
+  public function deleteOneCandidateDataFromOutsideSchool(string $username): RedirectResponse {
     try {
       $orang = $this->getOnePersonByUsername($username);
       User::whereUsername($orang->username)->delete();

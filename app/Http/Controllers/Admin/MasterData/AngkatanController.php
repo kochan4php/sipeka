@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin\MasterData;
 
 use App\Http\Controllers\Controller;
 use App\Models\Angkatan;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\{JsonResponse, RedirectResponse, Request};
 use Illuminate\Support\Facades\Session;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class AngkatanController extends Controller {
-  public function index() {
+  public function index(): View {
     $angkatan = QueryBuilder::for(Angkatan::class)
       ->allowedFilters('angkatan_tahun')
       ->get();
@@ -18,7 +18,7 @@ final class AngkatanController extends Controller {
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
 
-  public function store(Request $request) {
+  public function store(Request $request): RedirectResponse {
     try {
       $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
       $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
@@ -32,7 +32,7 @@ final class AngkatanController extends Controller {
     }
   }
 
-  public function show(Angkatan $angkatan) {
+  public function show(Angkatan $angkatan): JsonResponse|RedirectResponse {
     try {
       return response()->json($angkatan);
     } catch (\Exception $e) {
@@ -40,7 +40,7 @@ final class AngkatanController extends Controller {
     }
   }
 
-  public function update(Request $request, Angkatan $angkatan) {
+  public function update(Request $request, Angkatan $angkatan): RedirectResponse {
     try {
       $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
       $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);

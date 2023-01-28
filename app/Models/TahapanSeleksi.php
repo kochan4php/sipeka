@@ -46,7 +46,7 @@ class TahapanSeleksi extends Model {
     return $this->hasMany(PenilaianSeleksi::class, 'id_tahapan', 'id_tahapan');
   }
 
-  public function getRouteKeyName() {
+  public function getRouteKeyName(): string {
     return 'id_tahapan';
   }
 }

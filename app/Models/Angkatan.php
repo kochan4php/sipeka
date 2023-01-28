@@ -38,7 +38,7 @@ class Angkatan extends Model {
     return $this->hasMany(SiswaAlumni::class, 'id_angkatan', 'id_angkatan');
   }
 
-  public function getRouteKeyName() {
+  public function getRouteKeyName(): string {
     return 'id_angkatan';
   }
 }

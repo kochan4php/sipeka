@@ -36,7 +36,7 @@ class NotifikasiSeleksi extends Model {
 		return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
 	}
 
-	public function getRouteKeyName() {
+	public function getRouteKeyName(): string {
 		return 'id_notifikasi_seleksi';
 	}
 }
