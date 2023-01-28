@@ -221,6 +221,10 @@ Route::prefix('/sipeka')->group(function () {
         Route::controller(AMPLowonganKerjaController::class)->group(function () {
           Route::get('/', 'index')
             ->name('lowongankerja.index');
+          Route::get('/need-approve', 'jobVacanciesThatRequireApproval')
+            ->name('lowongankerja.jobVacanciesThatRequireApproval');
+          Route::post('/need-approve/{lowongan_kerja}', 'jobVacanciesThatRequireApproval')
+            ->name('lowongankerja.jobVacanciesThatRequireApproval.store');
           Route::get('/tambah', 'create')
             ->name('lowongankerja.create');
           Route::post('/', 'store')

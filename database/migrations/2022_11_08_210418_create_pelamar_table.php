@@ -20,8 +20,7 @@ return new class extends Migration {
         ->foreign('id_user')
         ->references('id_user')
         ->on('users')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

@@ -19,15 +19,13 @@ return new class extends Migration {
       $table
         ->foreignUuid('id_tahapan')
         ->constrained('tahapan_seleksi', 'id_tahapan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
 
       // Foreign key untuk id_pendaftaran
       $table
         ->foreignUuid('id_pendaftaran')
         ->constrained('pendaftaran_lowongan', 'id_pendaftaran')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
 
       $table->tinyInteger('nilai');
       $table->enum('keterangan', ['Lulus', 'Gagal']);
@@ -38,8 +36,7 @@ return new class extends Migration {
         ->foreign('id_pelamar')
         ->references('id_pelamar')
         ->on('pelamar')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

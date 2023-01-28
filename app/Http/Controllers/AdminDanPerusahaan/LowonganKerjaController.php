@@ -9,6 +9,7 @@ use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowon
 use App\Traits\HasMainRoute;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Gate};
 use Illuminate\Support\ItemNotFoundException;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -24,16 +25,22 @@ final class LowonganKerjaController extends Controller {
     $lowongan = null;
 
     if (Gate::check('admin')) {
+      $pendaftaranLowongan = PendaftaranLowongan::count();
+      $lowonganNeedApprove = LowonganKerja::where('is_approve', false)->count();
       $lowongan = QueryBuilder::for(LowonganKerja::class)
         ->allowedFilters('angkatan_tahun')
         ->with('perusahaan')
+        ->where('active', true)
+        ->where('is_approve', true)
         ->get();
-      $pendaftaranLowongan = PendaftaranLowongan::count();
+
+      return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
     } else if (Gate::check('perusahaan')) {
       $lowongan = Auth::user()->perusahaan->lowongan;
-    }
+      $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan->count();
 
-    return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan'));
+      return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan'));
+    }
   }
 
   public function create(): View {
@@ -68,6 +75,22 @@ final class LowonganKerjaController extends Controller {
       notify()->error($e->getMessage(), 'Notifikasi');
 
       return $this->redirectToMainRoute();
+    }
+  }
+
+  public function jobVacanciesThatRequireApproval(Request $request, LowonganKerja $lowonganKerja): View|RedirectResponse {
+    if ($request->method() === 'GET') {
+      $lowongan = LowonganKerja::with(['perusahaan'])->get([
+        'id_perusahaan',
+        'id_jenis_pekerjaan',
+        'judul_lowongan',
+        'posisi',
+        'active',
+        'slug',
+      ]);
+      return view('lowongankerja.jobVacanciesThatRequireApproval', compact('lowongan'));
+    } else if ($request->method() === 'POST') {
+      // 
     }
   }
 

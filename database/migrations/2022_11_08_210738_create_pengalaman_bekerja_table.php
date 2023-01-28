@@ -34,8 +34,7 @@ return new class extends Migration {
         ->foreign('id_jenis_pekerjaan')
         ->references('id_jenis_pekerjaan')
         ->on('jenis_pekerjaan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

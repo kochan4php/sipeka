@@ -3,7 +3,7 @@
 @section('container-dashboard')
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-2">
     <h1>Lowongan Kerja</h1>
-    <a href="{{ route('lowongankerja.create') }}" class="btn btn-primary">Tambah Lowongan Kerja</a>
+    <a href="{{ route('lowongankerja.create') }}" class="btn btn-primary custom-btn">Tambah Lowongan Kerja</a>
   </div>
 
   @can('admin')
@@ -19,15 +19,19 @@
           <h4>Selengkapnya</h4>
         </a>
       </x-card-admin>
-      <x-card-admin bgcolor="text-bg-indigo">
+      <x-card-admin bgcolor="text-bg-info">
         @slot('data')
           <div class="d-flex justify-content-between align-items-center">
             <span class="fs-3 fw-medium">Setujui Lowongan Kerja</span>
             <span><i class="fa-solid fa-clipboard-check" style="font-size: 3rem"></i></span>
           </div>
         @endslot
-        <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-white">
+        <a href="{{ route('lowongankerja.jobVacanciesThatRequireApproval') }}"
+          class="text-decoration-none stretched-link text-dark d-flex gap-2 align-items-center">
           <h4>Selengkapnya</h4>
+          @if ($lowonganNeedApprove > 0)
+            <box-icon name="bell" type="solid" color="red"></box-icon>
+          @endif
         </a>
       </x-card-admin>
     </div>

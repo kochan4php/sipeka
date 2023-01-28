@@ -89,8 +89,8 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('lowongankerja.index') }}" class="btn btn-danger">Batal</a>
+                <button type="submit" class="custom-btn btn btn-primary">Simpan</button>
+                <a href="{{ route('lowongankerja.index') }}" class="custom-btn btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

@@ -35,24 +35,21 @@ return new class extends Migration {
         ->foreign('id_pelamar')
         ->references('id_pelamar')
         ->on('pelamar')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
 
       // Foreign key untuk id_angkatan
       $table
         ->foreign('id_angkatan')
         ->references('id_angkatan')
         ->on('angkatan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
 
       // Foreign key untuk id_jurusan
       $table
         ->foreign('id_jurusan')
         ->references('id_jurusan')
         ->on('jurusan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

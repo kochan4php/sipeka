@@ -36,6 +36,7 @@ class TahapanSeleksi extends Model {
     'judul_tahapan',
     'ket_tahapan',
     'urutan_tahapan_ke',
+    'tanggal_dimulai'
   ];
 
   public function lowongan(): BelongsTo {

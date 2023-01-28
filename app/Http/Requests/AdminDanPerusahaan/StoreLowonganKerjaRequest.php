@@ -15,6 +15,7 @@ class StoreLowonganKerjaRequest extends FormRequest {
     'deskripsi_lowongan',
     'tanggal_berakhir',
     'slug',
+    'lokasi_kerja'
   ];
 
   /**
@@ -38,7 +39,8 @@ class StoreLowonganKerjaRequest extends FormRequest {
       'estimasi_gaji' => ['required', 'min:6', 'max:255'],
       'id_jenis_pekerjaan' => ['required'],
       'deskripsi_lowongan' => ['required'],
-      'tanggal_berakhir' => ['required']
+      'tanggal_berakhir' => ['required'],
+      'lokasi_kerja' => ['required']
     ];
   }
 

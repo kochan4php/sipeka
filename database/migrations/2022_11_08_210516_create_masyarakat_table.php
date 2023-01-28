@@ -28,8 +28,7 @@ return new class extends Migration {
         ->foreign('id_pelamar')
         ->references('id_pelamar')
         ->on('pelamar')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

@@ -35,7 +35,8 @@ class LowonganKerja extends Model {
     'tanggal_berakhir',
     'slug',
     'is_approve',
-    'active'
+    'active',
+    'lokasi_kerja'
   ];
 
   protected function createdAt(): Attribute {

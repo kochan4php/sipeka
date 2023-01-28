@@ -66,6 +66,23 @@
                 </select>
               </div>
             </div>
+            @can('perusahaan')
+              <div class="mb-3 row">
+                <label for="lokasi_kerja" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                  {{ __('Lokasi Kerja') }}
+                </label>
+                <div class="col-sm-8">
+                  <select name="lokasi_kerja" id="lokasi_kerja" class="form-select" required>
+                    <option selected disabled hidden>-- Pilih Lokasi Kerja --</option>
+                    @foreach (Auth::user()->perusahaan->kantor as $item)
+                      <option value="{{ $item->id_kantor }}">
+                        {{ $item->alamat_kantor }}
+                      </option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            @endcan
             @can('admin')
               <div class="mb-3 row">
                 <label for="id_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
@@ -112,8 +129,8 @@
             <div class="row mb-3">
               <div class="col-sm-4"></div>
               <div class="col-sm-8 d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                <a href="{{ route('lowongankerja.index') }}" class="btn btn-danger">Batal</a>
+                <button type="submit" class="btn custom-btn btn-primary">Tambah</button>
+                <a href="{{ route('lowongankerja.index') }}" class="btn custom-btn btn-danger">Batal</a>
               </div>
             </div>
           </form>

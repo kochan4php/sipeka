@@ -44,7 +44,7 @@
             @forelse ($pendaftaranLowongan as $item)
               @php
                 $namaPelamar = '';
-
+                
                 if (!is_null($item->pelamar->alumni)):
                     $namaPelamar = $item->pelamar->alumni->nama_lengkap;
                 else:
@@ -152,8 +152,8 @@
               </tr>
             @empty
               <tr>
-                <td colspan="7" class="text-nowrap text-center vertical-align-middle custom-font">
-                  Belum ada pelamar yang melamar lowongan saat ini.
+                <td colspan="9" class="text-center">
+                  <x-svg-empty-icon />
                 </td>
               </tr>
             @endforelse

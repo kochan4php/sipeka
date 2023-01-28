@@ -25,21 +25,24 @@ return new class extends Migration {
       $table->boolean('active')->nullable()->default(true);
       $table->timestamps();
 
+      $table
+        ->foreignUuid('lokasi_kerja')
+        ->constrained('kantor', 'id_kantor')
+        ->cascadeOnUpdate();
+
       // Foreign key untuk id_perusahaan
       $table
         ->foreign('id_perusahaan')
         ->references('id_perusahaan')
         ->on('mitra_perusahaan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
 
       // Foreign key untuk id_jenis_pekerjaan
       $table
         ->foreign('id_jenis_pekerjaan')
         ->references('id_jenis_pekerjaan')
         ->on('jenis_pekerjaan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

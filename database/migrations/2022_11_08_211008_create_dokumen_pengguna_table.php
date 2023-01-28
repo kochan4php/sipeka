@@ -30,8 +30,7 @@ return new class extends Migration {
         ->foreign('id_jenis_dokumen')
         ->references('id_jenis_dokumen')
         ->on('dokumen')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

@@ -24,8 +24,7 @@ return new class extends Migration {
         ->foreign('id_level')
         ->references('id_level')
         ->on('level_user')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 
