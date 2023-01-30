@@ -17,6 +17,11 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->judul_lowongan) }}</td>
                   </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Posisi') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->posisi) }}</td>
+                  </tr>
                   @can('admin')
                     <tr>
                       <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Perusahaan') }}</td>
@@ -25,20 +30,14 @@
                     </tr>
                   @endcan
                   <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Estimasi Gaji') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->estimasi_gaji) }}</td>
+                  </tr>
+                  <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Deskripsi Lowongan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->deskripsi_lowongan) }}</td>
-                  </tr>
-                  <tr>
-                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Dimulai') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($lowonganKerja->tanggal_dimulai))
-                        {{ __('Data tanggal dimulai tidak ada') }}
-                      @else
-                        {{ \Carbon\Carbon::parse($lowonganKerja->tanggal_dimulai)->format('d M Y') }}
-                      @endif
-                    </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Berakhir') }}</td>
@@ -50,6 +49,11 @@
                         {{ \Carbon\Carbon::parse($lowonganKerja->tanggal_berakhir)->format('d M Y') }}
                       @endif
                     </td>
+                  </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Lokasi Kerja') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->lokasi_kerja) }}</td>
                   </tr>
                 </tbody>
               </table>

@@ -1,3 +1,7 @@
+body {
+  font-family: "Nunito", Arial, Helvetica, sans-serif !important;
+}
+
 *::selection {
   background-color: rgb(255, 145, 163);
   color: #ae0046;

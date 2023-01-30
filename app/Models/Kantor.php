@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kantor extends Model {
   use HasFactory, HasUuids;
@@ -33,6 +34,10 @@ class Kantor extends Model {
 
   public function perusahaan(): BelongsTo {
     return $this->belongsTo(MitraPerusahaan::class, 'id_perusahaan', 'id_perusahaan');
+  }
+
+  public function lowongan(): HasMany {
+    return $this->hasMany(LowonganKerja::class, 'lokasi_kerja', 'id_kantor');
   }
 
   public function getRouteKeyName(): string {

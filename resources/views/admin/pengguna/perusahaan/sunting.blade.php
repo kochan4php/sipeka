@@ -118,11 +118,8 @@
 @endsection
 
 @push('script')
+  <script type="text/javascript" src="{{ asset('assets/js/ckeditor_init.js') }}"></script>
   <script>
-    const deskripsi = document.getElementById("deskripsi_perusahaan");
-    CKEDITOR.replace(deskripsi, {
-      language: 'en-gb'
-    });
-    CKEDITOR.config.allowedContent = true;
+    CKEDITOR_INIT('deskripsi_perusahaan');
   </script>
 @endpush

@@ -84,16 +84,17 @@
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('kantor.detail', $item->id_kantor) }}" class="btn custom-btn btn-success">
+                    <a href="{{ route('kantor.detail', $item->id_kantor) }}"
+                      class="btn custom-btn btn-success btn-detail">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ route('kantor.edit', $item->id_kantor) }}" class="btn custom-btn btn-warning">
+                    <a href="{{ route('kantor.edit', $item->id_kantor) }}" class="btn custom-btn btn-warning btn-edit">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
                     <form action="{{ route('kantor.delete', $item->id_kantor) }}" method="post">
                       @csrf
                       @method('delete')
-                      <button type="submit" class="btn custom-btn btn-danger">
+                      <button type="submit" class="btn custom-btn btn-danger btn-delete">
                         <span><i class="fa-solid fa-trash fa-lg"></i></span>
                       </button>
                     </form>
@@ -113,3 +114,12 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    tippy('.btn-delete', {
+      content: 'Hapus data kantor',
+      placement: 'left'
+    });
+  </script>
+@endpush

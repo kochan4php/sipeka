@@ -87,7 +87,7 @@
                 </td>
                 @can('admin')
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ __("{$item->perusahaan->jenis_perusahaan}. {$item->perusahaan->nama_perusahaan}") }}
+                    {{ $item->perusahaan->nama_perusahaan }}
                   </td>
                 @endcan
                 <td class="text-nowrap text-center vertical-align-middle custom-font">

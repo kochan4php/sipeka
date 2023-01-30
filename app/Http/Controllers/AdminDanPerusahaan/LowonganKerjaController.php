@@ -8,6 +8,7 @@ use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
 use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowongan};
 use App\Traits\HasMainRoute;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Gate};
@@ -21,23 +22,32 @@ final class LowonganKerjaController extends Controller {
     $this->setMainRoute('lowongankerja.index');
   }
 
+  public function getKantorJSONFormat(MitraPerusahaan $mitra): JsonResponse {
+    return new JsonResponse($mitra->kantor);
+  }
+
   public function index(): View {
     $lowongan = null;
 
     if (Gate::check('admin')) {
       $pendaftaranLowongan = PendaftaranLowongan::count();
-      $lowonganNeedApprove = LowonganKerja::where('is_approve', false)->count();
+      $lowonganNeedApprove = LowonganKerja::whereNull('is_approve')->count();
       $lowongan = QueryBuilder::for(LowonganKerja::class)
         ->allowedFilters('angkatan_tahun')
         ->with('perusahaan')
-        ->where('active', true)
         ->where('is_approve', true)
+        ->where('active', true)
         ->get();
 
       return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
     } else if (Gate::check('perusahaan')) {
-      $lowongan = Auth::user()->perusahaan->lowongan;
       $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan->count();
+      $lowongan = Auth::user()
+        ->perusahaan
+        ->lowongan()
+        ->where('is_approve', true)
+        ->where('active', true)
+        ->get();
 
       return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan'));
     }
@@ -78,9 +88,10 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function jobVacanciesThatRequireApproval(Request $request, LowonganKerja $lowonganKerja): View|RedirectResponse {
-    if ($request->method() === 'GET') {
-      $lowongan = LowonganKerja::with(['perusahaan'])->get([
+  public function jobVacanciesThatRequireApproval(Request $request): View {
+    $lowongan = LowonganKerja::with(['perusahaan'])
+      ->where('is_approve', null)
+      ->get([
         'id_perusahaan',
         'id_jenis_pekerjaan',
         'judul_lowongan',
@@ -88,10 +99,24 @@ final class LowonganKerjaController extends Controller {
         'active',
         'slug',
       ]);
-      return view('lowongankerja.jobVacanciesThatRequireApproval', compact('lowongan'));
-    } else if ($request->method() === 'POST') {
-      // 
-    }
+
+    return view('lowongankerja.jobVacanciesThatRequireApproval', compact('lowongan'));
+  }
+
+  public function approveJobVancancies(LowonganKerja $lowonganKerja): RedirectResponse {
+    $lowonganKerja->update(['is_approve' => true]);
+
+    notify()->success("Berhasil mensetujui lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
+
+    return to_route('lowongankerja.index');
+  }
+
+  public function rejectJobVancancies(LowonganKerja $lowonganKerja): RedirectResponse {
+    $lowonganKerja->update(['is_approve' => false]);
+
+    notify()->success("Berhasil menolak lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
+
+    return to_route('lowongankerja.index');
   }
 
   public function show(LowonganKerja $lowonganKerja): View|RedirectResponse {
@@ -106,6 +131,7 @@ final class LowonganKerjaController extends Controller {
     try {
       $lowongan = null;
       $perusahaan = null;
+      $jenisPekerjaan = JenisPekerjaan::all();
 
       if (Gate::check('perusahaan')) {
         $lowongan = Auth::user()->perusahaan->lowongan->firstWhere('id_lowongan', $lowonganKerja->id_lowongan);
@@ -114,7 +140,7 @@ final class LowonganKerjaController extends Controller {
         $perusahaan = MitraPerusahaan::all();
       }
 
-      return view('lowongankerja.sunting', compact('lowongan', 'perusahaan'));
+      return view('lowongankerja.sunting', compact('lowongan', 'perusahaan', 'jenisPekerjaan'));
     } catch (ItemNotFoundException) {
       return $this->redirectToMainRoute()->with('error', 'Data lowongan kerja tidak ditemukan');
     }

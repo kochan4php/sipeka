@@ -64,9 +64,13 @@
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('lowongankerja.detail', $item->slug) }}"
-                      class="btn btn-detail custom-btn btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                    <a href="{{ route('lowongankerja.rejectJobVancancies', $item->slug) }}"
+                      class="btn btn-detail custom-btn btn-danger btn-not-approve">
+                      <span><i class="fa-solid fa-x fa-lg"></i></span>
+                    </a>
+                    <a href="{{ route('lowongankerja.approveJobVancancies', $item->slug) }}"
+                      class="btn btn-detail custom-btn btn-success btn-lets-approve">
+                      <span><i class="fa-solid fa-check fa-lg"></i></span>
                     </a>
                   </div>
                 </td>
@@ -84,3 +88,16 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    tippy('.btn-not-approve', {
+      content: 'Tolak',
+      placement: 'left'
+    });
+    tippy('.btn-lets-approve', {
+      content: 'Setujui',
+      placement: 'left'
+    });
+  </script>
+@endpush

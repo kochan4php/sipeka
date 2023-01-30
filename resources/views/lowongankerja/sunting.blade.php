@@ -26,25 +26,75 @@
             @csrf
             @method('put')
             <div class="mb-3 row">
-              <label for="judul" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+              <label for="judul_lowongan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Judul Lowongan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="judul" name="judul_lowongan"
-                  placeholder="IT Consultant" required value="{{ $lowongan->judul_lowongan }}">
+                <input type="text" class="form-control" id="judul_lowongan" name="judul_lowongan"
+                  placeholder="IT Consultant" required value="{{ old('judul_lowongan', $lowongan->judul_lowongan) }}">
               </div>
             </div>
-            @can('admin')
+            <div class="mb-3 row">
+              <label for="posisi" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Posisi') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="posisi" name="posisi" placeholder="Programmer" required
+                  value="{{ old('posisi', $lowongan->posisi) }}">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="estimasi_gaji" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Estimasi Gaji') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="estimasi_gaji" name="estimasi_gaji"
+                  placeholder="Rp. 10.000.000" required value="{{ old('estimasi_gaji', $lowongan->estimasi_gaji) }}">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="id_jenis_pekerjaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Jenis Pekerjaan') }}
+              </label>
+              <div class="col-sm-8">
+                <select name="id_jenis_pekerjaan" id="id_jenis_pekerjaan" class="form-select id_jenis_pekerjaan" required>
+                  <option selected disabled hidden>-- Pilih jenis pekerjaan --</option>
+                  @foreach ($jenisPekerjaan as $item)
+                    <option value="{{ $item->id_jenis_pekerjaan }}" @selected($item->id_jenis_pekerjaan === $lowongan->id_jenis_pekerjaan)>
+                      {{ $item->nama_jenis_pekerjaan }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            @can('perusahaan')
               <div class="mb-3 row">
-                <label for="id_perusahaan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                  {{ __('Mitra Perusahaan') }}
+                <label for="lokasi_kerja" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                  {{ __('Lokasi Kerja') }}
                 </label>
                 <div class="col-sm-8">
-                  <select name="id_perusahaan" id="id_perusahaan" class="form-select" required>
-                    <option selected>-- Pilih Perusahaan --</option>
-                    @foreach ($perusahaan as $item)
-                      <option value="{{ $item->id_perusahaan }}" @if ($item->id_perusahaan === $lowongan->id_perusahaan) @selected(true) @endif>
-                        {{ $item->nama_perusahaan }}
+                  <select name="lokasi_kerja" id="lokasi_kerja" class="form-select" required>
+                    <option selected disabled hidden>-- Pilih Lokasi Kerja --</option>
+                    @foreach (Auth::user()->perusahaan->kantor as $item)
+                      <option value="{{ $item->id_kantor }}">
+                        {{ $item->alamat_kantor }}
+                      </option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            @endcan
+            @can('admin')
+              <div class="mb-3 row">
+                <label for="lokasi_kerja" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                  {{ __('Lokasi Kerja') }}
+                </label>
+                <div class="col-sm-8">
+                  <select name="lokasi_kerja" id="lokasi_kerja" class="form-select" required>
+                    <option hidden selected disabled>-- Pilih Lokasi Kerja --</option>
+                    @foreach ($lowongan->perusahaan->kantor as $item)
+                      <option value="{{ $item->id_kantor }}" @selected($item->id_kantor === $lowongan->kantor->id_kantor)>
+                        {{ __("{$item->alamat_kantor} - {$item->wilayah_kantor} - {$item->status_kantor}") }}
                       </option>
                     @endforeach
                   </select>
@@ -57,16 +107,9 @@
               </label>
               <div class="col-sm-8">
                 <textarea class="form-control" placeholder="Leave a comment here" id="deskripsi" name="deskripsi_lowongan"
-                  rows="5">{{ $lowongan->deskripsi_lowongan }}</textarea>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="tanggal_dimulai" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Tanggal Dimulai') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="date" class="form-control" id="tanggal_dimulai" name="tanggal_dimulai"
-                  placeholder="28/12/2022" value="{{ $lowongan->tanggal_dimulai }}">
+                  rows="5">
+                {{ old('deskripsi_lowongan', $lowongan->deskripsi_lowongan) }}
+                </textarea>
               </div>
             </div>
             <div class="mb-3 row">
@@ -75,7 +118,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="date" class="form-control" id="tanggal_berakhir" name="tanggal_berakhir"
-                  placeholder="28/12/2022" value="{{ $lowongan->tanggal_berakhir }}">
+                  placeholder="28/12/2022" value="{{ old('tanggal_berakhir', $lowongan->tanggal_berakhir) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -99,3 +142,12 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script type="text/javascript" src="{{ asset('assets/js/ckeditor_init.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/format_rupiah.js') }}"></script>
+  <script>
+    CKEDITOR_INIT('deskripsi');
+    formatRupiah('estimasi_gaji');
+  </script>
+@endpush

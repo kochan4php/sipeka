@@ -18,7 +18,7 @@ class LowonganKerja extends Model {
   // kasih tau primary key yang ada di tabel yang bersangkutan
   protected $primaryKey = 'id_lowongan';
 
-  protected $with = ['perusahaan'];
+  protected $with = ['perusahaan', 'kantor'];
 
   /**
    * The attributes that are mass assignable.
@@ -55,6 +55,10 @@ class LowonganKerja extends Model {
 
   public function pendaftaran_lowongan(): HasMany {
     return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
+  }
+
+  public function kantor(): BelongsTo {
+    return $this->belongsTo(Kantor::class, 'lokasi_kerja', 'id_kantor');
   }
 
   public function getRouteKeyName(): string {
