@@ -25,11 +25,7 @@ final class PenilaianSeleksiController extends Controller {
     $jenisDokumen = Dokumen::all();
 
     if (Gate::check('admin')) {
-      $pendaftaranLowongan = QueryBuilder::for(PendaftaranLowongan::class)
-        ->allowedFilters(['kode_pendaftaran', 'verifikasi', 'status_seleksi'])
-        ->where('verifikasi', 'Sudah')
-        ->latest()
-        ->get();
+      $pendaftaranLowongan = PendaftaranLowongan::isVerified()->get();
     } else if (Gate::check('perusahaan')) {
       $pendaftaranLowongan = Auth::user()
         ->perusahaan
@@ -38,6 +34,8 @@ final class PenilaianSeleksiController extends Controller {
         ->latest()
         ->get();
     }
+
+    dd($pendaftaranLowongan);
 
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }

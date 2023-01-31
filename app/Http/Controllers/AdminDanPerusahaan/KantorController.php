@@ -49,12 +49,12 @@ final class KantorController extends Controller {
 
     if (Gate::check('admin')) {
       $kantor = Kantor::with('perusahaan')->latest()->get();
-      return view('kantor.index', compact('kantor'));
     } else if (Gate::check('perusahaan')) {
       $dataMitra = Auth::user()->perusahaan;
       $kantor = $dataMitra->kantor()->latest()->get();
-      return view('kantor.index', compact('kantor', 'dataMitra'));
     }
+
+    return view('kantor.index', compact('kantor', 'dataMitra'));
   }
 
   public function getDetailOneKantorData(Kantor $kantor): View {

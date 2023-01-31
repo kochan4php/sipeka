@@ -7,18 +7,13 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
-class UserHelper extends AuthHelper {
-  public static function whoIsLoggedInNow(): string|RedirectResponse {
-    return parent::whoIsLoggedInNow();
-  }
-
+class UserHelper {
   public static function getApplicantName(Pelamar $pelamar): string {
     return $pelamar->alumni ? $pelamar->alumni->nama_lengkap : $pelamar->masyarakat->nama_lengkap;
   }
 
   public static function getAdminData(): ?object {
-    return (Auth::check() && is_null(Auth::user()?->perusahaan) && is_null(Auth::user()?->pelamar) && !is_null(Auth::user()?->admin))
-      ? Auth::user()?->admin : null;
+    return (Auth::check() && !is_null(Auth::user()->admin)) ? Auth::user()->admin : null;
   }
 
   public static function getCompanyData(User $user): object {

@@ -32,13 +32,13 @@ final class AuthenticatedController extends Controller {
 
       switch ($role) {
         case 'admin':
-          return redirect(route('admin.index'));
+          return to_route('admin.index');
           break;
         case 'perusahaan':
-          return redirect(route('perusahaan.index'));
+          return to_route('perusahaan.index');
           break;
         default:
-          return redirect(route('home'));
+          return to_route('home');
           break;
       }
     }

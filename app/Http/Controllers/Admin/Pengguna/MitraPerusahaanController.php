@@ -40,10 +40,6 @@ final class MitraPerusahaanController extends Controller {
     $this->setMainRoute('admin.perusahaan.index');
   }
 
-  private function getAllPerusahaan(): Collection {
-    return collect(DB::select('SELECT * FROM get_all_perusahaan'));
-  }
-
   private function getOnePerusahaanByUsername(string $username): object {
     return collect(DB::select('CALL get_one_perusahaan_by_username(?)', [$username]))->firstOrFail();
   }

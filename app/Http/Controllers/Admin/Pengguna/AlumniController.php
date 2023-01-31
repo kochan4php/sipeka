@@ -33,10 +33,6 @@ final class AlumniController extends Controller {
     return collect(DB::select('CALL get_one_alumni_by_username(?)', [$username]))->firstOrFail();
   }
 
-  private function generateAlumniUsername(string $name): string {
-    return Helper::generateUniqueUsername('ALUMNI', 5, $name);
-  }
-
   public function getAllAlumniData(): View {
     $alumni = QueryBuilder::for(SiswaAlumni::class)
       ->allowedFilters(['nama_lengkap', 'nis'])

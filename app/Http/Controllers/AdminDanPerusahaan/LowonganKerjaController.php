@@ -28,6 +28,8 @@ final class LowonganKerjaController extends Controller {
 
   public function index(): View {
     $lowongan = null;
+    $lowonganNeedApprove = null;
+    $pendaftaranLowongan = null;
 
     if (Gate::check('admin')) {
       $pendaftaranLowongan = PendaftaranLowongan::count();
@@ -38,8 +40,6 @@ final class LowonganKerjaController extends Controller {
         ->where('is_approve', true)
         ->where('active', true)
         ->get();
-
-      return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
     } else if (Gate::check('perusahaan')) {
       $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan->count();
       $lowongan = Auth::user()
@@ -48,9 +48,9 @@ final class LowonganKerjaController extends Controller {
         ->where('is_approve', true)
         ->where('active', true)
         ->get();
-
-      return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan'));
     }
+
+    return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
   }
 
   public function create(): View {

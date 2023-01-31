@@ -8,7 +8,6 @@ use App\Models\{LowonganKerja, TahapanSeleksi};
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{Auth, Gate};
-use Spatie\QueryBuilder\QueryBuilder;
 
 final class TahapanSeleksiController extends Controller {
   private string $tahapanSeleksiMainRoute = 'tahapan.seleksi.detail_lowongan';

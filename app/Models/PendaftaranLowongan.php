@@ -58,4 +58,10 @@ class PendaftaranLowongan extends Model {
   public function getRouteKeyName(): string {
     return 'id_pendaftaran';
   }
+
+  public function scopeIsVerified($query): void {
+    $query
+      ->where('verifikasi', 'Sudah')
+      ->latest();
+  }
 }

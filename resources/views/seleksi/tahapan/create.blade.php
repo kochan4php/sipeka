@@ -51,6 +51,15 @@
               </div>
             </div>
             <div class="mb-3 row">
+              <label for="tanggal_dimulai" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Tanggal tahapan dimulai') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="date" class="form-control @error('tanggal_dimulai')is-invalid @enderror"
+                  id="tanggal_dimulai" name="tanggal_dimulai" value="{{ old('tanggal_dimulai') }}">
+              </div>
+            </div>
+            <div class="mb-3 row">
               <label for="ket_tahapan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                 {{ __('Keterangan Tahapan Seleksi') }}
               </label>

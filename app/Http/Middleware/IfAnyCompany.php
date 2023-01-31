@@ -15,7 +15,7 @@ class IfAnyCompany {
    */
   public function handle(Request $request, Closure $next) {
     $message = 'Data perusahaan belum ada. Silahkan tambah data Perusahaan jika ingin menambahkan data Lowongan baru.';
-    abort_if(\App\Models\MitraPerusahaan::all()->count() === 0, 403, $message);
+    abort_if(\App\Models\MitraPerusahaan::count() === 0, 403, $message);
     return $next($request);
   }
 }

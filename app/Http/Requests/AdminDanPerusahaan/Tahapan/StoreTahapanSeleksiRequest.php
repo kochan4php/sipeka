@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
 class StoreTahapanSeleksiRequest extends FormRequest {
-  private array $columm = ['urutan_tahapan_ke', 'judul_tahapan', 'ket_tahapan'];
+  private array $columm = ['urutan_tahapan_ke', 'judul_tahapan', 'ket_tahapan', 'tanggal_dimulai'];
 
   /**
    * Determine if the user is authorized to make this request.
@@ -26,7 +26,8 @@ class StoreTahapanSeleksiRequest extends FormRequest {
     return [
       'urutan_tahapan_ke' => ['required'],
       'judul_tahapan' => ['required', 'min:5', 'max:200'],
-      'ket_tahapan' => ['required']
+      'ket_tahapan' => ['required'],
+      'tanggal_dimulai' => ['required', 'date']
     ];
   }
 

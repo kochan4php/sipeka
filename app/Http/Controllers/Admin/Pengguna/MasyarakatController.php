@@ -21,10 +21,6 @@ final class MasyarakatController extends Controller {
     $this->setMainRoute('admin.pelamar.index');
   }
 
-  private function getAllPersons(): Collection {
-    return collect(DB::select('SELECT * FROM get_all_masyarakat'));
-  }
-
   private function getOnePersonByUsername(string $username): object {
     return collect(DB::select('CALL get_one_masyarakat_by_username(?)', [$username]))->firstOrFail();
   }

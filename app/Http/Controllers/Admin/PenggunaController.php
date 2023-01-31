@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
-use Yajra\DataTables\DataTables;
 
 final class PenggunaController extends Controller {
   public function index(Request $request): View {
