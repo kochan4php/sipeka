@@ -15,6 +15,7 @@ class SiswaAlumniFactory extends Factory {
    */
   public function definition() {
     return [
+      'id_pelamar' => \App\Models\Pelamar::factory(),
       'id_angkatan' => \App\Models\Angkatan::inRandomOrder()->first()->id_angkatan,
       'id_jurusan' => \App\Models\Jurusan::inRandomOrder()->first()->id_jurusan,
       'nis' => fake()->phoneNumber(),

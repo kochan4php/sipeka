@@ -13,6 +13,6 @@ class MasyarakatSeeder extends Seeder {
    * @return void
    */
   public function run() {
-    Masyarakat::factory(50)->create();
+    Masyarakat::factory(100)->create();
   }
 }

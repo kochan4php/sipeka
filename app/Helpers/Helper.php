@@ -6,7 +6,24 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class Helper {
-  public static function generateUniqueUsername(string $prefix, int $randomStringLength, string $name, bool $uppercase = true): string {
+  public static function generateUniqueCharacters(int $length = 5): string {
+    $charNumber = '1234567890';
+    $number = '';
+
+    for ($i = 0; $i <= $length; $i++) {
+      $randomNumber = (int) round(rand(1, 9));
+      $number .= substr($charNumber, $randomNumber, 1);
+    }
+
+    return $number . strtoupper(Str::random(10));
+  }
+
+  public static function generateUniqueUsername(
+    string $prefix,
+    int $randomStringLength,
+    string $name,
+    bool $uppercase = true
+  ): string {
     $username = $prefix . Str::random($randomStringLength) . Str::slug($name, '');
     return $uppercase ? strtoupper($username) : strtolower($username);
   }

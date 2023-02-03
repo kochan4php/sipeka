@@ -27,6 +27,17 @@
         <h4>Alumni</h4>
       </a>
     </x-card-admin>
+    <x-card-admin bgcolor="text-bg-purple">
+      @slot('data')
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-2 fw-bold leading-1px">{{ $jumlah_masyarakat }}</span>
+          <span><i class="fa-solid fa-user" style="font-size: 3rem"></i></span>
+        </div>
+      @endslot
+      <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-white">
+        <h4>Kandidat Luar Sekolah</h4>
+      </a>
+    </x-card-admin>
     <x-card-admin bgcolor="text-bg-pink">
       @slot('data')
         <div class="d-flex justify-content-between align-items-center">

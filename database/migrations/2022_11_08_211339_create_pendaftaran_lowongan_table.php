@@ -25,6 +25,7 @@ return new class extends Migration {
       ])->default('Belum tuntas mengikuti seleksi');
       $table->text('applicant_promotion')->nullable()->default(null);
       $table->boolean('is_active')->nullable()->default(true);
+      $table->timestamps();
 
       // Foreign key untuk id_pelamar
       $table

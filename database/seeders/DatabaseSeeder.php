@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder {
       GelarPendidikanSeeder::class,
       UserSeeder::class,
       AdminBKKSeeder::class,
+      PelamarSeeder::class,
       SiswaAlumniSeeder::class,
       MasyarakatSeeder::class
     ];

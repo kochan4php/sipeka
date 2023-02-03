@@ -24,11 +24,16 @@ final class MainController extends Controller {
       ->firstOrFail()
       ->jumlah_lowongan;
 
+    $jumlah_masyarakat = collect(DB::select("SELECT * FROM jumlah_masyarakat"))
+      ->firstOrFail()
+      ->jumlah_masyarakat;
+
     return view('admin.index', compact(
       'jumlah_pengguna',
       'jumlah_alumni',
       'jumlah_mitra_perusahaan',
       'jumlah_lowongan',
+      'jumlah_masyarakat'
     ));
   }
 }

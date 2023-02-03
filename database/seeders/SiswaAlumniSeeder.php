@@ -14,6 +14,6 @@ class SiswaAlumniSeeder extends Seeder {
    * @return void
    */
   public function run(): void {
-    SiswaAlumni::factory(50)->create();
+    SiswaAlumni::factory(100)->create();
   }
 }

@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -67,6 +68,17 @@ class User extends Authenticatable {
 
   public function pelamar(): HasOne {
     return $this->hasOne(Pelamar::class, 'id_user', 'id_user');
+  }
+
+  public function alumni(): HasOneThrough {
+    return $this->hasOneThrough(
+      SiswaAlumni::class,
+      Pelamar::class,
+      'id_user', // Foreign key di table pelamar
+      'id_pelamar', // Foreign key di table siswa_alumni
+      'id_user', // Local key / Primary Key di table users
+      'id_pelamar' // Local key / Primary key di table pelamar
+    );
   }
 
   public function getRouteKeyName(): string {

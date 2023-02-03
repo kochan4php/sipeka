@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,7 +16,7 @@ class PelamarFactory extends Factory {
    */
   public function definition() {
     return [
-      //
+      'id_user' => User::factory()
     ];
   }
 }

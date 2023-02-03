@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\LowonganKerja;
 use App\Models\MitraPerusahaan;
 use Illuminate\Contracts\View\View;
