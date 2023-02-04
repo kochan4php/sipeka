@@ -31,10 +31,9 @@ final class MasyarakatController extends Controller {
 
   public function getAllCandidateDataFromOutsideSchool(): View {
     $masyarakat = QueryBuilder::for(Masyarakat::class)
-      ->allowedFilters('nama_lengkap')
-      ->allowedSorts('id')
       ->with('pelamar')
-      ->get();
+      ->paginate(10)
+      ->withQueryString();
 
     return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
   }

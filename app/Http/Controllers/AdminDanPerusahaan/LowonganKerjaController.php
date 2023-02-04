@@ -35,11 +35,11 @@ final class LowonganKerjaController extends Controller {
       $pendaftaranLowongan = PendaftaranLowongan::count();
       $lowonganNeedApprove = LowonganKerja::whereNull('is_approve')->count();
       $lowongan = QueryBuilder::for(LowonganKerja::class)
-        ->allowedFilters('angkatan_tahun')
         ->with('perusahaan')
         ->where('is_approve', true)
         ->where('active', true)
-        ->get();
+        ->paginate(10)
+        ->withQueryString();
     } else if (Gate::check('perusahaan')) {
       $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan->count();
       $lowongan = Auth::user()
@@ -47,7 +47,8 @@ final class LowonganKerjaController extends Controller {
         ->lowongan()
         ->where('is_approve', true)
         ->where('active', true)
-        ->get();
+        ->paginate(10)
+        ->withQueryString();
     }
 
     return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
@@ -74,6 +75,7 @@ final class LowonganKerjaController extends Controller {
       } else if (Gate::check('admin')) {
         $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();
         $validatedData['is_approve'] = true;
+        $validatedData['active'] = true;
 
         LowonganKerja::create($validatedData);
       }

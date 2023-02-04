@@ -22,7 +22,7 @@ return new class extends Migration {
       $table->date('tanggal_berakhir');
       $table->text('slug')->unique();
       $table->boolean('is_approve')->nullable()->default(null);
-      $table->boolean('active')->nullable()->default(true);
+      $table->boolean('active')->nullable()->default(null);
       $table->timestamps();
 
       $table

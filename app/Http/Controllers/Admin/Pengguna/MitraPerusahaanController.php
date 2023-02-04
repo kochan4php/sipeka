@@ -50,10 +50,9 @@ final class MitraPerusahaanController extends Controller {
 
   public function getAllMitraData(): View {
     $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
-      ->allowedFilters('nama_perusahaan')
-      ->allowedSorts('id')
       ->with('user')
-      ->get();
+      ->paginate(10)
+      ->withQueryString();
 
     return view('admin.pengguna.perusahaan.index', compact('perusahaan'));
   }

@@ -60,6 +60,17 @@
         <h4>Loker Aktif</h4>
       </a>
     </x-card-admin>
+    <x-card-admin bgcolor="text-bg-success">
+      @slot('data')
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-3 fw-medium">Penelusuran Alumni</span>
+          <span><i class="fa-solid fa-user-graduate" style="font-size: 3rem"></i></span>
+        </div>
+      @endslot
+      <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-white">
+        <h4>Selengkapnya</h4>
+      </a>
+    </x-card-admin>
     <x-card-admin bgcolor="text-bg-warning">
       @slot('data')
         <div class="d-flex justify-content-between align-items-center">
@@ -68,6 +79,30 @@
         </div>
       @endslot
       <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-dark">
+        <h4>Selengkapnya</h4>
+      </a>
+    </x-card-admin>
+    <x-card-admin bgcolor="text-bg-info">
+      @slot('data')
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-3 fw-medium">Setujui Lowongan Kerja</span>
+          <span><i class="fa-solid fa-briefcase" style="font-size: 3rem"></i></span>
+        </div>
+      @endslot
+      <a href="{{ route('lowongankerja.jobVacanciesThatRequireApproval') }}"
+        class="text-decoration-none stretched-link text-dark d-flex gap-2 align-items-center">
+        <h4>Selengkapnya</h4>
+      </a>
+    </x-card-admin>
+    <x-card-admin bgcolor="text-bg-primary">
+      @slot('data')
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-3 fw-medium">Setujui Tahap Seleksi</span>
+          <span><i class="fa-solid fa-clipboard-check" style="font-size: 3rem"></i></span>
+        </div>
+      @endslot
+      <a href="{{ route('lowongankerja.jobVacanciesThatRequireApproval') }}"
+        class="text-decoration-none stretched-link text-white d-flex gap-2 align-items-center">
         <h4>Selengkapnya</h4>
       </a>
     </x-card-admin>

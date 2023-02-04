@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Spatie\QueryBuilder\QueryBuilder;
 use Yajra\DataTables\DataTables;
 
 final class KantorController extends Controller {
@@ -49,7 +50,11 @@ final class KantorController extends Controller {
     $kantor = null;
 
     if (Gate::check('admin')) {
-      $kantor = Kantor::with('perusahaan')->latest()->paginate(10)->withQueryString();
+      $kantor = QueryBuilder::for(Kantor::class)
+        ->with('perusahaan')
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
     } else if (Gate::check('perusahaan')) {
       $dataMitra = Auth::user()->perusahaan;
       $kantor = $dataMitra->kantor()->latest()->paginate(10)->withQueryString();

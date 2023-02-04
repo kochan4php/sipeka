@@ -11,8 +11,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 final class PenggunaController extends Controller {
   public function index(Request $request): View {
     $users = QueryBuilder::for(User::class)
-      ->allowedFilters(['username', 'email'])
-      ->get();
+      ->paginate(10)
+      ->withQueryString();
 
     return view('admin.pengguna.index', compact('users'));
   }

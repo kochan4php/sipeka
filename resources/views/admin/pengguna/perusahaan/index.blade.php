@@ -11,8 +11,7 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table @if ($perusahaan->count() > 0) id="myTable" @endif
-          class="table table-bordered border-secondary table-striped py-2">
+        <table class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -39,10 +38,10 @@
             </tr>
           </thead>
           <tbody>
-            @forelse ($perusahaan as $item)
+            @forelse ($perusahaan as $key => $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $loop->iteration }}
+                  {{ $perusahaan->firstItem() + $key }}
                 </th>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->nama_perusahaan }}
@@ -94,6 +93,7 @@
             @endforelse
           </tbody>
         </table>
+        <div>{{ $perusahaan->links() }}</div>
       </div>
     </div>
   </div>
