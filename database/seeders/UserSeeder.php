@@ -20,8 +20,6 @@ class UserSeeder extends Seeder {
       'email' => 'bkksmkn1bekasi@gmail.com',
       'password' => Hash::make('admin')
     ]);
-    // User::factory(1000)->hasPerusahaan()->create();
-    User::factory(100);
-    User::factory(100);
+    User::factory(300);
   }
 }

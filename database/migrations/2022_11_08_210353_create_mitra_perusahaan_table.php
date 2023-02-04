@@ -19,7 +19,7 @@ return new class extends Migration {
       $table->string('foto_sampul_perusahaan')->nullable()->default(null);
       $table->string('logo_perusahaan')->nullable()->default(null);
       $table->text('deskripsi_perusahaan')->nullable()->default(null);
-      $table->enum('jenis_perusahaan', ['PT', 'CV']);
+      $table->enum('jenis_perusahaan', ['PT', 'CV', 'Firma', 'Persero']);
       $table->string('kategori_perusahaan');
       $table->boolean('is_active')->nullable()->default(true);
 

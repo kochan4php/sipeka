@@ -23,9 +23,11 @@ class DatabaseSeeder extends Seeder {
       GelarPendidikanSeeder::class,
       UserSeeder::class,
       AdminBKKSeeder::class,
+      MitraPerusahaanSeeder::class,
       PelamarSeeder::class,
       SiswaAlumniSeeder::class,
-      MasyarakatSeeder::class
+      MasyarakatSeeder::class,
+      KantorSeeder::class
     ];
     $this->call($seeders);
   }

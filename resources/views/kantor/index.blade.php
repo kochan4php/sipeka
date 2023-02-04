@@ -32,8 +32,7 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table @if ($kantor->count() > 0) id="myTable" @endif
-          class="table table-bordered border-secondary table-striped py-2">
+        <table class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -59,10 +58,10 @@
             </tr>
           </thead>
           <tbody>
-            @forelse ($kantor as $item)
+            @forelse ($kantor as $key => $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $loop->iteration }}
+                  {{ $kantor->firstItem() + $key }}
                 </th>
                 @can('admin')
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
@@ -110,6 +109,7 @@
             @endforelse
           </tbody>
         </table>
+        <div>{{ $kantor->links() }}</div>
       </div>
     </div>
   </div>

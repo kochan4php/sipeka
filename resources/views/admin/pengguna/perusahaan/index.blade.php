@@ -58,7 +58,7 @@
                     {{ $item->kantor->count() }}
                   </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ $item->kantor->firstWhere('kantor_utama', true)->wilayah_kantor }}
+                    {{ $item->kantor->firstWhere('kantor_utama', true)?->wilayah_kantor ?? __('-') }}
                   </td>
                 @else
                   <td class="text-nowrap text-center vertical-align-middle custom-font">

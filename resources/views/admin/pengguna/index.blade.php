@@ -42,7 +42,7 @@
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   @if ($item->level_user->nama_level === 'Pelamar')
-                    @if ($item->pelamar->alumni)
+                    @if ($item->pelamar?->alumni)
                       {{ __('Alumni') }}
                     @else
                       {{ __('Kandidat Luar') }}

@@ -60,14 +60,15 @@
         <h4>Loker Aktif</h4>
       </a>
     </x-card-admin>
-    <x-card-admin bgcolor="text-bg-primary">
+    <x-card-admin bgcolor="text-bg-warning">
       @slot('data')
-        <div class="d-flex justify-content-end align-items-center">
-          <i class='fa-solid fa-clipboard-check' style='font-size: 3rem'></i>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-3 fw-medium">Setujui Pelamar</span>
+          <span><i class="fa-solid fa-user-check" style="font-size: 3rem"></i></span>
         </div>
       @endslot
-      <a href="{{ route('penilaian.seleksi.index') }}" class="text-decoration-none stretched-link text-white">
-        <h4>Penilaian Seleksi</h4>
+      <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-dark">
+        <h4>Selengkapnya</h4>
       </a>
     </x-card-admin>
   </div>

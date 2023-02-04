@@ -16,7 +16,7 @@ return new class extends Migration {
       $table->integer('id_pelamar');
       $table->char('id_angkatan', 8);
       $table->char('id_jurusan', 7);
-      $table->string('nis', 18);
+      $table->string('nis', 18)->nullable();
       $table->string('nama_lengkap');
       $table->enum('jenis_kelamin', ['L', 'P']);
       $table->string('tempat_lahir', 100)->nullable()->default(null);
