@@ -13,8 +13,7 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table @if ($angkatan->count() > 0) id="myTable" @endif
-          class="table table-bordered border-secondary table-striped py-2">
+        <table class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">No</th>
@@ -24,10 +23,10 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($angkatan as $item)
+            @foreach ($angkatan as $key => $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $loop->iteration }}</th>
+                  {{ $angkatan->firstItem() + $key }}</th>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->id_angkatan }}</td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->angkatan_tahun }}</td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
@@ -42,6 +41,7 @@
             @endforeach
           </tbody>
         </table>
+        <div>{{ $angkatan->links() }}</div>
       </div>
     </div>
   </div>

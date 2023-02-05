@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
+@push('head')
+  @vite(['resources/js/typed.js'])
+@endpush
+
 @section('container')
   <div style="margin-top: 4rem !important">
     <div id="banner">
       <div id="blur">
         <div class="text-center">
-          <h1 class="fw-bolder">WELCOME TO BKK SMKN 1 KOTA BEKASI</h1>
-          <p class="fw-bold">TEMUKAN PEKERJAAN SESUAI KOMPETENSIMU</p>
+          <h1 class="fw-bolder main-title"></h1>
         </div>
       </div>
     </div>

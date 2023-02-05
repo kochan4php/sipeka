@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SiswaAlumni extends Model {
   use HasFactory;
@@ -47,5 +49,20 @@ class SiswaAlumni extends Model {
 
   public function angkatan(): BelongsTo {
     return $this->belongsTo(Angkatan::class, 'id_angkatan', 'id_angkatan');
+  }
+
+  public function dataNilai(): HasMany {
+    return $this->hasMany(DataNilai::class, 'id_alumni', 'id_alumni');
+  }
+
+  public function rekomendasiLowongan(): BelongsToMany {
+    return $this->belongsToMany(
+      LowonganKerja::class,
+      'rekomendasi_lowongan',
+      'id_siswa',
+      'id_lowongan',
+      'id_siswa',
+      'id_lowongan'
+    );
   }
 }

@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Spatie\QueryBuilder\QueryBuilder;
-use Yajra\DataTables\DataTables;
 
 final class KantorController extends Controller {
   use HasCity;
@@ -50,14 +48,18 @@ final class KantorController extends Controller {
     $kantor = null;
 
     if (Gate::check('admin')) {
-      $kantor = QueryBuilder::for(Kantor::class)
-        ->with('perusahaan')
+      $kantor = Kantor::with('perusahaan')
+        ->whereRelation('perusahaan', 'is_blocked', '=', false)
         ->latest()
         ->paginate(10)
         ->withQueryString();
     } else if (Gate::check('perusahaan')) {
       $dataMitra = Auth::user()->perusahaan;
-      $kantor = $dataMitra->kantor()->latest()->paginate(10)->withQueryString();
+      $kantor = $dataMitra
+        ->kantor()
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
     }
 
     return view('kantor.index', compact('kantor', 'dataMitra'));

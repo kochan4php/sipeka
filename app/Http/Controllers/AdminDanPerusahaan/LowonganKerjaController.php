@@ -70,6 +70,10 @@ final class LowonganKerjaController extends Controller {
       $validatedData = $request->validatedData();
       $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
 
+      if ($request->hasFile('banner')) {
+        $validatedData['banner'] = $request->file('banner')->store('lowongan');
+      }
+
       if (Gate::check('perusahaan')) {
         Auth::user()->perusahaan->lowongan()->create($validatedData);
       } else if (Gate::check('admin')) {
@@ -156,10 +160,15 @@ final class LowonganKerjaController extends Controller {
         $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
       }
 
+      if ($request->hasFile('banner')) {
+        $validatedData['banner'] = $request->file('banner')->store('lowongan');
+        Helper::deleteFileIfExistsInStorageFolder($lowonganKerja->banner);
+      }
+
       if (Gate::check('perusahaan')) {
         Auth::user()->perusahaan->lowongan()->firstWhere('slug', $lowonganKerja->slug)->update($validatedData);
       } else if (Gate::check('admin')) {
-        $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();
+        $validatedData['id_perusahaan'] = $lowonganKerja->perusahaan->id_perusahaan;
         $lowonganKerja->update($validatedData);
       }
 

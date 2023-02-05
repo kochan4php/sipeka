@@ -141,6 +141,10 @@ Route::prefix('/sipeka')->group(function () {
             ->name('admin.perusahaan.update');
           Route::delete('/{username}', 'deleteOneMitraData')
             ->name('admin.perusahaan.delete');
+          Route::post('/{user}/block', 'blockOneMitra')
+            ->name('admin.perusahaan.block');
+          Route::post('/{user}/unblock', 'unblockOneMitra')
+            ->name('admin.perusahaan.unblock');
         });
 
         Route::prefix('/masterdata')->group(function () {

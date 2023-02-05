@@ -32,6 +32,7 @@ final class MasyarakatController extends Controller {
   public function getAllCandidateDataFromOutsideSchool(): View {
     $masyarakat = QueryBuilder::for(Masyarakat::class)
       ->with('pelamar')
+      ->latest('id_masyarakat')
       ->paginate(10)
       ->withQueryString();
 

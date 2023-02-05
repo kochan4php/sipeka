@@ -36,6 +36,7 @@ final class AlumniController extends Controller {
   public function getAllAlumniData(): View {
     $alumni = QueryBuilder::for(SiswaAlumni::class)
       ->with(['jurusan', 'angkatan', 'pelamar'])
+      ->latest('id_angkatan')
       ->paginate(10)
       ->withQueryString();
 

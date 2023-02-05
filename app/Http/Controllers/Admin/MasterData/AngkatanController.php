@@ -12,8 +12,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 final class AngkatanController extends Controller {
   public function index(): View {
     $angkatan = QueryBuilder::for(Angkatan::class)
-      ->allowedFilters('angkatan_tahun')
-      ->get();
+      ->latest('id_angkatan')
+      ->paginate(10);
 
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }

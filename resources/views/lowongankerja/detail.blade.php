@@ -8,6 +8,12 @@
           <h2>Detail Lowongan Kerja</h2>
         </div>
         <div class="card-body">
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <img src="{{ asset('storage/' . $lowonganKerja->banner) }}" alt="" width="600">
+            </div>
+          </div>
+          <hr />
           <div class="row gap-4 gap-lg-0">
             <div class="col-lg-9">
               <table class="table table-responsive">

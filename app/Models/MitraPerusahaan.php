@@ -36,6 +36,7 @@ class MitraPerusahaan extends Model {
     'logo_perusahaan',
     'kategori_perusahaan',
     'deskripsi_perusahaan',
+    'is_blocked'
   ];
 
   public function user(): BelongsTo {

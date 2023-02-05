@@ -21,8 +21,10 @@ return new class extends Migration {
       $table->text('deskripsi_lowongan');
       $table->date('tanggal_berakhir');
       $table->text('slug')->unique();
-      $table->boolean('is_approve')->nullable()->default(null);
+      $table->text('banner')->nullable()->default(null);
       $table->boolean('active')->nullable()->default(null);
+      $table->boolean('is_approve')->nullable()->default(null);
+      $table->boolean('is_finished')->default(false);
       $table->timestamps();
 
       $table

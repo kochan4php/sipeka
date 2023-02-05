@@ -81,6 +81,17 @@ class User extends Authenticatable {
     );
   }
 
+  public function masyarakat(): HasOneThrough {
+    return $this->hasOneThrough(
+      Masyarakat::class,
+      Pelamar::class,
+      'id_user', // Foreign key di table pelamar
+      'id_pelamar', // Foreign key di table masyarakat
+      'id_user', // Local key / Primary Key di table users
+      'id_pelamar' // Local key / Primary key di table pelamar
+    );
+  }
+
   public function getRouteKeyName(): string {
     return 'username';
   }

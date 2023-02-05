@@ -48,9 +48,25 @@ final class MitraPerusahaanController extends Controller {
     return Helper::generateUniqueUsername('PRSHN', 5, $name);
   }
 
+  public function blockOneMitra(User $user): RedirectResponse {
+    $perusahaan = $user->perusahaan;
+    $perusahaan->update(['is_blocked' => true]);
+    notify()->success("Berhasil memblokir {$perusahaan->nama_perusahaan}", 'Notifikasi');
+    return back();
+  }
+
+  public function unblockOneMitra(User $user): RedirectResponse {
+    $perusahaan = $user->perusahaan;
+    $perusahaan->update(['is_blocked' => false]);
+    notify()->success("Berhasil membuka blokir {$perusahaan->nama_perusahaan}", 'Notifikasi');
+    return back();
+  }
+
   public function getAllMitraData(): View {
     $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
       ->with('user')
+      ->latest('id_perusahaan')
+      ->where('is_blocked', false)
       ->paginate(10)
       ->withQueryString();
 

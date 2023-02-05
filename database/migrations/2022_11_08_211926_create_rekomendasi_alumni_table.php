@@ -15,22 +15,22 @@ return new class extends Migration {
     Schema::create('rekomendasi_alumni', function (Blueprint $table) {
       $table->integer('id_siswa');
       $table->integer('id_perusahaan');
+      $table->string('judul');
+      $table->text('deskripsi');
 
       // Foreign key untuk id_siswa
       $table
         ->foreign('id_siswa')
         ->references('id_siswa')
         ->on('siswa_alumni')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
 
       // Foreign key untuk id_perusahaan
       $table
         ->foreign('id_perusahaan')
         ->references('id_perusahaan')
         ->on('mitra_perusahaan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

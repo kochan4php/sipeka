@@ -94,6 +94,8 @@ body {
   font-size: 3.5rem !important;
 }
 
-#banner #blur p {
-  font-size: 1.5rem !important;
+@media screen and (max-width: 576px) {
+  #banner #blur h1 {
+    font-size: 2.5rem !important;
+  }
 }

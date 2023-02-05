@@ -81,6 +81,21 @@
                       class="btn custom-btn btn-primary">
                       <span><i class="fa-solid fa-building fa-lg"></i></span>
                     </a>
+                    @if ($item->is_blocked)
+                      <form action="{{ route('admin.perusahaan.unblock', $item->user->username) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn custom-btn btn-info btn-unblock">
+                          <span><i class="fa-solid fa-unlock fa-lg"></i></span>
+                        </button>
+                      </form>
+                    @else
+                      <form action="{{ route('admin.perusahaan.block', $item->user->username) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn custom-btn btn-danger btn-block">
+                          <span><i class="fa-solid fa-skull-crossbones fa-lg"></i></span>
+                        </button>
+                      </form>
+                    @endif
                   </div>
                 </td>
               </tr>
@@ -98,3 +113,16 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    tippy('.btn-block', {
+      content: 'Block Mitra',
+      placement: 'bottom',
+    });
+    tippy('.btn-unblock', {
+      content: 'Unblock Mitra',
+      placement: 'bottom',
+    });
+  </script>
+@endpush

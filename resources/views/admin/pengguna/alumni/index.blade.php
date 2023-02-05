@@ -6,6 +6,31 @@
     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary custom-btn">Tambah Data Alumni</a>
   </div>
 
+  <div class="row my-3 gap-3 gap-md-0">
+    <x-card-admin bgcolor="text-bg-warning">
+      @slot('data')
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-3 fw-medium">Rekomendasi</span>
+          <span><i class="fa-solid fa-star" style="font-size: 3rem"></i></span>
+        </div>
+      @endslot
+      <a class="text-decoration-none stretched-link text-dark">
+        <h4>Selengkapnya</h4>
+      </a>
+    </x-card-admin>
+    <x-card-admin bgcolor="text-bg-indigo">
+      @slot('data')
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-3 fw-medium">Penelusuran Alumni</span>
+          <span><i class="fa-solid fa-user-graduate" style="font-size: 3rem"></i></span>
+        </div>
+      @endslot
+      <a class="text-decoration-none stretched-link text-white d-flex gap-2 align-items-center">
+        <h4>Selengkapnya</h4>
+      </a>
+    </x-card-admin>
+  </div>
+
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">

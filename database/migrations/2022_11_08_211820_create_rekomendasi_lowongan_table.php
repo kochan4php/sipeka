@@ -13,24 +13,25 @@ return new class extends Migration {
   public function up() {
     // Ini pivot table yaa, artinya table pembantu dari relasi Many to Many
     Schema::create('rekomendasi_lowongan', function (Blueprint $table) {
-      $table->char('id_jurusan', 7);
+      $table->integer('id_siswa');
       $table->integer('id_lowongan');
+      $table->string('judul');
+      $table->text('deskripsi');
+      $table->unique(['id_siswa', 'id_lowongan']);
 
-      // Foreign key untuk id_jurusan
+      // Foreign key untuk id_siswa
       $table
-        ->foreign('id_jurusan')
-        ->references('id_jurusan')
-        ->on('jurusan')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->foreign('id_siswa')
+        ->references('id_siswa')
+        ->on('siswa_alumni')
+        ->cascadeOnUpdate();
 
       // Foreign key untuk id_lowongan
       $table
         ->foreign('id_lowongan')
         ->references('id_lowongan')
         ->on('lowongan_kerja')
-        ->cascadeOnUpdate()
-        ->cascadeOnDelete();
+        ->cascadeOnUpdate();
     });
   }
 

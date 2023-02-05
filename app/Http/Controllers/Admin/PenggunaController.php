@@ -11,6 +11,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 final class PenggunaController extends Controller {
   public function index(Request $request): View {
     $users = QueryBuilder::for(User::class)
+      ->oldest('id_level')
       ->paginate(10)
       ->withQueryString();
 

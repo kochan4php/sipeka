@@ -22,7 +22,8 @@
               </div>
             </div>
           @endif
-          <form action="{{ route('lowongankerja.update', $lowongan->slug) }}" method="POST">
+          <form action="{{ route('lowongankerja.update', $lowongan->slug) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -121,12 +122,20 @@
                   placeholder="28/12/2022" value="{{ old('tanggal_berakhir', $lowongan->tanggal_berakhir) }}">
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8">
+                <img class="d-block image-preview rounded @if (!is_null($lowongan->banner)) mb-3 @endif"
+                  @if (!is_null($lowongan->banner)) src="{{ asset('storage/' . $lowongan->banner) }}" @endif
+                  width="300">
+              </div>
+            </div>
             <div class="mb-3 row">
-              <label for="gambar_lowongan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Gambar Lowongan') }}
+              <label for="banner_loker" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Banner') }}
               </label>
               <div class="col-sm-8">
-                <input type="file" class="form-control" id="gambar_lowongan" name="gambar_lowongan">
+                <input type="file" class="form-control" id="banner_loker" name="banner">
               </div>
             </div>
             <div class="row mb-3">
@@ -146,8 +155,10 @@
 @push('script')
   <script type="text/javascript" src="{{ asset('assets/js/ckeditor_init.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/js/format_rupiah.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/preview_image.js') }}"></script>
   <script>
     CKEDITOR_INIT('deskripsi');
     formatRupiah('estimasi_gaji');
+    previewImage('banner_loker', 'image-preview');
   </script>
 @endpush

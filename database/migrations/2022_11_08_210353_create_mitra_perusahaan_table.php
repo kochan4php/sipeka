@@ -21,6 +21,7 @@ return new class extends Migration {
       $table->text('deskripsi_perusahaan')->nullable()->default(null);
       $table->enum('jenis_perusahaan', ['PT', 'CV', 'Firma', 'Persero']);
       $table->string('kategori_perusahaan');
+      $table->boolean('is_blocked')->default(false);
       $table->boolean('is_active')->nullable()->default(true);
 
       // Foreign key untuk id_user
