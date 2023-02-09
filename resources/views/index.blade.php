@@ -5,10 +5,10 @@
 @endpush
 
 @section('container')
-  <div style="margin-top: 4rem !important">
+  <div>
     <div id="banner">
       <div id="blur">
-        <div class="text-center">
+        <div class="text-center col-md-5">
           <h1 class="fw-bolder main-title"></h1>
         </div>
       </div>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="container my-4">
-    <section>
+    <section style="min-height: 60vh" class="d-flex align-items-center justify-content-center">
       <div class="row justify-content-center py-4">
         <div class="col-md-8 text-center">
           <h2 class="fs-2">Tentang Kami</h2>
@@ -29,46 +29,48 @@
 
     <hr />
 
-    <section id="cara-daftar">
-      <div class="row text-center justify-content-center pt-4">
-        <div class="col">
-          <h2>Tujuan BKK</h2>
-        </div>
-      </div>
-      <div class="row text-center justify-content-center pb-4 mt-3">
-        <div class="col-md-6 col-lg-3">
-          <div class="card mb-2">
-            <div class="card-body pb-0">
-              <p class="custom-font">
-                Sebagai wadah dalam mempertemukan tamatan dengan pencari kerja.
-              </p>
-            </div>
+    <section id="cara-daftar" style="min-height: 60vh" class="d-flex align-items-center justify-content-center">
+      <div>
+        <div class="row text-center justify-content-center pt-4">
+          <div class="col">
+            <h2>Tujuan BKK</h2>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="card mb-2">
-            <div class="card-body pb-0">
-              <p class="custom-font">
-                Memberikan layanan kepada tamatan sesuai dengan tugas dan fungsi masing-masing seksi yang ada dalam BKK.
-              </p>
+        <div class="row text-center justify-content-center pb-4 mt-3">
+          <div class="col-md-6 col-lg-3">
+            <div class="card mb-2">
+              <div class="card-body pb-0">
+                <p class="custom-font">
+                  Sebagai wadah dalam mempertemukan tamatan dengan pencari kerja.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="card mb-2">
-            <div class="card-body pb-0">
-              <p class="custom-font">
-                Sebagai wadah dalam pelatihan tamatan yang sesuai dengan permintaan pencari kerja.
-              </p>
+          <div class="col-md-6 col-lg-3">
+            <div class="card mb-2">
+              <div class="card-body pb-0">
+                <p class="custom-font">
+                  Memberikan layanan kepada tamatan sesuai dengan tugas dan fungsi masing-masing seksi yang ada dalam BKK.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6 col-lg-3">
-          <div class="card mb-2">
-            <div class="card-body pb-0">
-              <p class="custom-font">
-                Sebagai wadah untuk menanamkan jiwa wirausaha bagi tamatan melalui pelatihan.
-              </p>
+          <div class="col-md-6 col-lg-3">
+            <div class="card mb-2">
+              <div class="card-body pb-0">
+                <p class="custom-font">
+                  Sebagai wadah dalam pelatihan tamatan yang sesuai dengan permintaan pencari kerja.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card mb-2">
+              <div class="card-body pb-0">
+                <p class="custom-font">
+                  Sebagai wadah untuk menanamkan jiwa wirausaha bagi tamatan melalui pelatihan.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -77,7 +79,7 @@
 
     <hr />
 
-    <section id="perusahaan" class="mb-5">
+    <section id="perusahaan" class="py-6">
       <div class="row text-center justify-content-center pt-4">
         <div class="col mb-4">
           <h2>Perusahaan</h2>
@@ -109,7 +111,7 @@
 
     <hr />
 
-    <section id="lowongan-kerja" class="pb-5">
+    <section id="lowongan-kerja" class="py-6">
       <div class="row text-center justify-content-center pt-4">
         <div class="col">
           <h2 class="mb-5">Loker Terbaru</h2>

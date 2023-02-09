@@ -31,7 +31,7 @@
             <div class="mb-4">
               <h1>{{ $lowonganKerja->judul_lowongan }}</h1>
               <h5 class="fst-italic">
-                {{ __("{$lowonganKerja->perusahaan->jenis_perusahaan}. {$lowonganKerja->perusahaan->nama_perusahaan}") }}
+                {{ $lowonganKerja->perusahaan->nama_perusahaan }}
               </h5>
             </div>
             <div>

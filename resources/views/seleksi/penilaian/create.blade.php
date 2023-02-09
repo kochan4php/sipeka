@@ -10,7 +10,10 @@
         <div class="card-body pb-0">
           <x-alert-error-validation />
           <form
-            action="{{ route('penilaian.seleksi.store', ['pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
+            action="{{ route('penilaian.seleksi.store', [
+                'pendaftaran_lowongan' => $pendaftaranLowongan->id_pendaftaran,
+                'tahapan_seleksi' => $tahapanSeleksi->id_tahapan,
+            ]) }}"
             method="POST">
             @csrf
             <div class="mb-3 row">

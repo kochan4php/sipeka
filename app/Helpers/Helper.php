@@ -54,7 +54,7 @@ class Helper {
     return $category[$randomNumber];
   }
 
-  public static function getRandomCity() {
+  public static function getRandomCity(): string {
     $city = [
       'Banda Aceh',
       'Langsa',

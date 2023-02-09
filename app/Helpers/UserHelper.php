@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use App\Models\Pelamar;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class UserHelper {

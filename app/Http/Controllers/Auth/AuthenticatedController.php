@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 final class AuthenticatedController extends Controller {
@@ -14,7 +13,7 @@ final class AuthenticatedController extends Controller {
     return view('auth.login');
   }
 
-  public function authenticate(Request $request): Redirector|RedirectResponse {
+  public function authenticate(Request $request): RedirectResponse {
     $request->validate(['username' => ['required'], 'password' => ['required']]);
     $credentials = $request->only(['username', 'password']);
     $remember = $request->has('remember') ? true : false;

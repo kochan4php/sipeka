@@ -25,12 +25,12 @@ final class LowonganKerjaController extends Controller {
 
   public function applyJob(Request $request, LowonganKerja $lowonganKerja): RedirectResponse {
     $request->validate([
-      'surat_lamaran_kerja' => ['required', 'mimes:pdf,doc,docx', 'max:2048'],
+      'surat_lamaran_kerja' => ['required', 'mimes:pdf,doc,docx', 'max:5120'],
       'applicant_promotion' => ['nullable']
     ], [
       'surat_lamaran_kerja.required' => 'Surat lamaran kerja tidak boleh kosong!',
       'surat_lamaran_kerja.mimes' => 'Surat lamaran kerja harus berekstensi pdf, doc atau docx!',
-      'surat_lamaran_kerja.max' => 'Surat lamaran kerja tidak boleh lebih dari 2MB!'
+      'surat_lamaran_kerja.max' => 'Surat lamaran kerja tidak boleh lebih dari 5MB!'
     ]);
 
     $data = $request->only('applicant_promotion');

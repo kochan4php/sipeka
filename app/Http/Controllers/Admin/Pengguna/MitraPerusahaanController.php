@@ -215,19 +215,4 @@ final class MitraPerusahaanController extends Controller {
       return $this->redirectToMainRoute();
     }
   }
-
-  public function deleteOneMitraData(string $username): RedirectResponse {
-    try {
-      $perusahaan = $this->getOnePerusahaanByUsername($username);
-      User::whereUsername($perusahaan->username)->delete();
-      Helper::deleteMultipleFileIfExistsInStorageFolder($perusahaan->foto_sampul_perusahaan, $perusahaan->logo_perusahaan);
-      notify()->success('Berhasil hapus data mitra', 'Notifikasi');
-
-      return back();
-    } catch (\Exception $e) {
-      notify()->error($e->getMessage(), 'Notifikasi');
-
-      return back();
-    }
-  }
 }

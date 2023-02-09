@@ -33,6 +33,7 @@
   <script type="text/javascript" src="{{ asset('assets/js/tippy.umd.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/js/disabled_inspect.js') }}"></script>
   <script type="text/javascript" src="{{ asset('assets/js/enable_tooltip.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/navbar_blur.js') }}"></script>
 
   @stack('script-owl')
   @stack('script')

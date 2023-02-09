@@ -15,7 +15,7 @@
             <span><i class="fa-solid fa-user-check" style="font-size: 3rem"></i></span>
           </div>
         @endslot
-        <a href="{{ route('admin.pelamar.index') }}" class="text-decoration-none stretched-link text-dark">
+        <a href="{{ route('admin.pendaftaran-lowongan.index') }}" class="text-decoration-none stretched-link text-dark">
           <h4>Selengkapnya</h4>
         </a>
       </x-card-admin>

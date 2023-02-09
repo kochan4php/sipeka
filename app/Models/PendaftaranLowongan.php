@@ -17,9 +17,6 @@ class PendaftaranLowongan extends Model {
   // kasih tau primary key yang ada di tabel yang bersangkutan
   protected $primaryKey = 'id_pendaftaran';
 
-  // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
-  public $timestamps = false;
-
   // kasih tau kalau primary key nya bukan integer AI
   public $incrementing = false;
 

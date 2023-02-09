@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AdminDanPerusahaan;
+namespace App\Http\Controllers\Perusahaan;
 
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
@@ -12,8 +12,6 @@ use App\Models\TahapanSeleksi;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use Spatie\QueryBuilder\QueryBuilder;
 
 final class PenilaianSeleksiController extends Controller {
   private function getIdPendaftaran(PendaftaranLowongan $pendaftaranLowongan): string {
@@ -21,21 +19,13 @@ final class PenilaianSeleksiController extends Controller {
   }
 
   public function index(): View {
-    $pendaftaranLowongan = null;
     $jenisDokumen = Dokumen::all();
-
-    if (Gate::check('admin')) {
-      $pendaftaranLowongan = PendaftaranLowongan::isVerified()->get();
-    } else if (Gate::check('perusahaan')) {
-      $pendaftaranLowongan = Auth::user()
-        ->perusahaan
-        ->pendaftaran_lowongan
-        ->where('verifikasi', 'Sudah')
-        ->latest()
-        ->get();
-    }
-
-    dd($pendaftaranLowongan);
+    $pendaftaranLowongan = Auth::user()
+      ->perusahaan
+      ->pendaftaran_lowongan
+      ->where('verifikasi', 'Sudah')
+      ->latest()
+      ->get();
 
     return view('seleksi.penilaian.index', compact('pendaftaranLowongan', 'jenisDokumen'));
   }

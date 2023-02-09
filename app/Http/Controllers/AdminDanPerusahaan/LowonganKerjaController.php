@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminDanPerusahaan;
 
 use App\Helpers\Helper;
+use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
 use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowongan};
@@ -26,7 +27,7 @@ final class LowonganKerjaController extends Controller {
     return new JsonResponse($mitra->kantor);
   }
 
-  public function index(): View {
+  public function getAllJobVacanciesData(): View {
     $lowongan = null;
     $lowonganNeedApprove = null;
     $pendaftaranLowongan = null;
@@ -54,7 +55,7 @@ final class LowonganKerjaController extends Controller {
     return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
   }
 
-  public function create(): View {
+  public function createOneJobVacancyData(): View {
     $perusahaan = null;
     $jenisPekerjaan = JenisPekerjaan::all();
 
@@ -65,7 +66,7 @@ final class LowonganKerjaController extends Controller {
     return view('lowongankerja.tambah', compact('perusahaan', 'jenisPekerjaan'));
   }
 
-  public function store(StoreLowonganKerjaRequest $request): RedirectResponse {
+  public function storeOneJobVacancyData(StoreLowonganKerjaRequest $request): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
       $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
@@ -109,7 +110,7 @@ final class LowonganKerjaController extends Controller {
     return view('lowongankerja.jobVacanciesThatRequireApproval', compact('lowongan'));
   }
 
-  public function approveJobVancancies(LowonganKerja $lowonganKerja): RedirectResponse {
+  public function approveJobVacancies(LowonganKerja $lowonganKerja): RedirectResponse {
     $lowonganKerja->update(['is_approve' => true]);
 
     notify()->success("Berhasil mensetujui lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
@@ -117,7 +118,7 @@ final class LowonganKerjaController extends Controller {
     return to_route('lowongankerja.index');
   }
 
-  public function rejectJobVancancies(LowonganKerja $lowonganKerja): RedirectResponse {
+  public function rejectJobVacancies(LowonganKerja $lowonganKerja): RedirectResponse {
     $lowonganKerja->update(['is_approve' => false]);
 
     notify()->success("Berhasil menolak lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
@@ -125,7 +126,7 @@ final class LowonganKerjaController extends Controller {
     return to_route('lowongankerja.index');
   }
 
-  public function show(LowonganKerja $lowonganKerja): View|RedirectResponse {
+  public function getDetailOneJobVacancyData(LowonganKerja $lowonganKerja): View|RedirectResponse {
     try {
       return view('lowongankerja.detail', compact('lowonganKerja'));
     } catch (ItemNotFoundException) {
@@ -133,7 +134,7 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function edit(LowonganKerja $lowonganKerja): View|RedirectResponse {
+  public function editOneJobVacancyData(LowonganKerja $lowonganKerja): View|RedirectResponse {
     try {
       $lowongan = null;
       $perusahaan = null;
@@ -152,7 +153,10 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function update(StoreLowonganKerjaRequest $request, LowonganKerja $lowonganKerja): RedirectResponse {
+  public function updateOneJobVacancyData(
+    StoreLowonganKerjaRequest $request,
+    LowonganKerja $lowonganKerja
+  ): RedirectResponse {
     try {
       $validatedData = $request->validatedData();
 
@@ -178,7 +182,7 @@ final class LowonganKerjaController extends Controller {
     }
   }
 
-  public function nonActive(LowonganKerja $lowonganKerja): RedirectResponse {
+  public function deactiveOneJobVacancy(LowonganKerja $lowonganKerja): RedirectResponse {
     try {
       $lowonganKerja->update(['active' => false]);
       notify()->success('Berhasil menonaktifkan lowongan', 'Notifikasi');

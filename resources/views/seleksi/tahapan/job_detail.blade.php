@@ -12,8 +12,7 @@
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
-        <table @if ($lowonganKerja->tahapan_seleksi->count() > 0) id="myTable" @endif
-          class="table table-bordered border-secondary table-striped py-2">
+        <table class="table table-bordered border-secondary table-striped py-2">
           <thead class="table-dark">
             <tr>
               <th scope="col" class="text-nowrap text-center">No</th>
@@ -61,10 +60,10 @@
   </div>
 
   <div>
-    <a href="{{ route('lowongankerja.index') }}" class="btn btn-primary custom-btn mt-3">
+    <a href="{{ route('lowongankerja.index') }}" class="btn btn-primary custom-btn mt-2">
       Kembali
     </a>
-    <a href="{{ route('tahapan.seleksi.create', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn mt-3">
+    <a href="{{ route('tahapan.seleksi.create', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn mt-2">
       Tambah tahapan seleksi
     </a>
   </div>

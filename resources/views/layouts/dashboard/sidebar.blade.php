@@ -102,7 +102,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  @if (Request::is('sipeka/dashboard/lowongan*')) active @endif d-flex align-items-center gap-2"
+          <a class="nav-link  @if (Request::is('sipeka/dashboard/lowongan*') || Request::is('sipeka/dashboard/admin/pendaftaran-lowongan*')) active @endif d-flex align-items-center gap-2"
             aria-current="page" href="{{ route('lowongankerja.index') }}">
             <i class="fa-solid fa-briefcase fa-lg"></i>
             <span style="font-size: 15.5px !important;">Lowongan</span>

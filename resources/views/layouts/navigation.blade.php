@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow py-2-3">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top py-2-3" id="navbar">
   <div class="container">
     <a class="navbar-brand fs-4 fw-bold" href="{{ route('home') }}">SIPEKA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

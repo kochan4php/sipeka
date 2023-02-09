@@ -5,32 +5,34 @@ use App\Http\Controllers\{
   Auth\RegistrationController,
   Auth\AuthenticatedController,
   Auth\LogoutController,
-  // All Pengguna Controller
+
+  // All Admin Controller
   Admin\PenggunaController,
   Admin\Pengguna\AlumniController,
   Admin\Pengguna\MasyarakatController,
   Admin\Pengguna\MitraPerusahaanController,
-  // All Master Data Controller
   Admin\MasterData\JurusanController,
   Admin\MasterData\AngkatanController,
   Admin\MasterData\DokumenController,
+  Admin\ProfileController as AdminProfileController,
+  Admin\PendaftaranLowonganController as ADMPendaftaranLowonganController,
+
   // All Perusahaan Controller
   Perusahaan\PelamarController,
+  Perusahaan\PenilaianSeleksiController,
+
   // All Pelamar Controller
   Pelamar\PengalamanKerjaController,
   Pelamar\PendidikanController,
   Pelamar\LowonganKerjaController as PlmrLowonganKerjaController,
-  Pelamar\PendaftaranLowonganController,
+  Pelamar\PendaftaranLowonganController as PlmrPendaftaranLowonganController,
   Pelamar\DokumenController as PlmrDokumenController,
+
   // All Admin and Perusahaan Controller
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
-  AdminDanPerusahaan\PenilaianSeleksiController,
   AdminDanPerusahaan\KantorController,
-  VerifikasiPendaftaranLowonganController,
-  // All Admin Sensitive Controller
-  Admin\ProfileController as AdminProfileController,
-  Admin\NotifikasiSeleksiController,
+
   // Change password for all users
   ChangePasswordController,
 };
@@ -105,8 +107,6 @@ Route::prefix('/sipeka')->group(function () {
             ->name('admin.alumni.edit');
           Route::put('/{nis}', 'updateOneAlumniData')
             ->name('admin.alumni.update');
-          Route::delete('/{nis}', 'deleteOneAlumniData')
-            ->name('admin.alumni.delete');
         });
 
         Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {
@@ -122,8 +122,6 @@ Route::prefix('/sipeka')->group(function () {
             ->name('admin.pelamar.edit');
           Route::put('/{username}', 'updateOneCandidateDataFromOutsideSchool')
             ->name('admin.pelamar.update');
-          Route::delete('/{username}', 'deleteOneCandidateDataFromOutsideSchool')
-            ->name('admin.pelamar.delete');
         });
 
         Route::prefix('/perusahaan')->controller(MitraPerusahaanController::class)->group(function () {
@@ -139,8 +137,6 @@ Route::prefix('/sipeka')->group(function () {
             ->name('admin.perusahaan.edit');
           Route::put('/{username}', 'updateOneMitraData')
             ->name('admin.perusahaan.update');
-          Route::delete('/{username}', 'deleteOneMitraData')
-            ->name('admin.perusahaan.delete');
           Route::post('/{user}/block', 'blockOneMitra')
             ->name('admin.perusahaan.block');
           Route::post('/{user}/unblock', 'unblockOneMitra')
@@ -160,13 +156,13 @@ Route::prefix('/sipeka')->group(function () {
           });
 
           Route::prefix('/angkatan')->controller(AngkatanController::class)->group(function () {
-            Route::get('/', 'index')
+            Route::get('/', 'getAllAngkatanData')
               ->name('admin.angkatan.index');
-            Route::post('/', 'store')
+            Route::post('/', 'storeOneAngkatanData')
               ->name('admin.angkatan.store');
-            Route::get('/{angkatan}/detail', 'show')
+            Route::get('/{angkatan}/detail', 'getOneDetailAngkatanData')
               ->name('admin.angkatan.detail');
-            Route::put('/{angkatan}', 'update')
+            Route::put('/{angkatan}', 'updateOneAngkatanData')
               ->name('admin.angkatan.update');
           });
 
@@ -187,6 +183,16 @@ Route::prefix('/sipeka')->group(function () {
             ->name('admin.profile.index');
           Route::put('/{admin}', 'update')
             ->name('admin.profile.update');
+        });
+
+        // Route Pendaftaran Lowongan oleh Admin
+        Route::prefix('/pendaftaran-lowongan')->controller(ADMPendaftaranLowonganController::class)->group(function () {
+          Route::get('/', 'getAllJobRegistrationData')
+            ->name('admin.pendaftaran-lowongan.index');
+          Route::get('/{pendaftaran_lowongan}/setujui', 'jobVacancyRegistrationApproval')
+            ->name('admin.pendaftaran-lowongan.approve');
+          Route::get('/{pendaftaran_lowongan}/tolak', 'jobVacancyRegistrationApproval')
+            ->name('admin.pendaftaran-lowongan.reject');
         });
       });
 
@@ -223,83 +229,62 @@ Route::prefix('/sipeka')->group(function () {
       // Route Lowongan oleh Admin dan Mitra Perusahaan
       Route::prefix('/lowongan')->middleware('role:admin,perusahaan')->group(function () {
         Route::controller(AMPLowonganKerjaController::class)->group(function () {
-          Route::get('/', 'index')
+          Route::get('/', 'getAllJobVacanciesData')
             ->name('lowongankerja.index');
           Route::get('/{mitra}/kantor', 'getKantorJSONFormat')
             ->name('loker.kantor');
           Route::get('/need-approve', 'jobVacanciesThatRequireApproval')
             ->name('lowongankerja.jobVacanciesThatRequireApproval');
-          Route::get('/need-approve/{lowongan_kerja}/approve', 'approveJobVancancies')
+          Route::get('/need-approve/{lowongan_kerja}/approve', 'approveJobVacancies')
             ->name('lowongankerja.approveJobVancancies');
-          Route::get('/need-approve/{lowongan_kerja}/reject', 'rejectJobVancancies')
+          Route::get('/need-approve/{lowongan_kerja}/reject', 'rejectJobVacancies')
             ->name('lowongankerja.rejectJobVancancies');
           Route::post('/need-approve/{lowongan_kerja}', 'jobVacanciesThatRequireApproval')
             ->name('lowongankerja.jobVacanciesThatRequireApproval.store');
-          Route::get('/tambah', 'create')
+          Route::get('/tambah', 'createOneJobVacancyData')
             ->name('lowongankerja.create');
-          Route::post('/', 'store')
+          Route::post('/', 'storeOneJobVacancyData')
             ->name('lowongankerja.store');
-          Route::get('/{lowongan_kerja}/detail', 'show')
+          Route::get('/{lowongan_kerja}/detail', 'getDetailOneJobVacancyData')
             ->name('lowongankerja.detail');
-          Route::get('/{lowongan_kerja}/edit', 'edit')
+          Route::get('/{lowongan_kerja}/edit', 'editOneJobVacancyData')
             ->name('lowongankerja.edit');
-          Route::put('/{lowongan_kerja}', 'update')
+          Route::put('/{lowongan_kerja}', 'updateOneJobVacancyData')
             ->name('lowongankerja.update');
-          Route::post('/{lowongan_kerja}', 'nonActive')
+          Route::post('/{lowongan_kerja}', 'deactiveOneJobVacancy')
             ->name('lowongankerja.nonactive');
         });
 
         Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
-          Route::get('/{lowongan_kerja}/tambah', 'create')
+          Route::get('/{lowongan_kerja}/tambah', 'createOneStagesOfSelection')
             ->name('tahapan.seleksi.create');
-          Route::get('/{lowongan_kerja}/detail', 'jobDetail')
+          Route::get('/{lowongan_kerja}/detail', 'jobVacancyDetail')
             ->name('tahapan.seleksi.detail_lowongan');
-          Route::post('/{lowongan_kerja}', 'store')
+          Route::post('/{lowongan_kerja}', 'storeOneStagesOfSelection')
             ->name('tahapan.seleksi.store');
-          Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'edit')
+          Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'editOneStagesOfSelection')
             ->name('tahapan.seleksi.edit');
-          Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'update')
+          Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'updateOneStagesOfSelection')
             ->name('tahapan.seleksi.update');
-          Route::delete('/{lowongan_kerja}/delete/{tahapan_seleksi}', 'destroy')
-            ->name('tahapan.seleksi.delete');
         });
       });
 
-      // Verifikasi lamaran kerja pelamar oleh admin
-      Route::post(
-        '/pendaftaran-lowongan/verifikasi/{pendaftaran_lowongan}',
-        [VerifikasiPendaftaranLowonganController::class, 'verification']
-      )->name('pendaftaran_lowongan.verifikasi');
-
-      // Route Seleksi oleh Admin dan Mitra Perusahaan
-      Route::prefix('/seleksi')->middleware('role:admin,perusahaan')->group(function () {
-        Route::prefix('/penilaian')->group(function () {
-          Route::controller(PenilaianSeleksiController::class)->group(function () {
-            Route::get('/', 'index')
-              ->name('penilaian.seleksi.index');
-            Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
-              ->name('penilaian.seleksi.job_application_details');
-            Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
-              ->name('penilaian.seleksi.create');
-            Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
-              ->name('penilaian.seleksi.store');
-            Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
-              ->name('penilaian.seleksi.edit');
-            Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
-              ->name('penilaian.seleksi.update');
-            Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
-              ->name('penilaian.seleksi.pass_applicants');
-          });
-
-          Route::prefix('/notifikasi-seleksi')->controller(NotifikasiSeleksiController::class)->group(function () {
-            Route::get('/{pelamar}', 'index')
-              ->name('notifikasi.seleksi.index');
-            Route::post('/{pelamar}', 'store')
-              ->name('notifikasi.seleksi.store');
-            Route::delete('/{pelamar}/delete/{notifikasi_seleksi}', 'destroy')
-              ->name('notifikasi.seleksi.destroy');
-          });
-        });
+      // Route Seleksi oleh Mitra Perusahaan
+      Route::prefix('/seleksi/penilaian')->controller(PenilaianSeleksiController::class)->middleware('role:perusahaan')->group(function () {
+        Route::get('/', 'index')
+          ->name('penilaian.seleksi.index');
+        Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
+          ->name('penilaian.seleksi.job_application_details');
+        Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
+          ->name('penilaian.seleksi.create');
+        Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
+          ->name('penilaian.seleksi.store');
+        Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
+          ->name('penilaian.seleksi.edit');
+        Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
+          ->name('penilaian.seleksi.update');
+        Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
+          ->name('penilaian.seleksi.pass_applicants');
       });
     });
 
@@ -343,7 +328,7 @@ Route::prefix('/sipeka')->group(function () {
           ->name('pelamar.pendidikan.store');
       });
 
-      Route::prefix('/lamaran-kerja')->controller(PendaftaranLowonganController::class)->group(function () {
+      Route::prefix('/lamaran-kerja')->controller(PlmrPendaftaranLowonganController::class)->group(function () {
         Route::get('/', 'index')
           ->name('pelamar.lamaran.index');
         Route::get('/{pendaftaran_lowongan}/detail', 'show')

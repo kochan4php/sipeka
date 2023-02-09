@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class AngkatanController extends Controller {
-  public function index(): View {
+  public function getAllAngkatanData(): View {
     $angkatan = QueryBuilder::for(Angkatan::class)
       ->latest('id_angkatan')
       ->paginate(10);
@@ -18,7 +18,7 @@ final class AngkatanController extends Controller {
     return view('admin.masterdata.angkatan.index', compact('angkatan'));
   }
 
-  public function store(Request $request): RedirectResponse {
+  public function storeOneAngkatanData(Request $request): RedirectResponse {
     try {
       $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
       $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);
@@ -32,7 +32,7 @@ final class AngkatanController extends Controller {
     }
   }
 
-  public function show(Angkatan $angkatan): JsonResponse|RedirectResponse {
+  public function getOneDetailAngkatanData(Angkatan $angkatan): JsonResponse|RedirectResponse {
     try {
       return response()->json($angkatan);
     } catch (\Exception $e) {
@@ -40,7 +40,7 @@ final class AngkatanController extends Controller {
     }
   }
 
-  public function update(Request $request, Angkatan $angkatan): RedirectResponse {
+  public function updateOneAngkatanData(Request $request, Angkatan $angkatan): RedirectResponse {
     try {
       $request->validate(['id_angkatan' => ['required'], 'angkatan_tahun' => ['required']]);
       $validatedData = $request->only(['id_angkatan', 'angkatan_tahun']);

@@ -8,12 +8,14 @@
           <h2>Detail Lowongan Kerja</h2>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col d-flex justify-content-center">
-              <img src="{{ asset('storage/' . $lowonganKerja->banner) }}" alt="" width="600">
+          @if (!is_null($lowonganKerja->banner))
+            <div class="row">
+              <div class="col d-flex justify-content-center">
+                <img src="{{ asset('storage/' . $lowonganKerja->banner) }}" alt="" width="600">
+              </div>
             </div>
-          </div>
-          <hr />
+            <hr />
+          @endif
           <div class="row gap-4 gap-lg-0">
             <div class="col-lg-9">
               <table class="table table-responsive">
@@ -59,7 +61,7 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Lokasi Kerja') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->lokasi_kerja) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->kantor->alamat_kantor) }}</td>
                   </tr>
                 </tbody>
               </table>

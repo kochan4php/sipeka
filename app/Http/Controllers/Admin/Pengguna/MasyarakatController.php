@@ -128,18 +128,4 @@ final class MasyarakatController extends Controller {
       return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
     }
   }
-
-  public function deleteOneCandidateDataFromOutsideSchool(string $username): RedirectResponse {
-    try {
-      $orang = $this->getOnePersonByUsername($username);
-      User::whereUsername($orang->username)->delete();
-      Helper::deleteFileIfExistsInStorageFolder($orang->foto);
-
-      return back()->with('sukses', 'Berhasil hapus data pelamar');
-    } catch (\Exception $e) {
-      notify()->error($e->getMessage(), 'Notifikasi');
-
-      return back();
-    }
-  }
 }

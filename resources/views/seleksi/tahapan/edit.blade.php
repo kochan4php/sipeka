@@ -11,7 +11,10 @@
           <x-alert-error-validation />
           <x-alert-error />
           <form
-            action="{{ route('tahapan.seleksi.update', ['lowongan_kerja' => $lowonganKerja->slug, 'tahapan_seleksi' => $tahapanSeleksi->id_tahapan]) }}"
+            action="{{ route('tahapan.seleksi.update', [
+                'lowongan_kerja' => $lowonganKerja->slug,
+                'tahapan_seleksi' => $tahapanSeleksi->id_tahapan,
+            ]) }}"
             method="POST">
             @csrf
             @method('put')
@@ -56,6 +59,16 @@
                 <input type="text" class="form-control @error('judul_tahapan')is-invalid @enderror" id="judul_tahapan"
                   name="judul_tahapan" placeholder="Tes Interview dengan perusahaan yang dituju"
                   value="{{ old('judul_tahapan', $tahapanSeleksi->judul_tahapan) }}">
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="tanggal_dimulai" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                {{ __('Tanggal tahapan dimulai') }}
+              </label>
+              <div class="col-sm-8">
+                <input type="date" class="form-control @error('tanggal_dimulai') is-invalid @enderror"
+                  id="tanggal_dimulai" name="tanggal_dimulai"
+                  value="{{ old('tanggal_dimulai', \Carbon\Carbon::parse($tahapanSeleksi->tanggal_dimulai)->format('Y-m-d')) }}">
               </div>
             </div>
             <div class="mb-3 row">

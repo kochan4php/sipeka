@@ -148,20 +148,4 @@ final class AlumniController extends Controller {
       return $this->redirectToMainRoute();
     }
   }
-
-  public function deleteOneAlumniData(string $username): RedirectResponse {
-    try {
-      $alumni = $this->getOneAlumniByUsername($username);
-      User::whereUsername($alumni->username)->delete();
-      Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
-
-      notify()->success('Berhasil Hapus Data Alumni', 'Notifikasi');
-
-      return back();
-    } catch (\Exception $e) {
-      notify()->error($e->getMessage(), 'Notifikasi');
-
-      return back();
-    }
-  }
 }
