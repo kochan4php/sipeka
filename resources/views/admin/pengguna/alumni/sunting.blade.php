@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.alumni.update', $alumni->username) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('admin.alumni.update', $user->username) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="mb-3 row">
@@ -50,7 +50,7 @@
                 <select name="jurusan" id="jurusan" class="form-select" required>
                   <option selected disabled hidden>-- Pilih Jurusan --</option>
                   @foreach ($jurusan as $item)
-                    <option value="{{ $item->id_jurusan }}" @if ($item->id_jurusan === $alumni->id_jurusan) @selected(true) @endif>
+                    <option value="{{ $item->id_jurusan }}" @selected($item->id_jurusan === $alumni->jurusan->id_jurusan)>
                       {{ $item->nama_jurusan }}
                     </option>
                   @endforeach
@@ -65,7 +65,7 @@
                 <select name="angkatan" id="angkatan" class="form-select" required>
                   <option selected disabled hidden>-- Pilih Tahun Angkatan --</option>
                   @foreach ($angkatan as $item)
-                    <option value="{{ $item->id_angkatan }}" @if ($item->id_angkatan === $alumni->id_angkatan) @selected(true) @endif>
+                    <option value="{{ $item->id_angkatan }}" @selected($item->id_angkatan === $alumni->angkatan->id_angkatan)>
                       {{ $item->angkatan_tahun }}
                     </option>
                   @endforeach

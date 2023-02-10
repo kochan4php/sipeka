@@ -101,11 +101,11 @@ Route::prefix('/sipeka')->group(function () {
             ->name('admin.alumni.create');
           Route::post('/', 'storeOneAlumniData')
             ->name('admin.alumni.store');
-          Route::get('/{nis}/detail', 'getDetailOneAlumniDataByNIS')
+          Route::get('/{user}/detail', 'getDetailOneAlumniDataByNIS')
             ->name('admin.alumni.detail');
-          Route::get('/{nis}/sunting', 'editOneAlumniData')
+          Route::get('/{user}/sunting', 'editOneAlumniData')
             ->name('admin.alumni.edit');
-          Route::put('/{nis}', 'updateOneAlumniData')
+          Route::put('/{user}', 'updateOneAlumniData')
             ->name('admin.alumni.update');
         });
 

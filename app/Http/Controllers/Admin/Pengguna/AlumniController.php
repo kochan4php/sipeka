@@ -8,6 +8,7 @@ use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
+use App\Models\LevelUser;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\{DB, Hash};
@@ -53,22 +54,33 @@ final class AlumniController extends Controller {
     try {
       $validatedData = $request->validatedDataAlumni();
       $validatedData['username'] = $validatedData['nis'];
+      $validatedData['password'] = Hash::make($validatedData['nis']);
+      $level = LevelUser::firstWhere('identifier', 'pelamar');
 
-      DB::insert("CALL insert_one_siswa_alumni(:username, :email, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
+      $dataUser = [
+        'id_level' => $level->id_level,
         'username' => $validatedData['username'],
-        'password' => Hash::make($validatedData['nis']),
-        'jurusan' => $validatedData['jurusan'],
-        'angkatan' => $validatedData['angkatan'],
+        'password' => $validatedData['password'],
+      ];
+
+      $dataAlumni = [
+        'id_angkatan' => $validatedData['angkatan'],
+        'id_jurusan' => $validatedData['jurusan'],
         'nis' => $validatedData['nis'],
-        'nama' => $validatedData['nama'],
+        'nama_lengkap' => $validatedData['nama'],
         'jenis_kelamin' => $validatedData['jenis_kelamin'],
         'tempat_lahir' => $validatedData['tempat_lahir'],
         'tanggal_lahir' => $validatedData['tanggal_lahir'],
-        'no_telp' => $validatedData['no_telp'],
-        'alamat_alumni' => $validatedData['alamat_alumni'],
-        'foto_alumni' => $validatedData['foto_alumni'],
-        'email' => NULL
-      ]);
+        'no_telepon' => $validatedData['no_telp'],
+        'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
+        'foto' => $validatedData['foto_alumni'],
+      ];
+
+      User::create($dataUser)
+        ->pelamar()
+        ->create()
+        ->alumni()
+        ->create($dataAlumni);
 
       notify()->success('Berhasil Menambahkan Data Alumni', 'Notifikasi');
 
@@ -80,11 +92,11 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function getDetailOneAlumniDataByNIS(string $username): View|RedirectResponse {
+  public function getDetailOneAlumniDataByNIS(User $user): View|RedirectResponse {
     try {
-      $alumni = $this->getOneAlumniByUsername($username);
+      $alumni = $user->alumni;
 
-      return view('admin.pengguna.alumni.detail', compact('alumni'));
+      return view('admin.pengguna.alumni.detail', compact('alumni', 'user'));
     } catch (ItemNotFoundException) {
       notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
 
@@ -92,13 +104,13 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function editOneAlumniData(string $username): View|RedirectResponse {
+  public function editOneAlumniData(User $user): View|RedirectResponse {
     try {
       $jurusan = $this->getJurusan();
       $angkatan = $this->getAngkatan();
-      $alumni = $this->getOneAlumniByUsername($username);
+      $alumni = $user->alumni;
 
-      return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni'));
+      return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni', 'user'));
     } catch (ItemNotFoundException) {
       notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
 
@@ -106,10 +118,10 @@ final class AlumniController extends Controller {
     }
   }
 
-  public function updateOneAlumniData(StoreAlumniRequest $request, string $username): RedirectResponse {
+  public function updateOneAlumniData(StoreAlumniRequest $request, User $user): RedirectResponse {
     try {
-      $alumni = $this->getOneAlumniByUsername($username);
       $validatedData = $request->validatedDataAlumni();
+      $alumni = $user->alumni;
 
       if ($request->hasFile('foto_alumni')) {
         Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
@@ -118,30 +130,33 @@ final class AlumniController extends Controller {
       if ($alumni->nis !== $validatedData['nis']) {
         $validatedData['password'] = Hash::make($validatedData['nis']);
         $validatedData['new_username'] = $validatedData['nis'];
+        $user->update([
+          'username' => $validatedData['new_username'],
+          'password' => $validatedData['password'],
+        ]);
       } else {
         $validatedData['password'] = null;
         $validatedData['new_username'] = null;
       }
 
-      DB::update("CALL update_one_siswa_alumni_by_username(:old_username, :new_username, :password, :jurusan, :angkatan, :nis, :nama, :jenis_kelamin, :tempat_lahir, :tanggal_lahir, :no_telp, :alamat_alumni, :foto_alumni)", [
-        'old_username' =>  $alumni->username ?? $username,
-        'new_username' => $validatedData['new_username'],
-        'password' => $validatedData['password'],
-        'jurusan' => $validatedData['jurusan'],
-        'angkatan' => $validatedData['angkatan'],
+      $dataAlumni = [
+        'id_angkatan' => $validatedData['angkatan'],
+        'id_jurusan' => $validatedData['jurusan'],
         'nis' => $validatedData['nis'],
-        'nama' => $validatedData['nama'],
+        'nama_lengkap' => $validatedData['nama'],
         'jenis_kelamin' => $validatedData['jenis_kelamin'],
         'tempat_lahir' => $validatedData['tempat_lahir'],
         'tanggal_lahir' => $validatedData['tanggal_lahir'],
-        'no_telp' => $validatedData['no_telp'],
-        'alamat_alumni' => $validatedData['alamat_alumni'],
-        'foto_alumni' => $validatedData['foto_alumni'],
-      ]);
+        'no_telepon' => $validatedData['no_telp'],
+        'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
+        'foto' => $validatedData['foto_alumni'] ?? $alumni->foto,
+      ];
+
+      $user->alumni()->update($dataAlumni);
 
       notify()->success('Berhasil Memperbarui Data Alumni', 'Notifikasi');
 
-      return $this->redirectToMainRoute();
+      return to_route('admin.alumni.detail', ['user' => $user->username]);
     } catch (ItemNotFoundException) {
       notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
 

@@ -11,10 +11,10 @@
           <div class="row mt-3 gap-4 gap-lg-0">
             <div class="col-lg-3 text-center">
               @if (is_null($alumni->foto))
-                <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $alumni->username }}" width="170"
+                <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $user->username }}" width="170"
                   class="rounded-circle">
               @else
-                <img src="{{ asset('storage/' . $alumni->foto) }}" alt="{{ $alumni->username }}" width="170">
+                <img src="{{ asset('storage/' . $alumni->foto) }}" alt="{{ $user->username }}" width="170">
               @endif
             </div>
             <div class="col-lg-9">
@@ -28,7 +28,7 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->username) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($user->username) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Lengkap') }}</td>
@@ -49,12 +49,12 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Jurusan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->keterangan) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->jurusan->keterangan) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tahun Angkatan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->angkatan_tahun) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->angkatan->angkatan_tahun) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
