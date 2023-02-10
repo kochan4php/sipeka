@@ -30,10 +30,6 @@ final class AlumniController extends Controller {
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  private function getOneAlumniByUsername(string $username): object {
-    return collect(DB::select('CALL get_one_alumni_by_username(?)', [$username]))->firstOrFail();
-  }
-
   public function getAllAlumniData(): View {
     $alumni = QueryBuilder::for(SiswaAlumni::class)
       ->with(['jurusan', 'angkatan', 'pelamar'])
