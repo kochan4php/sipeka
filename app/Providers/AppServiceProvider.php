@@ -25,17 +25,17 @@ class AppServiceProvider extends ServiceProvider {
    */
   public function boot(): void {
     Paginator::useBootstrapFive();
-    Gate::define(
-      'admin',
-      fn (User $user) => ($user->level_user->identifier === 'admin') || (Auth::user()->level_user->identifier === 'admin')
-    );
-    Gate::define(
-      'perusahaan',
-      fn (User $user) => ($user->level_user->identifier === 'perusahaan') || (Auth::user()->level_user->identifier === 'perusahaan')
-    );
-    Gate::define(
-      'pelamar',
-      fn (User $user) => ($user->level_user->identifier === 'pelamar') || (Auth::user()->level_user->identifier === 'pelamar')
-    );
+
+    Gate::define('admin', function (User $user) {
+      return ($user->level_user->identifier === 'admin') || (Auth::user()->level_user->identifier === 'admin');
+    });
+
+    Gate::define('perusahaan', function (User $user) {
+      return ($user->level_user->identifier === 'perusahaan') || (Auth::user()->level_user->identifier === 'perusahaan');
+    });
+
+    Gate::define('pelamar', function (User $user) {
+      return ($user->level_user->identifier === 'pelamar') || (Auth::user()->level_user->identifier === 'pelamar');
+    });
   }
 }

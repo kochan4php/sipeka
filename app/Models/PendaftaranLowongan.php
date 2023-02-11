@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -54,11 +56,5 @@ class PendaftaranLowongan extends Model {
 
   public function getRouteKeyName(): string {
     return 'id_pendaftaran';
-  }
-
-  public function scopeIsVerified($query): void {
-    $query
-      ->where('verifikasi', 'Sudah')
-      ->latest();
   }
 }

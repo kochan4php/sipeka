@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Jurusan;
@@ -12,8 +14,8 @@ class JurusanSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
-    $jurusan = collect([
+  public function run(): void {
+    $jurusan = [
       [
         'id_jurusan' => 'JRS0001',
         'nama_jurusan' => 'RPL',
@@ -39,8 +41,8 @@ class JurusanSeeder extends Seeder {
         'nama_jurusan' => 'AK',
         'keterangan' => 'Akuntasi'
       ],
-    ]);
+    ];
 
-    $jurusan->each(fn ($jrs) => Jurusan::create($jrs));
+    Jurusan::insert($jurusan);
   }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\AdminBKK;
@@ -12,7 +14,7 @@ class AdminBKKSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
+  public function run(): void {
     AdminBKK::create([
       'id_admin' => 'ADM01',
       'id_user' => 1,

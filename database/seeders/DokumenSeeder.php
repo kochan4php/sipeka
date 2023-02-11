@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Dokumen;
@@ -12,8 +14,8 @@ class DokumenSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
-    $dokumen = collect([
+  public function run(): void {
+    $dokumen = [
       [
         'id_jenis_dokumen' => 'DKMN001',
         'nama_dokumen' => 'KTP'
@@ -30,8 +32,8 @@ class DokumenSeeder extends Seeder {
         'id_jenis_dokumen' => 'DKMN004',
         'nama_dokumen' => 'Legalisir Nilai'
       ],
-    ]);
+    ];
 
-    $dokumen->each(fn ($dkmn) => Dokumen::create($dkmn));
+    Dokumen::insert($dokumen);
   }
 }

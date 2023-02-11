@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Models\User;
@@ -95,7 +97,10 @@ final class MasyarakatController extends Controller {
     }
   }
 
-  public function updateOneCandidateDataFromOutsideSchool(StorePersonRequest $request, string $username): RedirectResponse {
+  public function updateOneCandidateDataFromOutsideSchool(
+    StorePersonRequest $request,
+    string $username
+  ): RedirectResponse {
     try {
       $orang = $this->getOnePersonByUsername($username);
       $validatedData = $request->validatedDataPerson();

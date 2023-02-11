@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\LevelUser;
@@ -13,12 +15,12 @@ class LevelUserSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
+  public function run(): void {
     $admin = 'Admin';
     $mitraPerusahaan = 'Perusahaan';
     $pelamar = 'Pelamar';
 
-    $levelUser = collect([
+    $levelUser = [
       [
         'id_level' => 'LU01',
         'nama_level' => $admin,
@@ -34,8 +36,8 @@ class LevelUserSeeder extends Seeder {
         'nama_level' => $pelamar,
         'identifier' => strtolower(Str::slug($pelamar))
       ],
-    ]);
+    ];
 
-    $levelUser->each(fn ($lu) => LevelUser::create($lu));
+    LevelUser::create($levelUser);
   }
 }

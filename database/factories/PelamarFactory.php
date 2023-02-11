@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\User;
@@ -14,7 +16,7 @@ class PelamarFactory extends Factory {
    *
    * @return array<string, mixed>
    */
-  public function definition() {
+  public function definition(): array {
     return [
       'id_user' => User::factory()
     ];

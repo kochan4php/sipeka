@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Helpers\Helper;
@@ -15,7 +17,7 @@ class MitraPerusahaanFactory extends Factory {
    *
    * @return array<string, mixed>
    */
-  public function definition() {
+  public function definition(): array {
     return [
       'id_user' => User::factory()->create(['id_level' => 'LU02']),
       'nama_perusahaan' => fake()->firstName(),

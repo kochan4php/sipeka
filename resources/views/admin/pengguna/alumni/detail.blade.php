@@ -9,13 +9,15 @@
         </div>
         <div class="card-body">
           <div class="row mt-3 gap-4 gap-lg-0">
-            <div class="col-lg-3 text-center">
-              @if (is_null($alumni->foto))
-                <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $user->username }}" width="170"
-                  class="rounded-circle">
-              @else
-                <img src="{{ asset('storage/' . $alumni->foto) }}" alt="{{ $user->username }}" width="170">
-              @endif
+            <div class="col-lg-3 d-flex justify-content-center">
+              <div>
+                @if (is_null($alumni->foto))
+                  <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $user->username }}" width="170"
+                    class="rounded-circle">
+                @else
+                  <img src="{{ asset("storage/{$alumni->foto}") }}" alt="{{ $user->username }}" width="170">
+                @endif
+              </div>
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">

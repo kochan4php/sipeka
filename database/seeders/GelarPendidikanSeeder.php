@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\GelarPendidikan;
@@ -12,7 +14,7 @@ class GelarPendidikanSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
+  public function run(): void {
     $gelar = collect([
       ['nama_gelar' => 'SMA/SMK/SMU'],
       ['nama_gelar' => 'Associate Degree'],

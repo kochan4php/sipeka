@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\MitraPerusahaan;
@@ -12,7 +14,7 @@ class MitraPerusahaanSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
+  public function run(): void {
     MitraPerusahaan::factory(100)->hasKantor(10)->create();
   }
 }

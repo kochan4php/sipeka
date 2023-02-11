@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Angkatan;
@@ -12,7 +14,7 @@ class AngkatanSeeder extends Seeder {
    *
    * @return void
    */
-  public function run() {
+  public function run(): void {
     $angkatan = [
       [
         'id_angkatan' => 'AGKT0001',

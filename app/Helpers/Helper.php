@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 use Illuminate\Support\Str;
@@ -176,7 +178,11 @@ class Helper {
     return strtolower(Str::slug($name) . '-' . Str::random(20));
   }
 
-  public static function generateUniqueCode(string $prefix, string $separator = '-', int $length = 10) {
+  public static function generateUniqueCode(
+    string $prefix,
+    string $separator = '-',
+    int $length = 10
+  ): string {
     return strtoupper($prefix . $separator . Str::random($length));
   }
 

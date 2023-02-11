@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,7 +15,7 @@ class SiswaAlumniFactory extends Factory {
    *
    * @return array<string, mixed>
    */
-  public function definition() {
+  public function definition(): array {
     return [
       'id_pelamar' => \App\Models\Pelamar::factory(),
       'id_angkatan' => \App\Models\Angkatan::inRandomOrder()->first()->id_angkatan,
