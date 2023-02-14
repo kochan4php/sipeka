@@ -108,6 +108,13 @@
             <span style="font-size: 15.5px !important;">Lowongan</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link  @if (Request::is('sipeka/dashboard/rekomendasi*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('lowongankerja.index') }}">
+            <i class="fa-solid fa-star fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Rekomendasi</span>
+          </a>
+        </li>
       @endcanany
       @can('admin')
         <li class="nav-item">

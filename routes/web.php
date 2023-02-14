@@ -32,6 +32,7 @@ use App\Http\Controllers\{
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
   AdminDanPerusahaan\TahapanSeleksiController,
   AdminDanPerusahaan\KantorController,
+  AdminDanPerusahaan\RecomendationController,
 
   // Change password for all users
   ChangePasswordController,
@@ -200,91 +201,113 @@ Route::prefix('/sipeka')->group(function () {
       Route::prefix('/perusahaan')->middleware('role:perusahaan')->group(function () {
         Route::get('/', \App\Http\Controllers\Perusahaan\MainController::class)
           ->name('perusahaan.index');
+
         Route::controller(PelamarController::class)->group(function () {
           Route::get('/pelamar', 'index')
             ->name('perusahaan.pelamar.index');
           Route::get('/pelamar/{user}/detail', 'show')
             ->name('perusahaan.pelamar.detail');
         });
-      });
 
-      // Route Kantor Mitra
-      Route::prefix('/kantor')->controller(KantorController::class)->middleware('role:admin,perusahaan')->group(function () {
-        Route::get('/', 'getAllKantorData')
-          ->name('kantor.index');
-        Route::get('/tambah', 'createOneKantorData')
-          ->name('kantor.create');
-        Route::post('/', 'storeOneKantorData')
-          ->name('kantor.store');
-        Route::get('/{kantor}', 'getDetailOneKantorData')
-          ->name('kantor.detail');
-        Route::get('/{kantor}/edit', 'editOneKantorData')
-          ->name('kantor.edit');
-        Route::put('/{kantor}', 'updateOneKantorData')
-          ->name('kantor.update');
-        Route::delete('/{kantor}', 'deleteOneKantorData')
-          ->name('kantor.delete');
-      });
-
-      // Route Lowongan oleh Admin dan Mitra Perusahaan
-      Route::prefix('/lowongan')->middleware('role:admin,perusahaan')->group(function () {
-        Route::controller(AMPLowonganKerjaController::class)->group(function () {
-          Route::get('/', 'getAllJobVacanciesData')
-            ->name('lowongankerja.index');
-          Route::get('/{mitra}/kantor', 'getKantorJSONFormat')
-            ->name('loker.kantor');
-          Route::get('/need-approve', 'jobVacanciesThatRequireApproval')
-            ->name('lowongankerja.jobVacanciesThatRequireApproval');
-          Route::get('/need-approve/{lowongan_kerja}/approve', 'approveJobVacancies')
-            ->name('lowongankerja.approveJobVancancies');
-          Route::get('/need-approve/{lowongan_kerja}/reject', 'rejectJobVacancies')
-            ->name('lowongankerja.rejectJobVancancies');
-          Route::post('/need-approve/{lowongan_kerja}', 'jobVacanciesThatRequireApproval')
-            ->name('lowongankerja.jobVacanciesThatRequireApproval.store');
-          Route::get('/tambah', 'createOneJobVacancyData')
-            ->name('lowongankerja.create');
-          Route::post('/', 'storeOneJobVacancyData')
-            ->name('lowongankerja.store');
-          Route::get('/{lowongan_kerja}/detail', 'getDetailOneJobVacancyData')
-            ->name('lowongankerja.detail');
-          Route::get('/{lowongan_kerja}/edit', 'editOneJobVacancyData')
-            ->name('lowongankerja.edit');
-          Route::put('/{lowongan_kerja}', 'updateOneJobVacancyData')
-            ->name('lowongankerja.update');
-          Route::post('/{lowongan_kerja}', 'deactiveOneJobVacancy')
-            ->name('lowongankerja.nonactive');
-        });
-
-        Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
-          Route::get('/{lowongan_kerja}/tambah', 'createOneStagesOfSelection')
-            ->name('tahapan.seleksi.create');
-          Route::get('/{lowongan_kerja}/detail', 'jobVacancyDetail')
-            ->name('tahapan.seleksi.detail_lowongan');
-          Route::post('/{lowongan_kerja}', 'storeOneStagesOfSelection')
-            ->name('tahapan.seleksi.store');
-          Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'editOneStagesOfSelection')
-            ->name('tahapan.seleksi.edit');
-          Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'updateOneStagesOfSelection')
-            ->name('tahapan.seleksi.update');
+        // Route Seleksi oleh Mitra Perusahaan
+        Route::prefix('/seleksi/penilaian')->controller(PenilaianSeleksiController::class)->group(function () {
+          Route::get('/', 'index')
+            ->name('penilaian.seleksi.index');
+          Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
+            ->name('penilaian.seleksi.job_application_details');
+          Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
+            ->name('penilaian.seleksi.create');
+          Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
+            ->name('penilaian.seleksi.store');
+          Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
+            ->name('penilaian.seleksi.edit');
+          Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
+            ->name('penilaian.seleksi.update');
+          Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
+            ->name('penilaian.seleksi.pass_applicants');
         });
       });
 
-      // Route Seleksi oleh Mitra Perusahaan
-      Route::prefix('/seleksi/penilaian')->controller(PenilaianSeleksiController::class)->middleware('role:perusahaan')->group(function () {
-        Route::get('/', 'index')
-          ->name('penilaian.seleksi.index');
-        Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
-          ->name('penilaian.seleksi.job_application_details');
-        Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
-          ->name('penilaian.seleksi.create');
-        Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
-          ->name('penilaian.seleksi.store');
-        Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
-          ->name('penilaian.seleksi.edit');
-        Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
-          ->name('penilaian.seleksi.update');
-        Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
-          ->name('penilaian.seleksi.pass_applicants');
+      // Route untuk admin dan mitra
+      Route::middleware('role:admin,perusahaan')->group(function () {
+        // Route Kantor Mitra
+        Route::prefix('/kantor')->controller(KantorController::class)->group(function () {
+          Route::get('/', 'getAllKantorData')
+            ->name('kantor.index');
+          Route::get('/tambah', 'createOneKantorData')
+            ->name('kantor.create');
+          Route::post('/', 'storeOneKantorData')
+            ->name('kantor.store');
+          Route::get('/{kantor}', 'getDetailOneKantorData')
+            ->name('kantor.detail');
+          Route::get('/{kantor}/edit', 'editOneKantorData')
+            ->name('kantor.edit');
+          Route::put('/{kantor}', 'updateOneKantorData')
+            ->name('kantor.update');
+          Route::delete('/{kantor}', 'deleteOneKantorData')
+            ->name('kantor.delete');
+        });
+
+        // Route Lowongan oleh Admin dan Mitra Perusahaan
+        Route::prefix('/lowongan')->group(function () {
+          Route::controller(AMPLowonganKerjaController::class)->group(function () {
+            Route::get('/', 'getAllJobVacanciesData')
+              ->name('lowongankerja.index');
+            Route::get('/{mitra}/kantor', 'getKantorJSONFormat')
+              ->name('loker.kantor');
+            Route::get('/need-approve', 'jobVacanciesThatRequireApproval')
+              ->name('lowongankerja.jobVacanciesThatRequireApproval');
+            Route::get('/need-approve/{lowongan_kerja}/approve', 'approveJobVacancies')
+              ->name('lowongankerja.approveJobVancancies');
+            Route::get('/need-approve/{lowongan_kerja}/reject', 'rejectJobVacancies')
+              ->name('lowongankerja.rejectJobVancancies');
+            Route::post('/need-approve/{lowongan_kerja}', 'jobVacanciesThatRequireApproval')
+              ->name('lowongankerja.jobVacanciesThatRequireApproval.store');
+            Route::get('/tambah', 'createOneJobVacancyData')
+              ->name('lowongankerja.create');
+            Route::post('/', 'storeOneJobVacancyData')
+              ->name('lowongankerja.store');
+            Route::get('/{lowongan_kerja}/detail', 'getDetailOneJobVacancyData')
+              ->name('lowongankerja.detail');
+            Route::get('/{lowongan_kerja}/edit', 'editOneJobVacancyData')
+              ->name('lowongankerja.edit');
+            Route::put('/{lowongan_kerja}', 'updateOneJobVacancyData')
+              ->name('lowongankerja.update');
+            Route::post('/{lowongan_kerja}', 'deactiveOneJobVacancy')
+              ->name('lowongankerja.nonactive');
+          });
+
+          Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
+            Route::get('/{lowongan_kerja}/tambah', 'createOneStagesOfSelection')
+              ->name('tahapan.seleksi.create');
+            Route::get('/{lowongan_kerja}/detail', 'jobVacancyDetail')
+              ->name('tahapan.seleksi.detail_lowongan');
+            Route::post('/{lowongan_kerja}', 'storeOneStagesOfSelection')
+              ->name('tahapan.seleksi.store');
+            Route::get('/{lowongan_kerja}/edit/{tahapan_seleksi}', 'editOneStagesOfSelection')
+              ->name('tahapan.seleksi.edit');
+            Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'updateOneStagesOfSelection')
+              ->name('tahapan.seleksi.update');
+          });
+        });
+
+        // Route Rekomendasikan Lowongan oleh Admin dan Mitra Perusahaan
+        Route::prefix('/rekomendasi')->controller(RecomendationController::class)->group(function () {
+          Route::get('/', 'getAllRecomendations')
+            ->name('rekomendasi.index');
+          Route::get('/tambah', 'createOneRecomendation')
+            ->name('rekomendasi.create');
+          Route::post('/', 'storeOneRecomendation')
+            ->name('rekomendasi.store');
+          Route::get('/{rekomendasi}', 'getDetailOneRecomendation')
+            ->name('rekomenasi.detail');
+          Route::get('/{rekomendasi}/sunting', 'editOneRecomendation')
+            ->name('rekomendasi.edit');
+          Route::put('/{rekomendasi}', 'updateOneRecomendation')
+            ->name('rekomendasi.update');
+          Route::delete('/{rekomendasi}', 'deleteOneRecomendation')
+            ->name('rekomendasi.delete');
+        });
       });
     });
 
