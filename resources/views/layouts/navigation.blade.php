@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light fixed-top py-2-3" id="navbar">
+<nav class="navbar navbar-expand-lg navbar-light fw-bold fixed-top py-2-3" id="navbar">
   <div class="container">
     <a class="navbar-brand fs-4 fw-bold" href="{{ route('home') }}">SIPEKA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -8,17 +8,17 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link custom-font" href="{{ route('home') }}">Beranda</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="{{ route('home') }}">Beranda</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/sipeka#perusahaan">Perusahaan</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka#perusahaan">Perusahaan</a>
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/sipeka#lowongan-kerja">Lowongan</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka#lowongan-kerja">Lowongan</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-font" href="/sipeka/cara-daftar">Cara Daftar</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka/cara-daftar">Cara Daftar</a>
         </li>
       </ul>
       <ul class="navbar-nav">

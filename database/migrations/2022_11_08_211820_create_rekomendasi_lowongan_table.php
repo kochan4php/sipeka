@@ -18,6 +18,7 @@ return new class extends Migration {
       $table->string('judul');
       $table->text('deskripsi');
       $table->unique(['id_siswa', 'id_lowongan']);
+      $table->timestamps();
 
       // Foreign key untuk id_siswa
       $table

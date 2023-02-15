@@ -107,12 +107,12 @@ body {
 
 /* create blur navbar */
 #navbar {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  -moz-backdrop-filter: blur(20px) !important;
+  background-color: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(15px) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  -moz-backdrop-filter: blur(15px) !important;
+  border-bottom: 0.005rem solid #ddd;
   position: fixed !important;
-  border-bottom: 1px solid rgba(201, 201, 201, 0.4);
   top: 0 !important;
   right: 0 !important;
   left: 0 !important;

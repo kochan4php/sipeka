@@ -40,6 +40,7 @@ final class LowonganKerjaController extends Controller {
         ->with('perusahaan')
         ->where('is_approve', true)
         ->where('active', true)
+        ->latest()
         ->paginate(10)
         ->withQueryString();
     } else if (Gate::check('perusahaan')) {
@@ -49,6 +50,9 @@ final class LowonganKerjaController extends Controller {
         ->lowongan()
         ->where('is_approve', true)
         ->where('active', true)
+        ->orWhere('is_approve', null)
+        ->orWhere('active', null)
+        ->latest()
         ->paginate(10)
         ->withQueryString();
     }

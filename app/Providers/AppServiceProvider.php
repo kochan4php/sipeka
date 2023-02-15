@@ -37,5 +37,9 @@ class AppServiceProvider extends ServiceProvider {
     Gate::define('pelamar', function (User $user) {
       return ($user->level_user->identifier === 'pelamar') || (Auth::user()->level_user->identifier === 'pelamar');
     });
+
+    Gate::define('alumni', function (User $user) {
+      return !is_null($user?->alumni) || !is_null(Auth::user()?->alumni);
+    });
   }
 }

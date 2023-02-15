@@ -27,6 +27,7 @@ use App\Http\Controllers\{
   Pelamar\LowonganKerjaController as PlmrLowonganKerjaController,
   Pelamar\PendaftaranLowonganController as PlmrPendaftaranLowonganController,
   Pelamar\DokumenController as PlmrDokumenController,
+  Pelamar\RecomendationController as AlumniRecomendationController,
 
   // All Admin and Perusahaan Controller
   AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
@@ -37,11 +38,8 @@ use App\Http\Controllers\{
   // Change password for all users
   ChangePasswordController,
 };
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Http\{Request, JsonResponse};
+use Illuminate\Support\Facades\{Artisan, Route, URL};
 
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
@@ -299,13 +297,7 @@ Route::prefix('/sipeka')->group(function () {
             ->name('rekomendasi.create');
           Route::post('/', 'storeOneRecomendation')
             ->name('rekomendasi.store');
-          Route::get('/{rekomendasi}', 'getDetailOneRecomendation')
-            ->name('rekomenasi.detail');
-          Route::get('/{rekomendasi}/sunting', 'editOneRecomendation')
-            ->name('rekomendasi.edit');
-          Route::put('/{rekomendasi}', 'updateOneRecomendation')
-            ->name('rekomendasi.update');
-          Route::delete('/{rekomendasi}', 'deleteOneRecomendation')
+          Route::delete('/{siswa}/{lowongan}', 'deleteOneRecomendation')
             ->name('rekomendasi.delete');
         });
       });
@@ -358,6 +350,13 @@ Route::prefix('/sipeka')->group(function () {
           ->name('pelamar.lamaran.detail');
         Route::get('/{pendaftaran_lowongan}/pdf-verifikasi', 'PDFVerifikasi')
           ->name('pelamar.lamaran.pdf-verifikasi');
+      });
+
+      Route::prefix('/rekomendasi')->controller(AlumniRecomendationController::class)->middleware('is_alumni')->group(function () {
+        Route::get('/', 'getAllRecomendation')
+          ->name('alumni.rekomendasi.index');
+        Route::get('/{siswa}/{lowongan}', 'getDetailRecomendation')
+          ->name('alumni.rekomendasi.show');
       });
     });
   });

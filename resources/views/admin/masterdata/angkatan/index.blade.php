@@ -63,8 +63,8 @@
                 {{ __('Kode Angkatan') }}
               </label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="id_angkatan" name="id_angkatan" style="cursor: not-allowed"
-                  value="AGKT0002">
+                <input type="text" class="form-control" id="id_angkatan" name="id_angkatan"
+                  style="cursor: not-allowed">
               </div>
             </div>
             <div class="mb-3 row">

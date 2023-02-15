@@ -65,5 +65,6 @@ class Kernel extends HttpKernel {
     'role' => \App\Http\Middleware\Role::class,
     'if_any_company' => \App\Http\Middleware\IfAnyCompany::class,
     'if_any_job_vacancy' => \App\Http\Middleware\IfAnyJobVacancy::class,
+    'is_alumni' => \App\Http\Middleware\IsAlumni::class
   ];
 }
