@@ -13,7 +13,7 @@
         <div class="input-group mb-3">
           <input type="text" class="custom-font form-control"
             placeholder="Cari berdasarkan nama alumni, posisi atau judul loker" name="q" autocomplete="off"
-            value="{{ request('q') }}">
+            id="q" value="{{ request('q') }}">
           <button class="custom-font btn btn-success d-flex align-items-center gap-2" type="submit" id="button-addon2">
             <span><i class="fa-solid fa-magnifying-glass fa-lg"></i></span>
             <span>Cari</span>
@@ -92,3 +92,11 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    $(document).on("keypress", function() {
+      $("#q").focus();
+    });
+  </script>
+@endpush

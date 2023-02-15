@@ -39,7 +39,7 @@
                 @empty
                   <div class="card">
                     <div class="card-body custom-font text-center">
-                      Kamu belum memiliki data pendidikan.
+                      Kamu belum direkomendasikan ke loker manapun!
                     </div>
                   </div>
                 @endforelse

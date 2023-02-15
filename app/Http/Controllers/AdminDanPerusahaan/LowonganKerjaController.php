@@ -32,32 +32,39 @@ final class LowonganKerjaController extends Controller {
     $lowongan = null;
     $lowonganNeedApprove = null;
     $pendaftaranLowongan = null;
+    $data = [];
 
     if (Gate::check('admin')) {
       $pendaftaranLowongan = PendaftaranLowongan::count();
-      $lowonganNeedApprove = LowonganKerja::whereNull('is_approve')->count();
-      $lowongan = QueryBuilder::for(LowonganKerja::class)
-        ->with('perusahaan')
-        ->where('is_approve', true)
-        ->where('active', true)
-        ->latest()
+      $lowonganNeedApprove = LowonganKerja::needApproved()->count();
+      $lowongan = LowonganKerja::with('perusahaan')
+        ->approvedAndActive()
         ->paginate(10)
         ->withQueryString();
+
+      $data['lowongan'] = $lowongan;
+      $data['pendaftaranLowongan'] = $pendaftaranLowongan;
+      $data['lowonganNeedApprove'] = $lowonganNeedApprove;
     } else if (Gate::check('perusahaan')) {
-      $pendaftaranLowongan = Auth::user()->perusahaan->pendaftaran_lowongan->count();
-      $lowongan = Auth::user()
+      $lowonganApproveAndActive = Auth::user()
         ->perusahaan
         ->lowongan()
-        ->where('is_approve', true)
-        ->where('active', true)
-        ->orWhere('is_approve', null)
-        ->orWhere('active', null)
-        ->latest()
+        ->approvedAndActive()
         ->paginate(10)
         ->withQueryString();
+
+      $lowonganNotYetApprovedAndNotYetActive = Auth::user()
+        ->perusahaan
+        ->lowongan()
+        ->notYetApprovedAndNotYetActive()
+        ->paginate(10)
+        ->withQueryString();
+
+      $data['lowonganApproveAndActive'] = $lowonganApproveAndActive;
+      $data['lowonganNotYetApprovedAndNotYetActive'] = $lowonganNotYetApprovedAndNotYetActive;
     }
 
-    return view('lowongankerja.index', compact('lowongan', 'pendaftaranLowongan', 'lowonganNeedApprove'));
+    return view('lowongankerja.index', $data);
   }
 
   public function createOneJobVacancyData(): View {
@@ -102,21 +109,19 @@ final class LowonganKerjaController extends Controller {
 
   public function jobVacanciesThatRequireApproval(Request $request): View {
     $lowongan = LowonganKerja::with(['perusahaan'])
-      ->where('is_approve', null)
-      ->get([
-        'id_perusahaan',
-        'id_jenis_pekerjaan',
-        'judul_lowongan',
-        'posisi',
-        'active',
-        'slug',
-      ]);
+      ->needApproved()
+      ->hasTahapan()
+      ->latest()
+      ->get();
 
     return view('lowongankerja.jobVacanciesThatRequireApproval', compact('lowongan'));
   }
 
   public function approveJobVacancies(LowonganKerja $lowonganKerja): RedirectResponse {
-    $lowonganKerja->update(['is_approve' => true]);
+    $lowonganKerja->update([
+      'is_approve' => true,
+      'active' => true
+    ]);
 
     notify()->success("Berhasil mensetujui lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
 
@@ -124,7 +129,10 @@ final class LowonganKerjaController extends Controller {
   }
 
   public function rejectJobVacancies(LowonganKerja $lowonganKerja): RedirectResponse {
-    $lowonganKerja->update(['is_approve' => false]);
+    $lowonganKerja->update([
+      'is_approve' => false,
+      'active' => false
+    ]);
 
     notify()->success("Berhasil menolak lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
 

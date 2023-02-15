@@ -140,13 +140,6 @@
             <span style="font-size: 15.5px !important;">Pelamar</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link  @if (Request::is('sipeka/dashboard/seleksi/penilaian*')) active @endif d-flex gap-2 align-items-center"
-            href="{{ route('penilaian.seleksi.index') }}">
-            <i class="fa-solid fa-clipboard-check fa-lg"></i>
-            <span style="font-size: 15.5px !important;">Penilaian Seleksi</span>
-          </a>
-        </li>
       @endcan
       <li class="nav-item text-nowrap">
         <form action="{{ route('logout') }}" method="POST">

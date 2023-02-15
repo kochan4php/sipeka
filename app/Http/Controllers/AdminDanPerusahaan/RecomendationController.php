@@ -52,6 +52,9 @@ class RecomendationController extends Controller {
   public function createOneRecomendation(): View {
     $alumni = SiswaAlumni::all(['id_siswa', 'nama_lengkap']);
     $lowongan = LowonganKerja::latest()
+      ->where('is_approve', true)
+      ->where('active', true)
+      ->latest()
       ->get(['id_lowongan', 'judul_lowongan', 'posisi']);
 
     return view('rekomendasi.tambah', compact('alumni', 'lowongan'));
@@ -87,8 +90,8 @@ class RecomendationController extends Controller {
           'id_lowongan' => $request->id_lowongan,
           'judul' => $judul,
           'deskripsi' => $deskripsi,
-          'created_at' => Carbon::now(),
-          'updated_at' => Carbon::now()
+          'created_at' => date('Y-m-d H:i:s'),
+          'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
 

@@ -18,7 +18,7 @@ return new class extends Migration {
       $table->text('ket_tahapan');
       $table->integer('urutan_tahapan_ke');
       $table->date('tanggal_dimulai');
-      $table->boolean('is_approve')->nullable()->default(true);
+      $table->boolean('is_approve')->nullable();
 
       // Foreign key untuk id_lowongan
       $table

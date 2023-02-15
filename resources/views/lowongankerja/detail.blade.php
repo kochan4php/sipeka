@@ -67,9 +67,27 @@
               </table>
             </div>
           </div>
-          <div class="row justify-content-end">
-            <div class="col">
-              <a href="{{ route('lowongankerja.index') }}" class="btn custom-btn btn-danger">Kembali</a>
+          <div class="row gap-3 gap-lg-0">
+            <div class="col-lg-3">
+              <a href="{{ route('lowongankerja.index') }}" class="btn w-full custom-btn btn-danger">
+                Kembali
+              </a>
+            </div>
+            <div class="col-lg-3">
+              <a href="{{ route('tahapan.seleksi.detail_lowongan', $lowonganKerja->slug) }}"
+                class="btn w-full custom-btn btn-primary">
+                Lihat Tahap
+              </a>
+            </div>
+            <div class="col-lg-3">
+              <a href="{{ route('lowongankerja.index') }}" class="btn w-full custom-btn btn-info">
+                Lihat Pelamar
+              </a>
+            </div>
+            <div class="col-lg-3">
+              <a href="{{ route('lowongankerja.index') }}" class="btn w-full custom-btn btn-success">
+                Lihat Rekomendasi
+              </a>
             </div>
           </div>
         </div>

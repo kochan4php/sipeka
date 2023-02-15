@@ -42,12 +42,6 @@
                     </p>
                     <div class="card-text">{!! $rekomendasi->deskripsi_lowongan !!}</div>
                   </div>
-                  <div class="card-footer">
-                    <small class="text-muted">
-                      <span>Created on</span>
-                      <span>{{ \Carbon\Carbon::parse($rekomendasi->created_at)->diffForHumans() }}</span>
-                    </small>
-                  </div>
                 </div>
               </div>
               <div class="col-sm-7">

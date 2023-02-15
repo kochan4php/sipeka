@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -67,5 +68,25 @@ class LowonganKerja extends Model {
 
   public function getRouteKeyName(): string {
     return 'slug';
+  }
+
+  public function scopeApprovedAndActive(Builder $q): void {
+    $q->where('is_approve', true)
+      ->where('active', true)
+      ->latest();
+  }
+
+  public function scopeNotYetApprovedAndNotYetActive(Builder $q): void {
+    $q->where('is_approve', null)
+      ->where('active', null)
+      ->latest();
+  }
+
+  public function scopeNeedApproved(Builder $q): void {
+    $q->whereNull('is_approve');
+  }
+
+  public function scopeHasTahapan(Builder $q): void {
+    $q->whereHas('tahapan_seleksi');
   }
 }

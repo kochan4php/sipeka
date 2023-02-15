@@ -48,7 +48,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="4" class="text-nowrap text-center vertical-align-middle custom-font">
+                <td colspan="5" class="text-nowrap text-center vertical-align-middle custom-font">
                   Lowongan ini belum memiliki tahapan seleksi
                 </td>
               </tr>

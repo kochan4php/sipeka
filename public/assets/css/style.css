@@ -1,5 +1,6 @@
 body {
   font-family: "Nunito", Arial, Helvetica, sans-serif !important;
+  overflow-x: hidden;
 }
 
 *::selection {
@@ -108,9 +109,9 @@ body {
 /* create blur navbar */
 #navbar {
   background-color: rgba(255, 255, 255, 0.65) !important;
-  backdrop-filter: blur(15px) !important;
-  -webkit-backdrop-filter: blur(15px) !important;
-  -moz-backdrop-filter: blur(15px) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(30px) !important;
+  -moz-backdrop-filter: blur(30px) !important;
   border-bottom: 0.005rem solid #ddd;
   position: fixed !important;
   top: 0 !important;
