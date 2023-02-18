@@ -129,7 +129,12 @@ final class LowonganKerjaController extends Controller {
         }
     }
 
-    public function jobVacanciesThatRequireApproval(Request $request): View {
+    /**
+     * Menampilkan view untuk melihat data lowongan kerja yang membutuhkan verifikasi admin
+     *
+     * @return View
+     */
+    public function jobVacanciesThatRequireApproval(): View {
         $lowongan = LowonganKerja::with(['perusahaan'])
             ->needApproved()
             ->hasTahapan()
@@ -139,6 +144,12 @@ final class LowonganKerjaController extends Controller {
         return view('lowongankerja.jobVacanciesThatRequireApproval', compact('lowongan'));
     }
 
+    /**
+     * Proses menyetujui verifikasi lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return RedirectResponse
+     */
     public function approveJobVacancies(LowonganKerja $lowonganKerja): RedirectResponse {
         $lowonganKerja->update([
             'is_approve' => true,
@@ -150,6 +161,12 @@ final class LowonganKerjaController extends Controller {
         return to_route('lowongankerja.index');
     }
 
+    /**
+     * Proses menolak verifikasi lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return RedirectResponse
+     */
     public function rejectJobVacancies(LowonganKerja $lowonganKerja): RedirectResponse {
         $lowonganKerja->update([
             'is_approve' => false,
@@ -161,10 +178,22 @@ final class LowonganKerjaController extends Controller {
         return to_route('lowongankerja.index');
     }
 
+    /**
+     * Menampilkan view untuk melihat detail data lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return View|RedirectResponse
+     */
     public function getDetailOneJobVacancyData(LowonganKerja $lowonganKerja): View|RedirectResponse {
         return view('lowongankerja.detail', compact('lowonganKerja'));
     }
 
+    /**
+     * Menampilkan view untuk melihat list pendaftar yang melamar di suatu lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return View
+     */
     public function seeApplicants(LowonganKerja $lowonganKerja): View {
         $pendaftaranLowongan = $lowonganKerja
             ->pendaftaran_lowongan()
@@ -174,10 +203,23 @@ final class LowonganKerjaController extends Controller {
         return view('lowongankerja.see-applicants', compact('pendaftaranLowongan', 'lowonganKerja'));
     }
 
+    /**
+     * Menampilkan view untuk melihat list tahapan yang terdapat pada lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return View
+     */
     public function seeStages(LowonganKerja $lowonganKerja): View {
         return view('lowongankerja.see-stages', compact('lowonganKerja'));
     }
 
+    /**
+     * Menampilkan view untuk memberikan penilaian seleksi yang dilakukan oleh mitra
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @param TahapanSeleksi $tahapanSeleksi
+     * @return View
+     */
     public function applicantSelection(LowonganKerja $lowonganKerja, TahapanSeleksi $tahapanSeleksi): View {
         $pendaftaranLowongan = [];
 
@@ -197,6 +239,14 @@ final class LowonganKerjaController extends Controller {
         return view('lowongankerja.applicant-selection', compact('lowonganKerja', 'tahapanSeleksi', 'pendaftaranLowongan'));
     }
 
+    /**
+     * Memproses penilaian seleksi yang dilakukan oleh mitra
+     *
+     * @param Request $request
+     * @param LowonganKerja $lowonganKerja
+     * @param TahapanSeleksi $tahapanSeleksi
+     * @return RedirectResponse
+     */
     public function storeApplicantSelection(
         Request $request,
         LowonganKerja $lowonganKerja,
@@ -250,6 +300,12 @@ final class LowonganKerjaController extends Controller {
         return to_route('lowongankerja.see-stages', $lowonganKerja->slug);
     }
 
+    /**
+     * Menampilkan view form update untuk data lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return View|RedirectResponse
+     */
     public function editOneJobVacancyData(LowonganKerja $lowonganKerja): View|RedirectResponse {
         try {
             $lowongan = null;
@@ -269,6 +325,13 @@ final class LowonganKerjaController extends Controller {
         }
     }
 
+    /**
+     * Memproses update data lowongan kerja
+     *
+     * @param StoreLowonganKerjaRequest $request
+     * @param LowonganKerja $lowonganKerja
+     * @return RedirectResponse
+     */
     public function updateOneJobVacancyData(
         StoreLowonganKerjaRequest $request,
         LowonganKerja $lowonganKerja
@@ -301,6 +364,12 @@ final class LowonganKerjaController extends Controller {
         }
     }
 
+    /**
+     * Menonaktifkan data lowongan kerja
+     *
+     * @param LowonganKerja $lowonganKerja
+     * @return RedirectResponse
+     */
     public function deactiveOneJobVacancy(LowonganKerja $lowonganKerja): RedirectResponse {
         try {
             $lowonganKerja->update(['active' => false]);
