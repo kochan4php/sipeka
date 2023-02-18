@@ -9,12 +9,12 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MitraPerusahaanSeeder extends Seeder {
-  /**
-   * Run the database seeds.
-   *
-   * @return void
-   */
-  public function run(): void {
-    MitraPerusahaan::factory(100)->hasKantor(10)->create();
-  }
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run(): void {
+        MitraPerusahaan::factory(100)->hasKantor(10)->create();
+    }
 }

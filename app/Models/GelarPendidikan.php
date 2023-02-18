@@ -10,33 +10,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GelarPendidikan extends Model {
-  use HasFactory, HasUuids;
+    use HasFactory, HasUuids;
 
-  // kasih tau tabel yang ada di databasenya
-  protected $table = 'gelar_pendidikan';
+    // kasih tau tabel yang ada di databasenya
+    protected $table = 'gelar_pendidikan';
 
-  // kasih tau primary key yang ada di tabel yang bersangkutan
-  protected $primaryKey = 'id_gelar';
+    // kasih tau primary key yang ada di tabel yang bersangkutan
+    protected $primaryKey = 'id_gelar';
 
-  // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
-  public $timestamps = false;
+    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    public $timestamps = false;
 
-  // kasih tau kalau primary key nya bukan integer AI
-  public $incrementing = false;
+    // kasih tau kalau primary key nya bukan integer AI
+    public $incrementing = false;
 
-  // kasih tau kalau primary key nya bukan bertipe integer
-  protected $keyType = 'string';
+    // kasih tau kalau primary key nya bukan bertipe integer
+    protected $keyType = 'string';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-  protected $fillable = [
-    'nama_gelar'
-  ];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'nama_gelar'
+    ];
 
-  public function riwayat_pendidikan(): HasMany {
-    return $this->hasMany(RiwayatPendidikan::class, 'kualifikasi', 'id_gelar');
-  }
+    public function riwayat_pendidikan(): HasMany {
+        return $this->hasMany(RiwayatPendidikan::class, 'kualifikasi', 'id_gelar');
+    }
 }

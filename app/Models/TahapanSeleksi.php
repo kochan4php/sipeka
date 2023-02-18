@@ -13,57 +13,57 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TahapanSeleksi extends Model {
-  use HasFactory, HasUuids;
+    use HasFactory, HasUuids;
 
-  // kasih tau tabel yang ada di databasenya
-  protected $table = 'tahapan_seleksi';
+    // kasih tau tabel yang ada di databasenya
+    protected $table = 'tahapan_seleksi';
 
-  // kasih tau primary key yang ada di tabel yang bersangkutan
-  protected $primaryKey = 'id_tahapan';
+    // kasih tau primary key yang ada di tabel yang bersangkutan
+    protected $primaryKey = 'id_tahapan';
 
-  // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
-  public $timestamps = false;
+    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    public $timestamps = false;
 
-  // kasih tau kalau primary key nya bukan integer AI
-  public $incrementing = false;
+    // kasih tau kalau primary key nya bukan integer AI
+    public $incrementing = false;
 
-  // kasih tau kalau primary key nya bukan bertipe integer
-  protected $keyType = 'string';
+    // kasih tau kalau primary key nya bukan bertipe integer
+    protected $keyType = 'string';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-  protected $fillable = [
-    'id_lowongan',
-    'judul_tahapan',
-    'ket_tahapan',
-    'urutan_tahapan_ke',
-    'tanggal_dimulai',
-    'is_approve',
-    'status'
-  ];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'id_lowongan',
+        'judul_tahapan',
+        'ket_tahapan',
+        'urutan_tahapan_ke',
+        'tanggal_dimulai',
+        'is_approve',
+        'status'
+    ];
 
-  public function lowongan(): BelongsTo {
-    return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
-  }
+    public function lowongan(): BelongsTo {
+        return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
+    }
 
-  public function penilaian_seleksi(): HasMany {
-    return $this->hasMany(PenilaianSeleksi::class, 'id_tahapan', 'id_tahapan');
-  }
+    public function penilaian_seleksi(): HasMany {
+        return $this->hasMany(PenilaianSeleksi::class, 'id_tahapan', 'id_tahapan');
+    }
 
-  public function getRouteKeyName(): string {
-    return 'id_tahapan';
-  }
+    public function getRouteKeyName(): string {
+        return 'id_tahapan';
+    }
 
-  protected function tanggalDimulai(): Attribute {
-    return Attribute::make(
-      get: fn ($value) => \Carbon\Carbon::parse($value)->format('d F Y')
-    );
-  }
+    protected function tanggalDimulai(): Attribute {
+        return Attribute::make(
+            get: fn ($value) => \Carbon\Carbon::parse($value)->format('d F Y')
+        );
+    }
 
-  public function scopeNeedApprove(Builder $q): void {
-    $q->where('status', 'Menunggu Persetujuan Admin');
-  }
+    public function scopeNeedApprove(Builder $q): void {
+        $q->where('status', 'Menunggu Persetujuan Admin');
+    }
 }

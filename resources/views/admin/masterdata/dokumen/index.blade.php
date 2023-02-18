@@ -27,9 +27,14 @@
             @foreach ($dokumen as $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->id_jenis_dokumen }}</td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_dokumen }}</td>
+                  {{ $loop->iteration }}
+                </th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->id_jenis_dokumen }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->nama_dokumen }}
+                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
@@ -146,7 +151,8 @@
         const kodeDokumen = btn.dataset.kodeDokumen;
         const route = "{{ route('admin.dokumen.update', ':kodeDokumen') }}";
 
-        fetch(("{{ route('admin.dokumen.detail', ':kodeDokumen') }}").replace(':kodeDokumen', kodeDokumen))
+        fetch(("{{ route('admin.dokumen.detail', ':kodeDokumen') }}").replace(':kodeDokumen',
+            kodeDokumen))
           .then(res => res.json())
           .then(data => {
             document.getElementById('id_jenis_dokumen_edit').value = data.id_jenis_dokumen;

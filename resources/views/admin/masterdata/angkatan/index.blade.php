@@ -26,9 +26,14 @@
             @foreach ($angkatan as $key => $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $angkatan->firstItem() + $key }}</th>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->id_angkatan }}</td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->angkatan_tahun }}</td>
+                  {{ $angkatan->firstItem() + $key }}
+                </th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->id_angkatan }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->angkatan_tahun }}
+                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
@@ -144,7 +149,8 @@
         const btnClose = document.querySelector('.modal .btn-close-edit-dokumen');
         const idAngkatan = btn.dataset.idAngkatan;
         const route = "{{ route('admin.angkatan.update', ':idAngkatan') }}";
-        fetch(("{{ route('admin.angkatan.detail', ':idAngkatan') }}").replace(':idAngkatan', idAngkatan))
+        fetch(("{{ route('admin.angkatan.detail', ':idAngkatan') }}").replace(':idAngkatan',
+            idAngkatan))
           .then(res => res.json())
           .then(data => {
             console.log(data);

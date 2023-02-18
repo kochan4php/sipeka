@@ -5,24 +5,24 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-  /**
-   * Run the migrations.
-   *
-   * @return void
-   */
-  public function up() {
-    Schema::create('dokumen', function (Blueprint $table) {
-      $table->char('id_jenis_dokumen', 7)->primary();
-      $table->string('nama_dokumen', 150);
-    });
-  }
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up(): void {
+        Schema::create('dokumen', function (Blueprint $table) {
+            $table->char('id_jenis_dokumen', 7)->primary();
+            $table->string('nama_dokumen', 150);
+        });
+    }
 
-  /**
-   * Reverse the migrations.
-   *
-   * @return void
-   */
-  public function down() {
-    Schema::dropIfExists('dokumen');
-  }
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down(): void {
+        Schema::dropIfExists('dokumen');
+    }
 };

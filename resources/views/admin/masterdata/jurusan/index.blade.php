@@ -27,10 +27,17 @@
             @foreach ($jurusan as $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $loop->iteration }}</th>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->id_jurusan }}</td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->nama_jurusan }}</td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">{{ $item->keterangan }}</td>
+                  {{ $loop->iteration }}
+                </th>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->id_jurusan }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->nama_jurusan }}
+                </td>
+                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                  {{ $item->keterangan }}
+                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#modalSunting"
@@ -166,7 +173,8 @@
         const kodeJurusan = btn.dataset.kodeJurusan;
         const route = "{{ route('admin.jurusan.update', ':kodeJurusan') }}";
 
-        fetch(("{{ route('admin.jurusan.detail', ':kodeJurusan') }}").replace(':kodeJurusan', kodeJurusan))
+        fetch(("{{ route('admin.jurusan.detail', ':kodeJurusan') }}").replace(':kodeJurusan',
+            kodeJurusan))
           .then(res => res.json())
           .then(data => {
             console.log(data);
