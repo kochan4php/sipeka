@@ -6,6 +6,12 @@
     <a href="{{ route('lowongankerja.create') }}" class="btn btn-primary custom-btn">Tambah Lowongan Kerja</a>
   </div>
 
+  @can('perusahaan')
+    <div class="alert alert-warning custom-font" role="alert">
+      Agar disetujui admin, maka setiap lowongan kerja harus memiliki tahapan seleksi!
+    </div>
+  @endcan
+
   @can('admin')
     <div class="row my-3 gap-3 gap-md-0">
       <x-card-admin bgcolor="text-bg-warning">
@@ -41,7 +47,7 @@
             <span><i class="fa-solid fa-clipboard-check" style="font-size: 3rem"></i></span>
           </div>
         @endslot
-        <a href="{{ route('lowongankerja.jobVacanciesThatRequireApproval') }}"
+        <a href="{{ route('tahapan.seleksi.need-approve') }}"
           class="text-decoration-none stretched-link text-white d-flex gap-2 align-items-center">
           <h4>Selengkapnya</h4>
         </a>
@@ -98,6 +104,9 @@
                       Jumlah Tahapan
                     </th>
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Jumlah Pendaftar
+                    </th>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Aksi
                     </th>
                   </tr>
@@ -133,6 +142,9 @@
                       </td>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ $item->tahapan_seleksi->count() }}
+                      </td>
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        {{ $item->pendaftaran_lowongan->count() }}
                       </td>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         <div class="d-flex gap-2 align-items-center justify-content-center">
@@ -305,6 +317,9 @@
                   Jumlah Tahapan
                 </th>
                 <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                  Jumlah Pendaftar
+                </th>
+                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                   Aksi
                 </th>
               </tr>
@@ -340,6 +355,9 @@
                   </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     {{ $item->tahapan_seleksi->count() }}
+                  </td>
+                  <td class="text-nowrap text-center vertical-align-middle custom-font">
+                    {{ $item->pendaftaran_lowongan->count() }}
                   </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     <div class="d-flex gap-2 align-items-center justify-content-center">
@@ -380,29 +398,29 @@
       @endcan
     </div>
   </div>
-
-  @push('script')
-    <script>
-      tippy('.btn-tahapan', {
-        content: 'Tahapan Seleksi',
-        placement: 'left'
-      });
-      tippy('.btn-nonactive', {
-        content: 'Non-Aktifkan Lowongan',
-        placement: 'left'
-      });
-      tippy('.btn-edit', {
-        content: 'Edit data',
-        placement: 'left'
-      });
-      tippy('.btn-detail', {
-        content: 'Detail data',
-        placement: 'left'
-      });
-      tippy('.no-tahapan', {
-        content: 'Lowongan ini belum memiliki tahapan seleksi.',
-        placement: 'bottom',
-      });
-    </script>
-  @endpush
 @endsection
+
+@push('script')
+  <script>
+    tippy('.btn-tahapan', {
+      content: 'Tahapan Seleksi',
+      placement: 'left'
+    });
+    tippy('.btn-nonactive', {
+      content: 'Non-Aktifkan Lowongan',
+      placement: 'left'
+    });
+    tippy('.btn-edit', {
+      content: 'Edit data',
+      placement: 'left'
+    });
+    tippy('.btn-detail', {
+      content: 'Detail data',
+      placement: 'left'
+    });
+    tippy('.no-tahapan', {
+      content: 'Lowongan ini belum memiliki tahapan seleksi.',
+      placement: 'bottom',
+    });
+  </script>
+@endpush

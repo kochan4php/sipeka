@@ -18,6 +18,7 @@ return new class extends Migration {
       $table->text('ket_tahapan');
       $table->integer('urutan_tahapan_ke');
       $table->date('tanggal_dimulai');
+      $table->enum('status', ['Belum terlaksanakan', 'Sedang Berlangsung', 'Menunggu Persetujuan Admin', 'Selesai', 'Ditolak'])->default('Belum terlaksanakan');
       $table->boolean('is_approve')->nullable();
 
       // Foreign key untuk id_lowongan

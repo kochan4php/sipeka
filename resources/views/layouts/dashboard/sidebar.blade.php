@@ -128,7 +128,7 @@
       @can('perusahaan')
         <li class="nav-item">
           <a class="nav-link  @if (Request::is('sipeka/dashboard/perusahaan/profile*')) active @endif d-flex align-items-center gap-2"
-            aria-current="page" href="{{ route('admin.profile.index', Auth::user()->perusahaan) }}">
+            aria-current="page" href="">
             <i class="fa-regular fa-id-card fa-lg"></i>
             <span style="font-size: 15.5px !important;">Profil Saya</span>
           </a>

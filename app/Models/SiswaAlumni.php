@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -66,5 +67,10 @@ class SiswaAlumni extends Model {
       'id_siswa',
       'id_lowongan'
     );
+  }
+
+  public function scopeFilter(Builder $q, ?string $filter): void {
+    $q->where('nama_lengkap', 'LIKE', "%{$filter}%")
+      ->orWhere('nis', 'LIKE', "%{$filter}%");
   }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -56,5 +57,35 @@ class PendaftaranLowongan extends Model {
 
   public function getRouteKeyName(): string {
     return 'id_pendaftaran';
+  }
+
+  public function scopeIsLanjut(Builder $q): void {
+    $q->whereRelation('penilaian_seleksi', 'is_lanjut', '=', true)
+      ->whereRelation('penilaian_seleksi', 'keterangan', '=', 'Lulus')
+      ->whereRelation('penilaian_seleksi', 'nilai', '>=', 80);
+  }
+
+  public function scopeHasVerified(Builder $q): void {
+    $q->where('verifikasi', 'Sudah');
+  }
+
+  public function scopeNotYetVerified(Builder $q): void {
+    $q->where('verifikasi', 'Belum');
+  }
+
+  public function scopeIsRejected(Builder $q): void {
+    $q->where('verifikasi', 'Ditolak');
+  }
+
+  public function scopeIsPassed(Builder $q): void {
+    $q->where('status_seleksi', 'Lulus');
+  }
+
+  public function scopeNotPassed(Builder $q): void {
+    $q->where('status_seleksi', 'Tidak');
+  }
+
+  public function scopeHaveNotYetCompletedTheSelectionProcess(Builder $q): void {
+    $q->where('status_seleksi', 'Belum tuntas mengikuti seleksi');
   }
 }

@@ -21,43 +21,143 @@
   <div class="container my-5 pt-5">
     <x-alert-error-validation />
     <div class="row gap-3 gap-lg-0">
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <div class="card">
           <div class="card-body">
             <div class="mb-3">
               <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid w-100 rounded"
                 alt="{{ $lowonganKerja->perusahaan->nama_perusahaan }}" draggable="false">
             </div>
-            <div class="mb-4">
+
+            <div class="mb-4 text-center">
               <h1>{{ $lowonganKerja->judul_lowongan }}</h1>
               <h5 class="fst-italic">
                 {{ $lowonganKerja->perusahaan->nama_perusahaan }}
               </h5>
             </div>
-            <div>
-              <h4 class="fw-normal">Posisi</h4>
-            </div>
-            <div class="mb-4 custom-font">
-              {{ $lowonganKerja->posisi }}
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card mb-3">
+                  <div class="card-body pb-0">
+                    <div class="card-title">
+                      <h4 class="fw-semibold">Posisi</h4>
+                    </div>
+                    <div class="mb-4 custom-font">
+                      {{ $lowonganKerja->posisi }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card mb-3">
+                  <div class="card-body pb-0">
+                    <div>
+                      <h4 class="fw-semibold">Estimasi Gaji</h4>
+                    </div>
+                    <div class="mb-4 custom-font">
+                      {{ $lowonganKerja->estimasi_gaji }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <hr />
+            <div class="row">
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-body pb-0">
+                    <div>
+                      <h4 class="fw-semibold">Wilayah Kantor</h4>
+                    </div>
+                    <div class="mb-4 custom-font">
+                      {{ $lowonganKerja->kantor->wilayah_kantor }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <div>
-              <h4 class="fw-normal">Deskripsi Pekerjaan</h4>
-            </div>
-            <div class="mb-4 custom-font">
-              {!! $lowonganKerja->deskripsi_lowongan !!}
+            <div class="row">
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-body pb-0">
+                    <div>
+                      <h4 class="fw-semibold">Alamat Kantor</h4>
+                    </div>
+                    <div class="mb-4 custom-font">
+                      {{ $lowonganKerja->kantor->alamat_kantor }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <hr />
+            <div class="row">
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-body pb-0">
+                    <div>
+                      <h4 class="fw-semibold">Deskripsi Pekerjaan</h4>
+                    </div>
+                    <div class="mb-4 custom-font">
+                      {!! $lowonganKerja->deskripsi_lowongan !!}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            <div>
-              <h4 class="fw-normal">Deskripsi Perusahaan</h4>
+            <div class="row">
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-body pb-0">
+                    <div>
+                      <h4 class="fw-semibold">Deskripsi Perusahaan</h4>
+                    </div>
+                    <div class="mb-4 custom-font">
+                      {!! $lowonganKerja->perusahaan->deskripsi_perusahaan ?? 'Perusahaan ini belum memiliki deskripsi' !!}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="mb-4 custom-font">
-              {!! $lowonganKerja->perusahaan->deskripsi_perusahaan ?? 'Perusahaan ini belum memiliki deskripsi' !!}
+
+            <div class="mb-5 mt-4">
+              <hr>
             </div>
+
+            <div class="card mb-3">
+              <div class="card-body pb-0">
+                <div class="mb-3">
+                  <h4 class="fw-semibold text-center">
+                    <span>Tahapan Seleksi</span>
+                    <span>{{ __("({$lowonganKerja->tahapan_seleksi->count()})") }}</span>
+                  </h4>
+                </div>
+                <div class="mb-4 custom-font">
+                  @foreach ($lowonganKerja->tahapan_seleksi as $item)
+                    <div class="col-12 mb-3">
+                      <div class="card">
+                        <div class="card-body pb-0">
+                          <p class="fw-bold mb-0">{{ __('- Nama Tahap') }}</p>
+                          <p class="mb-0 nama-tahap">{{ $item->judul_tahapan }}</p>
+                          <div class="my-2">
+                            <p class="mb-0 fw-bold text-break">{{ __('- Keterangan') }}</p>
+                            <p class="text-break" style="font-size: 16px;">{{ $item->ket_tahapan }}</p>
+                          </div>
+                        </div>
+                        <div class="card-footer">
+                          <span>Dilaksanankan pada</span>
+                          <strong>{{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d F Y') }}</strong>
+                        </div>
+                      </div>
+                    </div>
+                  @endforeach
+                </div>
+              </div>
+            </div>
+
             @can('pelamar')
               <div class="d-flex gap-2 w-100">
                 <a href="{{ route('admin.perusahaan.edit', '') }}"
@@ -82,7 +182,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-5">
         <div class="card">
           <div class="card-body">
             <h4 class="text-center mb-3">Rekomendasi Lowongan</h4>
@@ -91,20 +191,19 @@
                 <div class="d-flex gap-3 flex-column">
                   @forelse ($lowongan as $item)
                     <div class="card">
-                      <div class="card-body table-responsive p-0 d-flex gap-3">
+                      <div class="card-body table-responsive d-flex gap-3">
                         <div>
                           <img
                             src="{{ $item->perusahaan->logo_perusahaan ? asset('storage/' . $item->perusahaan->logo_perusahaan) : asset('assets/images/no-photo.png') }}"
-                            class="rounded" width="100" alt="{{ $item->judul_lowongan }}">
+                            width="100" alt="{{ $item->judul_lowongan }}">
                         </div>
                         <div class="my-auto">
                           <a class="text-decoration-none text-black font-bolder stretched-link"
                             href="{{ route('lowongan_kerja', $item->slug) }}">
-                            <h4 class="fw-bolder">{{ $item->judul_lowongan }}</h4>
+                            <h4 class="fw-bold">{{ \Illuminate\Support\Str::limit($item->judul_lowongan, 20) }}</h4>
                           </a>
                           <p class="card-text">
-                            <span>Perusahaan : </span>
-                            <span class="fw-bold fst-italic">{{ $item->perusahaan->nama_perusahaan }}</span>
+                            <span class="fw-semibold fst-italic">{{ $item->perusahaan->nama_perusahaan }}</span>
                           </p>
                         </div>
                       </div>
@@ -128,7 +227,8 @@
           <h1 class="modal-title fs-3" id="labelModalLamarLoker">Lamar loker ini</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="{{ route('lowongan.apply', $lowonganKerja->slug) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('lowongan.apply', $lowonganKerja->slug) }}" method="post"
+          enctype="multipart/form-data">
           @csrf
           <div class="modal-body">
             <div class="mb-3">
@@ -159,39 +259,3 @@
     </div>
   </div>
 @endsection
-
-{{-- @push('script')
-  <script>
-    $(document).ready(function() {
-      $('#formSubmit').click(function(e) {
-        e.preventDefault();
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-          }
-        });
-        $.ajax({
-          url: "{{ url('/books') }}",
-          method: 'post',
-          data: {
-            name: $('#name').val(),
-            auther_name: $('#auther_name').val(),
-            description: $('#description').val(),
-          },
-          success: function(result) {
-            if (result.errors) {
-              $('.alert-danger').html('');
-              $.each(result.errors, function(key, value) {
-                $('.alert-danger').show();
-                $('.alert-danger').append('<li>' + value + '</li>');
-              });
-            } else {
-              $('.alert-danger').hide();
-              $('#exampleModal').modal('hide');
-            }
-          }
-        });
-      });
-    });
-  </script>
-@endpush --}}

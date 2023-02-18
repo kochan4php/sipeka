@@ -15,7 +15,7 @@ class IsAlumni {
    * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
    */
   public function handle(Request $request, Closure $next) {
-    abort_if(is_null(Auth::user()?->alumni), 403, 'Kamu bukan alumni! Kamu tidak memiliki hak istimewa ini!');
+    if (is_null(Auth::user()?->alumni)) return back();
     return $next($request);
   }
 }

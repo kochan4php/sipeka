@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,5 +46,9 @@ class PenilaianSeleksi extends Model {
 
   public function pendaftaran(): BelongsTo {
     return $this->belongsTo(PendaftaranLowongan::class, 'id_pendaftaran', 'id_pendaftaran');
+  }
+
+  public function scopeCurrentStage(Builder $q, $id_tahapan): void {
+    $q->where('id_tahapan', $id_tahapan);
   }
 }

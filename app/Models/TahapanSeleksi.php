@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,7 +41,8 @@ class TahapanSeleksi extends Model {
     'ket_tahapan',
     'urutan_tahapan_ke',
     'tanggal_dimulai',
-    'is_approve'
+    'is_approve',
+    'status'
   ];
 
   public function lowongan(): BelongsTo {
@@ -55,9 +57,13 @@ class TahapanSeleksi extends Model {
     return 'id_tahapan';
   }
 
-  public function tanggalDimulai(): Attribute {
+  protected function tanggalDimulai(): Attribute {
     return Attribute::make(
-      get: fn ($value) => \Carbon\Carbon::parse($value)->format('d M Y')
+      get: fn ($value) => \Carbon\Carbon::parse($value)->format('d F Y')
     );
+  }
+
+  public function scopeNeedApprove(Builder $q): void {
+    $q->where('status', 'Menunggu Persetujuan Admin');
   }
 }

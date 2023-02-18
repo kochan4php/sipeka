@@ -73,15 +73,18 @@
                 Kembali
               </a>
             </div>
+            @can('perusahaan')
+              <div class="col-lg-3">
+                <a href="{{ route('lowongankerja.see-stages', $lowonganKerja->slug) }}"
+                  class="btn w-full custom-btn btn-primary">
+                  Seleksi Pendaftar
+                </a>
+              </div>
+            @endcan
             <div class="col-lg-3">
-              <a href="{{ route('tahapan.seleksi.detail_lowongan', $lowonganKerja->slug) }}"
-                class="btn w-full custom-btn btn-primary">
-                Lihat Tahap
-              </a>
-            </div>
-            <div class="col-lg-3">
-              <a href="{{ route('lowongankerja.index') }}" class="btn w-full custom-btn btn-info">
-                Lihat Pelamar
+              <a href="{{ route('lowongankerja.see-applicant', $lowonganKerja->slug) }}"
+                class="btn w-full custom-btn btn-info">
+                Lihat Pendaftar
               </a>
             </div>
             <div class="col-lg-3">

@@ -24,7 +24,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row gap-3">
               <div class="col-sm-5">
                 <div class="card">
                   <img src="{{ $rekomendasi->logo_perusahaan ?? asset('assets/images/no-photo.png') }}"

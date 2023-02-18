@@ -13,6 +13,7 @@ use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use App\Models\LevelUser;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -32,12 +33,21 @@ final class AlumniController extends Controller {
     return collect(DB::select('SELECT * FROM angkatan'));
   }
 
-  public function getAllAlumniData(): View {
-    $alumni = QueryBuilder::for(SiswaAlumni::class)
-      ->with(['jurusan', 'angkatan', 'pelamar'])
-      ->latest('id_angkatan')
-      ->paginate(10)
-      ->withQueryString();
+  public function getAllAlumniData(Request $request): View {
+    $alumni = [];
+
+    if ($request->has('q')) {
+      $alumni = SiswaAlumni::with(['jurusan', 'angkatan', 'pelamar'])
+        ->filter($request->input('q'))
+        ->latest('id_angkatan')
+        ->paginate(10)
+        ->withQueryString();
+    } else {
+      $alumni = SiswaAlumni::with(['jurusan', 'angkatan', 'pelamar'])
+        ->latest('id_angkatan')
+        ->paginate(10)
+        ->withQueryString();
+    }
 
     return view('admin.pengguna.alumni.index', compact('alumni'));
   }

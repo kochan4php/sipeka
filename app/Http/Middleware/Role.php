@@ -15,7 +15,7 @@ class Role {
    * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
    */
   public function handle(Request $request, Closure $next, ...$role) {
-    abort_if(!in_array(Auth::user()->level_user->identifier, $role), 403, 'Kamu dilarang mengakses url ini!');
+    if (!in_array(Auth::user()->level_user->identifier, $role)) return back();
     return $next($request);
   }
 }

@@ -11,55 +11,108 @@ use App\Models\SiswaAlumni;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class RecomendationController extends Controller {
+  /**
+   * Kolom yang diquery dari tabel rekomendasi
+   *
+   * @var array
+   */
+  private $columns = [
+    'sa.nama_lengkap',
+    'sa.id_siswa',
+    'rl.*',
+    'lk.id_lowongan',
+    'lk.judul_lowongan',
+    'lk.posisi'
+  ];
+
+  /**
+   * Mendapatkan semua data rekomendasi
+   *
+   * @return array|object
+   */
+  public function getDataRecomendations(): array|object {
+    return  DB::table('rekomendasi_lowongan as rl')
+      ->select($this->columns)
+      ->join('siswa_alumni as sa', 'rl.id_siswa', '=', 'sa.id_siswa')
+      ->join('lowongan_kerja as lk', 'rl.id_lowongan', '=', 'lk.id_lowongan')
+      ->latest('rl.created_at')
+      ->paginate(10)
+      ->withQueryString();
+  }
+
+  /**
+   * Mendapatkan semua data rekomendasi berdasarkan keyword tertentu
+   *
+   * @param string|null $keyword
+   * @return array|object
+   */
+  public function getDataRecomendationsByKeyword(?string $keyword): array|object {
+    return DB::table('rekomendasi_lowongan as rl')
+      ->select($this->columns)
+      ->join('siswa_alumni as sa', 'rl.id_siswa', '=', 'sa.id_siswa')
+      ->join('lowongan_kerja as lk', 'rl.id_lowongan', '=', 'lk.id_lowongan')
+      ->where('sa.nama_lengkap', 'LIKE', "%{$keyword}%")
+      ->orWhere('lk.judul_lowongan', 'LIKE', "%{$keyword}%")
+      ->orWhere('lk.posisi', 'LIKE', "%{$keyword}%")
+      ->latest('rl.created_at')
+      ->paginate(10)
+      ->withQueryString();
+  }
+
+  /**
+   * Menampilkan halaman utama untuk menampilkan semua data rekomendasi
+   *
+   * @param Request $request
+   * @return View
+   */
   public function getAllRecomendations(Request $request): View {
     $rekomendasi = null;
-    $columns = [
-      'sa.nama_lengkap',
-      'sa.id_siswa',
-      'rl.*',
-      'lk.id_lowongan',
-      'lk.judul_lowongan',
-      'lk.posisi'
-    ];
 
     if ($request->has('q')) {
-      $rekomendasi = DB::table('rekomendasi_lowongan as rl')
-        ->select($columns)
-        ->join('siswa_alumni as sa', 'rl.id_siswa', '=', 'sa.id_siswa')
-        ->join('lowongan_kerja as lk', 'rl.id_lowongan', '=', 'lk.id_lowongan')
-        ->where('sa.nama_lengkap', 'LIKE', "%{$request->input('q')}%")
-        ->orWhere('lk.judul_lowongan', 'LIKE', "%{$request->input('q')}%")
-        ->orWhere('lk.posisi', 'LIKE', "%{$request->input('q')}%")
-        ->latest('rl.created_at')
-        ->paginate(10)
-        ->withQueryString();
+      $rekomendasi = $this->getDataRecomendationsByKeyword($request->input('q'));
     } else {
-      $rekomendasi = DB::table('rekomendasi_lowongan as rl')
-        ->select($columns)
-        ->join('siswa_alumni as sa', 'rl.id_siswa', '=', 'sa.id_siswa')
-        ->join('lowongan_kerja as lk', 'rl.id_lowongan', '=', 'lk.id_lowongan')
-        ->latest('rl.created_at')
-        ->paginate(10)
-        ->withQueryString();
+      $rekomendasi = $this->getDataRecomendations();
     }
 
     return view('rekomendasi.index', compact('rekomendasi'));
   }
 
+  /**
+   * Menampilkan halaman form untuk menambah data rekomendasi baru
+   *
+   * @return View
+   */
   public function createOneRecomendation(): View {
     $alumni = SiswaAlumni::all(['id_siswa', 'nama_lengkap']);
-    $lowongan = LowonganKerja::latest()
-      ->where('is_approve', true)
-      ->where('active', true)
-      ->latest()
-      ->get(['id_lowongan', 'judul_lowongan', 'posisi']);
+    $lowongan = [];
+
+    if (Gate::check('admin')) {
+      $lowongan = LowonganKerja::latest()
+        ->approvedAndActive()
+        ->latest()
+        ->get(['id_lowongan', 'judul_lowongan', 'posisi']);
+    } else if (Gate::check('perusahaan')) {
+      $lowongan = Auth::user()->perusahaan
+        ->lowongan()
+        ->approvedAndActive()
+        ->latest()
+        ->get(['id_lowongan', 'judul_lowongan', 'posisi']);
+    }
 
     return view('rekomendasi.tambah', compact('alumni', 'lowongan'));
   }
 
+  /**
+   * Memproses dan validasi data rekomendasi untuk di insert ke dalam tabel rekomendasi_lowongan
+   *
+   * @param Request $request
+   * @return RedirectResponse
+   */
   public function storeOneRecomendation(Request $request): RedirectResponse {
     $judul = '';
     $deskripsi = '';
@@ -100,6 +153,13 @@ class RecomendationController extends Controller {
     return to_route('rekomendasi.index');
   }
 
+  /**
+   * Menghapus salah satu data rekomendasi dari tabel rekomendasi_lowongan
+   *
+   * @param string $siswa
+   * @param string $lowongan
+   * @return RedirectResponse
+   */
   public function deleteOneRecomendation(string $siswa, string $lowongan): RedirectResponse {
     DB::table('rekomendasi_lowongan')
       ->where('rekomendasi_lowongan.id_siswa', '=', decrypt($siswa))

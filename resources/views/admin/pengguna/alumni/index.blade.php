@@ -6,7 +6,7 @@
     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary custom-btn">Tambah Data Alumni</a>
   </div>
 
-  <div class="row my-3 gap-3 gap-md-0">
+  <div class="row my-2 gap-3 gap-md-0">
     <x-card-admin bgcolor="text-bg-warning">
       @slot('data')
         <div class="d-flex justify-content-between align-items-center">
@@ -29,6 +29,22 @@
         <h4>Selengkapnya</h4>
       </a>
     </x-card-admin>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <form action="{{ route('admin.alumni.index') }}">
+        @csrf
+        <div class="input-group mb-3">
+          <input type="text" class="custom-font form-control" placeholder="Cari berdasarkan nama, nis atau jurusan"
+            name="q" autocomplete="off" id="q" value="{{ request('q') }}">
+          <button class="custom-font btn btn-success d-flex align-items-center gap-2" type="submit" id="button-addon2">
+            <span><i class="fa-solid fa-magnifying-glass fa-lg"></i></span>
+            <span>Cari</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="row">

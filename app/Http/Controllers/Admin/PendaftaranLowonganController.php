@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\URL;
 class PendaftaranLowonganController extends Controller {
   public function getAllJobRegistrationData(): View {
     $pendaftaranLowongan = PendaftaranLowongan::latest()
-      ->where('verifikasi', 'Belum')
+      ->notYetVerified()
       ->paginate(10);
     return view('admin.pendaftaran-lowongan.index', compact('pendaftaranLowongan'));
   }

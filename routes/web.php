@@ -208,22 +208,22 @@ Route::prefix('/sipeka')->group(function () {
         });
 
         // Route Seleksi oleh Mitra Perusahaan
-        Route::prefix('/seleksi/penilaian')->controller(PenilaianSeleksiController::class)->group(function () {
-          Route::get('/', 'index')
-            ->name('penilaian.seleksi.index');
-          Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
-            ->name('penilaian.seleksi.job_application_details');
-          Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
-            ->name('penilaian.seleksi.create');
-          Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
-            ->name('penilaian.seleksi.store');
-          Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
-            ->name('penilaian.seleksi.edit');
-          Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
-            ->name('penilaian.seleksi.update');
-          Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
-            ->name('penilaian.seleksi.pass_applicants');
-        });
+        // Route::prefix('/seleksi/penilaian')->controller(PenilaianSeleksiController::class)->group(function () {
+        //   Route::get('/', 'index')
+        //     ->name('penilaian.seleksi.index');
+        //   Route::get('/{pendaftaran_lowongan}/detail', 'jobApplicationDetails')
+        //     ->name('penilaian.seleksi.job_application_details');
+        //   Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/tambah', 'create')
+        //     ->name('penilaian.seleksi.create');
+        //   Route::post('/{pendaftaran_lowongan}/{tahapan_seleksi}/store', 'store')
+        //     ->name('penilaian.seleksi.store');
+        //   Route::get('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}/edit', 'edit')
+        //     ->name('penilaian.seleksi.edit');
+        //   Route::put('/{pendaftaran_lowongan}/{tahapan_seleksi}/{penilaian_seleksi}', 'update')
+        //     ->name('penilaian.seleksi.update');
+        //   Route::post('/{pendaftaran_lowongan}/pass_applicants', 'passApplicants')
+        //     ->name('penilaian.seleksi.pass_applicants');
+        // });
       });
 
       // Route untuk admin dan mitra
@@ -267,12 +267,23 @@ Route::prefix('/sipeka')->group(function () {
               ->name('lowongankerja.store');
             Route::get('/{lowongan_kerja}/detail', 'getDetailOneJobVacancyData')
               ->name('lowongankerja.detail');
+            Route::get('/{lowongan_kerja}/pendaftar', 'seeApplicants')
+              ->name('lowongankerja.see-applicant');
             Route::get('/{lowongan_kerja}/edit', 'editOneJobVacancyData')
               ->name('lowongankerja.edit');
             Route::put('/{lowongan_kerja}', 'updateOneJobVacancyData')
               ->name('lowongankerja.update');
             Route::post('/{lowongan_kerja}', 'deactiveOneJobVacancy')
               ->name('lowongankerja.nonactive');
+
+            Route::middleware('role:perusahaan')->group(function () {
+              Route::get('/{lowongan_kerja}/see-stages', 'seeStages')
+                ->name('lowongankerja.see-stages');
+              Route::get('/{lowongan_kerja}/{tahapan_seleksi}/applicant-selection', 'applicantSelection')
+                ->name('lowongankerja.applicant-selection');
+              Route::post('/{lowongan_kerja}/{tahapan_seleksi}/applicant-selection', 'storeApplicantSelection')
+                ->name('lowongankerja.applicant-selection.store');
+            });
           });
 
           Route::controller(TahapanSeleksiController::class)->prefix('/tahapan')->group(function () {
@@ -286,6 +297,15 @@ Route::prefix('/sipeka')->group(function () {
               ->name('tahapan.seleksi.edit');
             Route::put('/{lowongan_kerja}/update/{tahapan_seleksi}', 'updateOneStagesOfSelection')
               ->name('tahapan.seleksi.update');
+
+            Route::middleware('role:admin')->group(function () {
+              Route::get('/need-approve', 'selectionProcessThatRequiresApproval')
+                ->name('tahapan.seleksi.need-approve');
+              Route::post('/{tahapan_seleksi}/approve', 'verifiedSelectionStages')
+                ->name('tahapan.seleksi.approve');
+              Route::post('/{tahapan_seleksi}/reject', 'verifiedSelectionStages')
+                ->name('tahapan.seleksi.reject');
+            });
           });
         });
 

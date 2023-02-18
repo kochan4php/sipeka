@@ -70,16 +70,38 @@ class LowonganKerja extends Model {
     return 'slug';
   }
 
+  public function scopeHasApproved(Builder $q): void {
+    $q->where('is_approve', true);
+  }
+
+  public function scopeActive(Builder $q): void {
+    $q->where('active', true);
+  }
+
+  public function scopeNotYetApproved(Builder $q): void {
+    $q->whereNull('is_approve');
+  }
+
+  public function scopeNotYetActive(Builder $q): void {
+    $q->whereNull('active');
+  }
+
+  public function scopeRejected(Builder $q): void {
+    $q->where('is_approve', false);
+  }
+
+  public function scopeNotActive(Builder $q): void {
+    $q->where('active', false);
+  }
+
   public function scopeApprovedAndActive(Builder $q): void {
     $q->where('is_approve', true)
-      ->where('active', true)
-      ->latest();
+      ->where('active', true);
   }
 
   public function scopeNotYetApprovedAndNotYetActive(Builder $q): void {
-    $q->where('is_approve', null)
-      ->where('active', null)
-      ->latest();
+    $q->whereNull('is_approve')
+      ->whereNull('active');
   }
 
   public function scopeNeedApproved(Builder $q): void {

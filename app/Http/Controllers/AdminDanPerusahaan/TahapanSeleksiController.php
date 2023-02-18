@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\Tahapan\StoreTahapanSeleksiRequest;
 use App\Models\{LowonganKerja, TahapanSeleksi};
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\{RedirectResponse, Request};
 use Illuminate\Support\Facades\{Auth, Gate};
 
 final class TahapanSeleksiController extends Controller {
@@ -87,5 +87,26 @@ final class TahapanSeleksiController extends Controller {
         $lowonganKerja->slug
       )->with('error', $e->getMessage());
     }
+  }
+
+  public function selectionProcessThatRequiresApproval(): View {
+    $tahapan = TahapanSeleksi::needApprove()->paginate(10);
+    return view('seleksi.tahapan.need-approve', compact('tahapan'));
+  }
+
+  public function verifiedSelectionStages(Request $request, TahapanSeleksi $tahapanSeleksi): RedirectResponse {
+    $fullUrl = explode('/', $request->fullUrl());
+    $getLastPath = end($fullUrl);
+    $attrTahapanSeleksi = [];
+
+    if ($getLastPath === 'approve') $attrTahapanSeleksi['status'] = 'Selesai';
+    else if ($getLastPath === 'reject') $attrTahapanSeleksi['status'] = 'Ditolak';
+
+    $tahapanSeleksi->update($attrTahapanSeleksi);
+
+    $successMsg = "Berhasil memverifikasi seleksi {$tahapanSeleksi->judul_tahapan} dari perusahaan {$tahapanSeleksi->lowongan->perusahaan->nama_perusahaan}.";
+    notify()->success($successMsg, 'Notifikasi');
+
+    return back();
   }
 }

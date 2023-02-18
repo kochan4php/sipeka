@@ -5,7 +5,7 @@
     <div class="row gap-4 gap-md-0">
       @include('pelamar.action')
       <div class="col-lg-9">
-        <div class="card rounded shadow">
+        <div class="card rounded">
           <div class="card-header d-flex align-items-center justify-content-between pb-0">
             <h4>Detail Progress Pendaftaran</h4>
           </div>
@@ -35,13 +35,16 @@
                   <li class="nav-item" role="presentation">
                     <button class="nav-link custom-font active" id="tahapan-seleksi-tab" data-bs-toggle="pill"
                       data-bs-target="#tahapan-seleksi" type="button" role="tab" aria-controls="tahapan-seleksi"
-                      aria-selected="true">Tahapan
-                      Seleksi</button>
+                      aria-selected="true">
+                      Tahapan Seleksi
+                    </button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link custom-font" id="penilaian-tab" data-bs-toggle="pill"
                       data-bs-target="#penilaian" type="button" role="tab" aria-controls="penilaian"
-                      aria-selected="false">Penilaian</button>
+                      aria-selected="false">
+                      Penilaian
+                    </button>
                   </li>
                 </ul>
                 <div class="tab-content" id="nav-tabContent">
@@ -58,6 +61,7 @@
                               <th scope="col" class="text-nowrap text-center">No</th>
                               <th scope="col" class="text-nowrap text-center">Judul Tahapan</th>
                               <th scope="col" class="text-nowrap text-center">Keterangan Tahapan</th>
+                              <th scope="col" class="text-nowrap text-center">Tanggal Dilaksanakan</th>
                               <th scope="col" class="text-nowrap text-center">Status Tahapan</th>
                             </tr>
                           </thead>
@@ -73,7 +77,10 @@
                                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                                   {{ $item->ket_tahapan }}
                                 </td>
-                                @if ($penilaianSeleksi->firstWhere('id_tahapan', $item->id_tahapan)?->is_lanjut === 'Ya')
+                                <td class="text-nowrap text-center vertical-align-middle custom-font">
+                                  {{ $item->tanggal_dimulai }}
+                                </td>
+                                @if ($penilaianSeleksi->firstWhere('id_tahapan', $item->id_tahapan)?->is_lanjut === 'Ya' && $item->status === 'Selesai')
                                   <td class="text-nowrap text-center vertical-align-middle custom-font  checked-tahapan">
                                     <i class="fa-solid fa-check fa-lg text-success"></i>
                                   </td>
@@ -136,7 +143,7 @@
                               </td>
                             </tr>
                             @foreach ($penilaianSeleksi as $item)
-                              <tr>
+                              <tr class="@if ($item->tahapan->status !== 'Selesai') hidden @endif">
                                 <th class="text-nowrap vertical-align-middle custom-font">
                                   {{ $loop->iteration + 1 }}
                                 </th>

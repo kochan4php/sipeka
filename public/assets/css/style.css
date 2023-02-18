@@ -17,6 +17,10 @@ body {
   z-index: 100000000 !important;
 }
 
+.notify .mt-1 .text-sm .leading-5 .text-gray-500 {
+  font-size: 5rem !important;
+}
+
 .custom-font {
   font-size: 1rem !important;
 }
@@ -108,11 +112,11 @@ body {
 
 /* create blur navbar */
 #navbar {
-  background-color: rgba(255, 255, 255, 0.65) !important;
+  background-color: rgba(200, 200, 200, 0.2) !important;
   backdrop-filter: blur(30px) !important;
   -webkit-backdrop-filter: blur(30px) !important;
   -moz-backdrop-filter: blur(30px) !important;
-  border-bottom: 0.005rem solid #ddd;
+  border-bottom: 1px solid rgba(200, 200, 200, 0.3) !important;
   position: fixed !important;
   top: 0 !important;
   right: 0 !important;
