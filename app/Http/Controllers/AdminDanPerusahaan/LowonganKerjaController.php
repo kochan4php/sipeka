@@ -74,8 +74,17 @@ final class LowonganKerjaController extends Controller {
                 ->paginate(10)
                 ->withQueryString();
 
+            $lowonganIsFinished = Auth::user()
+                ->perusahaan
+                ->lowongan()
+                ->isFinished()
+                ->latest()
+                ->paginate(10)
+                ->withQueryString();
+
             $data['lowonganApproveAndActive'] = $lowonganApproveAndActive;
             $data['lowonganNotYetApprovedAndNotYetActive'] = $lowonganNotYetApprovedAndNotYetActive;
+            $data['lowonganIsFinished'] = $lowonganIsFinished;
         }
 
         return view('lowongankerja.index', $data);

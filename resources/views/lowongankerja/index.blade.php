@@ -69,8 +69,15 @@
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="belum-disetujui" data-bs-toggle="tab" data-bs-target="#belum-disetujui-pane"
-              type="button" role="tab" aria-controls="belum-disetujui-pane" aria-selected="false">Belum
-              disetujui</button>
+              type="button" role="tab" aria-controls="belum-disetujui-pane" aria-selected="false">
+              Belum disetujui
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="selesai" data-bs-toggle="tab" data-bs-target="#selesai-pane" type="button"
+              role="tab" aria-controls="selesai-pane" aria-selected="false">
+              Telah Selesai
+            </button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -284,6 +291,92 @@
                 </tbody>
               </table>
               <div>{{ $lowonganNotYetApprovedAndNotYetActive->links() }}</div>
+            </div>
+          </div>
+          <div class="tab-pane pb-5 fade" id="selesai-pane" role="tabpanel" aria-labelledby="selesai" tabindex="0">
+            <div class="table-responsive pb-2">
+              <table class="table table-bordered border-secondary table-striped py-2">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      No
+                    </th>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Judul Lowongan
+                    </th>
+                    @can('admin')
+                      <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                        Nama Perusahaan
+                      </th>
+                    @endcan
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Tanggal Dimulai
+                    </th>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Tanggal Berakhir
+                    </th>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Status
+                    </th>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Jumlah Tahapan
+                    </th>
+                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse ($lowonganIsFinished as $key => $item)
+                    <tr class="@if ($item->tahapan_seleksi->count() === 0) no-tahapan @endif">
+                      <th
+                        class="text-nowrap text-center vertical-align-middle custom-font @if ($item->tahapan_seleksi->count() === 0) bg-danger text-white @endif"
+                        scope="row">
+                        {{ $lowonganIsFinished->firstItem() + $key }}
+                      </th>
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        {{ $item->judul_lowongan }}
+                      </td>
+                      @can('admin')
+                        <td class="text-nowrap text-center vertical-align-middle custom-font">
+                          {{ $item->perusahaan->nama_perusahaan }}
+                        </td>
+                      @endcan
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
+                      </td>
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
+                      </td>
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        @if ($item->active)
+                          {{ __('Aktif') }}
+                        @else
+                          {{ __('Non-Aktif') }}
+                        @endif
+                      </td>
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        {{ $item->tahapan_seleksi->count() }}
+                      </td>
+                      <td class="text-nowrap text-center vertical-align-middle custom-font">
+                        <div class="d-flex gap-2 align-items-center justify-content-center">
+                          <a href="{{ route('lowongankerja.detail', $item->slug) }}"
+                            class="btn btn-detail custom-btn btn-success">
+                            <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  @empty
+                    <tr>
+                      <td colspan="8" class="fs-5 text-center">
+                        <x-svg-empty-icon />
+                      </td>
+                    </tr>
+                  @endforelse
+                </tbody>
+              </table>
+              <div>{{ $lowonganIsFinished->links() }}</div>
             </div>
           </div>
         </div>

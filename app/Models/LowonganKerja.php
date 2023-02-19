@@ -82,6 +82,10 @@ class LowonganKerja extends Model {
         return 'slug';
     }
 
+    public function scopeIsFinished(Builder $q): void {
+        $q->where('is_finished', true);
+    }
+
     public function scopeHasApproved(Builder $q): void {
         $q->where('is_approve', true);
     }

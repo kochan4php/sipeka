@@ -63,6 +63,17 @@
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __($lowonganKerja->kantor->alamat_kantor) }}</td>
                   </tr>
+                  <tr>
+                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Status') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                    <td class="border-0 fs-5 fs-md-6">
+                      @if (!$lowonganKerja->is_finished)
+                        {{ __('Belum Selesai') }}
+                      @else
+                        {{ __('Selesai') }}
+                      @endif
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -74,12 +85,20 @@
               </a>
             </div>
             @can('perusahaan')
-              <div class="col-lg-3">
-                <a href="{{ route('lowongankerja.see-stages', $lowonganKerja->slug) }}"
-                  class="btn w-full custom-btn btn-primary">
-                  Seleksi Pendaftar
-                </a>
-              </div>
+              @if (!$lowonganKerja->is_finished)
+                <div class="col-lg-3">
+                  <a href="{{ route('lowongankerja.see-stages', $lowonganKerja->slug) }}"
+                    class="btn w-full custom-btn btn-primary ">
+                    Seleksi Pendaftar
+                  </a>
+                </div>
+              @else
+                <div class="col-lg-3">
+                  <a href="" class="btn w-full custom-btn btn-primary ">
+                    Lihat Pendaftar yang diterima
+                  </a>
+                </div>
+              @endif
             @endcan
             <div class="col-lg-3">
               <a href="{{ route('lowongankerja.see-applicant', $lowonganKerja->slug) }}"
