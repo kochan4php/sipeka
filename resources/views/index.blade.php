@@ -5,10 +5,10 @@
 @endpush
 
 @section('container')
-  <div>
+  <div style="margin-top: 4.1rem !important;">
     <div id="banner">
       <div id="blur">
-        <div class="text-center col-md-5">
+        <div class="text-center col-md-6">
           <h1 class="fw-bolder main-title"></h1>
         </div>
       </div>
@@ -122,7 +122,7 @@
         <div class="card-group @if ($lowongan->count() > 0) owl-carousel owl-theme @endif">
           @forelse ($lowongan as $item)
             <div class="card mx-1">
-              <img src="{{ $item->perusahaan->logo_perusahaan ?? asset('assets/images/no-photo.png') }}"
+              <img src="{{ $item->banner ? asset("storage/{$item->banner}") : asset('assets/images/no-photo.png') }}"
                 class="card-img-top img-thumbnail" alt="{{ $item->judul_lowongan }}">
               <div class="card-body ">
                 <a class="card-title text-decoration-none text-black font-bolder stretched-link"

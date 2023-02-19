@@ -2,12 +2,15 @@
 
 @push('style')
   <style>
-    #nilai {
+    .nilai,
+    .keterangan {
       width: 100%;
     }
 
-    @media screen and (max-width: 576px) {
-      #nilai {
+    @media screen and (max-width: 1024px) {
+
+      .nilai,
+      .keterangan {
         width: 200px;
       }
     }
@@ -21,12 +24,12 @@
     </h3>
   </div>
 
-  <x-alert-session />
+  <x-alert-error-validation />
 
   <div class="alert alert-info custom-font">
     <div class="row">
       <div class="col">
-        <strong>{{ __('Perhatian!') }}</strong>
+        <strong>{{ __('Cara memberikan penilaian!') }}</strong>
       </div>
     </div>
     <div class="row">
@@ -65,7 +68,6 @@
                 <th scope="col" class="text-nowrap text-center">Email</th>
                 <th scope="col" class="text-nowrap text-center">{{ __('No. Telp') }}</th>
                 <th scope="col" class="text-nowrap text-center">Nilai</th>
-                <th scope="col" class="text-nowrap text-center">Status Lulus</th>
               </tr>
             </thead>
             <tbody>
@@ -107,12 +109,8 @@
                     {{ $item->pelamar->user->email ?? __('-') }}
                   </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    <input type="number" class="form-control" id="nilai" name="nilai[]" max="100" min="1"
-                      required value="{{ $currentStage?->nilai }}">
-                  </td>
-                  <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    <input class="form-check-input" type="checkbox" value="Lulus" name="keterangan[]"
-                      @checked($currentStage?->keterangan === 'Lulus')>
+                    <input type="number" class="form-control nilai" name="nilai[]" max="100" min="1" required
+                      value="{{ $currentStage?->nilai }}">
                   </td>
                 </tr>
               @empty
@@ -139,8 +137,21 @@
   </form>
 
   <div>
-    <a href="{{ route('lowongankerja.see-stages', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn">
+    <a href="{{ route('lowongankerja.see-stages', $lowonganKerja->slug) }}" class="btn btn-primary custom-btn mt-3">
       Kembali
     </a>
   </div>
 @endsection
+
+@push('script')
+  <script>
+    const nilai = document.querySelectorAll('.nilai');
+    nilai.forEach(item => {
+      item.addEventListener('keyup', function() {
+        const select = this.parentElement.nextElementSibling.firstElementChild;
+        if (this.value < 80) select.value = 'Tidak';
+        else select.value = 'Lulus'
+      });
+    });
+  </script>
+@endpush

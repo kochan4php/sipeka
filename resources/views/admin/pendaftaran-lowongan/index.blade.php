@@ -90,6 +90,12 @@
       </div>
     </div>
   </div>
+
+  <div>
+    <a href="{{ route('lowongankerja.index') }}" class="btn btn-primary custom-btn mt-2">
+      Kembali
+    </a>
+  </div>
 @endsection
 
 @push('script')

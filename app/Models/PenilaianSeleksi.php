@@ -51,4 +51,24 @@ class PenilaianSeleksi extends Model {
     public function scopeCurrentStage(Builder $q, $id_tahapan): void {
         $q->where('id_tahapan', $id_tahapan);
     }
+
+    public function scopeHasVerified(Builder $q): void {
+        $q->whereRelation('pendaftaran', 'verifikasi', '=', 'Sudah');
+    }
+
+    public function scopeNotYetVerified(Builder $q): void {
+        $q->whereRelation('pendaftaran', 'verifikasi', '=', 'Belum');
+    }
+
+    public function scopeNotPassSelectionStage(Builder $q): void {
+        $q->where('nilai', '<', 80)
+            ->where('keterangan', '=', 'Gagal')
+            ->where('is_lanjut', '=', 'Tidak');
+    }
+
+    public function scopePassSelectionStage(Builder $q): void {
+        $q->where('nilai', '>=', 80)
+            ->where('keterangan', '=', 'Lulus')
+            ->where('is_lanjut', '=', 'Ya');
+    }
 }

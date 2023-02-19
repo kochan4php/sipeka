@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light fw-bold fixed-top py-2-3" id="navbar">
+<nav class="navbar navbar-expand-lg navbar-dark fw-bold fixed-top py-2-3 bg-dark">
   <div class="container">
     <a class="navbar-brand fs-4 fw-bold" href="{{ route('home') }}">SIPEKA</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -8,17 +8,25 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" style="font-size: 1.1rem !important;" href="{{ route('home') }}">Beranda</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="{{ route('home') }}">
+            Beranda
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka#perusahaan">Perusahaan</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka#perusahaan">
+            Perusahaan
+          </a>
         </li>
         </li>
         <li class="nav-item">
-          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka#lowongan-kerja">Lowongan</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka#lowongan-kerja">
+            Lowongan
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka/cara-daftar">Cara Daftar</a>
+          <a class="nav-link" style="font-size: 1.1rem !important;" href="/sipeka/cara-daftar">
+            Cara Daftar
+          </a>
         </li>
       </ul>
       <ul class="navbar-nav">
@@ -28,7 +36,7 @@
               <button class="btn custom-btn btn-primary dropdown-toggle w-100 d-flex gap-2 align-items-center"
                 type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-user"></i>
-                <span>{{ Auth::user()->username }}</span>
+                <span>{{ \Illuminate\Support\Str::limit(Auth::user()->username, 10) }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end rounded-0"
                 aria-labelledby="dropdownMenuButton2">
@@ -68,7 +76,8 @@
         @else
           <div class="d-flex flex-column flex-lg-row gap-2">
             <li class="nav-item">
-              <a href="{{ route('login') }}" class="btn active custom-btn custom-font d-flex gap-2 align-items-center">
+              <a href="{{ route('login') }}"
+                class="btn btn-primary custom-btn custom-font d-flex gap-2 align-items-center">
                 <i class="fa-solid fa-right-to-bracket"></i>
                 <span>Masuk</span>
               </a>

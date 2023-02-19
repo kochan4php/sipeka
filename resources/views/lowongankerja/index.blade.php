@@ -386,7 +386,7 @@
                 </tr>
               @empty
                 <tr>
-                  <td colspan="8" class="fs-5 text-center">
+                  <td colspan="9" class="fs-5 text-center">
                     <x-svg-empty-icon />
                   </td>
                 </tr>

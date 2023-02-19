@@ -252,22 +252,9 @@ final class LowonganKerjaController extends Controller {
         LowonganKerja $lowonganKerja,
         TahapanSeleksi $tahapanSeleksi
     ): RedirectResponse {
-        $request->validate([
-            'nilai' => ['required', 'min:1', 'max:100']
-        ], [
-            'nilai.required' => 'Nilai tidak boleh kosong.',
-            'nilai.min' => 'Nilai tidak boleh kurang dari 1.',
-            'nilai.max' => 'Nilai tidak boleh lebih dari 100.',
-        ]);
-
         $data = $request->only(['id_pendaftaran', 'id_pelamar', 'nilai', 'keterangan', 'id_penilaian_seleksi']);
 
         for ($i = 0; $i < count($data['id_pendaftaran']); $i++) {
-            if (empty($data['keterangan'][$i])) {
-                PendaftaranLowongan::firstWhere('id_pendaftaran', $data['id_pendaftaran'][$i])
-                    ->update(['status_seleksi' => 'Tidak']);
-            }
-
             PenilaianSeleksi::updateOrCreate([
                 'id_penilaian_seleksi' => $data['id_penilaian_seleksi'][$i]
             ], [
@@ -275,20 +262,9 @@ final class LowonganKerjaController extends Controller {
                 'id_tahapan' => $tahapanSeleksi->id_tahapan,
                 'id_pendaftaran' => $data['id_pendaftaran'][$i],
                 'nilai' => $data['nilai'][$i],
-                'keterangan' => !empty($data['keterangan'][$i]) ? 'Lulus' : 'Gagal',
-                'is_lanjut' => !empty($data['keterangan'][$i]) ? 'Ya' : 'Tidak'
+                'keterangan' => ($data['nilai'][$i] < 80) ? 'Gagal' : 'Lulus',
+                'is_lanjut' => ($data['nilai'][$i] < 80) ? 'Tidak' : 'Ya'
             ]);
-
-            if (is_null(
-                $tahapanSeleksi
-                    ->where('id_lowongan', $tahapanSeleksi->lowongan->id_lowongan)
-                    ->where('urutan_tahapan_ke', $tahapanSeleksi->urutan_tahapan_ke + 1)->first()
-            )) {
-                if (!empty($data['keterangan'][$i])) {
-                    PendaftaranLowongan::firstWhere('id_pendaftaran', $data['id_pendaftaran'][$i])
-                        ->update(['status_seleksi' => 'Lulus']);
-                }
-            }
         }
 
         $tahapanSeleksi->update([

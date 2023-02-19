@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class LowonganKerja extends Model {
     use HasFactory;
@@ -60,6 +61,17 @@ class LowonganKerja extends Model {
 
     public function pendaftaran_lowongan(): HasMany {
         return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
+    }
+
+    public function penilaian_seleksi(): HasManyThrough {
+        return $this->hasManyThrough(
+            PenilaianSeleksi::class,
+            PendaftaranLowongan::class,
+            'id_lowongan', // Foreign key di table pendaftaran_lowongan
+            'id_pendaftaran', // Foreign key di table penilaian_seleksi
+            'id_lowongan', // Local key / Primary key di table lowongan_kerja
+            'id_pendaftaran' // Local key / Primary key di table pendaftaran_lowongan
+        );
     }
 
     public function kantor(): BelongsTo {

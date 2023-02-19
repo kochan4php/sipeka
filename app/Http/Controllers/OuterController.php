@@ -14,6 +14,7 @@ final class OuterController extends Controller {
         $lowongan = LowonganKerja::limit(10)
             ->where('active', true)
             ->where('is_approve', true)
+            ->where('is_finished', false)
             ->whereHas('tahapan_seleksi')
             ->latest()
             ->get();

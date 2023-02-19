@@ -60,9 +60,8 @@ class PendaftaranLowongan extends Model {
     }
 
     public function scopeIsLanjut(Builder $q): void {
-        $q->whereRelation('penilaian_seleksi', 'is_lanjut', '=', true)
-            ->whereRelation('penilaian_seleksi', 'keterangan', '=', 'Lulus')
-            ->whereRelation('penilaian_seleksi', 'nilai', '>=', 80);
+        $q->where('status_seleksi', '<>', 'Tidak')
+            ->orWhere('status_seleksi', '=', 'Belum tuntas mengikuti seleksi');
     }
 
     public function scopeHasVerified(Builder $q): void {
