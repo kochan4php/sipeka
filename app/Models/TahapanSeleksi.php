@@ -66,4 +66,8 @@ class TahapanSeleksi extends Model {
     public function scopeNeedApprove(Builder $q): void {
         $q->where('status', 'Menunggu Persetujuan Admin');
     }
+
+    public function scopePrevTahapan(Builder $q, TahapanSeleksi $tahapanSeleksi): void {
+        $q->where('urutan_tahapan_ke', $tahapanSeleksi->urutan_tahapan_ke - 1);
+    }
 }

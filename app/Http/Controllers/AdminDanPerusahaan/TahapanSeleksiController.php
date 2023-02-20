@@ -95,31 +95,31 @@ final class TahapanSeleksiController extends Controller {
 
         if ($getLastPath === 'approve') {
             $attrTahapanSeleksi['status'] = 'Selesai';
-        } else if ($getLastPath === 'reject') {
-            $attrTahapanSeleksi['status'] = 'Ditolak';
-        }
 
-        if (count($tahapanSeleksi->penilaian_seleksi()->notPassSelectionStage()->get()) !== 0) {
-            foreach ($tahapanSeleksi->penilaian_seleksi()->notPassSelectionStage()->get() as $item) {
-                $item->pendaftaran()->update(['status_seleksi' => 'Tidak']);
-            }
-        }
-
-        if (is_null(
-            $tahapanSeleksi
-                ->where('id_lowongan', $tahapanSeleksi->lowongan->id_lowongan)
-                ->where('urutan_tahapan_ke', $tahapanSeleksi->urutan_tahapan_ke + 1)->first()
-        )) {
-            $tahapanSeleksi->lowongan()->update([
-                'active' => false,
-                'is_finished' => true
-            ]);
-
-            if (count($tahapanSeleksi->penilaian_seleksi()->passSelectionStage()->get()) !== 0) {
-                foreach ($tahapanSeleksi->penilaian_seleksi()->passSelectionStage()->get() as $item) {
-                    $item->pendaftaran()->update(['status_seleksi' => 'Lulus']);
+            if (count($tahapanSeleksi->penilaian_seleksi()->notPassSelectionStage()->get()) !== 0) {
+                foreach ($tahapanSeleksi->penilaian_seleksi()->notPassSelectionStage()->get() as $item) {
+                    $item->pendaftaran()->update(['status_seleksi' => 'Tidak']);
                 }
             }
+
+            if (is_null(
+                $tahapanSeleksi
+                    ->where('id_lowongan', $tahapanSeleksi->lowongan->id_lowongan)
+                    ->where('urutan_tahapan_ke', $tahapanSeleksi->urutan_tahapan_ke + 1)->first()
+            )) {
+                $tahapanSeleksi->lowongan()->update([
+                    'active' => false,
+                    'is_finished' => true
+                ]);
+
+                if (count($tahapanSeleksi->penilaian_seleksi()->passSelectionStage()->get()) !== 0) {
+                    foreach ($tahapanSeleksi->penilaian_seleksi()->passSelectionStage()->get() as $item) {
+                        $item->pendaftaran()->update(['status_seleksi' => 'Lulus']);
+                    }
+                }
+            }
+        } else if ($getLastPath === 'reject') {
+            $attrTahapanSeleksi['status'] = 'Ditolak';
         }
 
         $tahapanSeleksi->update($attrTahapanSeleksi);

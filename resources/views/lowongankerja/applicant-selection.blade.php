@@ -120,7 +120,7 @@
                   </td>
                 </tr>
               @endforelse
-              @if (!$pendaftaranLowongan->isEmpty())
+              @if (count($pendaftaranLowongan) !== 0)
                 <tr>
                   <td colspan="7" class="text-nowrap text-center vertical-align-middle custom-font">
                     <button type="submit" class="btn btn-success custom-btn w-100">
