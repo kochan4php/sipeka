@@ -6,6 +6,8 @@
     <a href="{{ route('admin.pelamar.create') }}" class="btn btn-primary custom-btn">Tambah Data Pelamar</a>
   </div>
 
+  <x-search-bar :action="route('admin.pelamar.index')" placeholder="Cari berdasarkan nama" />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
@@ -60,3 +62,7 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script src="{{ asset('assets/js/autoFocusSearchBar.js') }}"></script>
+@endpush

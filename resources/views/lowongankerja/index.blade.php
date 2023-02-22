@@ -13,7 +13,7 @@
   @endcan
 
   @can('admin')
-    <div class="row my-3 gap-3 gap-md-0">
+    <div class="row mt-3 gap-3 gap-md-0">
       <x-card-admin bgcolor="text-bg-warning">
         @slot('data')
           <div class="d-flex justify-content-between align-items-center">
@@ -54,6 +54,8 @@
       </x-card-admin>
     </div>
   @endcan
+
+  <x-search-bar :action="route('lowongankerja.index')" placeholder="Cari berdasarkan judul, posisi atau nama mitra" />
 
   <x-alert-session />
 
@@ -494,6 +496,7 @@
 @endsection
 
 @push('script')
+  <script src="{{ asset('assets/js/autoFocusSearchBar.js') }}"></script>
   <script>
     tippy('.btn-tahapan', {
       content: 'Tahapan Seleksi',

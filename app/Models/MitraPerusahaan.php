@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class MitraPerusahaan extends Model {
     // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
     public $timestamps = false;
 
-    protected $with = ['user'];
+    protected $with = ['user', 'kantor'];
 
     /**
      * The attributes that are mass assignable.
@@ -64,9 +65,23 @@ class MitraPerusahaan extends Model {
         return $this->hasMany(Kantor::class, 'id_perusahaan', 'id_perusahaan');
     }
 
-    public function namaPerusahaan(): Attribute {
+    protected function namaPerusahaan(): Attribute {
         return Attribute::make(
             get: fn ($value) => "{$this->jenis_perusahaan}. {$value}"
         );
+    }
+
+    public function scopeFilter(Builder $q, ?string $filter): void {
+        if ($filter) {
+            $q->where('nama_perusahaan', 'LIKE', "%{$filter}%")
+                ->orWhere('nomor_telp_perusahaan', 'LIKE', "%{$filter}%")
+                ->orWhere('kategori_perusahaan', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('user', 'email', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('user', 'username', 'LIKE', "%{$filter}%");
+        }
+    }
+
+    public function scopeNonBlocked(Builder $q): void {
+        $q->where('is_blocked', false);
     }
 }

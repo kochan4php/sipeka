@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,5 +45,14 @@ class Kantor extends Model {
 
     public function getRouteKeyName(): string {
         return 'id_kantor';
+    }
+
+    public function scopeFilter(Builder $q, ?string $filter): void {
+        if ($filter) {
+            $q->where('wilayah_kantor', 'LIKE', "%{$filter}%")
+                ->orWhere('no_telp_kantor', 'LIKE', "%{$filter}%")
+                ->orWhere('status_kantor', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('perusahaan', 'nama_perusahaan', 'LIKE', "%{$filter}%");
+        }
     }
 }

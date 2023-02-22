@@ -14,6 +14,7 @@ final class PenggunaController extends Controller {
     public function index(Request $request): View {
         $users = QueryBuilder::for(User::class)
             ->oldest('id_level')
+            ->filter($request->q)
             ->paginate(10)
             ->withQueryString();
 

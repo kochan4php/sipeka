@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Spatie\QueryBuilder\QueryBuilder;
 
 final class KantorController extends Controller {
     use HasCity;
@@ -45,13 +46,16 @@ final class KantorController extends Controller {
         return MitraPerusahaan::all(['id_perusahaan', 'jenis_perusahaan', 'nama_perusahaan']);
     }
 
-    public function getAllKantorData(string $username = null): View {
+    public function getAllKantorData(Request $request): View {
         $dataMitra = null;
         $kantor = null;
+        $data = [];
 
         if (Gate::check('admin')) {
-            $kantor = Kantor::with('perusahaan')
+            $data['kantor'] = QueryBuilder::for(Kantor::class)
+                ->with('perusahaan')
                 ->whereRelation('perusahaan', 'is_blocked', '=', false)
+                ->filter($request->q)
                 ->latest()
                 ->paginate(10)
                 ->withQueryString();
@@ -59,12 +63,16 @@ final class KantorController extends Controller {
             $dataMitra = Auth::user()->perusahaan;
             $kantor = $dataMitra
                 ->kantor()
+                ->filter($request->q)
                 ->latest()
                 ->paginate(10)
                 ->withQueryString();
+
+            $data['dataMitra'] = $dataMitra;
+            $data['kantor'] = $kantor;
         }
 
-        return view('kantor.index', compact('kantor', 'dataMitra'));
+        return view('kantor.index', $data);
     }
 
     public function getDetailOneKantorData(Kantor $kantor): View {

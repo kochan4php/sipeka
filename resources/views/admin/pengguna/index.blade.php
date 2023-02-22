@@ -5,6 +5,8 @@
     <h2>Daftar Akun</h2>
   </div>
 
+  <x-search-bar :action="route('admin.pengguna.index')" placeholder="Cari berdasarkan username, level atau email" />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
@@ -76,3 +78,7 @@
     </div>
   </div>
 @endsection
+
+@push('script')
+  <script src="{{ asset('assets/js/autoFocusSearchBar.js') }}"></script>
+@endpush

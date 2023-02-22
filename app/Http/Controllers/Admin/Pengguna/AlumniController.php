@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
-use App\Models\User;
-use App\Models\SiswaAlumni;
+use App\Models\{LevelUser, User, SiswaAlumni};
 use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
-use App\Models\LevelUser;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -34,20 +31,12 @@ final class AlumniController extends Controller {
     }
 
     public function getAllAlumniData(Request $request): View {
-        $alumni = [];
-
-        if ($request->has('q')) {
-            $alumni = SiswaAlumni::with(['jurusan', 'angkatan', 'pelamar'])
-                ->filter($request->input('q'))
-                ->latest('id_angkatan')
-                ->paginate(10)
-                ->withQueryString();
-        } else {
-            $alumni = SiswaAlumni::with(['jurusan', 'angkatan', 'pelamar'])
-                ->latest('id_angkatan')
-                ->paginate(10)
-                ->withQueryString();
-        }
+        $alumni = QueryBuilder::for(SiswaAlumni::class)
+            ->with(['jurusan', 'angkatan', 'pelamar'])
+            ->filter($request->q)
+            ->latest('id_angkatan')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.pengguna.alumni.index', compact('alumni'));
     }

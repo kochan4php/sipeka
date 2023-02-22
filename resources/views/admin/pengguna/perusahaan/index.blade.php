@@ -8,6 +8,8 @@
     </a>
   </div>
 
+  <x-search-bar :action="route('admin.perusahaan.index')" placeholder="Cari berdasarkan nama mitra" />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
@@ -115,6 +117,7 @@
 @endsection
 
 @push('script')
+  <script src="{{ asset('assets/js/autoFocusSearchBar.js') }}"></script>
   <script>
     tippy('.btn-block', {
       content: 'Block Mitra',

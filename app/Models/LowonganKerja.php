@@ -82,6 +82,17 @@ class LowonganKerja extends Model {
         return 'slug';
     }
 
+    public function scopeFilter(Builder $q, ?string $filter): void {
+        if ($filter) {
+            $q->where('judul_lowongan', 'LIKE', "%{$filter}%")
+                ->orWhere('posisi', 'LIKE', "%{$filter}%")
+                ->orWhere('estimasi_gaji', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('perusahaan', 'nama_perusahaan', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('kantor', 'wilayah_kantor', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('kantor', 'status_kantor', 'LIKE', "%{$filter}%");
+        }
+    }
+
     public function scopeIsFinished(Builder $q): void {
         $q->where('is_finished', true);
     }

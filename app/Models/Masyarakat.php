@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,5 +39,12 @@ class Masyarakat extends Model {
 
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
+    }
+
+    public function scopeFilter(Builder $q, ?string $filter): void {
+        if ($filter) {
+            $q->where('nama_lengkap', 'LIKE', "%{$filter}%")
+                ->orWhereHas('pelamar', fn ($q) => $q->whereRelation('user', 'username', 'LIKE', "%{$filter}%"));
+        }
     }
 }

@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
-use App\Models\User;
 use App\Helpers\Helper;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
 use App\Models\Masyarakat;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\{DB, Hash};
 use Illuminate\Support\{ItemNotFoundException, Collection};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -31,9 +30,10 @@ final class MasyarakatController extends Controller {
         return Helper::generateUniqueUsername('KDT', 5, $name);
     }
 
-    public function getAllCandidateDataFromOutsideSchool(): View {
+    public function getAllCandidateDataFromOutsideSchool(Request $request): View {
         $masyarakat = QueryBuilder::for(Masyarakat::class)
             ->with('pelamar')
+            ->filter($request->q)
             ->latest('id_masyarakat')
             ->paginate(10)
             ->withQueryString();

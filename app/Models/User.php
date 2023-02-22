@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -96,5 +98,13 @@ class User extends Authenticatable {
 
     public function getRouteKeyName(): string {
         return 'username';
+    }
+
+    public function scopeFilter(Builder $q, ?string $filter): void {
+        if ($filter) {
+            $q->where('username', 'LIKE', "%{$filter}%")
+                ->orWhere('email', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('level_user', 'identifier', 'LIKE', "%{$filter}%");
+        }
     }
 }

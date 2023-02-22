@@ -70,7 +70,13 @@ class SiswaAlumni extends Model {
     }
 
     public function scopeFilter(Builder $q, ?string $filter): void {
-        $q->where('nama_lengkap', 'LIKE', "%{$filter}%")
-            ->orWhere('nis', 'LIKE', "%{$filter}%");
+        if ($filter) {
+            $q->where('nis', 'LIKE', "%{$filter}%")
+                ->orWhere('nama_lengkap', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('jurusan', 'nama_jurusan', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('jurusan', 'keterangan', 'LIKE', "%{$filter}%")
+                ->orWhereRelation('angkatan', 'angkatan_tahun', 'LIKE', "%{$filter}%")
+                ->orWhereHas('pelamar', fn ($q) => $q->whereRelation('user', 'username', 'LIKE', "%{$filter}%"));
+        }
     }
 }

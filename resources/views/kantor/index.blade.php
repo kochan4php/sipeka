@@ -29,6 +29,8 @@
     @endif
   @endcan
 
+  <x-search-bar :action="route('kantor.index')" placeholder="Cari berdasarkan wilayah, alamat atau nama mitra" />
+
   <div class="row">
     <div class="col table-responsive">
       <div class="table-responsive pb-2">
@@ -102,7 +104,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="fs-5 text-center">
+                <td colspan="6" class="fs-5 text-center">
                   <x-svg-empty-icon />
                 </td>
               </tr>
@@ -116,6 +118,7 @@
 @endsection
 
 @push('script')
+  <script src="{{ asset('assets/js/autoFocusSearchBar.js') }}"></script>
   <script>
     tippy('.btn-delete', {
       content: 'Hapus data kantor',

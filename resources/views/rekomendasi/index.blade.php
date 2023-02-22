@@ -6,22 +6,7 @@
     <a href="{{ route('rekomendasi.create') }}" class="btn btn-primary custom-btn">Tambah Rekomendasi</a>
   </div>
 
-  <div class="row">
-    <div class="col">
-      <form action="{{ route('rekomendasi.index') }}">
-        @csrf
-        <div class="input-group mb-3">
-          <input type="text" class="custom-font form-control"
-            placeholder="Cari berdasarkan nama alumni, posisi atau judul loker" name="q" autocomplete="off"
-            id="q" value="{{ request('q') }}">
-          <button class="custom-font btn btn-success d-flex align-items-center gap-2" type="submit" id="button-addon2">
-            <span><i class="fa-solid fa-magnifying-glass fa-lg"></i></span>
-            <span>Cari</span>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <x-search-bar :action="route('rekomendasi.index')" placeholder="Cari berdasarkan nama alumni, posisi atau judul loker" />
 
   <div class="row">
     <div class="col table-responsive">
@@ -94,9 +79,5 @@
 @endsection
 
 @push('script')
-  <script>
-    $(document).on("keypress", function() {
-      $("#q").focus();
-    });
-  </script>
+  <script src="{{ asset('assets/js/autoFocusSearchBar.js') }}"></script>
 @endpush

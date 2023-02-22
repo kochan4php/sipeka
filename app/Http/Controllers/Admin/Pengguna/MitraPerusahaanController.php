@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
+use App\Models\{LevelUser, User, MitraPerusahaan};
 use App\Helpers\Helper;
-use App\Models\User;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreMitraPerusahaanRequest;
-use App\Models\LevelUser;
-use App\Models\MitraPerusahaan;
 use App\Traits\HasCity;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Illuminate\Support\Facades\{DB, Hash};
 use Spatie\QueryBuilder\QueryBuilder;
@@ -64,11 +63,11 @@ final class MitraPerusahaanController extends Controller {
         return back();
     }
 
-    public function getAllMitraData(): View {
+    public function getAllMitraData(Request $request): View {
         $perusahaan = QueryBuilder::for(MitraPerusahaan::class)
-            ->with('user')
+            ->filter($request->q)
+            ->nonBlocked()
             ->latest('id_perusahaan')
-            ->where('is_blocked', false)
             ->paginate(10)
             ->withQueryString();
 

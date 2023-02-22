@@ -39,7 +39,7 @@ final class LowonganKerjaController extends Controller {
      *
      * @return View
      */
-    public function getAllJobVacanciesData(): View {
+    public function getAllJobVacanciesData(Request $request): View {
         $lowongan = null;
         $lowonganNeedApprove = null;
         $pendaftaranLowongan = null;
@@ -50,6 +50,7 @@ final class LowonganKerjaController extends Controller {
             $lowonganNeedApprove = LowonganKerja::needApproved()->count();
             $lowongan = LowonganKerja::with('perusahaan')
                 ->approvedAndActive()
+                ->filter($request->q)
                 ->latest()
                 ->paginate(10)
                 ->withQueryString();
