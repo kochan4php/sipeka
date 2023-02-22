@@ -18,8 +18,7 @@ use App\Http\Controllers\{
     Admin\PendaftaranLowonganController as ADMPendaftaranLowonganController,
 
     // All Perusahaan Controller
-    Perusahaan\PelamarController,
-    Perusahaan\PenilaianSeleksiController,
+    Perusahaan\ProfileController as MitraProfileController,
 
     // All Pelamar Controller
     Pelamar\PengalamanKerjaController,
@@ -236,12 +235,20 @@ Route::prefix('/sipeka')->group(function () {
                 Route::get('/', \App\Http\Controllers\Perusahaan\MainController::class)
                     ->name('perusahaan.index');
 
-                Route::controller(PelamarController::class)->group(function () {
-                    Route::get('/pelamar', 'index')
-                        ->name('perusahaan.pelamar.index');
+                Route::controller(AlumniController::class)->prefix('/alumni')->group(function () {
+                    Route::get('/', 'getAllAlumniDataForMitra')
+                        ->name('perusahaan.alumni.index');
 
-                    Route::get('/pelamar/{user}/detail', 'show')
-                        ->name('perusahaan.pelamar.detail');
+                    Route::get('/{user}/detail', 'getDetailDataAlumniForMitra')
+                        ->name('perusahaan.alumni.detail');
+                });
+
+                Route::prefix('/profile')->controller(MitraProfileController::class)->group(function () {
+                    Route::get('/', 'showProfile')
+                        ->name('perusahaan.profile.index');
+
+                    Route::put('/', 'updateProfile')
+                        ->name('perusahaan.profile.update');
                 });
             });
 

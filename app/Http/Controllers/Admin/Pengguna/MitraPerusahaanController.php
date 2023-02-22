@@ -10,6 +10,7 @@ use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreMitraPerusahaanRequest;
 use App\Traits\HasCity;
+use App\Traits\MitraHasCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,24 +19,7 @@ use Illuminate\Support\Facades\{DB, Hash};
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class MitraPerusahaanController extends Controller {
-    use HasMainRoute, HasCity;
-
-    private $kategori = [
-        'Akuntansi / Keuangan',
-        'Sumber Daya Manusia',
-        'Penjualan / Pemasaran',
-        'Seni/Media/Komunikasi',
-        'Pelayanan',
-        'Hotel/Restoran',
-        'Pendidikan/Pelatihan',
-        'Komputer/Teknologi Informasi',
-        'Teknik',
-        'Manufaktur',
-        'Bangunan/Konstruksi',
-        'Sains',
-        'Layanan Kesehatan',
-        'Lainnya'
-    ];
+    use HasMainRoute, HasCity, MitraHasCategory;
 
     public function __construct() {
         $this->setMainRoute('admin.perusahaan.index');

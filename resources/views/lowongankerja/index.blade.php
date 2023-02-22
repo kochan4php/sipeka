@@ -95,14 +95,6 @@
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Judul Lowongan
                     </th>
-                    @can('admin')
-                      <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                        Nama Perusahaan
-                      </th>
-                    @endcan
-                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                      Tanggal Dimulai
-                    </th>
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Tanggal Berakhir
                     </th>
@@ -130,14 +122,6 @@
                       </th>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ $item->judul_lowongan }}
-                      </td>
-                      @can('admin')
-                        <td class="text-nowrap text-center vertical-align-middle custom-font">
-                          {{ $item->perusahaan->nama_perusahaan }}
-                        </td>
-                      @endcan
-                      <td class="text-nowrap text-center vertical-align-middle custom-font">
-                        {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
                       </td>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
@@ -204,14 +188,6 @@
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Judul Lowongan
                     </th>
-                    @can('admin')
-                      <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                        Nama Perusahaan
-                      </th>
-                    @endcan
-                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                      Tanggal Dimulai
-                    </th>
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Tanggal Berakhir
                     </th>
@@ -236,14 +212,6 @@
                       </th>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ $item->judul_lowongan }}
-                      </td>
-                      @can('admin')
-                        <td class="text-nowrap text-center vertical-align-middle custom-font">
-                          {{ $item->perusahaan->nama_perusahaan }}
-                        </td>
-                      @endcan
-                      <td class="text-nowrap text-center vertical-align-middle custom-font">
-                        {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
                       </td>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
@@ -306,14 +274,6 @@
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Judul Lowongan
                     </th>
-                    @can('admin')
-                      <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                        Nama Perusahaan
-                      </th>
-                    @endcan
-                    <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                      Tanggal Dimulai
-                    </th>
                     <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                       Tanggal Berakhir
                     </th>
@@ -338,14 +298,6 @@
                       </th>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ $item->judul_lowongan }}
-                      </td>
-                      @can('admin')
-                        <td class="text-nowrap text-center vertical-align-middle custom-font">
-                          {{ $item->perusahaan->nama_perusahaan }}
-                        </td>
-                      @endcan
-                      <td class="text-nowrap text-center vertical-align-middle custom-font">
-                        {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
                       </td>
                       <td class="text-nowrap text-center vertical-align-middle custom-font">
                         {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
@@ -400,9 +352,6 @@
                   </th>
                 @endcan
                 <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                  Tanggal Dimulai
-                </th>
-                <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                   Tanggal Berakhir
                 </th>
                 <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -435,9 +384,6 @@
                       {{ $item->perusahaan->nama_perusahaan }}
                     </td>
                   @endcan
-                  <td class="text-nowrap text-center vertical-align-middle custom-font">
-                    {{ \Carbon\Carbon::parse($item->tanggal_dimulai)->format('d M Y') }}
-                  </td>
                   <td class="text-nowrap text-center vertical-align-middle custom-font">
                     {{ \Carbon\Carbon::parse($item->tanggal_berakhir)->format('d M Y') }}
                   </td>

@@ -41,6 +41,17 @@ final class AlumniController extends Controller {
         return view('admin.pengguna.alumni.index', compact('alumni'));
     }
 
+    public function getAllAlumniDataForMitra(Request $request): View {
+        $alumni = QueryBuilder::for(SiswaAlumni::class)
+            ->with(['jurusan', 'angkatan', 'pelamar'])
+            ->filter($request->q)
+            ->latest('id_angkatan')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('perusahaan.alumni.index', compact('alumni'));
+    }
+
     public function createOneAlumniData(): View {
         $jurusan = $this->getJurusan();
         $angkatan = $this->getAngkatan();

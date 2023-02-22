@@ -127,17 +127,17 @@
       @endcan
       @can('perusahaan')
         <li class="nav-item">
-          <a class="nav-link  @if (Request::is('sipeka/dashboard/perusahaan/profile*')) active @endif d-flex align-items-center gap-2"
-            aria-current="page" href="">
-            <i class="fa-regular fa-id-card fa-lg"></i>
-            <span style="font-size: 15.5px !important;">Profil Saya</span>
+          <a class="nav-link  @if (Request::is('sipeka/dashboard/perusahaan/alumni*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('perusahaan.alumni.index') }}">
+            <i class="fa-solid fa-user-graduate fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Alumni</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link  @if (Request::is('sipeka/dashboard/perusahaan/pelamar*')) active @endif d-flex align-items-center gap-2"
-            aria-current="page" href="{{ route('perusahaan.pelamar.index') }}">
-            <i class="fa-solid fa-file-contract fa-lg"></i>
-            <span style="font-size: 15.5px !important;">Pelamar</span>
+          <a class="nav-link  @if (Request::is('sipeka/dashboard/perusahaan/profile*')) active @endif d-flex align-items-center gap-2"
+            aria-current="page" href="{{ route('perusahaan.profile.index') }}">
+            <i class="fa-regular fa-id-card fa-lg"></i>
+            <span style="font-size: 15.5px !important;">Profil Saya</span>
           </a>
         </li>
       @endcan
