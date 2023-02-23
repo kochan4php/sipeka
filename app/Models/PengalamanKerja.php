@@ -11,13 +11,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PengalamanKerja extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'pengalaman_kerja';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_pengalaman';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
     /**
@@ -35,11 +47,12 @@ class PengalamanKerja extends Model {
         'deskripsi_pengalaman',
     ];
 
+    /**
+     * Satu pengalaman kerja dimiliki oleh satu pelamar
+     *
+     * @return BelongsTo
+     */
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
-    }
-
-    public function jenis_pekerjaan(): BelongsTo {
-        return $this->belongsTo(JenisPekerjaan::class, 'id_jenis_pekerjaan', 'id_jenis_pekerjaan');
     }
 }

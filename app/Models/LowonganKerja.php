@@ -16,13 +16,19 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class LowonganKerja extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'lowongan_kerja';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_lowongan';
-
-    protected $with = ['perusahaan', 'kantor'];
 
     /**
      * The attributes that are mass assignable.
@@ -45,24 +51,49 @@ class LowonganKerja extends Model {
         'is_finished'
     ];
 
+    /**
+     * Set the created_at attribute
+     *
+     * @return Attribute
+     */
     protected function createdAt(): Attribute {
         return Attribute::make(
             get: fn ($value) => Carbon::parse($value)->diffForHumans()
         );
     }
 
+    /**
+     * Satu lowongan_kerja dimiliki oleh satu perusahaan
+     *
+     * @return BelongsTo
+     */
     public function perusahaan(): BelongsTo {
         return $this->belongsTo(MitraPerusahaan::class, 'id_perusahaan', 'id_perusahaan');
     }
 
+    /**
+     * Satu lowongan_kerja bisa memiliki banyak tahapan seleksi
+     *
+     * @return HasMany
+     */
     public function tahapan_seleksi(): HasMany {
         return $this->hasMany(TahapanSeleksi::class, 'id_lowongan', 'id_lowongan');
     }
 
+    /**
+     * Satu lowongan_kerja bisa dimiliki oleh banyak pendaftaran_lowongan
+     *
+     * @return HasMany
+     */
     public function pendaftaran_lowongan(): HasMany {
         return $this->hasMany(PendaftaranLowongan::class, 'id_lowongan', 'id_lowongan');
     }
 
+    /**
+     * Satu lowongan_kerja bisa memiliki banyak penilaian_seleksi melalui pendaftaran_lowongan
+     *
+     * @return HasManyThrough
+     */
     public function penilaian_seleksi(): HasManyThrough {
         return $this->hasManyThrough(
             PenilaianSeleksi::class,
@@ -74,14 +105,31 @@ class LowonganKerja extends Model {
         );
     }
 
+    /**
+     * Satu lowongan_kerja hanya berlokasi di satu kantor
+     *
+     * @return BelongsTo
+     */
     public function kantor(): BelongsTo {
         return $this->belongsTo(Kantor::class, 'lokasi_kerja', 'id_kantor');
     }
 
+    /**
+     * Set the route key name
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string {
         return 'slug';
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja
+     *
+     * @param Builder $q
+     * @param string|null $filter
+     * @return void
+     */
     public function scopeFilter(Builder $q, ?string $filter): void {
         if ($filter) {
             $q->where('judul_lowongan', 'LIKE', "%{$filter}%")
@@ -93,48 +141,114 @@ class LowonganKerja extends Model {
         }
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja berdasarkan status is_finished
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeIsFinished(Builder $q): void {
         $q->where('is_finished', true);
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja berdasarkan status is_approve
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeHasApproved(Builder $q): void {
         $q->where('is_approve', true);
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja berdasarkan status active
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeActive(Builder $q): void {
         $q->where('active', true);
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang belum di approve
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNotYetApproved(Builder $q): void {
         $q->whereNull('is_approve');
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang belum di aktifkan
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNotYetActive(Builder $q): void {
         $q->whereNull('active');
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang ditolak
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeRejected(Builder $q): void {
         $q->where('is_approve', false);
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang tidak aktif
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNotActive(Builder $q): void {
         $q->where('active', false);
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang sudah di approve dan aktifkan
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeApprovedAndActive(Builder $q): void {
         $q->where('is_approve', true)
             ->where('active', true);
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang belum di approve dan belum di aktifkan
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNotYetApprovedAndNotYetActive(Builder $q): void {
         $q->whereNull('is_approve')
             ->whereNull('active');
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang membutuhkan persetujuan
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNeedApproved(Builder $q): void {
         $q->whereNull('is_approve');
     }
 
+    /**
+     * Scope untuk filter lowongan_kerja yang memiliki tahapan_seleksi
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeHasTahapan(Builder $q): void {
         $q->whereHas('tahapan_seleksi');
     }

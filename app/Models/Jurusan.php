@@ -11,19 +11,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Jurusan extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'jurusan';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_jurusan';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the incrementing
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
     /**
@@ -37,6 +57,11 @@ class Jurusan extends Model {
         'keterangan'
     ];
 
+    /**
+     * Satu jurusan bisa dimiliki oleh banyak siswa
+     *
+     * @return HasMany
+     */
     public function alumni(): HasMany {
         return $this->hasMany(SiswaAlumni::class, 'id_jurusan', 'id_jurusan');
     }

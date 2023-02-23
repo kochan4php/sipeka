@@ -11,19 +11,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class LevelUser extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'level_user';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_level';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the incrementing
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
     /**
@@ -36,6 +56,11 @@ class LevelUser extends Model {
         'nama_level'
     ];
 
+    /**
+     * Satu level user bisa dimiliki oleh banyak user
+     *
+     * @return HasMany
+     */
     public function users(): HasMany {
         return $this->hasMany(User::class, 'id_level', 'id_level');
     }

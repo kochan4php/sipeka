@@ -11,19 +11,39 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AdminBKK extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'admin_bkk';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_admin';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the incrementing
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
     /**
@@ -38,10 +58,20 @@ class AdminBKK extends Model {
         'nip'
     ];
 
+    /**
+     * Get the user who are AdminBKK
+     *
+     * @return BelongsTo
+     */
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string {
         return 'id_admin';
     }

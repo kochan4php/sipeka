@@ -12,13 +12,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Masyarakat extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'masyarakat';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_masyarakat';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
     /**
@@ -37,10 +49,22 @@ class Masyarakat extends Model {
         'foto'
     ];
 
+    /**
+     * Satu masyarakat berperan sebagai satu pelamar
+     *
+     * @return BelongsTo
+     */
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
     }
 
+    /**
+     * Scope filter untuk pencarian
+     *
+     * @param Builder $q
+     * @param string|null $filter
+     * @return void
+     */
     public function scopeFilter(Builder $q, ?string $filter): void {
         if ($filter) {
             $q->where('nama_lengkap', 'LIKE', "%{$filter}%")

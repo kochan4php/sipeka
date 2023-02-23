@@ -11,13 +11,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DokumenPengguna extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'dokumen_pengguna';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_dokumen_pengguna';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
     /**
@@ -31,10 +43,20 @@ class DokumenPengguna extends Model {
         'nama_file'
     ];
 
+    /**
+     * Get the jenis dokumen for the dokumen pengguna.
+     *
+     * @return BelongsTo
+     */
     public function jenis_dokumen(): BelongsTo {
         return $this->belongsTo(Dokumen::class, 'id_jenis_dokumen', 'id_jenis_dokumen');
     }
 
+    /**
+     * Get the pelamar for the dokumen pengguna.
+     *
+     * @return BelongsTo
+     */
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
     }

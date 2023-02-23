@@ -48,8 +48,7 @@ final class LowonganKerjaController extends Controller {
         if (Gate::check('admin')) {
             $pendaftaranLowongan = PendaftaranLowongan::count();
             $lowonganNeedApprove = LowonganKerja::needApproved()->count();
-            $lowongan = LowonganKerja::with('perusahaan')
-                ->approvedAndActive()
+            $lowongan = LowonganKerja::approvedAndActive()
                 ->filter($request->q)
                 ->latest()
                 ->paginate(10)

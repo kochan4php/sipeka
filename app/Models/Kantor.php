@@ -14,18 +14,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Kantor extends Model {
     use HasFactory, HasUuids;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'kantor';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_kantor';
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the incrementing
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'id_perusahaan',
         'alamat_kantor',
@@ -35,18 +56,40 @@ class Kantor extends Model {
         'kantor_utama'
     ];
 
+    /**
+     * Satu kantor dimiliki oleh satu perusahaan
+     *
+     * @return BelongsTo
+     */
     public function perusahaan(): BelongsTo {
         return $this->belongsTo(MitraPerusahaan::class, 'id_perusahaan', 'id_perusahaan');
     }
 
+    /**
+     * Satu kantor bisa memiliki banyak lowongan kerja
+     *
+     * @return HasMany
+     */
     public function lowongan(): HasMany {
         return $this->hasMany(LowonganKerja::class, 'lokasi_kerja', 'id_kantor');
     }
 
+    /**
+     * Set the route key name
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string {
         return 'id_kantor';
     }
 
+    /**
+     * Scope a query to filter the data
+     *
+     * @param Builder $q
+     * @param string|null $filter
+     * @return void
+     */
     public function scopeFilter(Builder $q, ?string $filter): void {
         if ($filter) {
             $q->where('wilayah_kantor', 'LIKE', "%{$filter}%")

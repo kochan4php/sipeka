@@ -12,21 +12,46 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DataNilai extends Model {
     use HasFactory, HasUuids;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'data_nilai';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_nilai';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the incrementing
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
+    /**
+     * Get the alumni that owns the DataNilai
+     *
+     * @return BelongsTo
+     */
     public function alumni(): BelongsTo {
         return $this->belongsTo(SiswaAlumni::class, 'id_alumni', 'id_alumni');
     }

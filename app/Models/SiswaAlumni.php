@@ -14,13 +14,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SiswaAlumni extends Model {
     use HasFactory;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'siswa_alumni';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_siswa';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
     /**
@@ -42,22 +54,47 @@ class SiswaAlumni extends Model {
         'foto'
     ];
 
+    /**
+     * Satu siswa alumni berperan sebagai pelamar
+     *
+     * @return BelongsTo
+     */
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
     }
 
+    /**
+     * Satu siswa alumni hanya memiliki satu angkatan
+     *
+     * @return BelongsTo
+     */
     public function jurusan(): BelongsTo {
         return $this->belongsTo(Jurusan::class, 'id_jurusan', 'id_jurusan');
     }
 
+    /**
+     * Satu siswa alumni hanya memiliki satu jurusan
+     *
+     * @return BelongsTo
+     */
     public function angkatan(): BelongsTo {
         return $this->belongsTo(Angkatan::class, 'id_angkatan', 'id_angkatan');
     }
 
+    /**
+     * Satu siswa alumni memiliki banyak data nilai
+     *
+     * @return HasMany
+     */
     public function dataNilai(): HasMany {
         return $this->hasMany(DataNilai::class, 'id_alumni', 'id_alumni');
     }
 
+    /**
+     * Satu siswa alumni memiliki banyak data rekomendasi lowongan yang diberikan oleh admin
+     *
+     * @return HasMany
+     */
     public function rekomendasiLowongan(): BelongsToMany {
         return $this->belongsToMany(
             LowonganKerja::class,
@@ -69,6 +106,13 @@ class SiswaAlumni extends Model {
         );
     }
 
+    /**
+     * Scope filter untuk pencarian alumni
+     *
+     * @param Builder $q
+     * @param string|null $filter
+     * @return void
+     */
     public function scopeFilter(Builder $q, ?string $filter): void {
         if ($filter) {
             $q->where('nis', 'LIKE', "%{$filter}%")

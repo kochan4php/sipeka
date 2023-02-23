@@ -14,19 +14,33 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class PendaftaranLowongan extends Model {
     use HasFactory, HasUuids;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'pendaftaran_lowongan';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_pendaftaran';
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the primary key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
-
-    protected $with = ['lowongan', 'pelamar'];
 
     /**
      * The attributes that are mass assignable.
@@ -43,47 +57,109 @@ class PendaftaranLowongan extends Model {
         'applicant_promotion'
     ];
 
+    /**
+     * Satu pendaftaran dimiliki oleh satu pelamar
+     *
+     * @return BelongsTo
+     */
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
     }
 
+    /**
+     * Satu pendaftaran hanya bisa mendaftar pada satu lowongan
+     *
+     * @return BelongsTo
+     */
     public function lowongan(): BelongsTo {
         return $this->belongsTo(LowonganKerja::class, 'id_lowongan', 'id_lowongan');
     }
 
+    /**
+     * Satu pendaftaran bisa memiliki banyak penilaian seleksi yang dilakukan oleh pelamar
+     *
+     * @return HasMany
+     */
     public function penilaian_seleksi(): HasMany {
         return $this->hasMany(PenilaianSeleksi::class, 'id_pendaftaran', 'id_pendaftaran');
     }
 
+    /**
+     * Set the route key name
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string {
         return 'id_pendaftaran';
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang lanjut ke tahap seleksi berikutnya
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeIsLanjut(Builder $q): void {
         $q->where('status_seleksi', '<>', 'Tidak')
             ->orWhere('status_seleksi', '=', 'Belum tuntas mengikuti seleksi');
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang sudah diverifikasi
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeHasVerified(Builder $q): void {
         $q->where('verifikasi', 'Sudah');
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang belum diverifikasi
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNotYetVerified(Builder $q): void {
         $q->where('verifikasi', 'Belum');
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang ditolak
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeIsRejected(Builder $q): void {
         $q->where('verifikasi', 'Ditolak');
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang lulus tahap seleksi
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeIsPassed(Builder $q): void {
         $q->where('status_seleksi', 'Lulus');
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang tidak lulus tahap seleksi
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeNotPassed(Builder $q): void {
         $q->where('status_seleksi', 'Tidak');
     }
 
+    /**
+     * Scope untuk memfilter pendaftaran yang belum menyelesaikan tahap seleksi
+     *
+     * @param Builder $q
+     * @return void
+     */
     public function scopeHaveNotYetCompletedTheSelectionProcess(Builder $q): void {
         $q->where('status_seleksi', 'Belum tuntas mengikuti seleksi');
     }

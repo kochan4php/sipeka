@@ -12,19 +12,39 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class GelarPendidikan extends Model {
     use HasFactory, HasUuids;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'gelar_pendidikan';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_gelar';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the incrementing
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
     /**
@@ -36,6 +56,11 @@ class GelarPendidikan extends Model {
         'nama_gelar'
     ];
 
+    /**
+     * Satu gelar pendidikan bisa dimiliki oleh banyak riwayat pendidikan
+     *
+     * @return HasMany
+     */
     public function riwayat_pendidikan(): HasMany {
         return $this->hasMany(RiwayatPendidikan::class, 'kualifikasi', 'id_gelar');
     }

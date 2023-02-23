@@ -12,22 +12,46 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RiwayatPendidikan extends Model {
     use HasFactory, HasUuids;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'riwayat_pendidikan';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_riwayat';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
-    // kasih tau kalau primary key nya bukan integer AI
+    /**
+     * Set the incrementing
+     *
+     * @var boolean
+     */
     public $incrementing = false;
 
-    // kasih tau kalau primary key nya bukan bertipe integer
+    /**
+     * Set the key type
+     *
+     * @var string
+     */
     protected $keyType = 'string';
 
-    // bawa relasinya ketika di query
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
     protected $with = ['gelar_pendidikan'];
 
     /**
@@ -43,10 +67,20 @@ class RiwayatPendidikan extends Model {
         'informasi_tambahan'
     ];
 
+    /**
+     * Satu riwayat pendidikan hanya memiliki satu gelar pendidikan
+     *
+     * @return BelongsTo
+     */
     public function gelar_pendidikan(): BelongsTo {
         return $this->belongsTo(GelarPendidikan::class, 'kualifikasi', 'id_gelar');
     }
 
+    /**
+     * Satu riwayat pendidikan hanya bisa dimiliki oleh satu pelamar
+     *
+     * @return BelongsTo
+     */
     public function pelamar(): BelongsTo {
         return $this->belongsTo(Pelamar::class, 'id_pelamar', 'id_pelamar');
     }

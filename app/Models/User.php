@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,13 +17,25 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // kasih tau tabel yang ada di databasenya
+    /**
+     * Set the table name
+     *
+     * @var string
+     */
     protected $table = 'users';
 
-    // kasih tau primary key yang ada di tabel yang bersangkutan
+    /**
+     * Set the primary key
+     *
+     * @var string
+     */
     protected $primaryKey = 'id_user';
 
-    // set timestamps menjadi false, karena kalau pakai model otomatis dia memasukkan timestamps juga
+    /**
+     * Set the timestamps
+     *
+     * @var boolean
+     */
     public $timestamps = false;
 
     /**
@@ -58,22 +69,47 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Satu user hanya memiliki satu level
+     *
+     * @return BelongsTo
+     */
     public function level_user(): BelongsTo {
         return $this->belongsTo(LevelUser::class, 'id_level', 'id_level');
     }
 
+    /**
+     * Satu user berperan sebagai admin
+     *
+     * @return HasOne
+     */
     public function admin(): HasOne {
         return $this->hasOne(AdminBKK::class, 'id_user', 'id_user');
     }
 
+    /**
+     * Satu user berperan sebagai mitra
+     *
+     * @return HasOne
+     */
     public function perusahaan(): HasOne {
         return $this->hasOne(MitraPerusahaan::class, 'id_user', 'id_user');
     }
 
+    /**
+     * Satu user berperan sebagai pelamar
+     *
+     * @return HasOne
+     */
     public function pelamar(): HasOne {
         return $this->hasOne(Pelamar::class, 'id_user', 'id_user');
     }
 
+    /**
+     * Satu user berperan sebagai siswa alumni melalui pelamar
+     *
+     * @return HasOneThrough
+     */
     public function alumni(): HasOneThrough {
         return $this->hasOneThrough(
             SiswaAlumni::class,
@@ -85,6 +121,11 @@ class User extends Authenticatable {
         );
     }
 
+    /**
+     * Satu user berperan sebagai masyarakat melalui pelamar
+     *
+     * @return HasOneThrough
+     */
     public function masyarakat(): HasOneThrough {
         return $this->hasOneThrough(
             Masyarakat::class,
@@ -96,10 +137,22 @@ class User extends Authenticatable {
         );
     }
 
+    /**
+     * Set the route key name
+     *
+     * @return string
+     */
     public function getRouteKeyName(): string {
         return 'username';
     }
 
+    /**
+     * Scope filter untuk pencarian alumni
+     *
+     * @param Builder $q
+     * @param string|null $filter
+     * @return void
+     */
     public function scopeFilter(Builder $q, ?string $filter): void {
         if ($filter) {
             $q->where('username', 'LIKE', "%{$filter}%")
