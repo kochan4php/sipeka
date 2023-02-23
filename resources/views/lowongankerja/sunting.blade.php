@@ -126,8 +126,7 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8">
                 <img class="d-block image-preview rounded @if (!is_null($lowongan->banner)) mb-3 @endif"
-                  @if (!is_null($lowongan->banner)) src="{{ asset('storage/' . $lowongan->banner) }}" @endif
-                  width="300">
+                  @if (!is_null($lowongan->banner)) src="{{ $lowongan->banner }}" @endif width="300">
               </div>
             </div>
             <div class="mb-3 row">

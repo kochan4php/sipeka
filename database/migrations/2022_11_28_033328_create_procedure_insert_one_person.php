@@ -12,7 +12,7 @@ return new class extends Migration {
     public function up(): void {
         DB::unprepared("DROP PROCEDURE IF EXISTS insert_one_person");
         DB::unprepared(
-            "CREATE PROCEDURE insert_one_person(username varchar(255), email varchar(255), password varchar(255), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), no_telepon varchar(20), tempat_lahir varchar(100), tanggal_lahir date, alamat_tempat_tinggal text, foto varchar(255))
+            "CREATE PROCEDURE insert_one_person(username varchar(255), email varchar(255), password varchar(255), nama_lengkap varchar(255), jenis_kelamin enum('L', 'P'), no_telepon varchar(20), tempat_lahir varchar(100), tanggal_lahir date, alamat_tempat_tinggal text, foto text, public_foto_id text)
 
             BEGIN
                 DECLARE id_level_user char(4);
@@ -37,7 +37,7 @@ return new class extends Migration {
                 INSERT INTO pelamar (id_user) VALUES (id_user);
                 SELECT LAST_INSERT_ID() INTO id_pelamar;
 
-                INSERT INTO masyarakat (id_pelamar, nama_lengkap, jenis_kelamin, no_telepon, tempat_lahir, tanggal_lahir, alamat_tempat_tinggal, foto) VALUES (
+                INSERT INTO masyarakat (id_pelamar, nama_lengkap, jenis_kelamin, no_telepon, tempat_lahir, tanggal_lahir, alamat_tempat_tinggal, foto, public_foto_id) VALUES (
                     id_pelamar,
                     nama_lengkap,
                     jenis_kelamin,
@@ -45,7 +45,8 @@ return new class extends Migration {
                     tempat_lahir,
                     tanggal_lahir,
                     alamat_tempat_tinggal,
-                    foto
+                    foto,
+                    public_foto_id
                 );
             END ;"
         );

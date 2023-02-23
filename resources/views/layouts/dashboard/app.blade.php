@@ -16,6 +16,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/datatables.min.css') }}" />
 
   @stack('style')
+  @cloudinaryJS
 </head>
 
 <body>

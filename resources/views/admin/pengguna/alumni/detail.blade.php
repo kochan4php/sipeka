@@ -15,7 +15,7 @@
                   <img src="{{ Avatar::create($alumni->nama_lengkap) }}" alt="{{ $user->username }}" width="170"
                     class="rounded-circle">
                 @else
-                  <img src="{{ asset("storage/{$alumni->foto}") }}" alt="{{ $user->username }}" width="170">
+                  <img src="{{ $alumni->foto }}" alt="{{ $user->username }}" width="170">
                 @endif
               </div>
             </div>

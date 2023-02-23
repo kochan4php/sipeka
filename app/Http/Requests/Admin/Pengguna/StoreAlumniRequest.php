@@ -46,11 +46,11 @@ class StoreAlumniRequest extends FormRequest {
             'tanggal_lahir' => ['nullable', 'date'],
             'no_telp' => ['nullable'],
             'alamat_alumni' => ['nullable'],
-            'foto_alumni' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:3072'],
+            'foto_alumni' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:800'],
         ];
     }
 
-    private function validatedData(): array {
+    public function validatedData(): array {
         $validatedData = $this->only($this->column);
 
         $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
@@ -64,17 +64,6 @@ class StoreAlumniRequest extends FormRequest {
 
         $validatedData['alamat_alumni'] = !is_null($validatedData['alamat_alumni']) ?
             $validatedData['alamat_alumni'] : null;
-
-        return $validatedData;
-    }
-
-    public function validatedDataAlumni(): array {
-        $validatedData = $this->validatedData();
-
-        if ($this->hasFile('foto_alumni')) {
-            $file = $this->file('foto_alumni');
-            $validatedData['foto_alumni'] = $file->storeAs('images/alumni', 'alumni-' . $file->hashName());
-        } else $validatedData['foto_alumni'] = null;
 
         return $validatedData;
     }

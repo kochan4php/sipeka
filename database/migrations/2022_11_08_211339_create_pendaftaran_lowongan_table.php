@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->integer('id_pelamar');
             $table->integer('id_lowongan');
             $table->char('kode_pendaftaran', 20);
-            $table->string('surat_lamaran_kerja');
+            $table->text('surat_lamaran_kerja');
+            $table->text('public_id')->nullable()->default(null);
             $table->enum('verifikasi', ['Sudah', 'Belum', 'Ditolak'])->default('Belum');
             $table->enum('status_seleksi', [
                 'Lulus',

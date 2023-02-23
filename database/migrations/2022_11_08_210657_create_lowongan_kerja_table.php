@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->date('tanggal_berakhir');
             $table->text('slug')->unique();
             $table->text('banner')->nullable()->default(null);
+            $table->text('public_banner_id')->nullable()->default(null);
             $table->boolean('active')->nullable()->default(null);
             $table->boolean('is_approve')->nullable()->default(null);
             $table->boolean('is_finished')->default(false);

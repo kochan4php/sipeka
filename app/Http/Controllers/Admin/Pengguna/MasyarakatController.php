@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Helpers\Helper;
+use App\Http\Controllers\CloudinaryStorageController;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
@@ -47,10 +48,17 @@ final class MasyarakatController extends Controller {
 
     public function storeOneCandidateDataFromOutsideSchool(StorePersonRequest $request): RedirectResponse {
         try {
-            $validatedData = $request->validatedDataPerson();
+            $validatedData = $request->validatedData();
             $validatedData['username'] = $this->generateKandidatUsername($validatedData['nama']);
 
-            DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+            if ($request->hasFile('foto_pelamar')) {
+                $image = $request->file('foto_pelamar');
+                $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
+                $validatedData['foto_pelamar'] = $upload['securePath'];
+                $validatedData['public_foto_id'] = $upload['getPublicId'];
+            }
+
+            DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto, :public_foto_id)", [
                 'username' => $validatedData['username'],
                 'password' => Hash::make($validatedData['password']),
                 'nama_lengkap' => $validatedData['nama'],
@@ -59,7 +67,8 @@ final class MasyarakatController extends Controller {
                 'tempat_lahir' => $validatedData['tempat_lahir'],
                 'tanggal_lahir' => $validatedData['tanggal_lahir'],
                 'alamat_tempat_tinggal' => $validatedData['alamat'],
-                'foto' => $validatedData['foto_pelamar'],
+                'foto' => $validatedData['foto_pelamar'] ?? null,
+                'public_foto_id' => $validatedData['public_foto_id'] ?? null,
                 'email' => NULL
             ]);
 
@@ -103,16 +112,19 @@ final class MasyarakatController extends Controller {
     ): RedirectResponse {
         try {
             $orang = $this->getOnePersonByUsername($username);
-            $validatedData = $request->validatedDataPerson();
+            $validatedData = $request->validatedData();
 
             if ($request->hasFile('foto_pelamar')) {
-                Helper::deleteFileIfExistsInStorageFolder($orang->foto);
+                $image = $request->file('foto_pelamar');
+                $upload = CloudinaryStorageController::replace($orang->public_foto_id, $image->getRealPath(), $image->getClientOriginalName());
+                $validatedData['foto_pelamar'] = $upload['securePath'];
+                $validatedData['public_foto_id'] = $upload['getPublicId'];
             }
 
             $validatedData['new_username'] = ($orang->nama_lengkap !== $validatedData['nama']) ?
                 $this->generateKandidatUsername($validatedData['nama']) : NULL;
 
-            DB::update("CALL update_one_person_by_username(:current_username, :nama_lengkap, :new_username, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+            DB::update("CALL update_one_person_by_username(:current_username, :nama_lengkap, :new_username, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto, :public_foto_id)", [
                 'current_username' => $orang->username ?? $username,
                 'nama_lengkap' => $validatedData['nama'],
                 'new_username' => $validatedData['new_username'],
@@ -121,7 +133,8 @@ final class MasyarakatController extends Controller {
                 'tempat_lahir' => $validatedData['tempat_lahir'],
                 'tanggal_lahir' => $validatedData['tanggal_lahir'],
                 'alamat_tempat_tinggal' => $validatedData['alamat'],
-                'foto' => $validatedData['foto_pelamar']
+                'foto' => $validatedData['foto_pelamar'] ?? $orang->foto,
+                'public_foto_id' => $validatedData['public_foto_id'] ?? $orang->public_foto_id,
             ]);
 
             notify()->success('Berhasil memperbarui data kandidat luar', 'Notifikasi');

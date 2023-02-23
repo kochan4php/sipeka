@@ -51,7 +51,8 @@ class SiswaAlumni extends Model {
         'tanggal_lahir',
         'no_telepon',
         'alamat_tempat_tinggal',
-        'foto'
+        'foto',
+        'public_foto_id'
     ];
 
     /**

@@ -17,7 +17,8 @@ class StoreLowonganKerjaRequest extends FormRequest {
         'deskripsi_lowongan',
         'tanggal_berakhir',
         'slug',
-        'lokasi_kerja'
+        'lokasi_kerja',
+        'banner'
     ];
 
     /**
@@ -42,7 +43,8 @@ class StoreLowonganKerjaRequest extends FormRequest {
             'id_jenis_pekerjaan' => ['required'],
             'deskripsi_lowongan' => ['required'],
             'tanggal_berakhir' => ['required'],
-            'lokasi_kerja' => ['required']
+            'lokasi_kerja' => ['required'],
+            'banner' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:800']
         ];
     }
 

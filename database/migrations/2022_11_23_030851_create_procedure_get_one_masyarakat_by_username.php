@@ -26,6 +26,7 @@ return new class extends Migration {
                     m.alamat_tempat_tinggal,
                     m.no_telepon,
                     m.foto,
+                    m.public_foto_id,
                     u.username,
                     u.email,
                     u.password,

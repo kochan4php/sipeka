@@ -11,7 +11,7 @@
           @if (!is_null($lowonganKerja->banner))
             <div class="row">
               <div class="col d-flex justify-content-center">
-                <img src="{{ asset('storage/' . $lowonganKerja->banner) }}" alt="" width="600">
+                <img src="{{ $lowonganKerja->banner }}" alt="" width="600">
               </div>
             </div>
             <hr />

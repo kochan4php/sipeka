@@ -42,11 +42,11 @@ class StorePersonRequest extends FormRequest {
             "tempat_lahir" => ['nullable'],
             "tanggal_lahir" => ['nullable'],
             "alamat" => ['nullable'],
-            "foto_pelamar" => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:3072'],
+            "foto_pelamar" => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:800'],
         ];
     }
 
-    private function validatedData(): array {
+    public function validatedData(): array {
         $validatedData = $this->only($this->column);
 
         $validatedData['tempat_lahir'] = !is_null($validatedData['tempat_lahir']) ?
@@ -60,17 +60,6 @@ class StorePersonRequest extends FormRequest {
 
         $validatedData['alamat'] = !is_null($validatedData['alamat']) ?
             $validatedData['alamat'] : null;
-
-        return $validatedData;
-    }
-
-    public function validatedDataPerson(): array {
-        $validatedData = $this->validatedData();
-
-        if ($this->hasFile('foto_pelamar')) {
-            $file = $this->file('foto_pelamar');
-            $validatedData['foto_pelamar'] = $file->storeAs('images/kandidat', 'kandidat-' . $file->hashName());
-        } else $validatedData['foto_pelamar'] = null;
 
         return $validatedData;
     }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Models\{LevelUser, User, SiswaAlumni};
 use App\Helpers\Helper;
+use App\Http\Controllers\CloudinaryStorageController;
 use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
@@ -60,10 +61,17 @@ final class AlumniController extends Controller {
 
     public function storeOneAlumniData(StoreAlumniRequest $request): RedirectResponse {
         try {
-            $validatedData = $request->validatedDataAlumni();
+            $validatedData = $request->validatedData();
             $validatedData['username'] = $validatedData['nis'];
             $validatedData['password'] = Hash::make($validatedData['nis']);
             $level = LevelUser::firstWhere('identifier', 'pelamar');
+
+            if ($request->hasFile('foto_alumni')) {
+                $image = $request->file('foto_alumni');
+                $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
+                $validatedData['foto_alumni'] = $upload['securePath'];
+                $validatedData['public_foto_id'] = $upload['getPublicId'];
+            }
 
             $dataUser = [
                 'id_level' => $level->id_level,
@@ -81,7 +89,8 @@ final class AlumniController extends Controller {
                 'tanggal_lahir' => $validatedData['tanggal_lahir'],
                 'no_telepon' => $validatedData['no_telp'],
                 'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
-                'foto' => $validatedData['foto_alumni'],
+                'foto' => $validatedData['foto_alumni'] ?? null,
+                'public_foto_id' => $validatedData['public_foto_id'] ?? null,
             ];
 
             User::create($dataUser)
@@ -95,7 +104,6 @@ final class AlumniController extends Controller {
             return $this->redirectToMainRoute();
         } catch (\Exception $e) {
             notify()->error($e->getMessage(), 'Notifikasi');
-
             return $this->redirectToMainRoute();
         }
     }
@@ -103,11 +111,9 @@ final class AlumniController extends Controller {
     public function getDetailOneAlumniDataByNIS(User $user): View|RedirectResponse {
         try {
             $alumni = $user->alumni;
-
             return view('admin.pengguna.alumni.detail', compact('alumni', 'user'));
         } catch (ItemNotFoundException) {
             notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
-
             return $this->redirectToMainRoute();
         }
     }
@@ -128,11 +134,18 @@ final class AlumniController extends Controller {
 
     public function updateOneAlumniData(StoreAlumniRequest $request, User $user): RedirectResponse {
         try {
-            $validatedData = $request->validatedDataAlumni();
+            $validatedData = $request->validatedData();
             $alumni = $user->alumni;
 
             if ($request->hasFile('foto_alumni')) {
                 Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
+            }
+
+            if ($request->hasFile('foto_alumni')) {
+                $image = $request->file('foto_alumni');
+                $upload = CloudinaryStorageController::replace($alumni->public_foto_id, $image->getRealPath(), $image->getClientOriginalName());
+                $validatedData['foto_alumni'] = $upload['securePath'];
+                $validatedData['public_foto_id'] = $upload['getPublicId'];
             }
 
             if ($alumni->nis !== $validatedData['nis']) {
@@ -158,6 +171,7 @@ final class AlumniController extends Controller {
                 'no_telepon' => $validatedData['no_telp'],
                 'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
                 'foto' => $validatedData['foto_alumni'] ?? $alumni->foto,
+                'public_foto_id' => $validatedData['public_foto_id'] ?? $alumni->public_foto_id,
             ];
 
             $user->alumni()->update($dataAlumni);

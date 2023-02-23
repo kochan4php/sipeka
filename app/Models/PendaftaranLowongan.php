@@ -54,7 +54,8 @@ class PendaftaranLowongan extends Model {
         'verifikasi',
         'status_seleksi',
         'surat_lamaran_kerja',
-        'applicant_promotion'
+        'applicant_promotion',
+        'public_id'
     ];
 
     /**

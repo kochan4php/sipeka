@@ -40,7 +40,8 @@ class DokumenPengguna extends Model {
     protected $fillable = [
         'id_pelamar',
         'id_jenis_dokumen',
-        'nama_file'
+        'nama_file',
+        'public_id',
     ];
 
     /**

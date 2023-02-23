@@ -48,7 +48,8 @@ class LowonganKerja extends Model {
         'lokasi_kerja',
         'banner',
         'is_approve',
-        'is_finished'
+        'is_finished',
+        'public_banner_id'
     ];
 
     /**

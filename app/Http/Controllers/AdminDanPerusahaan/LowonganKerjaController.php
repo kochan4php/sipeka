@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\AdminDanPerusahaan;
 
 use App\Helpers\Helper;
+use App\Http\Controllers\CloudinaryStorageController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
 use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowongan, PenilaianSeleksi, TahapanSeleksi};
 use App\Traits\HasMainRoute;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{JsonResponse, RedirectResponse, Request};
 use Illuminate\Support\Facades\{Auth, Gate};
@@ -116,7 +118,10 @@ final class LowonganKerjaController extends Controller {
             $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
 
             if ($request->hasFile('banner')) {
-                $validatedData['banner'] = $request->file('banner')->store('lowongan');
+                $image = $request->file('banner');
+                $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
+                $validatedData['banner'] = $upload['securePath'];
+                $validatedData['public_banner_id'] = $upload['getPublicId'];
             }
 
             if (Gate::check('perusahaan')) {
@@ -299,22 +304,18 @@ final class LowonganKerjaController extends Controller {
      * @return View|RedirectResponse
      */
     public function editOneJobVacancyData(LowonganKerja $lowonganKerja): View|RedirectResponse {
-        try {
-            $lowongan = null;
-            $perusahaan = null;
-            $jenisPekerjaan = JenisPekerjaan::all();
+        $lowongan = null;
+        $perusahaan = null;
+        $jenisPekerjaan = JenisPekerjaan::all();
 
-            if (Gate::check('perusahaan')) {
-                $lowongan = Auth::user()->perusahaan->lowongan->firstWhere('id_lowongan', $lowonganKerja->id_lowongan);
-            } else if (Gate::check('admin')) {
-                $lowongan = $lowonganKerja;
-                $perusahaan = MitraPerusahaan::all();
-            }
-
-            return view('lowongankerja.sunting', compact('lowongan', 'perusahaan', 'jenisPekerjaan'));
-        } catch (ItemNotFoundException) {
-            return $this->redirectToMainRoute()->with('error', 'Data lowongan kerja tidak ditemukan');
+        if (Gate::check('perusahaan')) {
+            $lowongan = Auth::user()->perusahaan->lowongan->firstWhere('id_lowongan', $lowonganKerja->id_lowongan);
+        } else if (Gate::check('admin')) {
+            $lowongan = $lowonganKerja;
+            $perusahaan = MitraPerusahaan::all();
         }
+
+        return view('lowongankerja.sunting', compact('lowongan', 'perusahaan', 'jenisPekerjaan'));
     }
 
     /**
@@ -328,32 +329,29 @@ final class LowonganKerjaController extends Controller {
         StoreLowonganKerjaRequest $request,
         LowonganKerja $lowonganKerja
     ): RedirectResponse {
-        try {
-            $validatedData = $request->validatedData();
+        $validatedData = $request->validatedData();
 
-            if ($validatedData['judul_lowongan'] !== $lowonganKerja->judul_lowongan) {
-                $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
-            }
-
-            if ($request->hasFile('banner')) {
-                $validatedData['banner'] = $request->file('banner')->store('lowongan');
-                Helper::deleteFileIfExistsInStorageFolder($lowonganKerja->banner);
-            }
-
-            if (Gate::check('perusahaan')) {
-                Auth::user()->perusahaan->lowongan()->firstWhere('slug', $lowonganKerja->slug)->update($validatedData);
-            } else if (Gate::check('admin')) {
-                $validatedData['id_perusahaan'] = $lowonganKerja->perusahaan->id_perusahaan;
-                $lowonganKerja->update($validatedData);
-            }
-
-            notify()->success('Berhasil memperbarui data Lowongan.', 'Notifikasi');
-
-            return $this->redirectToMainRoute();
-        } catch (ItemNotFoundException) {
-            notify()->error('Data lowongan kerja tidak ditemukan', 'Notifikasi');
-            return $this->redirectToMainRoute();
+        if ($validatedData['judul_lowongan'] !== $lowonganKerja->judul_lowongan) {
+            $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
         }
+
+        if ($request->hasFile('banner')) {
+            $image = $request->file('banner');
+            $upload = CloudinaryStorageController::replace($lowonganKerja->public_banner_id, $image->getRealPath(), $image->getClientOriginalName());
+            $validatedData['banner'] = $upload['securePath'];
+            $validatedData['public_banner_id'] = $upload['getPublicId'];
+        }
+
+        if (Gate::check('perusahaan')) {
+            Auth::user()->perusahaan->lowongan()->firstWhere('slug', $lowonganKerja->slug)->update($validatedData);
+        } else if (Gate::check('admin')) {
+            $validatedData['id_perusahaan'] = $lowonganKerja->perusahaan->id_perusahaan;
+            $lowonganKerja->update($validatedData);
+        }
+
+        notify()->success('Berhasil memperbarui data Lowongan.', 'Notifikasi');
+
+        return $this->redirectToMainRoute();
     }
 
     /**
@@ -365,6 +363,7 @@ final class LowonganKerjaController extends Controller {
     public function deactiveOneJobVacancy(LowonganKerja $lowonganKerja): RedirectResponse {
         try {
             $lowonganKerja->update(['active' => false]);
+            CloudinaryStorageController::delete($lowonganKerja->public_banner_id);
             notify()->success('Berhasil menonaktifkan lowongan', 'Notifikasi');
             return back();
         } catch (\Exception $e) {

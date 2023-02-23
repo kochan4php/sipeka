@@ -46,7 +46,8 @@ class Masyarakat extends Model {
         'tanggal_lahir',
         'alamat_tempat_tinggal',
         'no_telepon',
-        'foto'
+        'foto',
+        'public_foto_id'
     ];
 
     /**

@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->integer('id_dokumen_pengguna', true);
             $table->integer('id_pelamar');
             $table->char('id_jenis_dokumen', 7);
-            $table->string('nama_file');
+            $table->text('nama_file');
+            $table->text('public_id')->nullable()->default(null);
 
             // Foreign key untuk id_pelamar
             $table

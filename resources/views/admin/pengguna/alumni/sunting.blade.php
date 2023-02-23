@@ -113,8 +113,7 @@
               <div class="col-sm-4"></div>
               <div class="col-sm-8">
                 @if ($alumni->foto)
-                  <img class="d-block mb-3 image-preview rounded" width="300"
-                    src="{{ asset('storage/' . $alumni->foto) }}">
+                  <img class="d-block mb-3 image-preview rounded" width="300" src="{{ $alumni->foto }}">
                 @else
                   <img class="d-block image-preview rounded" width="300">
                 @endif
