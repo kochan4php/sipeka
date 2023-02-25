@@ -13,14 +13,16 @@
         </div>
         <div class="card-body">
           <div class="row mb-3">
-            <div class="col text-center">
-              @if (is_null($perusahaan->foto_sampul_perusahaan))
-                <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid" alt="Foto Sampul Perusahaan"
-                  draggable="false" width="600">
-              @else
-                <img src="{{ asset('storage/' . $perusahaan->foto_sampul_perusahaan) }}" alt="{{ $perusahaan->username }}"
-                  class="img-fluid" width="600" draggable="false">
-              @endif
+            <div class="col">
+              <div class="d-flex align-items-center justify-content-center">
+                @if (is_null($perusahaan->foto_sampul_perusahaan))
+                  <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid" alt="Foto Sampul Perusahaan"
+                    draggable="false" width="600">
+                @else
+                  <img src="{{ asset('storage/' . $perusahaan->foto_sampul_perusahaan) }}"
+                    alt="{{ $perusahaan->username }}" class="img-fluid" width="600" draggable="false">
+                @endif
+              </div>
             </div>
           </div>
           <hr />

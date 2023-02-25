@@ -94,12 +94,14 @@ class RecomendationController extends Controller {
         if (Gate::check('admin')) {
             $lowongan = LowonganKerja::latest()
                 ->approvedAndActive()
+                ->hasTahapan()
                 ->latest()
                 ->get(['id_lowongan', 'judul_lowongan', 'posisi']);
         } else if (Gate::check('perusahaan')) {
             $lowongan = Auth::user()->perusahaan
                 ->lowongan()
                 ->approvedAndActive()
+                ->hasTahapan()
                 ->latest()
                 ->get(['id_lowongan', 'judul_lowongan', 'posisi']);
         }

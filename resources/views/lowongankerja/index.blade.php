@@ -152,7 +152,7 @@
                           @if ($item->active)
                             <form action="{{ route('lowongankerja.nonactive', $item->slug) }}" method="post">
                               @csrf
-                              <button type="submit" class="btn custom-btn btn-info btn-nonactive">
+                              <button type="submit" class="btn custom-btn btn-danger btn-nonactive">
                                 <span><i class="fa-solid fa-box-archive fa-lg"></i></span>
                               </button>
                             </form>
@@ -239,7 +239,7 @@
                           @if ($item->active)
                             <form action="{{ route('lowongankerja.nonactive', $item->slug) }}" method="post">
                               @csrf
-                              <button type="submit" class="btn custom-btn btn-info btn-nonactive">
+                              <button type="submit" class="btn custom-btn btn-danger btn-nonactive">
                                 <span><i class="fa-solid fa-box-archive fa-lg"></i></span>
                               </button>
                             </form>
@@ -413,7 +413,7 @@
                       @if ($item->active)
                         <form action="{{ route('lowongankerja.nonactive', $item->slug) }}" method="post">
                           @csrf
-                          <button type="submit" class="btn custom-btn btn-info btn-nonactive">
+                          <button type="submit" class="btn custom-btn btn-danger btn-nonactive">
                             <span><i class="fa-solid fa-box-archive fa-lg"></i></span>
                           </button>
                         </form>

@@ -6,6 +6,15 @@
 @endpush
 
 @section('container-dashboard')
+  @if ($lowongan->count() === 0)
+    <div class="row pt-3">
+      <div class="col">
+        <div class="alert alert-warning custom-font">
+          Lowongan Kerja tersedia atau lowongan kerja yang sudah ada belum memiliki tahapan seleksi.
+        </div>
+      </div>
+    </div>
+  @endif
   <div class="row pt-3 pb-1 mb-1">
     <div class="col">
       <div class="card">
@@ -104,17 +113,27 @@
   <script>
     $(document).ready(function() {
       $('.id_siswa').select2({
-        placeholder: 'Pilih Alumni',
+        placeholder: '-- Pilih Alumni --',
       });
       $('.id_lowongan').select2();
 
-      $('#automatic_msg').on('change', function() {
-        if ($(this).is(':checked')) {
-          $('#judul').attr('readonly', true).attr('disabled', true);
-          $('#deskripsi').attr('readonly', true).attr('disabled', true);
+      const autoMsg = document.querySelector('#automatic_msg');
+      autoMsg.addEventListener('change', function() {
+        const judul = document.querySelector('#judul');
+        const deskripsi = document.querySelector('#deskripsi');
+
+        if (this.checked) {
+          judul.setAttribute('readonly', true);
+          judul.setAttribute('disabled', true);
+          deskripsi.setAttribute('readonly', true);
+          deskripsi.setAttribute('disabled', true);
         } else {
-          $('#judul').removeAttr('readonly').removeAttr('disabled').removeAttr('required');
-          $('#deskripsi').removeAttr('readonly').removeAttr('disabled').removeAttr('required');
+          judul.removeAttribute('readonly');
+          judul.removeAttribute('disabled');
+          judul.removeAttribute('required');
+          deskripsi.removeAttribute('readonly');
+          deskripsi.removeAttribute('disabled');
+          deskripsi.removeAttribute('required');
         }
       });
     });
