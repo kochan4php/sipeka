@@ -107,14 +107,14 @@
       </a>
     </x-card-admin>
   </div>
-  <div class="row gap-3 mb-3 padding">
+  {{-- <div class="row gap-3 mb-3 padding">
     <div class="bg-white rounded-3 p-4 border border-secondary">
       <div class="d-flex align-items-center mb-3">
         <h4 class="fw-bold me-2 mb-0">Grafik Karir Alumni </h4>
       </div>
       <canvas id="myChart"></canvas>
     </div>
-  </div>
+  </div> --}}
 @endsection
 
 @push('script')

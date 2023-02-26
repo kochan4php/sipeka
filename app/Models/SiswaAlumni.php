@@ -52,7 +52,8 @@ class SiswaAlumni extends Model {
         'no_telepon',
         'alamat_tempat_tinggal',
         'foto',
-        'public_foto_id'
+        'public_foto_id',
+        'is_active'
     ];
 
     /**
@@ -123,5 +124,15 @@ class SiswaAlumni extends Model {
                 ->orWhereRelation('angkatan', 'angkatan_tahun', 'LIKE', "%{$filter}%")
                 ->orWhereHas('pelamar', fn ($q) => $q->whereRelation('user', 'username', 'LIKE', "%{$filter}%"));
         }
+    }
+
+    /**
+     * Scope filter untuk alumni yang akunnya masih aktif
+     *
+     * @param Builder $q
+     * @return void
+     */
+    public function scopeActive(Builder $q): void {
+        $q->where('is_active', true);
     }
 }

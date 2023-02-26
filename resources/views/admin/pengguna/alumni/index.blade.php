@@ -6,7 +6,7 @@
     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary custom-btn">Tambah Data Alumni</a>
   </div>
 
-  <div class="row my-2 gap-3 gap-md-0">
+  {{-- <div class="row my-2 gap-3 gap-md-0">
     <x-card-admin bgcolor="text-bg-warning">
       @slot('data')
         <div class="d-flex justify-content-between align-items-center">
@@ -29,7 +29,7 @@
         <h4>Selengkapnya</h4>
       </a>
     </x-card-admin>
-  </div>
+  </div> --}}
 
   <x-search-bar :action="route('admin.alumni.index')" placeholder="Cari berdasarkan nama, nis atau jurusan" />
 
@@ -86,6 +86,13 @@
                       class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
+                    <form action="{{ route('admin.alumni.deactive', $item->pelamar->user->username) }}" method="post">
+                      @csrf
+                      @method('put')
+                      <button type="submit" class="btn custom-btn btn-danger btn-delete">
+                        <span><i class="fa-solid fa-archive fa-lg"></i></span>
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>

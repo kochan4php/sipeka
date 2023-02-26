@@ -117,6 +117,9 @@ Route::prefix('/sipeka')->group(function () {
 
                     Route::put('/{user}', 'updateOneAlumniData')
                         ->name('admin.alumni.update');
+
+                    Route::put('/{user}/non-active', 'deactiveOneAlumniData')
+                        ->name('admin.alumni.deactive');
                 });
 
                 Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {

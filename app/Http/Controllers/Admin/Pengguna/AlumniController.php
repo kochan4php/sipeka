@@ -35,6 +35,7 @@ final class AlumniController extends Controller {
         $alumni = QueryBuilder::for(SiswaAlumni::class)
             ->with(['jurusan', 'angkatan', 'pelamar'])
             ->filter($request->q)
+            ->active()
             ->latest('id_angkatan')
             ->paginate(10)
             ->withQueryString();
@@ -184,5 +185,11 @@ final class AlumniController extends Controller {
 
             return $this->redirectToMainRoute();
         }
+    }
+
+    public function deactiveOneAlumniData(User $user): RedirectResponse {
+        $user->alumni->update(['is_active' => false]);
+        notify()->success('Berhasil menonaktifkan data alumni', 'Notifikasi');
+        return back();
     }
 }
