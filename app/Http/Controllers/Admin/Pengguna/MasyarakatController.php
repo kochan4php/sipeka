@@ -10,6 +10,7 @@ use App\Traits\HasMainRoute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StorePersonRequest;
 use App\Models\Masyarakat;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\{DB, Hash};
@@ -35,6 +36,7 @@ final class MasyarakatController extends Controller {
         $masyarakat = QueryBuilder::for(Masyarakat::class)
             ->with('pelamar')
             ->filter($request->q)
+            ->active()
             ->latest('id_masyarakat')
             ->paginate(10)
             ->withQueryString();
@@ -142,8 +144,21 @@ final class MasyarakatController extends Controller {
             return $this->redirectToMainRoute();
         } catch (ItemNotFoundException) {
             notify()->error('Data pelamar tidak ditemukan', 'Notifikasi');
-
             return $this->redirectToMainRoute()->with('error', 'Data pelamar tidak ditemukan');
+        }
+    }
+
+    public function deactiveOneCandidateDataFromOutsideSchool(string $username): RedirectResponse {
+        try {
+            $akun = User::firstWhere('username', $username);
+            $akun->pelamar->masyarakat->is_active = false;
+            $akun->pelamar->masyarakat->save();
+
+            notify()->success("Berhasil menonaktifkan akun {$akun->pelamar->masyarakat->nama_lengkap}", 'Notifikasi');
+            return back();
+        } catch (\Exception $e) {
+            notify()->error($e->getMessage(), 'Notifikasi');
+            return back();
         }
     }
 }

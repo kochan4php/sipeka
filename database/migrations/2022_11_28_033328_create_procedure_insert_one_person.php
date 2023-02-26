@@ -19,23 +19,51 @@ return new class extends Migration {
                 DECLARE id_user int(11);
                 DECLARE id_pelamar int(11);
 
+                -- TCL
+                DECLARE errorCode char(5) DEFAULT '00000';
+                DECLARE CONTINUE HANDLER FOR SQLEXCEPTION, SQLWARNING
+                    BEGIN
+                        GET DIAGNOSTICS CONDITION 1
+                        errorCode = RETURNED_SQLSTATE;
+                    END;
+
+                START TRANSACTION;
+
+                -- ============================================================================================================
+                SAVEPOINT insert_user;
+
                 SELECT level_user.id_level INTO id_level_user FROM level_user WHERE identifier = lower('pelamar');
-
-                IF ISNULL(tanggal_lahir) THEN
-                    SET tanggal_lahir = NULL;
-                ELSE
-                    SET tanggal_lahir = DATE(tanggal_lahir);
-                END IF;
-
                 IF (email IS NOT NULL) THEN
                     INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, email, password);
                 ELSE
                     INSERT INTO users (id_level, username, email, password) VALUES (id_level_user, username, NULL, password);
                 END IF;
                 SELECT LAST_INSERT_ID() INTO id_user;
+                -- ============================================================================================================
+
+                IF (errorCode != '00000') THEN
+                    ROLLBACK TO insert_user;
+                END IF;
+
+                -- ============================================================================================================
+                SAVEPOINT insert_pelamar;
 
                 INSERT INTO pelamar (id_user) VALUES (id_user);
                 SELECT LAST_INSERT_ID() INTO id_pelamar;
+                -- ============================================================================================================
+
+                IF (errorCode != '00000') THEN
+                    ROLLBACK TO insert_pelamar;
+                END IF;
+
+                -- ============================================================================================================
+                SAVEPOINT insert_masyarakat;
+
+                IF ISNULL(tanggal_lahir) THEN
+                    SET tanggal_lahir = NULL;
+                ELSE
+                    SET tanggal_lahir = DATE(tanggal_lahir);
+                END IF;
 
                 INSERT INTO masyarakat (id_pelamar, nama_lengkap, jenis_kelamin, no_telepon, tempat_lahir, tanggal_lahir, alamat_tempat_tinggal, foto, public_foto_id) VALUES (
                     id_pelamar,
@@ -48,6 +76,13 @@ return new class extends Migration {
                     foto,
                     public_foto_id
                 );
+                -- ============================================================================================================
+
+                IF (errorCode != '00000') THEN
+                    ROLLBACK TO insert_masyarakat;
+                END IF;
+
+                COMMIT;
             END ;"
         );
     }

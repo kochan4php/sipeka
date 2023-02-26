@@ -45,6 +45,13 @@
                       class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
+                    <form action="{{ route('admin.pelamar.deactive', $item->pelamar->user->username) }}" method="post">
+                      @csrf
+                      @method('put')
+                      <button type="submit" class="btn custom-btn btn-danger btn-delete">
+                        <span><i class="fa-solid fa-archive fa-lg"></i></span>
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>

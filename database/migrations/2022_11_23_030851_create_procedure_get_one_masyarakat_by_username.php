@@ -27,6 +27,7 @@ return new class extends Migration {
                     m.no_telepon,
                     m.foto,
                     m.public_foto_id,
+                    m.is_active,
                     u.username,
                     u.email,
                     u.password,

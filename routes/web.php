@@ -37,8 +37,7 @@ use App\Http\Controllers\{
     // Change password for all users
     ChangePasswordController,
 };
-use Illuminate\Http\{Request, JsonResponse};
-use Illuminate\Support\Facades\{Artisan, Route, URL};
+use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/sipeka');
 Route::prefix('/sipeka')->group(function () {
@@ -140,6 +139,9 @@ Route::prefix('/sipeka')->group(function () {
 
                     Route::put('/{username}', 'updateOneCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.update');
+
+                    Route::put('/{username}/deactive', 'deactiveOneCandidateDataFromOutsideSchool')
+                        ->name('admin.pelamar.deactive');
                 });
 
                 Route::prefix('/perusahaan')->controller(MitraPerusahaanController::class)->group(function () {
@@ -449,20 +451,6 @@ Route::prefix('/sipeka')->group(function () {
                 Route::get('/{siswa}/{lowongan}', 'getDetailRecomendation')
                     ->name('alumni.rekomendasi.show');
             });
-        });
-    });
-
-    // Artisan command
-    Route::prefix('/artisan')->group(function () {
-        Route::get('/storage-link-74RK3SYG', function (Request $request) {
-            if (!$request->hasValidSignature()) abort(401);
-            Artisan::call('storage:link');
-            return to_route('home');
-        })->name('storage.link');
-
-        Route::get('/storage-link', function () {
-            $url = URL::temporarySignedRoute('storage.link', now()->addSeconds('60'));
-            return new JsonResponse(compact('url'));
         });
     });
 });

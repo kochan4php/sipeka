@@ -47,7 +47,8 @@ class Masyarakat extends Model {
         'alamat_tempat_tinggal',
         'no_telepon',
         'foto',
-        'public_foto_id'
+        'public_foto_id',
+        'is_active'
     ];
 
     /**
@@ -71,5 +72,15 @@ class Masyarakat extends Model {
             $q->where('nama_lengkap', 'LIKE', "%{$filter}%")
                 ->orWhereHas('pelamar', fn ($q) => $q->whereRelation('user', 'username', 'LIKE', "%{$filter}%"));
         }
+    }
+
+    /**
+     * Scope untuk menampilkan akun kandidat luar yang masih aktif
+     *
+     * @param Builder $q
+     * @return void
+     */
+    public function scopeActive(Builder $q): void {
+        $q->where('is_active', true);
     }
 }

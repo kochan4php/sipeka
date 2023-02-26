@@ -113,34 +113,34 @@ final class LowonganKerjaController extends Controller {
      * @return RedirectResponse
      */
     public function storeOneJobVacancyData(StoreLowonganKerjaRequest $request): RedirectResponse {
-        try {
-            $validatedData = $request->validatedData();
-            $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
+        // try {
+        $validatedData = $request->validatedData();
+        $validatedData['slug'] = Helper::generateUniqueSlug($validatedData['judul_lowongan']);
 
-            if ($request->hasFile('banner')) {
-                $image = $request->file('banner');
-                $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
-                $validatedData['banner'] = $upload['securePath'];
-                $validatedData['public_banner_id'] = $upload['getPublicId'];
-            }
-
-            if (Gate::check('perusahaan')) {
-                Auth::user()->perusahaan->lowongan()->create($validatedData);
-            } else if (Gate::check('admin')) {
-                $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();
-                $validatedData['is_approve'] = true;
-                $validatedData['active'] = true;
-
-                LowonganKerja::create($validatedData);
-            }
-
-            notify()->success('Berhasil menambahkan data Lowongan baru.', 'Notifikasi');
-
-            return $this->redirectToMainRoute();
-        } catch (\Exception $e) {
-            notify()->error($e->getMessage(), 'Notifikasi');
-            return $this->redirectToMainRoute();
+        if ($request->hasFile('banner')) {
+            $image = $request->file('banner');
+            $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
+            $validatedData['banner'] = $upload['securePath'];
+            $validatedData['public_banner_id'] = $upload['getPublicId'];
         }
+
+        if (Gate::check('perusahaan')) {
+            Auth::user()->perusahaan->lowongan()->create($validatedData);
+        } else if (Gate::check('admin')) {
+            $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();
+            $validatedData['is_approve'] = true;
+            $validatedData['active'] = true;
+
+            LowonganKerja::create($validatedData);
+        }
+
+        notify()->success('Berhasil menambahkan data Lowongan baru.', 'Notifikasi');
+
+        return $this->redirectToMainRoute();
+        // } catch (\Exception $e) {
+        //     notify()->error($e->getMessage(), 'Notifikasi');
+        //     return $this->redirectToMainRoute();
+        // }
     }
 
     /**
