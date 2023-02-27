@@ -26,7 +26,7 @@ final class RegistrationController extends Controller {
 
     public function kandidatStore(StoreRegistrasiKandidatRequest $request): RedirectResponse {
         $validatedData = $request->validatedDataKandidat();
-        $registerKandidat = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto)", [
+        $registerKandidat = DB::insert("CALL insert_one_person(:username, :email, :password, :nama_lengkap, :jenis_kelamin, :no_telepon, :tempat_lahir, :tanggal_lahir, :alamat_tempat_tinggal, :foto, :public_foto_id)", [
             'username' => $validatedData['username'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
@@ -37,6 +37,7 @@ final class RegistrationController extends Controller {
             'tanggal_lahir' => NULL,
             'alamat_tempat_tinggal' => NULL,
             'foto' => NULL,
+            'public_foto_id' => NULL
         ]);
 
         if ($registerKandidat) return to_route('login');
