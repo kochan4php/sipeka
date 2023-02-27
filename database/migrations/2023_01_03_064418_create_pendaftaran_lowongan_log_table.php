@@ -16,13 +16,18 @@ return new class extends Migration {
             $table->charset = env('DB_CHARSET', 'utf8mb4');
             $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
             $table->id('nomor');
-            $table->integer('id_lowongan');
+            $table->string('judul_lowongan');
             $table->integer('id_pelamar');
             $table->char('kode_pendaftaran', 20);
-            $table->enum('verifikasi', ['Sudah', 'Belum']);
-            $table->enum('status_seleksi', ['Lulus', 'Tidak', 'Belum tuntas mengikuti seleksi']);
-            $table->enum('event', ['insert', 'update', 'delete']);
-            $table->text('keterangan');;
+            $table->enum('event', ['insert', 'update']);
+            $table->text('keterangan');
+
+            // Foreign key untuk id_pelamar
+            $table
+                ->foreign('id_pelamar')
+                ->references('id_pelamar')
+                ->on('pelamar')
+                ->cascadeOnUpdate();
         });
     }
 

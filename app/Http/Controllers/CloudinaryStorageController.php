@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 class CloudinaryStorageController extends Controller {
     private const FOLDER_PATH = 'sipeka';
 
-    public static function path(string $path): string|array {
+    public static function path(?string $path): string|array|null {
         return pathinfo($path, PATHINFO_FILENAME);
     }
 

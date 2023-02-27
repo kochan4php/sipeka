@@ -281,6 +281,9 @@ Route::prefix('/sipeka')->group(function () {
 
                     Route::delete('/{kantor}', 'deleteOneKantorData')
                         ->name('kantor.delete');
+
+                    // Route::get('/list/cetak-pdf', 'createPDF')
+                    //     ->name('kantor.pdf');
                 });
 
                 // Route Lowongan oleh Admin dan Mitra Perusahaan

@@ -17,9 +17,8 @@ return new class extends Migration {
             $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
             $table->id('nomor');
             $table->string('nama_perusahaan');
-            $table->string('no_telepon_perusahaan');
-            $table->text('alamat_perusahaan');
-            $table->enum('event', ['insert', 'update', 'delete']);
+            $table->string('nomor_telp_perusahaan');
+            $table->enum('event', ['insert', 'update']);
             $table->text('keterangan');;
         });
     }

@@ -15,9 +15,12 @@ return new class extends Migration {
                 SELECT
                     sa.*,
                     u.*,
-                    agkt.angkatan_tahun
+                    agkt.angkatan_tahun,
+                    jrs.nama_jurusan,
+                    jrs.keterangan
                 FROM siswa_alumni AS sa
                 INNER JOIN angkatan AS agkt ON sa.id_angkatan = agkt.id_angkatan
+                INNER JOIN jurusan AS jrs ON sa.id_jurusan = jrs.id_jurusan
                 INNER JOIN pelamar AS p ON sa.id_pelamar = p.id_pelamar
                 INNER JOIN users AS u ON p.id_user = u.id_user
                 ORDER BY agkt.angkatan_tahun DESC

@@ -20,10 +20,15 @@ return new class extends Migration {
                 DECLARE kode_baru char(8);
 
                 SELECT MAX(id_angkatan) AS kode_angkatan INTO kode_lama FROM angkatan;
-                SET kode_default = SUBSTRING(kode_lama, 1, 4);
-                SET angka_baru = CONVERT(SUBSTRING(kode_lama, 5), UNSIGNED) + 1;
-                SET angka_baru = CONVERT(LPAD(angka_baru, 4, 0), char);
-                SET kode_baru = CONCAT(kode_default, angka_baru);
+
+                IF (kode_lama IS NOT NULL) THEN
+                    SET kode_default = SUBSTRING(kode_lama, 1, 4);
+                    SET angka_baru = CONVERT(SUBSTRING(kode_lama, 5), UNSIGNED) + 1;
+                    SET angka_baru = CONVERT(LPAD(angka_baru, 4, 0), char);
+                    SET kode_baru = CONCAT(kode_default, angka_baru);
+                ELSE
+                    SET kode_baru = 'AGKT0001';
+                END IF;
 
                 RETURN kode_baru;
             END ;"

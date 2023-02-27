@@ -43,6 +43,9 @@
                 No
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
+                Foto
+              </th>
+              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Nama Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -63,30 +66,37 @@
             @forelse ($alumni as $key => $item)
               <tr>
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
-                  {{ $alumni->firstItem() + $key }}</th>
+                  {{ $alumni->firstItem() + $key }}
+                </th>
+                <td class="d-flex justify-content-center vertical-align-middle custom-font">
+                  @if (is_null($item->foto))
+                    <img src="{{ Avatar::create($item->nama_lengkap) }}" alt="{{ $item->username }}" width="40"
+                      class="rounded-circle">
+                  @else
+                    <img src="{{ $item->foto }}" alt="{{ $item->username }}" width="40">
+                  @endif
+                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->nama_lengkap }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->pelamar->user->username }}
+                  {{ $item->username }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->jurusan->nama_jurusan }}
+                  {{ $item->nama_jurusan }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->angkatan->angkatan_tahun }}
+                  {{ $item->angkatan_tahun }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('admin.alumni.detail', $item->pelamar->user->username) }}"
-                      class="btn custom-btn btn-success">
+                    <a href="{{ route('admin.alumni.detail', $item->username) }}" class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ route('admin.alumni.edit', $item->pelamar->user->username) }}"
-                      class="btn custom-btn btn-warning">
+                    <a href="{{ route('admin.alumni.edit', $item->username) }}" class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
-                    <form action="{{ route('admin.alumni.deactive', $item->pelamar->user->username) }}" method="post">
+                    <form action="{{ route('admin.alumni.deactive', $item->username) }}" method="post">
                       @csrf
                       @method('put')
                       <button type="submit" class="btn custom-btn btn-danger btn-delete">
@@ -98,7 +108,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="6" class="fs-5 text-center">
+                <td colspan="7" class="fs-5 text-center">
                   <x-svg-empty-icon />
                 </td>
               </tr>

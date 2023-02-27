@@ -240,14 +240,14 @@ final class LowonganKerjaController extends Controller {
         $prevTahapan = TahapanSeleksi::where('id_lowongan', $lowonganKerja->id_lowongan)
             ->prevTahapan($tahapanSeleksi)
             ->first()
-            ->status;
+            ?->status;
 
         if ($tahapanSeleksi->urutan_tahapan_ke === 1) {
             $pendaftaranLowongan = $lowonganKerja
                 ->pendaftaran_lowongan()
                 ->hasVerified()
                 ->paginate(10);
-        } else if ($prevTahapan !== 'Selesai') {
+        } else if (!is_null($prevTahapan) && ($prevTahapan !== 'Selesai')) {
             $pendaftaranLowongan = [];
         } else {
             $pendaftaranLowongan = $lowonganKerja

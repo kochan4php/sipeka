@@ -33,13 +33,28 @@ final class MasyarakatController extends Controller {
     }
 
     public function getAllCandidateDataFromOutsideSchool(Request $request): View {
-        $masyarakat = QueryBuilder::for(Masyarakat::class)
-            ->with('pelamar')
-            ->filter($request->q)
-            ->active()
-            ->latest('id_masyarakat')
-            ->paginate(10)
-            ->withQueryString();
+        // $masyarakat = QueryBuilder::for(Masyarakat::class)
+        //     ->with('pelamar')
+        //     ->filter($request->q)
+        //     ->active()
+        //     ->latest('id_masyarakat')
+        //     ->paginate(10)
+        //     ->withQueryString();
+
+        $masyarakat = [];
+
+        if ($request->has('q')) {
+            $masyarakat = DB::table('get_all_masyarakat')
+                ->where('nama_lengkap', 'LIKE', "%{$request->q}%")
+                ->orWhere('username', 'LIKE', "%{$request->q}%")
+                ->paginate(10)
+                ->withQueryString();
+        } else {
+            $masyarakat = DB::table('get_all_masyarakat')
+                ->select()
+                ->paginate(10)
+                ->withQueryString();
+        }
 
         return view('admin.pengguna.masyarakat.index', compact('masyarakat'));
     }

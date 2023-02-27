@@ -23,7 +23,7 @@
                 Nama Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                NIS
+                NIS / Username Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Jurusan
@@ -55,7 +55,7 @@
                   {{ $item->nama_lengkap }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ __($item->nis ?? '-') }}
+                  {{ $item->pelamar->user->username }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->jurusan->nama_jurusan }}

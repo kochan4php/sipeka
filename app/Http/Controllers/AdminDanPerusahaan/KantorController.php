@@ -14,8 +14,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Spatie\QueryBuilder\QueryBuilder;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 final class KantorController extends Controller {
     use HasCity;
@@ -52,13 +54,30 @@ final class KantorController extends Controller {
         $data = [];
 
         if (Gate::check('admin')) {
-            $data['kantor'] = QueryBuilder::for(Kantor::class)
-                ->with('perusahaan')
-                ->whereRelation('perusahaan', 'is_blocked', '=', false)
-                ->filter($request->q)
-                ->latest()
-                ->paginate(10)
-                ->withQueryString();
+            // $data['kantor'] = QueryBuilder::for(Kantor::class)
+            //     ->with('perusahaan')
+            //     ->whereRelation('perusahaan', 'is_blocked', '=', false)
+            //     ->filter($request->q)
+            //     ->latest()
+            //     ->paginate(10)
+            //     ->withQueryString();
+
+            $data['kantor'] = [];
+
+            if ($request->has('q')) {
+                $data['kantor'] = DB::table('get_all_kantor_data')
+                    ->where('wilayah_kantor', 'LIKE', "%{$request->q}%")
+                    ->orWhere('no_telp_kantor', 'LIKE', "%{$request->q}%")
+                    ->orWhere('status_kantor', 'LIKE', "%{$request->q}%")
+                    ->orWhere('nama_perusahaan', 'LIKE', "%{$request->q}%")
+                    ->paginate(10)
+                    ->withQueryString();
+            } else {
+                $data['kantor'] = DB::table('get_all_kantor_data')
+                    ->select()
+                    ->paginate(10)
+                    ->withQueryString();
+            }
         } else if (Gate::check('perusahaan')) {
             $dataMitra = Auth::user()->perusahaan;
             $kantor = $dataMitra
@@ -66,7 +85,7 @@ final class KantorController extends Controller {
                 ->filter($request->q)
                 ->latest()
                 ->paginate(10)
-                ->withQueryString();
+                ->withQueryString();;
 
             $data['dataMitra'] = $dataMitra;
             $data['kantor'] = $kantor;
@@ -155,4 +174,13 @@ final class KantorController extends Controller {
         notify()->success('Berhasil menghapus data kantor', 'Notifikasi');
         return back();
     }
+
+    // public function createPDF() {
+    //     $kantor = DB::table('get_all_kantor_data')
+    //         ->select()
+    //         ->paginate(10);
+
+    //     $pdf = Pdf::loadView('kantor.index', compact('kantor'));
+    //     return $pdf->download();
+    // }
 }

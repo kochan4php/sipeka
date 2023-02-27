@@ -20,10 +20,14 @@ return new class extends Migration {
                 DECLARE kode_baru char(7);
 
                 SELECT MAX(id_jurusan) AS kode_jurusan INTO kode_lama FROM jurusan;
-                SET kode_default = SUBSTRING(kode_lama, 1, 3);
-                SET angka_baru = CONVERT(SUBSTRING(kode_lama, 4), UNSIGNED) + 1;
-                SET angka_baru = CONVERT(LPAD(angka_baru, 4, 0), char);
-                SET kode_baru = CONCAT(kode_default, angka_baru);
+                IF (kode_lama IS NOT NULL) THEN
+                    SET kode_default = SUBSTRING(kode_lama, 1, 3);
+                    SET angka_baru = CONVERT(SUBSTRING(kode_lama, 4), UNSIGNED) + 1;
+                    SET angka_baru = CONVERT(LPAD(angka_baru, 4, 0), char);
+                    SET kode_baru = CONCAT(kode_default, angka_baru);
+                ELSE
+                    SET kode_baru = 'JRS0001';
+                END IF;
 
                 RETURN kode_baru;
             END ;"

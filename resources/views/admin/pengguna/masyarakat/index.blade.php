@@ -30,22 +30,20 @@
                   {{ $item->nama_lengkap }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->pelamar->user->username }}
+                  {{ $item->username }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->no_telepon ?? '-' }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('admin.pelamar.detail', $item->pelamar->user->username) }}"
-                      class="btn custom-btn btn-success">
+                    <a href="{{ route('admin.pelamar.detail', $item->username) }}" class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ route('admin.pelamar.edit', $item->pelamar->user->username) }}"
-                      class="btn custom-btn btn-warning">
+                    <a href="{{ route('admin.pelamar.edit', $item->username) }}" class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
-                    <form action="{{ route('admin.pelamar.deactive', $item->pelamar->user->username) }}" method="post">
+                    <form action="{{ route('admin.pelamar.deactive', $item->username) }}" method="post">
                       @csrf
                       @method('put')
                       <button type="submit" class="btn custom-btn btn-danger btn-delete">

@@ -32,13 +32,32 @@ final class AlumniController extends Controller {
     }
 
     public function getAllAlumniData(Request $request): View {
-        $alumni = QueryBuilder::for(SiswaAlumni::class)
-            ->with(['jurusan', 'angkatan', 'pelamar'])
-            ->filter($request->q)
-            ->active()
-            ->latest('id_angkatan')
-            ->paginate(10)
-            ->withQueryString();
+        // $alumni = QueryBuilder::for(SiswaAlumni::class)
+        //     ->with(['jurusan', 'angkatan', 'pelamar'])
+        //     ->filter($request->q)
+        //     ->active()
+        //     ->latest('id_angkatan')
+        //     ->paginate(10)
+        //     ->withQueryString();
+
+        $alumni = [];
+
+        if ($request->has('q')) {
+            $alumni = DB::table('get_all_siswa_alumni')
+                ->where('nis', 'LIKE', "%{$request->q}%")
+                ->orWhere('nama_lengkap', 'LIKE', "%{$request->q}%")
+                ->orWhere('nama_jurusan', 'LIKE', "%{$request->q}%")
+                ->orWhere('keterangan', 'LIKE', "%{$request->q}%")
+                ->orWhere('angkatan_tahun', 'LIKE', "%{$request->q}%")
+                ->orWhere('username', 'LIKE', "%{$request->q}%")
+                ->paginate(10)
+                ->withQueryString();
+        } else {
+            $alumni = DB::table('get_all_siswa_alumni')
+                ->select()
+                ->paginate(10)
+                ->withQueryString();
+        }
 
         return view('admin.pengguna.alumni.index', compact('alumni'));
     }
