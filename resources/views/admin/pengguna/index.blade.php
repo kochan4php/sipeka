@@ -58,9 +58,6 @@
                     <a href="{{ route('admin.pengguna.show', $item->username) }}" class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ route('admin.alumni.edit', $item->username) }}" class="btn custom-btn btn-warning">
-                      <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
-                    </a>
                   </div>
                 </td>
               </tr>

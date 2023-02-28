@@ -12,7 +12,18 @@ return new class extends Migration {
     public function up(): void {
         DB::unprepared("DROP PROCEDURE IF EXISTS update_one_person_by_username");
         DB::unprepared(
-            "CREATE PROCEDURE update_one_person_by_username(current_username varchar(255), nama_lengkap varchar(255), new_username varchar(255), jenis_kelamin enum('L', 'P'), no_telepon varchar(20), tempat_lahir varchar(100), tanggal_lahir date, alamat_tempat_tinggal text, foto text, public_foto_id text)
+            "CREATE PROCEDURE update_one_person_by_username(
+                current_username varchar(255),
+                nama_lengkap varchar(255),
+                new_username varchar(255),
+                jenis_kelamin enum('L', 'P'),
+                no_telepon varchar(20),
+                tempat_lahir varchar(100),
+                tanggal_lahir date,
+                alamat_tempat_tinggal text,
+                foto text,
+                public_foto_id text
+            )
             BEGIN
                 DECLARE id_user int(11);
                 DECLARE old_nama varchar(255);

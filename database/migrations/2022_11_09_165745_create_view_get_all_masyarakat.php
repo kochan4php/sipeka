@@ -16,8 +16,9 @@ return new class extends Migration {
                     m.*,
                     u.*
                 FROM masyarakat AS m
-                INNER JOIN pelamar AS p ON m.id_pelamar = p.id_pelamar
-                INNER JOIN users AS u ON p.id_user = u.id_user
+                    INNER JOIN pelamar AS p ON m.id_pelamar = p.id_pelamar
+                    INNER JOIN users AS u ON p.id_user = u.id_user
+                ORDER BY m.id_masyarakat DESC
             )"
         );
     }

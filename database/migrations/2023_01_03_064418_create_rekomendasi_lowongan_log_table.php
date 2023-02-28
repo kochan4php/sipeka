@@ -11,23 +11,15 @@ return new class extends Migration {
      * @return void
      */
     public function up(): void {
-        Schema::create('pendaftaran_lowongan_log', function (Blueprint $table) {
+        Schema::create('rekomendasi_lowongan_log', function (Blueprint $table) {
             $table->engine = env('DB_STORAGE_ENGINE', 'InnoDB');
             $table->charset = env('DB_CHARSET', 'utf8mb4');
             $table->collation = env('DB_COLLATION', 'utf8mb4_general_ci');
             $table->id('nomor');
+            $table->string('nama_alumni');
             $table->string('judul_lowongan');
-            $table->integer('id_pelamar');
-            $table->char('kode_pendaftaran', 20);
-            $table->enum('event', ['insert', 'update']);
+            $table->enum('event', ['insert']);
             $table->text('keterangan');
-
-            // Foreign key untuk id_pelamar
-            $table
-                ->foreign('id_pelamar')
-                ->references('id_pelamar')
-                ->on('pelamar')
-                ->cascadeOnUpdate();
         });
     }
 
