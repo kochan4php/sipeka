@@ -43,9 +43,6 @@
                 No
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                Foto
-              </th>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Nama Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -68,14 +65,6 @@
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
                   {{ $alumni->firstItem() + $key }}
                 </th>
-                <td class="d-flex justify-content-center vertical-align-middle custom-font">
-                  @if (is_null($item->foto))
-                    <img src="{{ Avatar::create($item->nama_lengkap) }}" alt="{{ $item->username }}" width="40"
-                      class="rounded-circle">
-                  @else
-                    <img src="{{ $item->foto }}" alt="{{ $item->username }}" width="40">
-                  @endif
-                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->nama_lengkap }}
                 </td>

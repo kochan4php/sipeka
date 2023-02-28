@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('lowongan_kerja', function (Blueprint $table) {
             $table->integer('id_lowongan', true);
             $table->integer('id_perusahaan');
-            $table->integer('id_jenis_pekerjaan');
+            $table->string('jenis_pekerjaan', 100);
             $table->string('judul_lowongan');
             $table->string('posisi');
             $table->string('estimasi_gaji');
@@ -38,13 +38,6 @@ return new class extends Migration {
                 ->foreign('id_perusahaan')
                 ->references('id_perusahaan')
                 ->on('mitra_perusahaan')
-                ->cascadeOnUpdate();
-
-            // Foreign key untuk id_jenis_pekerjaan
-            $table
-                ->foreign('id_jenis_pekerjaan')
-                ->references('id_jenis_pekerjaan')
-                ->on('jenis_pekerjaan')
                 ->cascadeOnUpdate();
         });
     }

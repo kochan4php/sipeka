@@ -56,13 +56,23 @@
                 {{ __('Jenis Pekerjaan') }}
               </label>
               <div class="col-sm-8">
-                <select name="id_jenis_pekerjaan" id="id_jenis_pekerjaan" class="form-select id_jenis_pekerjaan" required>
+                <select name="jenis_pekerjaan" id="jenis_pekerjaan" class="form-select jenis_pekerjaan" required>
                   <option selected disabled hidden>-- Pilih jenis pekerjaan --</option>
-                  @foreach ($jenisPekerjaan as $item)
-                    <option value="{{ $item->id_jenis_pekerjaan }}">
-                      {{ $item->nama_jenis_pekerjaan }}
-                    </option>
-                  @endforeach
+                  <option value="Full-time">
+                    Full-time
+                  </option>
+                  <option value="Part-time">
+                    Part-time
+                  </option>
+                  <option value="Freelance">
+                    Freelance
+                  </option>
+                  <option value="Contract">
+                    Contract
+                  </option>
+                  <option value="Internship">
+                    Internship
+                  </option>
                 </select>
               </div>
             </div>

@@ -17,9 +17,6 @@
                 No
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                Foto
-              </th>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Nama Alumni
               </th>
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
@@ -42,29 +39,20 @@
                 <th class="text-nowrap text-center vertical-align-middle custom-font" scope="row">
                   {{ $alumni->firstItem() + $key }}
                 </th>
-                <td class="d-flex justify-content-center vertical-align-middle custom-font">
-                  @if (is_null($item->foto))
-                    <img src="{{ Avatar::create($item->nama_lengkap) }}" alt="{{ $item->pelamar->user->username }}"
-                      width="40" class="rounded-circle">
-                  @else
-                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->pelamar->user->username }}"
-                      width="40">
-                  @endif
-                </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   {{ $item->nama_lengkap }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->pelamar->user->username }}
+                  {{ $item->username }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->jurusan->nama_jurusan }}
+                  {{ $item->nama_jurusan }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->angkatan->angkatan_tahun }}
+                  {{ $item->angkatan_tahun }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  <a href="{{ route('perusahaan.alumni.detail', $item->pelamar->user->username) }}"
+                  <a href="{{ route('perusahaan.alumni.detail', $item->username) }}"
                     class="btn custom-btn btn-success btn-detail">
                     <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                   </a>

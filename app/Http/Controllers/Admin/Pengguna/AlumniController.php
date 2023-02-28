@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{Request, RedirectResponse};
-use Illuminate\Support\Facades\{DB, Hash};
+use Illuminate\Support\Facades\{DB, Gate, Hash};
 use Illuminate\Support\{Collection, ItemNotFoundException};
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -59,18 +59,9 @@ final class AlumniController extends Controller {
                 ->withQueryString();
         }
 
-        return view('admin.pengguna.alumni.index', compact('alumni'));
-    }
-
-    public function getAllAlumniDataForMitra(Request $request): View {
-        $alumni = QueryBuilder::for(SiswaAlumni::class)
-            ->with(['jurusan', 'angkatan', 'pelamar'])
-            ->filter($request->q)
-            ->latest('id_angkatan')
-            ->paginate(10)
-            ->withQueryString();
-
-        return view('perusahaan.alumni.index', compact('alumni'));
+        return Gate::check('admin') ?
+            view('admin.pengguna.alumni.index', compact('alumni')) :
+            view('perusahaan.alumni.index', compact('alumni'));
     }
 
     public function createOneAlumniData(): View {
@@ -128,82 +119,68 @@ final class AlumniController extends Controller {
         }
     }
 
-    public function getDetailOneAlumniDataByNIS(User $user): View|RedirectResponse {
-        try {
-            $alumni = $user->alumni;
-            return view('admin.pengguna.alumni.detail', compact('alumni', 'user'));
-        } catch (ItemNotFoundException) {
-            notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
-            return $this->redirectToMainRoute();
-        }
+    public function getDetailOneAlumniDataByUsername(User $user): View|RedirectResponse {
+        $alumni = $user->alumni;
+
+        return Gate::check('admin') ?
+            view('admin.pengguna.alumni.detail', compact('alumni', 'user')) :
+            view('perusahaan.alumni.detail', compact('alumni', 'user'));
     }
 
     public function editOneAlumniData(User $user): View|RedirectResponse {
-        try {
-            $jurusan = $this->getJurusan();
-            $angkatan = $this->getAngkatan();
-            $alumni = $user->alumni;
+        $jurusan = $this->getJurusan();
+        $angkatan = $this->getAngkatan();
+        $alumni = $user->alumni;
 
-            return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni', 'user'));
-        } catch (ItemNotFoundException) {
-            notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
-
-            return $this->redirectToMainRoute()->with('error', 'Data alumni tidak ditemukan');
-        }
+        return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni', 'user'));
     }
 
     public function updateOneAlumniData(StoreAlumniRequest $request, User $user): RedirectResponse {
-        try {
-            $validatedData = $request->validatedData();
-            $alumni = $user->alumni;
+        $validatedData = $request->validatedData();
+        $alumni = $user->alumni;
 
-            if ($request->hasFile('foto_alumni')) {
-                Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
-            }
-
-            if ($request->hasFile('foto_alumni')) {
-                $image = $request->file('foto_alumni');
-                $upload = CloudinaryStorageController::replace($alumni->public_foto_id, $image->getRealPath(), $image->getClientOriginalName());
-                $validatedData['foto_alumni'] = $upload['securePath'];
-                $validatedData['public_foto_id'] = $upload['getPublicId'];
-            }
-
-            if ($alumni->nis !== $validatedData['nis']) {
-                $validatedData['password'] = Hash::make($validatedData['nis']);
-                $validatedData['new_username'] = $validatedData['nis'];
-                $user->update([
-                    'username' => $validatedData['new_username'],
-                    'password' => $validatedData['password'],
-                ]);
-            } else {
-                $validatedData['password'] = null;
-                $validatedData['new_username'] = null;
-            }
-
-            $dataAlumni = [
-                'id_angkatan' => $validatedData['angkatan'],
-                'id_jurusan' => $validatedData['jurusan'],
-                'nis' => $validatedData['nis'],
-                'nama_lengkap' => $validatedData['nama'],
-                'jenis_kelamin' => $validatedData['jenis_kelamin'],
-                'tempat_lahir' => $validatedData['tempat_lahir'],
-                'tanggal_lahir' => $validatedData['tanggal_lahir'],
-                'no_telepon' => $validatedData['no_telp'],
-                'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
-                'foto' => $validatedData['foto_alumni'] ?? $alumni->foto,
-                'public_foto_id' => $validatedData['public_foto_id'] ?? $alumni->public_foto_id,
-            ];
-
-            $user->alumni()->update($dataAlumni);
-
-            notify()->success('Berhasil Memperbarui Data Alumni', 'Notifikasi');
-
-            return to_route('admin.alumni.detail', ['user' => $user->username]);
-        } catch (ItemNotFoundException) {
-            notify()->error('Data alumni tidak ditemukan', 'Notifikasi');
-
-            return $this->redirectToMainRoute();
+        if ($request->hasFile('foto_alumni')) {
+            Helper::deleteFileIfExistsInStorageFolder($alumni->foto);
         }
+
+        if ($request->hasFile('foto_alumni')) {
+            $image = $request->file('foto_alumni');
+            $upload = CloudinaryStorageController::replace($alumni->public_foto_id, $image->getRealPath(), $image->getClientOriginalName());
+            $validatedData['foto_alumni'] = $upload['securePath'];
+            $validatedData['public_foto_id'] = $upload['getPublicId'];
+        }
+
+        if ($alumni->nis !== $validatedData['nis']) {
+            $validatedData['password'] = Hash::make($validatedData['nis']);
+            $validatedData['new_username'] = $validatedData['nis'];
+            $user->update([
+                'username' => $validatedData['new_username'],
+                'password' => $validatedData['password'],
+            ]);
+        } else {
+            $validatedData['password'] = null;
+            $validatedData['new_username'] = null;
+        }
+
+        $dataAlumni = [
+            'id_angkatan' => $validatedData['angkatan'],
+            'id_jurusan' => $validatedData['jurusan'],
+            'nis' => $validatedData['nis'],
+            'nama_lengkap' => $validatedData['nama'],
+            'jenis_kelamin' => $validatedData['jenis_kelamin'],
+            'tempat_lahir' => $validatedData['tempat_lahir'],
+            'tanggal_lahir' => $validatedData['tanggal_lahir'],
+            'no_telepon' => $validatedData['no_telp'],
+            'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
+            'foto' => $validatedData['foto_alumni'] ?? $alumni->foto,
+            'public_foto_id' => $validatedData['public_foto_id'] ?? $alumni->public_foto_id,
+        ];
+
+        $user->alumni()->update($dataAlumni);
+
+        notify()->success('Berhasil Memperbarui Data Alumni', 'Notifikasi');
+
+        return to_route('admin.alumni.detail', ['user' => $user->username]);
     }
 
     public function deactiveOneAlumniData(User $user): RedirectResponse {

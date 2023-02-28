@@ -108,7 +108,7 @@ Route::prefix('/sipeka')->group(function () {
                     Route::post('/', 'storeOneAlumniData')
                         ->name('admin.alumni.store');
 
-                    Route::get('/{user}/detail', 'getDetailOneAlumniDataByNIS')
+                    Route::get('/{user}/detail', 'getDetailOneAlumniDataByUsername')
                         ->name('admin.alumni.detail');
 
                     Route::get('/{user}/sunting', 'editOneAlumniData')
@@ -241,10 +241,10 @@ Route::prefix('/sipeka')->group(function () {
                     ->name('perusahaan.index');
 
                 Route::controller(AlumniController::class)->prefix('/alumni')->group(function () {
-                    Route::get('/', 'getAllAlumniDataForMitra')
+                    Route::get('/', 'getAllAlumniData')
                         ->name('perusahaan.alumni.index');
 
-                    Route::get('/{user}/detail', 'getDetailDataAlumniForMitra')
+                    Route::get('/{user}/detail', 'getDetailOneAlumniDataByUsername')
                         ->name('perusahaan.alumni.detail');
                 });
 

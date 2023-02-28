@@ -22,7 +22,7 @@ final class MainController extends Controller {
             ->firstOrFail()
             ->jumlah_mitra_perusahaan;
 
-        $jumlah_lowongan = collect(DB::select("SELECT * FROM jumlah_lowongan"))
+        $jumlah_lowongan = collect(DB::select("SELECT * FROM jumlah_lowongan_aktif"))
             ->firstOrFail()
             ->jumlah_lowongan;
 
