@@ -25,9 +25,6 @@
               <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
                 Level
               </th>
-              <th scope="col" class="text-nowrap text-center vertical-align-middle custom-font">
-                Aksi
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -52,13 +49,6 @@
                   @else
                     {{ $item->level_user->nama_level }}
                   @endif
-                </td>
-                <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('admin.pengguna.show', $item->username) }}" class="btn custom-btn btn-success">
-                      <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
-                    </a>
-                  </div>
                 </td>
               </tr>
             @empty

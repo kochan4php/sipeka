@@ -11,10 +11,11 @@ return new class extends Migration {
      */
     public function up(): void {
         DB::unprepared(
-            "CREATE OR REPLACE VIEW jumlah_lowongan_aktif AS (
-                SELECT count(lowongan_kerja.id_lowongan) AS jumlah_lowongan_aktif FROM lowongan_kerja
-                WHERE lowongan_kerja.active = 1 AND lowongan_kerja.is_approve = 1
-            )"
+            "CREATE OR REPLACE PROCEDURE get_all_pengalaman_kerja_by_pelamar (id_pelamar int)
+            BEGIN
+                SELECT * FROM pengalaman_kerja AS pk
+                WHERE pk.id_pelamar = id_pelamar;
+            END ;"
         );
     }
 };

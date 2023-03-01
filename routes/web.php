@@ -119,6 +119,9 @@ Route::prefix('/sipeka')->group(function () {
 
                     Route::put('/{user}/non-active', 'deactiveOneAlumniData')
                         ->name('admin.alumni.deactive');
+
+                    Route::get('/exports', 'exportAllAlumniDataToExcel')
+                        ->name('admin.alumni.exports');
                 });
 
                 Route::prefix('/pelamar')->controller(MasyarakatController::class)->group(function () {

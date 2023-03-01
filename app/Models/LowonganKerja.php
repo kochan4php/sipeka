@@ -37,7 +37,7 @@ class LowonganKerja extends Model {
      */
     protected $fillable = [
         'id_perusahaan',
-        'id_jenis_pekerjaan',
+        'jenis_pekerjaan',
         'judul_lowongan',
         'posisi',
         'estimasi_gaji',

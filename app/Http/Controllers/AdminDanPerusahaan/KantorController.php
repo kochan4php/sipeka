@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Spatie\QueryBuilder\QueryBuilder;
-use Barryvdh\DomPDF\Facade\Pdf;
+use ZanySoft\LaravelPDF\Facades\PDF;
 
 final class KantorController extends Controller {
     use HasCity;
@@ -180,7 +180,8 @@ final class KantorController extends Controller {
     //         ->select()
     //         ->paginate(10);
 
-    //     $pdf = Pdf::loadView('kantor.index', compact('kantor'));
-    //     return $pdf->download();
+    //     $pdf = PDF::make();
+    //     $pdf->loadView('kantor.index', compact('kantor'));
+    //     return $pdf->stream('test.pdf');
     // }
 }

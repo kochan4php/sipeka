@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Pengguna;
 
+use App\Exports\AlumniExport;
 use App\Models\{LevelUser, User, SiswaAlumni};
 use App\Helpers\Helper;
 use App\Http\Controllers\CloudinaryStorageController;
@@ -13,7 +14,9 @@ use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\{DB, Gate, Hash};
-use Illuminate\Support\{Collection, ItemNotFoundException};
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class AlumniController extends Controller {
@@ -23,14 +26,39 @@ final class AlumniController extends Controller {
         $this->setMainRoute('admin.alumni.index');
     }
 
+    /**
+     * Mendapatkan semua data jurusan
+     *
+     * @return Collection
+     */
     private function getJurusan(): Collection {
         return collect(DB::select('SELECT * FROM jurusan'));
     }
 
+    /**
+     * Mendapatkan semua data angkatan
+     *
+     * @return Collection
+     */
     private function getAngkatan(): Collection {
         return collect(DB::select('SELECT * FROM angkatan'));
     }
 
+    /**
+     * Melakukan export data alumni dari database ke file excel
+     *
+     * @return BinaryFileResponse
+     */
+    public function exportAllAlumniDataToExcel(): BinaryFileResponse {
+        return Excel::download(new AlumniExport, 'alumni.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    /**
+     * Mendapatkan semua data alumni lalu ditampilkan ke view blade
+     *
+     * @param Request $request
+     * @return View
+     */
     public function getAllAlumniData(Request $request): View {
         // $alumni = QueryBuilder::for(SiswaAlumni::class)
         //     ->with(['jurusan', 'angkatan', 'pelamar'])
@@ -64,12 +92,23 @@ final class AlumniController extends Controller {
             view('perusahaan.alumni.index', compact('alumni'));
     }
 
+    /**
+     * Menampilkan halaman form untuk menambah data alumni
+     *
+     * @return View
+     */
     public function createOneAlumniData(): View {
         $jurusan = $this->getJurusan();
         $angkatan = $this->getAngkatan();
         return view('admin.pengguna.alumni.tambah', compact('jurusan', 'angkatan'));
     }
 
+    /**
+     * Memvalidasi dan melakukan insert data alumni dari form ke dalam tabel siswa_alumni
+     *
+     * @param StoreAlumniRequest $request
+     * @return RedirectResponse
+     */
     public function storeOneAlumniData(StoreAlumniRequest $request): RedirectResponse {
         try {
             $validatedData = $request->validatedData();
@@ -119,6 +158,12 @@ final class AlumniController extends Controller {
         }
     }
 
+    /**
+     * Menadapatkan satu data alumni berdasarkan username lalu ditampilkan ke view blade
+     *
+     * @param User $user
+     * @return View|RedirectResponse
+     */
     public function getDetailOneAlumniDataByUsername(User $user): View|RedirectResponse {
         $alumni = $user->alumni;
 
@@ -127,6 +172,12 @@ final class AlumniController extends Controller {
             view('perusahaan.alumni.detail', compact('alumni', 'user'));
     }
 
+    /**
+     * Menampilkan halaman form edit untuk mengubah data alumni
+     *
+     * @param User $user
+     * @return View|RedirectResponse
+     */
     public function editOneAlumniData(User $user): View|RedirectResponse {
         $jurusan = $this->getJurusan();
         $angkatan = $this->getAngkatan();

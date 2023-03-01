@@ -148,8 +148,8 @@ final class LowonganKerjaController extends Controller {
                     'deskripsi_lowongan' => $validatedData['deskripsi_lowongan'],
                     'tanggal_berakhir' => $validatedData['tanggal_berakhir'],
                     'slug' => $validatedData['slug'],
-                    'banner' => $validatedData['banner'],
-                    'public_banner_id' => $validatedData['public_banner_id']
+                    'banner' => $validatedData['banner'] ?? null,
+                    'public_banner_id' => $validatedData['public_banner_id'] ?? null
                 ]);
             } else if (Gate::check('admin')) {
                 $validatedData['id_perusahaan'] = collect($request->only('id_perusahaan'))->first();

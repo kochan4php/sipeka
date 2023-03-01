@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,6 +56,28 @@ class SiswaAlumni extends Model {
         'public_foto_id',
         'is_active'
     ];
+
+    /**
+     * Get nama jurusan from relationship
+     *
+     * @return Attribute
+     */
+    protected function idJurusan(): Attribute {
+        return Attribute::make(
+            get: fn ($value) => Jurusan::firstWhere('id_jurusan', $value)->nama_jurusan
+        );
+    }
+
+    /**
+     * Get tahun angkatan from relationship
+     *
+     * @return Attribute
+     */
+    protected function idAngkatan(): Attribute {
+        return Attribute::make(
+            get: fn ($value) => Angkatan::firstWhere('id_angkatan', $value)->angkatan_tahun
+        );
+    }
 
     /**
      * Satu siswa alumni berperan sebagai pelamar

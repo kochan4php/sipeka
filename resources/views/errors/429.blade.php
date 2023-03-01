@@ -7,7 +7,7 @@
         <div class="card-body">
           <h1 class="not-found-title">429</h1>
           <p class="fs-5 mb-3"><span class="text-danger">Opps!</span> {{ $exception->getMessage() ?? 'Forbidden' }}</p>
-          <a href="{{ route('home') }}" class="btn btn-primary">Kembali</a>
+          <a href="{{ route('home') }}" class="btn custom-btn btn-primary">Kembali</a>
         </div>
       </div>
     </div>
