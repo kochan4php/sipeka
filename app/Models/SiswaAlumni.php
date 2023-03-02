@@ -58,28 +58,6 @@ class SiswaAlumni extends Model {
     ];
 
     /**
-     * Get nama jurusan from relationship
-     *
-     * @return Attribute
-     */
-    protected function idJurusan(): Attribute {
-        return Attribute::make(
-            get: fn ($value) => Jurusan::firstWhere('id_jurusan', $value)->nama_jurusan
-        );
-    }
-
-    /**
-     * Get tahun angkatan from relationship
-     *
-     * @return Attribute
-     */
-    protected function idAngkatan(): Attribute {
-        return Attribute::make(
-            get: fn ($value) => Angkatan::firstWhere('id_angkatan', $value)->angkatan_tahun
-        );
-    }
-
-    /**
      * Satu siswa alumni berperan sebagai pelamar
      *
      * @return BelongsTo

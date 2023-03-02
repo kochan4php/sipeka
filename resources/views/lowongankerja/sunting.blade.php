@@ -58,13 +58,23 @@
                 {{ __('Jenis Pekerjaan') }}
               </label>
               <div class="col-sm-8">
-                <select name="id_jenis_pekerjaan" id="id_jenis_pekerjaan" class="form-select id_jenis_pekerjaan" required>
+                <select name="jenis_pekerjaan" id="jenis_pekerjaan" class="form-select jenis_pekerjaan" required>
                   <option selected disabled hidden>-- Pilih jenis pekerjaan --</option>
-                  @foreach ($jenisPekerjaan as $item)
-                    <option value="{{ $item->id_jenis_pekerjaan }}" @selected($item->id_jenis_pekerjaan === $lowongan->id_jenis_pekerjaan)>
-                      {{ $item->nama_jenis_pekerjaan }}
-                    </option>
-                  @endforeach
+                  <option value="Full-time" @checked($lowongan->jenis_pekerjaan === 'Full-time')>
+                    Full-time
+                  </option>
+                  <option value="Part-time" @checked($lowongan->jenis_pekerjaan === 'Part-time')>
+                    Part-time
+                  </option>
+                  <option value="Freelance" @checked($lowongan->jenis_pekerjaan === 'Freelance')>
+                    Freelance
+                  </option>
+                  <option value="Contract" @checked($lowongan->jenis_pekerjaan === 'Contract')>
+                    Contract
+                  </option>
+                  <option value="Internship" @checked($lowongan->jenis_pekerjaan === 'Internship')>
+                    Internship
+                  </option>
                 </select>
               </div>
             </div>
@@ -77,7 +87,7 @@
                   <select name="lokasi_kerja" id="lokasi_kerja" class="form-select" required>
                     <option selected disabled hidden>-- Pilih Lokasi Kerja --</option>
                     @foreach (Auth::user()->perusahaan->kantor as $item)
-                      <option value="{{ $item->id_kantor }}">
+                      <option value="{{ $item->id_kantor }}" @checked($item->id_kantor === $lowongan->lokasi_kerja)>
                         {{ $item->alamat_kantor }}
                       </option>
                     @endforeach

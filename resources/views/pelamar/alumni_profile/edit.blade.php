@@ -35,12 +35,12 @@
                 </div>
               </div>
               <div class="mb-3 row">
-                <label for="nama" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                <label for="nama_lengkap" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                   {{ __('Nama Lengkap') }}
                 </label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="inputPassword" name="nama"
-                    placeholder="Aphrodeo Subarno" required value="{{ old('nama', $data->nama_lengkap) }}">
+                  <input type="text" class="form-control" id="inputPassword" name="nama_lengkap"
+                    placeholder="Aphrodeo Subarno" required value="{{ old('nama_lengkap', $data->nama_lengkap) }}">
                 </div>
               </div>
               <div class="mb-3 row">
@@ -56,11 +56,11 @@
                 </div>
               </div>
               <div class="mb-3 row">
-                <label for="jurusan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                <label for="id_jurusan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                   {{ __('Jurusan') }}
                 </label>
                 <div class="col-sm-8">
-                  <select name="jurusan" id="jurusan" class="form-select" required>
+                  <select name="id_jurusan" id="id_jurusan" class="form-select" required>
                     <option selected disabled hidden>-- Pilih Jurusan --</option>
                     @foreach ($jurusan as $item)
                       <option value="{{ $item->id_jurusan }}" @if ($item->id_jurusan === $data->jurusan->id_jurusan) @selected(true) @endif>
@@ -71,11 +71,11 @@
                 </div>
               </div>
               <div class="mb-3 row">
-                <label for="angkatan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                <label for="id_angkatan" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                   {{ __('Angkatan Tahun') }}
                 </label>
                 <div class="col-sm-8">
-                  <select name="angkatan" id="angkatan" class="form-select" required>
+                  <select name="id_angkatan" id="id_angkatan" class="form-select" required>
                     <option selected disabled hidden>-- Pilih Tahun Angkatan --</option>
                     @foreach ($angkatan as $item)
                       <option value="{{ $item->id_angkatan }}" @if ($item->id_angkatan === $data->angkatan->id_angkatan) @selected(true) @endif>
@@ -104,22 +104,22 @@
                 </div>
               </div>
               <div class="mb-3 row">
-                <label for="no_telp" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                <label for="no_telepon" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                   {{ __('No. Telepon') }}
                 </label>
                 <div class="col-sm-8">
-                  <input type="number" class="form-control" id="no_telp" name="no_telp" placeholder="08988976056"
-                    value="{{ old('no_telp', $data->no_telepon) }}">
+                  <input type="number" class="form-control" id="no_telepon" name="no_telepon" placeholder="08988976056"
+                    value="{{ old('no_telepon', $data->no_telepon) }}">
                 </div>
               </div>
               <div class="mb-3 row">
-                <label for="alamat_alumni" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
+                <label for="alamat" class="col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
                   {{ __('Alamat Tempat Tinggal') }}
                 </label>
                 <div class="col-sm-8">
-                  <textarea class="form-control" id="alamat_alumni" name="alamat_alumni" rows="3">
-              {{ old('alamat_alumni', $data->alamat_tempat_tinggal) }}
-              </textarea>
+                  <textarea class="form-control" id="alamat" name="alamat" rows="3">
+                    {{ old('alamat', $data->alamat_tempat_tinggal) }}
+                  </textarea>
                 </div>
               </div>
               <div class="row">
@@ -138,7 +138,7 @@
                   {{ __('Foto Alumni') }}
                 </label>
                 <div class="col-sm-8">
-                  <input type="file" class="form-control" id="image" name="foto_alumni">
+                  <input type="file" class="form-control" id="image" name="foto">
                 </div>
               </div>
               <div class="row mb-3">
@@ -154,4 +154,12 @@
         </div>
       </div>
     </div>
-  @endsection
+  </div>
+@endsection
+
+@push('script')
+  <script type="text/javascript" src="{{ asset('assets/js/preview_image.js') }}"></script>
+  <script>
+    previewImage('image', 'image-preview');
+  </script>
+@endpush

@@ -6,12 +6,12 @@
 <div class="col-lg-3">
   <div class="card">
     <div class="w-100 d-flex justify-content-center card-body">
-      @if (is_null(null))
+      @if (is_null($data->foto))
         <img src="{{ Avatar::create($nama) }}" width="200" style="object-fit: cover; object-position: center"
           class="img-fluid d-block rounded" alt="...">
       @else
-        <img src="{{ asset('assets/images/no-photo.png') }}" width="200"
-          style="object-fit: cover; object-position: center" class="img-fluid d-block rounded">
+        <img src="{{ asset('storage/' . $data->foto) }}" width="200" style="object-fit: cover; object-position: center"
+          class="img-fluid d-block rounded">
       @endif
     </div>
   </div>

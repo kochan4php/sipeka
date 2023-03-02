@@ -98,12 +98,6 @@
                       <span class="custom-font">Sebagai Kandidat Luar</span>
                     </a>
                   </li>
-                  <li>
-                    <a class="dropdown-item" href="{{ route('register.alumni') }}">
-                      <i class="bi bi-house-door-fill"></i>
-                      <span class="custom-font">Sebagai Alumni</span>
-                    </a>
-                  </li>
                 </ul>
               </div>
             </li>

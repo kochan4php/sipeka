@@ -8,7 +8,6 @@ use App\Models\LowonganKerja;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\SiswaAlumni;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

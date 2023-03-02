@@ -174,14 +174,4 @@ final class KantorController extends Controller {
         notify()->success('Berhasil menghapus data kantor', 'Notifikasi');
         return back();
     }
-
-    // public function createPDF() {
-    //     $kantor = DB::table('get_all_kantor_data')
-    //         ->select()
-    //         ->paginate(10);
-
-    //     $pdf = PDF::make();
-    //     $pdf->loadView('kantor.index', compact('kantor'));
-    //     return $pdf->stream('test.pdf');
-    // }
 }

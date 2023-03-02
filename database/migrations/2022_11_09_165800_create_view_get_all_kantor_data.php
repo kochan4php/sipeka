@@ -17,7 +17,7 @@ return new class extends Migration {
                     mp.jenis_perusahaan,
                     k.*
                 FROM kantor AS k
-                INNER JOIN mitra_perusahaan AS mp ON k.id_perusahaan = mp.id_perusahaan
+                    INNER JOIN mitra_perusahaan AS mp ON k.id_perusahaan = mp.id_perusahaan
                 WHERE mp.is_blocked = 0
                 ORDER BY k.created_at DESC
             )"

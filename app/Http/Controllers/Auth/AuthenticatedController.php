@@ -11,10 +11,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class AuthenticatedController extends Controller {
+    /**
+     * Show login page for all users
+     *
+     * @return View
+     */
     public function index(): View {
         return view('auth.login');
     }
 
+    /**
+     * Process login for users
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function authenticate(Request $request): RedirectResponse {
         $request->validate(['username' => ['required'], 'password' => ['required']]);
         $credentials = $request->only(['username', 'password']);

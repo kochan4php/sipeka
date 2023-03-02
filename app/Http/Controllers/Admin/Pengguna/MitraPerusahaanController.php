@@ -167,16 +167,17 @@ final class MitraPerusahaanController extends Controller {
 
             DB::update(
                 "CALL update_one_perusahaan_by_username(
-        :old_username,
-        :new_username_perusahaan,
-        :email_perusahaan,
-        :nama_perusahaan,
-        :nomor_telp_perusahaan,
-        :foto_sampul_perusahaan,
-        :logo_perusahaan,
-        :deskripsi_perusahaan,
-        :jenis_perusahaan,
-        :kategori_perusahaan)",
+                    :old_username,
+                    :new_username_perusahaan,
+                    :email_perusahaan,
+                    :nama_perusahaan,
+                    :nomor_telp_perusahaan,
+                    :foto_sampul_perusahaan,
+                    :logo_perusahaan,
+                    :deskripsi_perusahaan,
+                    :jenis_perusahaan,
+                    :kategori_perusahaan
+                )",
                 [
                     'old_username' => $perusahaan->username,
                     'new_username_perusahaan' => $mitra['new_username_perusahaan'],

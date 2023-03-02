@@ -15,7 +15,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\{Request, RedirectResponse};
 use Illuminate\Support\Facades\{DB, Gate, Hash};
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -50,7 +49,10 @@ final class AlumniController extends Controller {
      * @return BinaryFileResponse
      */
     public function exportAllAlumniDataToExcel(): BinaryFileResponse {
-        return Excel::download(new AlumniExport, 'alumni.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return (new AlumniExport)->download(
+            "alumni-" . now('Asia/Jakarta')->format('Y-M-d-H-i-s') . ".xlsx",
+            \Maatwebsite\Excel\Excel::XLSX
+        );
     }
 
     /**
@@ -186,6 +188,13 @@ final class AlumniController extends Controller {
         return view('admin.pengguna.alumni.sunting', compact('jurusan', 'angkatan', 'alumni', 'user'));
     }
 
+    /**
+     * Memvalidasi dan memproses data alumni lalu melakukan proses update data siswa_alumni
+     *
+     * @param StoreAlumniRequest $request
+     * @param User $user
+     * @return RedirectResponse
+     */
     public function updateOneAlumniData(StoreAlumniRequest $request, User $user): RedirectResponse {
         $validatedData = $request->validatedData();
         $alumni = $user->alumni;
@@ -234,6 +243,12 @@ final class AlumniController extends Controller {
         return to_route('admin.alumni.detail', ['user' => $user->username]);
     }
 
+    /**
+     * Menonaktifkan akun alumni ketika sudah lama tidak digunakan
+     *
+     * @param User $user
+     * @return RedirectResponse
+     */
     public function deactiveOneAlumniData(User $user): RedirectResponse {
         $user->alumni->update(['is_active' => false]);
         notify()->success('Berhasil menonaktifkan data alumni', 'Notifikasi');

@@ -59,12 +59,6 @@ Route::prefix('/sipeka')->group(function () {
 
             Route::post('/register/kandidat', 'kandidatStore')
                 ->name('register.kandidat.store');
-
-            Route::get('/register/alumni', 'alumni')
-                ->name('register.alumni');
-
-            Route::post('/register/alumni', 'alumniStore')
-                ->name('register.alumni.store');
         });
 
         Route::controller(AuthenticatedController::class)->group(function () {

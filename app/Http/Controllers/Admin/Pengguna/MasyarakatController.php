@@ -94,7 +94,6 @@ final class MasyarakatController extends Controller {
             return $this->redirectToMainRoute();
         } catch (\Exception $e) {
             notify()->error($e->getMessage(), 'Notifikasi');
-
             return $this->redirectToMainRoute();
         }
     }

@@ -10,20 +10,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminDanPerusahaan\StoreLowonganKerjaRequest;
 use App\Models\{JenisPekerjaan, LowonganKerja, MitraPerusahaan, PendaftaranLowongan, PenilaianSeleksi, TahapanSeleksi};
 use App\Traits\HasMainRoute;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{JsonResponse, RedirectResponse, Request};
 use Illuminate\Support\Facades\{Auth, DB, Gate};
-use Illuminate\Support\ItemNotFoundException;
 
 final class LowonganKerjaController extends Controller {
     use HasMainRoute;
+
+    private $lowonganNeedApprove;
 
     /**
      * Melakukan set untuk route utama dari controller ini
      */
     public function __construct() {
         $this->setMainRoute('lowongankerja.index');
+        $this->lowonganNeedApprove = LowonganKerja::with(['perusahaan'])
+            ->needApproved()
+            ->hasTahapan()
+            ->latest()
+            ->get();
     }
 
     /**
@@ -197,7 +202,7 @@ final class LowonganKerjaController extends Controller {
 
         notify()->success("Berhasil mensetujui lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
 
-        return to_route('lowongankerja.index');
+        return $this->lowonganNeedApprove->count() !== 0 ? back() : to_route('lowongankerja.index');
     }
 
     /**
@@ -214,7 +219,7 @@ final class LowonganKerjaController extends Controller {
 
         notify()->success("Berhasil menolak lowongan {$lowonganKerja->judul_lowongan}", 'Notifikasi');
 
-        return to_route('lowongankerja.index');
+        return $this->lowonganNeedApprove->count() !== 0 ? back() : to_route('lowongankerja.index');
     }
 
     /**

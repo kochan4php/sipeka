@@ -9,6 +9,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
 final class MainController extends Controller {
+    /**
+     * Show view for admin
+     *
+     * @return View
+     */
     public function __invoke(): View {
         $jumlah_pengguna = collect(DB::select("SELECT * FROM jumlah_pengguna"))
             ->firstOrFail()

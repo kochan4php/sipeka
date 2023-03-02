@@ -25,7 +25,7 @@
                 <h6 class="mb-0">NIS</h6>
               </div>
               <div class="col-sm-9 text-secondary">
-                {{ $data->nis }}
+                {{ $data->nis ?? __('-') }}
               </div>
             </div>
             <hr>
@@ -35,7 +35,7 @@
               </div>
               <div class="col-sm-9 text-secondary">
                 @if (is_null($data->tempat_lahir))
-                  {{ __('Data tempat lahir tidak ada') }}
+                  {{ __('-') }}
                 @else
                   {{ $data->tempat_lahir }}
                 @endif
@@ -48,7 +48,7 @@
               </div>
               <div class="col-sm-9 text-secondary">
                 @if (is_null($data->tanggal_lahir))
-                  {{ __('Data tanggal lahir tidak ada') }}
+                  {{ __('-') }}
                 @else
                   {{ \Carbon\Carbon::parse($data->tanggal_lahir)->format('d M Y') }}
                 @endif
@@ -74,7 +74,7 @@
               </div>
               <div class="col-sm-9 text-secondary">
                 @if (is_null($data->alamat_tempat_tinggal))
-                  {{ __('Data alamat tempat tinggal siswa tidak ada') }}
+                  {{ __('-') }}
                 @else
                   {{ __($data->alamat_tempat_tinggal) }}
                 @endif
@@ -87,7 +87,7 @@
               </div>
               <div class="col-sm-9 text-secondary">
                 @if (is_null($data->pelamar->user->email))
-                  {{ __('Email tidak ada') }}
+                  {{ __('-') }}
                 @else
                   {{ __($data->pelamar->user->email) }}
                 @endif
@@ -100,7 +100,7 @@
               </div>
               <div class="col-sm-9 text-secondary">
                 @if (is_null($data->no_telepon))
-                  {{ __('No. Telp tidak ada') }}
+                  {{ __('-') }}
                 @else
                   {{ __($data->no_telepon) }}
                 @endif
@@ -110,12 +110,15 @@
             <a href="{{ route('pelamar.profile.edit', Auth::user()->username) }}" class="btn custom-btn btn-primary">
               Edit Profil
             </a>
-            <a href="" class="btn custom-btn btn-success">
+            <button type="button" class="btn custom-btn btn-success" data-bs-toggle="modal"
+              data-bs-target="#changePassword">
               Ubah Password
-            </a>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <x-change-password-applicant-comp />
 @endsection
