@@ -17,11 +17,10 @@ use Illuminate\Support\Facades\Auth;
 final class LowonganKerjaController extends Controller {
     public function show(LowonganKerja $lowonganKerja): View {
         $lowongan = LowonganKerja::where('slug', '!=', $lowonganKerja->slug)->inRandomOrder()->limit(10)->get();
-        $registeredApplicantId = null;
-        // $registeredApplicantId = PendaftaranLowongan::firstWhere([
-        //     'id_pelamar' => Auth::check() && !is_null(Auth::user()->pelamar) ? Auth::user()->pelamar->id_pelamar : '',
-        //     'id_lowongan' => $lowonganKerja->id_lowongan,
-        // ])?->id_pelamar;
+        $registeredApplicantId = PendaftaranLowongan::firstWhere([
+            'id_pelamar' => !is_null(Auth::user()->pelamar) ? Auth::user()->pelamar->id_pelamar : '',
+            'id_lowongan' => $lowonganKerja->id_lowongan,
+        ])?->id_pelamar;
 
         return view('lowongan', compact('lowonganKerja', 'lowongan', 'registeredApplicantId'));
     }
