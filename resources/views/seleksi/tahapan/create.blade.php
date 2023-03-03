@@ -37,7 +37,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="urutan_tahapan_ke" name="urutan_tahapan_ke" placeholder="1"
-                  readonly value="{{ $urutanTahapanTerakhir }}">
+                  readonly value="{{ $urutanTahapanTerakhir }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row">
@@ -47,7 +47,7 @@
               <div class="col-sm-8">
                 <input type="text" class="form-control @error('judul_tahapan')is-invalid @enderror" id="judul_tahapan"
                   name="judul_tahapan" placeholder="Tes Interview dengan perusahaan yang dituju"
-                  value="{{ old('judul_tahapan') }}">
+                  value="{{ old('judul_tahapan') }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row">
@@ -56,7 +56,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="date" class="form-control @error('tanggal_dimulai')is-invalid @enderror"
-                  id="tanggal_dimulai" name="tanggal_dimulai" value="{{ old('tanggal_dimulai') }}">
+                  id="tanggal_dimulai" name="tanggal_dimulai" value="{{ old('tanggal_dimulai') }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row">
@@ -66,7 +66,7 @@
               <div class="col-sm-8">
                 <textarea class="form-control @error('ket_tahapan')is-invalid @enderror"
                   placeholder="Pergi ke perusahaan yang dituju untuk melakukan seleksi tes interview" id="ket_tahapan"
-                  name="ket_tahapan" rows="5">
+                  name="ket_tahapan" rows="5" autocomplete="off">
                 </textarea>
               </div>
             </div>

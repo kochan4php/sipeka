@@ -21,12 +21,22 @@ final class PengalamanKerjaController extends Controller {
 
     public function index(): View {
         $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja;
-        return view('pelamar.experience.index', compact('pengalamanKerja'));
+        $data = [];
+
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.experience.index', compact('pengalamanKerja', 'data'));
     }
 
     public function create(): View {
         $jenisPekerjaan = $this->jenisPekerjaan;
-        return view('pelamar.experience.tambah', compact('jenisPekerjaan'));
+        $data = [];
+
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.experience.tambah', compact('jenisPekerjaan', 'data'));
     }
 
     public function store(Request $request, string $username): RedirectResponse {
@@ -46,8 +56,12 @@ final class PengalamanKerjaController extends Controller {
     public function edit(string $username, int $id): View {
         $jenisPekerjaan = $this->jenisPekerjaan;
         $pengalamanKerja = Auth::user()->pelamar->pengalaman_bekerja->firstWhere('id_pengalaman', $id);
+        $data = [];
 
-        return view('pelamar.experience.sunting', compact('pengalamanKerja', 'jenisPekerjaan'));
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.experience.sunting', compact('pengalamanKerja', 'jenisPekerjaan', 'data'));
     }
 
     public function update(Request $request, string $username, int $id): RedirectResponse {

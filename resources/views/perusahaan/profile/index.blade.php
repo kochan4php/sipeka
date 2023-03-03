@@ -95,7 +95,7 @@
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
                   placeholder="Bangun Kreatif Abadi" required
-                  value="{{ old('nama_perusahaan', $mitra->getRawOriginal('nama_perusahaan')) }}">
+                  value="{{ old('nama_perusahaan', $mitra->getRawOriginal('nama_perusahaan')) }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row">
@@ -103,7 +103,7 @@
                 {{ __('Jenis Perusahaan') }}
               </label>
               <div class="col-sm-8">
-                <select name="jenis_perusahaan" id="jenis_perusahaan" class="form-select" required>
+                <select name="jenis_perusahaan" id="jenis_perusahaan" class="form-select" required autocomplete="off">
                   <option selected disabled hidden>-- Pilih Jenis Perusahaan --</option>
                   <option value="PT" @selected($mitra->jenis_perusahaan === 'PT')>PT</option>
                   <option value="CV" @selected($mitra->jenis_perusahaan === 'CV')>CV</option>
@@ -118,7 +118,8 @@
               </label>
               <div class="col-sm-8">
                 <input type="email" class="form-control" id="email_perusahaan" name="email_perusahaan"
-                  placeholder="Bangun Kreatif Abadi" required value="{{ old('email_perusahaan', $mitra->user->email) }}">
+                  placeholder="Bangun Kreatif Abadi" required value="{{ old('email_perusahaan', $mitra->user->email) }}"
+                  autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row custom-font">
@@ -128,7 +129,7 @@
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="username_perusahaan" name="username_perusahaan"
                   placeholder="bangun-kreatif-abadi" required
-                  value="{{ old('username_perusahaan', $mitra->user->username) }}">
+                  value="{{ old('username_perusahaan', $mitra->user->username) }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row custom-font">
@@ -136,7 +137,8 @@
                 {{ __('Kategori Mitra') }}
               </label>
               <div class="col-sm-8">
-                <select name="kategori_perusahaan" id="kategori_perusahaan" class="form-select" required>
+                <select name="kategori_perusahaan" id="kategori_perusahaan" class="form-select" required
+                  autocomplete="off">
                   <option selected disabled hidden>-- Pilih Kategori Mitra --</option>
                   @foreach ($kategori as $item)
                     <option value="{{ $item }}" @selected($item === $mitra->kategori_perusahaan)>{{ $item }}</option>
@@ -151,7 +153,7 @@
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nomor_telp_perusahaan" name="nomor_telp_perusahaan"
                   placeholder="089889287463" required
-                  value="{{ old('nomor_telp_perusahaan', $mitra->nomor_telp_perusahaan) }}">
+                  value="{{ old('nomor_telp_perusahaan', $mitra->nomor_telp_perusahaan) }}" autocomplete="off">
               </div>
             </div>
             <div class="row mb-3">

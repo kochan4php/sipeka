@@ -47,7 +47,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama_admin" name="nama_admin" placeholder="202115908"
-                  required value="{{ old('nama_admin', $admin->nama_admin) }}">
+                  required value="{{ old('nama_admin', $admin->nama_admin) }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row custom-font">
@@ -56,7 +56,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nip" name="nip" placeholder="202115908" required
-                  value="{{ old('nip', $admin->nip) }}">
+                  value="{{ old('nip', $admin->nip) }}" autocomplete="off">
               </div>
             </div>
             <div class="row mb-3">

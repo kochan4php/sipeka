@@ -14,12 +14,22 @@ use Illuminate\Support\Facades\Auth;
 final class PendidikanController extends Controller {
     public function index(): View {
         $pendidikan = Auth::user()->pelamar->riwayat_pendidikan;
-        return view('pelamar.pendidikan.index', compact('pendidikan'));
+        $data = [];
+
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.pendidikan.index', compact('pendidikan', 'data'));
     }
 
     public function create(): View {
         $kualifikasi = GelarPendidikan::all();
-        return view('pelamar.pendidikan.tambah', compact('kualifikasi'));
+        $data = [];
+
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.pendidikan.tambah', compact('kualifikasi', 'data'));
     }
 
     public function store(Request $request, string $username): RedirectResponse {

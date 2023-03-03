@@ -15,8 +15,12 @@ final class PendaftaranLowonganController extends Controller {
     public function index(): View {
         $data = UserHelper::getApplicantData(Auth::user()->pelamar);
         $pendaftaranLowongan = $data->pelamar->pendaftaran_lowongan;
+        $data = [];
 
-        return view('pelamar.lamaran_kerja.index', compact('pendaftaranLowongan'));
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.lamaran_kerja.index', compact('pendaftaranLowongan', 'data'));
     }
 
     public function show(string $username, PendaftaranLowongan $pendaftaranLowongan): View {
@@ -24,8 +28,12 @@ final class PendaftaranLowonganController extends Controller {
             'id_pelamar' => Auth::user()->pelamar->id_pelamar,
             'id_pendaftaran' => $pendaftaranLowongan->id_pendaftaran
         ])->get();
+        $data = [];
 
-        return view('pelamar.lamaran_kerja.detail', compact('pendaftaranLowongan', 'penilaianSeleksi'));
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.lamaran_kerja.detail', compact('pendaftaranLowongan', 'penilaianSeleksi', 'data'));
     }
 
     public function PDFVerifikasi(string $username, PendaftaranLowongan $pendaftaranLowongan): View {
@@ -33,7 +41,11 @@ final class PendaftaranLowonganController extends Controller {
             'id_pelamar' => Auth::user()->pelamar->id_pelamar,
             'id_pendaftaran' => $pendaftaranLowongan->id_pendaftaran
         ])->get();
+        $data = [];
 
-        return view('pelamar.lamaran_kerja.pdf.pdf_verifikasi', compact('pendaftaranLowongan', 'penilaianSeleksi'));
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.lamaran_kerja.pdf.pdf_verifikasi', compact('pendaftaranLowongan', 'penilaianSeleksi', 'data'));
     }
 }

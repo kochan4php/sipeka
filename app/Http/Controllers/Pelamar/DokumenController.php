@@ -17,8 +17,12 @@ final class DokumenController extends Controller {
     public function index(): View {
         $dokumen = Auth::user()->pelamar->dokumen;
         $jenisDokumen = Dokumen::all();
+        $data = [];
 
-        return view('pelamar.dokumen', compact('dokumen', 'jenisDokumen'));
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.dokumen', compact('dokumen', 'jenisDokumen', 'data'));
     }
 
     public function store(Request $request, User $username, Dokumen $dokumen): RedirectResponse {

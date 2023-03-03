@@ -19,7 +19,12 @@ class RecomendationController extends Controller {
             ->latest('rl.created_at')
             ->paginate(10);
 
-        return view('pelamar.alumni.rekomendasi.index', compact('rekomendasi'));
+        $data = [];
+
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.alumni.rekomendasi.index', compact('rekomendasi', 'data'));
     }
 
     public function getDetailRecomendation(string $username, string $siswa, string $lowongan): View {
@@ -43,6 +48,11 @@ class RecomendationController extends Controller {
             ->where('lk.id_lowongan', '=', decrypt($lowongan))
             ->first();
 
-        return view('pelamar.alumni.rekomendasi.detail', compact('rekomendasi'));
+        $data = [];
+
+        if (Auth::check() && Auth::user()->alumni) $data = Auth::user()->alumni;
+        else $data = Auth::user()->masyarakat;
+
+        return view('pelamar.alumni.rekomendasi.detail', compact('rekomendasi', 'data'));
     }
 }

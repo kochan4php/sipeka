@@ -25,8 +25,8 @@
         <div class="card">
           <div class="card-body">
             <div class="mb-3">
-              <img src="{{ asset('assets/images/no-photo.png') }}" class="img-fluid w-100 rounded"
-                alt="{{ $lowonganKerja->perusahaan->nama_perusahaan }}" draggable="false">
+              <img src="{{ $lowonganKerja->banner ? $lowonganKerja->banner : asset('assets/images/no-photo.png') }}"
+                class="img-fluid w-100 rounded" alt="{{ $lowonganKerja->perusahaan->nama_perusahaan }}" draggable="false">
             </div>
 
             <div class="mb-4 text-center">
@@ -165,18 +165,20 @@
                   <i class="fa-regular fa-bookmark fa-lg"></i>
                   <span>Simpan</span>
                 </a>
-                <button type="button"
-                  class="btn custom-btn leading-1px btn-primary btn-delete d-flex align-items-center gap-2"
-                  data-bs-toggle="modal" data-bs-target="#modalLamarLoker" @disabled(Auth::user()->pelamar->id_pelamar === $registeredApplicantId)>
-                  <i class="fa-solid fa-clipboard-check fa-lg"></i>
-                  <span class="text-wrap">
-                    @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
-                      Kamu sudah melamar lowongan ini.
-                    @else
-                      Lamar sekarang
-                    @endif
-                  </span>
-                </button>
+                @auth
+                  <button type="button"
+                    class="btn custom-btn leading-1px btn-primary btn-delete d-flex align-items-center gap-2"
+                    data-bs-toggle="modal" data-bs-target="#modalLamarLoker" @disabled(Auth::user()->pelamar->id_pelamar === $registeredApplicantId)>
+                    <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                    <span class="text-wrap">
+                      @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
+                        Kamu sudah melamar lowongan ini.
+                      @else
+                        Lamar sekarang
+                      @endif
+                    </span>
+                  </button>
+                @endauth
               </div>
             @endcan
           </div>
@@ -243,16 +245,18 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="custom-btn btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="custom-btn btn btn-primary" id="formSubmit">
-              <i class="fa-solid fa-clipboard-check fa-lg"></i>
-              <span class="text-wrap">
-                @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
-                  Kamu sudah melamar lowongan ini.
-                @else
-                  Lamar sekarang
-                @endif
-              </span>
-            </button>
+            @auth
+              <button type="submit" class="custom-btn btn btn-primary" id="formSubmit">
+                <i class="fa-solid fa-clipboard-check fa-lg"></i>
+                <span class="text-wrap">
+                  @if (Auth::user()->pelamar->id_pelamar === $registeredApplicantId)
+                    Kamu sudah melamar lowongan ini.
+                  @else
+                    Lamar sekarang
+                  @endif
+                </span>
+              </button>
+            @endauth
           </div>
         </form>
       </div>

@@ -74,7 +74,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="judul" name="judul" placeholder="IT Consultant"
-                  required value="{{ old('judul') }}">
+                  required value="{{ old('judul') }}" autocomplete="off">
               </div>
             </div>
             <div class="mb-3 row">
@@ -82,7 +82,9 @@
                 {{ __('Deskripsi') }}
               </label>
               <div class="col-sm-8">
-                <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3" required>{{ old('deskripsi') }}</textarea>
+                <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3" required autocomplete="off">
+                    {{ old('deskripsi') }}
+                </textarea>
               </div>
             </div>
             <div class="mb-3 row align-items-center">
@@ -90,7 +92,8 @@
                 {{ __('Gunakan pesan otomatis') }}
               </label>
               <div class="col-sm-8">
-                <input type="checkbox" class="form-check" id="automatic_msg" name="automatic_msg" value="true">
+                <input type="checkbox" class="form-check" id="automatic_msg" name="automatic_msg" value="true"
+                  autocomplete="off">
               </div>
             </div>
             <div class="row mb-3">
