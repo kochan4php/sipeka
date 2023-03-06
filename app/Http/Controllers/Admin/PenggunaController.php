@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class PenggunaController extends Controller {
-    public function index(Request $request): View {
+    public function __invoke(Request $request): View {
         $users = QueryBuilder::for(User::class)
             ->oldest('id_level')
             ->filter($request->q)
@@ -19,10 +19,5 @@ final class PenggunaController extends Controller {
             ->withQueryString();
 
         return view('admin.pengguna.index', compact('users'));
-    }
-
-    public function show(string $username): View {
-        $user = User::firstWhere('username', $username);
-        return view('admin.pengguna.show', compact('user'));
     }
 }

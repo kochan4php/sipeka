@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 final class MainController extends Controller {
     /**
-     * Show view for admin
+     * Menampilkan view utama untuk admin
      *
      * @return View
      */

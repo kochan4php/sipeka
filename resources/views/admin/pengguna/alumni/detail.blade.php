@@ -25,7 +25,7 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('NIS') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->nis) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($alumni->nis ?? '-') }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
@@ -62,44 +62,28 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tempat Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($alumni->tempat_lahir))
-                        {{ __('-') }}
-                      @else
-                        {{ __($alumni->tempat_lahir) }}
-                      @endif
+                      {{ __($alumni->tempat_lahir ?? '-') }}
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Tanggal Lahir') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($alumni->tanggal_lahir))
-                        {{ __('-') }}
-                      @else
-                        {{ \Carbon\Carbon::parse($alumni->tanggal_lahir)->format('d M Y') }}
-                      @endif
+                      {{ __(\Carbon\Carbon::parse($alumni->tanggal_lahir)->format('d M Y') ?? '-') }}
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($alumni->no_telepon))
-                        {{ __('-') }}
-                      @else
-                        {{ __($alumni->no_telepon) }}
-                      @endif
+                      {{ __($alumni->no_telepon ?? '-') }}
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Alamat') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      @if (is_null($alumni->alamat_tempat_tinggal))
-                        {{ __('-') }}
-                      @else
-                        {{ __($alumni->alamat_tempat_tinggal) }}
-                      @endif
+                      {{ __($alumni->alamat_tempat_tinggal ?? '-') }}
                     </td>
                   </tr>
                 </tbody>

@@ -28,15 +28,17 @@
           <hr />
           <div class="row my-4">
             <div class="col-lg-3 text-center mb-4 mb-lg-0">
-              @if (is_null($perusahaan->logo_perusahaan))
-                <img
-                  src="{{ Avatar::create($perusahaan->email)->toGravatar(['d' => 'identicon', 'r' => 'pg', 's' => 1000]) }}"
-                  alt="{{ $perusahaan->username }}" class="rounded-circle border border-secondary" width="170"
-                  draggable="false">
-              @else
-                <img src="{{ asset('storage/' . $perusahaan->logo_perusahaan) }}" alt="{{ $perusahaan->username }}"
-                  width="170" draggable="false">
-              @endif
+              <div class="d-flex justify-content-center">
+                @if (is_null($perusahaan->logo_perusahaan))
+                  <img
+                    src="{{ Avatar::create($perusahaan->user->email)->toGravatar(['d' => 'identicon', 'r' => 'pg', 's' => 1000]) }}"
+                    alt="{{ $perusahaan->user->username }}" class="rounded-circle border border-secondary" width="170"
+                    draggable="false">
+                @else
+                  <img src="{{ asset('storage/' . $perusahaan->logo_perusahaan) }}"
+                    alt="{{ $perusahaan->user->username }}" width="170" draggable="false">
+                @endif
+              </div>
             </div>
             <div class="col-lg-9">
               <table class="table table-responsive">
@@ -45,13 +47,13 @@
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Nama Perusahaan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
                     <td class="border-0 fs-5 fs-md-6">
-                      {{ __("{$perusahaan->jenis_perusahaan}. $perusahaan->nama_perusahaan") }}
+                      {{ $perusahaan->nama_perusahaan }}
                     </td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Email Perusahaan') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->email) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->user->email) }}</td>
                   </tr>
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Kategori Perusahaan') }}</td>
@@ -61,17 +63,17 @@
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Username') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->username) }}</td>
+                    <td class="border-0 fs-5 fs-md-6">{{ __($perusahaan->user->username) }}</td>
                   </tr>
-                  <tr>
-                    <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Password') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
-                    <td class="border-0 fs-5 fs-md-6">
-                      @if (Hash::check('perusahaan', $perusahaan->password))
+                  @if (Hash::check('perusahaan', $perusahaan->user->password))
+                    <tr>
+                      <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('Password') }}</td>
+                      <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>
+                      <td class="border-0 fs-5 fs-md-6">
                         perusahaan
-                      @endif
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                  @endif
                   <tr>
                     <td class="border-0 fs-5 fs-md-6 text-nowrap">{{ __('No. Telepon / Fax') }}</td>
                     <td class="border-0 fs-5 fs-md-6">{{ __(':') }}</td>

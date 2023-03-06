@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin\Pengguna;
 
 use App\Exports\AlumniExport;
-use App\Models\{LevelUser, User, SiswaAlumni};
+use App\Models\{Angkatan, Jurusan, LevelUser, User, SiswaAlumni};
 use App\Helpers\Helper;
 use App\Http\Controllers\CloudinaryStorageController;
 use App\Traits\HasMainRoute;
@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Pengguna\StoreAlumniRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{Request, RedirectResponse};
-use Illuminate\Support\Facades\{DB, Gate, Hash};
+use Illuminate\Support\Facades\{Gate, Hash};
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -31,7 +31,7 @@ final class AlumniController extends Controller {
      * @return Collection
      */
     private function getJurusan(): Collection {
-        return collect(DB::select('SELECT * FROM jurusan'));
+        return Jurusan::all();
     }
 
     /**
@@ -40,7 +40,7 @@ final class AlumniController extends Controller {
      * @return Collection
      */
     private function getAngkatan(): Collection {
-        return collect(DB::select('SELECT * FROM angkatan'));
+        return Angkatan::all();
     }
 
     /**
@@ -62,32 +62,13 @@ final class AlumniController extends Controller {
      * @return View
      */
     public function getAllAlumniData(Request $request): View {
-        // $alumni = QueryBuilder::for(SiswaAlumni::class)
-        //     ->with(['jurusan', 'angkatan', 'pelamar'])
-        //     ->filter($request->q)
-        //     ->active()
-        //     ->latest('id_angkatan')
-        //     ->paginate(10)
-        //     ->withQueryString();
-
-        $alumni = [];
-
-        if ($request->has('q')) {
-            $alumni = DB::table('get_all_siswa_alumni')
-                ->where('nis', 'LIKE', "%{$request->q}%")
-                ->orWhere('nama_lengkap', 'LIKE', "%{$request->q}%")
-                ->orWhere('nama_jurusan', 'LIKE', "%{$request->q}%")
-                ->orWhere('keterangan', 'LIKE', "%{$request->q}%")
-                ->orWhere('angkatan_tahun', 'LIKE', "%{$request->q}%")
-                ->orWhere('username', 'LIKE', "%{$request->q}%")
-                ->paginate(10)
-                ->withQueryString();
-        } else {
-            $alumni = DB::table('get_all_siswa_alumni')
-                ->select()
-                ->paginate(10)
-                ->withQueryString();
-        }
+        $alumni = QueryBuilder::for(SiswaAlumni::class)
+            ->with(['jurusan', 'angkatan', 'pelamar'])
+            ->filter($request->q)
+            ->active()
+            ->latest('id_angkatan')
+            ->paginate(10)
+            ->withQueryString();
 
         return Gate::check('admin') ?
             view('admin.pengguna.alumni.index', compact('alumni')) :
@@ -112,52 +93,46 @@ final class AlumniController extends Controller {
      * @return RedirectResponse
      */
     public function storeOneAlumniData(StoreAlumniRequest $request): RedirectResponse {
-        try {
-            $validatedData = $request->validatedData();
-            $validatedData['username'] = $validatedData['nis'];
-            $validatedData['password'] = Hash::make($validatedData['nis']);
-            $level = LevelUser::firstWhere('identifier', 'pelamar');
+        $validatedData = $request->validatedData();
+        $validatedData['username'] = $validatedData['nis'];
+        $validatedData['password'] = Hash::make($validatedData['nis']);
+        $level = LevelUser::firstWhere('identifier', 'pelamar');
 
-            if ($request->hasFile('foto_alumni')) {
-                $image = $request->file('foto_alumni');
-                $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
-                $validatedData['foto_alumni'] = $upload['securePath'];
-                $validatedData['public_foto_id'] = $upload['getPublicId'];
-            }
-
-            $dataUser = [
-                'id_level' => $level->id_level,
-                'username' => $validatedData['username'],
-                'password' => $validatedData['password'],
-            ];
-
-            $dataAlumni = [
-                'id_angkatan' => $validatedData['angkatan'],
-                'id_jurusan' => $validatedData['jurusan'],
-                'nis' => $validatedData['nis'],
-                'nama_lengkap' => $validatedData['nama'],
-                'jenis_kelamin' => $validatedData['jenis_kelamin'],
-                'tempat_lahir' => $validatedData['tempat_lahir'],
-                'tanggal_lahir' => $validatedData['tanggal_lahir'],
-                'no_telepon' => $validatedData['no_telp'],
-                'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
-                'foto' => $validatedData['foto_alumni'] ?? null,
-                'public_foto_id' => $validatedData['public_foto_id'] ?? null,
-            ];
-
-            User::create($dataUser)
-                ->pelamar()
-                ->create()
-                ->alumni()
-                ->create($dataAlumni);
-
-            notify()->success('Berhasil Menambahkan Data Alumni', 'Notifikasi');
-
-            return $this->redirectToMainRoute();
-        } catch (\Exception $e) {
-            notify()->error($e->getMessage(), 'Notifikasi');
-            return $this->redirectToMainRoute();
+        if ($request->hasFile('foto_alumni')) {
+            $image = $request->file('foto_alumni');
+            $upload = CloudinaryStorageController::upload($image->getRealPath(), $image->getClientOriginalName());
+            $validatedData['foto_alumni'] = $upload['securePath'];
+            $validatedData['public_foto_id'] = $upload['getPublicId'];
         }
+
+        $dataUser = [
+            'id_level' => $level->id_level,
+            'username' => $validatedData['username'],
+            'password' => $validatedData['password'],
+        ];
+
+        $dataAlumni = [
+            'id_angkatan' => $validatedData['angkatan'],
+            'id_jurusan' => $validatedData['jurusan'],
+            'nis' => $validatedData['nis'],
+            'nama_lengkap' => $validatedData['nama'],
+            'jenis_kelamin' => $validatedData['jenis_kelamin'],
+            'tempat_lahir' => $validatedData['tempat_lahir'],
+            'tanggal_lahir' => $validatedData['tanggal_lahir'],
+            'no_telepon' => $validatedData['no_telp'],
+            'alamat_tempat_tinggal' => $validatedData['alamat_alumni'],
+            'foto' => $validatedData['foto_alumni'] ?? null,
+            'public_foto_id' => $validatedData['public_foto_id'] ?? null,
+        ];
+
+        User::create($dataUser)
+            ->pelamar()
+            ->create()
+            ->alumni()
+            ->create($dataAlumni);
+
+        notify()->success('Berhasil Menambahkan Data Alumni', 'Notifikasi');
+        return $this->redirectToMainRoute();
     }
 
     /**
@@ -168,7 +143,6 @@ final class AlumniController extends Controller {
      */
     public function getDetailOneAlumniDataByUsername(User $user): View|RedirectResponse {
         $alumni = $user->alumni;
-
         return Gate::check('admin') ?
             view('admin.pengguna.alumni.detail', compact('alumni', 'user')) :
             view('perusahaan.alumni.detail', compact('alumni', 'user'));
@@ -237,9 +211,7 @@ final class AlumniController extends Controller {
         ];
 
         $user->alumni()->update($dataAlumni);
-
         notify()->success('Berhasil Memperbarui Data Alumni', 'Notifikasi');
-
         return to_route('admin.alumni.detail', ['user' => $user->username]);
     }
 

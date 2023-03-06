@@ -6,7 +6,7 @@
     <a href="{{ route('admin.alumni.create') }}" class="btn btn-primary custom-btn">Tambah Data Alumni</a>
   </div>
 
-  {{-- <div class="row my-2 gap-3 gap-md-0">
+  <div class="row my-2 gap-3 gap-md-0">
     <x-card-admin bgcolor="text-bg-warning">
       @slot('data')
         <div class="d-flex justify-content-between align-items-center">
@@ -29,7 +29,7 @@
         <h4>Selengkapnya</h4>
       </a>
     </x-card-admin>
-  </div> --}}
+  </div>
 
   <x-search-bar :action="route('admin.alumni.index')" placeholder="Cari berdasarkan nama, nis atau jurusan" />
 
@@ -69,23 +69,25 @@
                   {{ $item->nama_lengkap }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->username }}
+                  {{ $item->pelamar->user->username }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->nama_jurusan }}
+                  {{ $item->jurusan->nama_jurusan }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
-                  {{ $item->angkatan_tahun }}
+                  {{ $item->angkatan->angkatan_tahun }}
                 </td>
                 <td class="text-nowrap text-center vertical-align-middle custom-font">
                   <div class="d-flex gap-2 align-items-center justify-content-center">
-                    <a href="{{ route('admin.alumni.detail', $item->username) }}" class="btn custom-btn btn-success">
+                    <a href="{{ route('admin.alumni.detail', $item->pelamar->user->username) }}"
+                      class="btn custom-btn btn-success">
                       <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
                     </a>
-                    <a href="{{ route('admin.alumni.edit', $item->username) }}" class="btn custom-btn btn-warning">
+                    <a href="{{ route('admin.alumni.edit', $item->pelamar->user->username) }}"
+                      class="btn custom-btn btn-warning">
                       <span><i class="fa-solid fa-pen-to-square fa-lg"></i></span>
                     </a>
-                    <form action="{{ route('admin.alumni.deactive', $item->username) }}" method="post">
+                    <form action="{{ route('admin.alumni.deactive', $item->pelamar->user->username) }}" method="post">
                       @csrf
                       @method('put')
                       <button type="submit" class="btn custom-btn btn-danger btn-delete">

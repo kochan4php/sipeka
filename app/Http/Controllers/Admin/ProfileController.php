@@ -20,6 +20,7 @@ final class ProfileController extends Controller {
         $validatedData = $request->only('nama_admin', 'nip');
         $admin->update($validatedData);
 
-        return back()->with('sukses', 'Berhasil memperbarui data');
+        notify()->success('Berhasil memperbarui data profil', 'Notifikasi');
+        return back();
     }
 }

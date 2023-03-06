@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <x-alert-error-validation />
-          <form action="{{ route('admin.perusahaan.update', $perusahaan->username) }}" method="POST"
+          <form action="{{ route('admin.perusahaan.update', $user->username) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
             @method('put')
@@ -20,7 +20,7 @@
               <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
                   placeholder="PT. Catur Jaya Solusi Bersama"
-                  value="{{ old('nama_perusahaan', $perusahaan->nama_perusahaan) }}">
+                  value="{{ old('nama_perusahaan', $perusahaan->getRawOriginal('nama_perusahaan')) }}">
               </div>
             </div>
             <div class="mb-3 row">
@@ -29,16 +29,7 @@
               </label>
               <div class="col-sm-8">
                 <input type="email" class="form-control" id="email_perusahaan" name="email_perusahaan"
-                  placeholder="example@company.com" value="{{ old('email_perusahaan', $perusahaan->email) }}">
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="password_perusahaan" class="custom-font col-sm-4 col-form-label text-md-end fs-6 fs-md-5">
-                {{ __('Password Perusahaan') }}
-              </label>
-              <div class="col-sm-8">
-                <input type="text" class="form-control" id="password_perusahaan" name="password_perusahaan"
-                  placeholder="password" value="perusahaan" readonly>
+                  placeholder="example@company.com" value="{{ old('email_perusahaan', $perusahaan->user->email) }}">
               </div>
             </div>
             <div class="mb-3 row">

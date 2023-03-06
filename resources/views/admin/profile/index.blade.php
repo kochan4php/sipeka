@@ -37,7 +37,6 @@
         </div>
         <div class="card-body pb-0">
           <x-alert-error-validation />
-          <x-alert-sukses />
           <form action="{{ route('admin.profile.update', $admin->id_admin) }}" method="POST">
             @csrf
             @method('put')

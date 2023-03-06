@@ -44,7 +44,7 @@ class StoreMitraPerusahaanRequest extends FormRequest {
         return [
             'nama_perusahaan' => ['required', 'min:3', 'max:255'],
             'email_perusahaan' => ['required', 'email', 'min:5', 'max:255'],
-            'password_perusahaan' => ['required'],
+            'password_perusahaan' => ['nullable'],
             'no_telepon_perusahaan' => ['required', 'min:4', 'max:100'],
             'foto_sampul_perusahaan' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:1024'],
             'logo_perusahaan' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:800'],
