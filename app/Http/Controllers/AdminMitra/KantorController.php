@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\AdminDanPerusahaan;
+namespace App\Http\Controllers\AdminMitra;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kantor;

@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('estimasi_gaji');
             $table->text('deskripsi_lowongan');
             $table->date('tanggal_berakhir');
-            $table->text('slug')->unique();
+            $table->string('slug')->unique();
             $table->text('banner')->nullable()->default(null);
             $table->text('public_banner_id')->nullable()->default(null);
             $table->boolean('active')->nullable()->default(null);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\AdminDanPerusahaan;
+namespace App\Http\Controllers\AdminMitra;
 
 use App\Models\LowonganKerja;
 use Illuminate\Http\Request;

@@ -3,6 +3,10 @@ body {
     overflow-x: hidden;
 }
 
+::webkit-scrollbar {
+    width: 0 !important;
+}
+
 *::selection {
     background-color: rgb(255, 145, 163);
     color: #ae0046;
@@ -22,7 +26,7 @@ body {
 }
 
 .custom-font {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
 }
 
 .custom-btn {

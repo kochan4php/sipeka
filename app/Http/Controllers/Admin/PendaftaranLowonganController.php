@@ -12,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
-class PendaftaranLowonganController extends Controller {
+final class PendaftaranLowonganController extends Controller {
     public function getAllJobRegistrationData(): View {
         $pendaftaranLowongan = PendaftaranLowongan::latest()
             ->notYetVerified()

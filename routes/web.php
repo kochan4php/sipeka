@@ -18,7 +18,7 @@ use App\Http\Controllers\{
     Admin\PendaftaranLowonganController as ADMPendaftaranLowonganController,
 
     // * All Perusahaan Controller
-    Perusahaan\ProfileController as MitraProfileController,
+    Mitra\ProfileController as MitraProfileController,
 
     // * All Pelamar Controller
     Pelamar\PengalamanKerjaController,
@@ -29,10 +29,10 @@ use App\Http\Controllers\{
     Pelamar\RecomendationController as AlumniRecomendationController,
 
     // * All Admin and Perusahaan Controller
-    AdminDanPerusahaan\LowonganKerjaController as AMPLowonganKerjaController,
-    AdminDanPerusahaan\TahapanSeleksiController,
-    AdminDanPerusahaan\KantorController,
-    AdminDanPerusahaan\RecomendationController,
+    AdminMitra\LowonganKerjaController as AMPLowonganKerjaController,
+    AdminMitra\TahapanSeleksiController,
+    AdminMitra\KantorController,
+    AdminMitra\RecomendationController,
 
     // * Change password for all users
     ChangePasswordController,
@@ -42,34 +42,27 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/sipeka');
 
 Route::prefix('/sipeka')->group(function () {
-    // * Route untuk menampilkan halaman landing page / home page
     Route::get('/', \App\Http\Controllers\OuterController::class)
         ->name('home');
 
-    // * Route untuk menampilkan detail lowongan kerja dari halaman landing page / home page
     Route::get('lowongan-kerja/{lowongan_kerja}', [PlmrLowonganKerjaController::class, 'show'])
         ->name('lowongan_kerja');
 
     // * Route untuk proses register dan login
     Route::middleware(['guest'])->group(function () {
-        // * Route untuk melakukan proses registrasi dari pelamar yang berasal dari luar sekolah
         Route::controller(RegistrationController::class)->group(function () {
-            // * Route yang menampilkan halaman register untuk para pelamar yang berasal dari luar sekolah
             Route::get('register/kandidat', 'kandidat')
                 ->name('register.kandidat');
 
-            // * Route untuk memproses register dari para pelamar yang berasal dari luar sekolah
             Route::post('register/kandidat', 'kandidatStore')
                 ->name('register.kandidat.store');
         });
 
         // * Route untuk melakukan proses login untuk seluruh pengguna
         Route::controller(AuthenticatedController::class)->group(function () {
-            // * Route yang menampilkkan halaman login untuk seluruh pengguna
             Route::get('login', 'index')
                 ->name('login');
 
-            // * Route untuk memproses login dari seluruh pengguna
             Route::post('login', 'authenticate')
                 ->name('login.store');
         });
@@ -77,15 +70,12 @@ Route::prefix('/sipeka')->group(function () {
 
     // * Route yang hanya bisa diakses oleh user yang sudah login dan terverifikasi emailnya
     Route::middleware(['auth', 'verified'])->group(function () {
-        // * Route untuk para pengguna melakukan logout dari sistem
         Route::post('logout', LogoutController::class)
             ->name('logout');
 
-        // * Route untuk mengubah password dari akun para pengguna
         Route::post('change-password', [ChangePasswordController::class, 'updatePassword'])
             ->name('change.password');
 
-        // * Route yang digunakan pelamar untuk melamar lowongan pekerjaan
         Route::post('lowongan-kerja/{lowongan_kerja}', [PlmrLowonganKerjaController::class, 'applyJob'])
             ->middleware('role:pelamar')
             ->name('lowongan.apply');
@@ -94,76 +84,59 @@ Route::prefix('/sipeka')->group(function () {
         Route::prefix('dashboard')->group(function () {
             // * Route untuk role Admin BKK
             Route::prefix('admin')->middleware('role:admin')->group(function () {
-                // * Route yang menampilkan halaman utama di dashboard admin
                 Route::get('/', \App\Http\Controllers\Admin\MainController::class)
                     ->name('admin.index');
 
-                // * Route admin untuk menampilkan halaman yang berisi daftar pengguna dari sistem
                 Route::get('pengguna', PenggunaController::class)
                     ->name('admin.pengguna.index');
 
                 // * Route admin untuk mengelola data pelamar yang merupakan alumni
                 Route::prefix('alumni')->controller(AlumniController::class)->group(function () {
-                    // * Route untuk menampilkan semua data alumni
                     Route::get('/', 'getAllAlumniData')
                         ->name('admin.alumni.index');
 
-                    // * Route untuk menampilkan halaman form untuk menambah data alumni
                     Route::get('tambah', 'createOneAlumniData')
                         ->name('admin.alumni.create');
 
-                    // * Route untuk memproses hasil tambah data alumni
                     Route::post('/', 'storeOneAlumniData')
                         ->name('admin.alumni.store');
 
-                    // * Route untuk menampilkan halaman yang berisi detail data alumni
                     Route::get('{user}/detail', 'getDetailOneAlumniDataByUsername')
                         ->name('admin.alumni.detail');
 
-                    // * Route untuk menampilkan halmaan form untuk menyunting data alumni
                     Route::get('{user}/sunting', 'editOneAlumniData')
                         ->name('admin.alumni.edit');
 
-                    // * Route untuk memproses hasil sunting data alumni
                     Route::put('{user}', 'updateOneAlumniData')
                         ->name('admin.alumni.update');
 
-                    // * Route untuk menonaktifkan akun dari alumni
                     Route::put('{user}/non-active', 'deactiveOneAlumniData')
                         ->name('admin.alumni.deactive');
 
-                    // * Route untuk membuat laporan data alumni berformat file excel
                     Route::get('exports', 'exportAllAlumniDataToExcel')
                         ->name('admin.alumni.exports');
                 });
 
                 // * Route admin untuk mengelola data pelamar yang berasal dari luar sekolah
                 Route::prefix('pelamar')->controller(MasyarakatController::class)->group(function () {
-                    // * Route untuk menampilkan halaman dari semua data pelamar dari luar sekolah
                     Route::get('/', 'getAllCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.index');
 
-                    // * Route untuk menampilkan halaman form untuk menambah data pelamar dari luar sekolah
                     Route::get('tambah', 'createOneCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.create');
 
-                    // * Route untuk memproses hasil tambah data pelamar dari luar sekolah
                     Route::post('/', 'storeOneCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.store');
 
-                    // * Route untuk menampilkan halaman detail data dari pelamar yang berasal dari luar sekolah
                     Route::get('{username}/detail', 'getDetailOneCandidateDataFromOutsideSchoolByUsername')
                         ->name('admin.pelamar.detail');
 
-                    // * Route untuk menampilkan halaman form untuk menyunting data pelamar dari luar sekolah
                     Route::get('{username}/sunting', 'editOneCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.edit');
 
-                    // * Route untuk memproses hasil sunting data pelamar dari luar sekolah
                     Route::put('{username}', 'updateOneCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.update');
 
-                    // * Route untuk menonaktifkan akun dari pelamar yang berasal dari luar sekolah
                     Route::put('{username}/deactive', 'deactiveOneCandidateDataFromOutsideSchool')
                         ->name('admin.pelamar.deactive');
                 });
@@ -264,7 +237,7 @@ Route::prefix('/sipeka')->group(function () {
 
             // * Route Mitra Perusahaan
             Route::prefix('/perusahaan')->middleware('role:perusahaan')->group(function () {
-                Route::get('/', \App\Http\Controllers\Perusahaan\MainController::class)
+                Route::get('/', \App\Http\Controllers\Mitra\MainController::class)
                     ->name('perusahaan.index');
 
                 Route::controller(AlumniController::class)->prefix('/alumni')->group(function () {

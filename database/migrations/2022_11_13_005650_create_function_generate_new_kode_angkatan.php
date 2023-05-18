@@ -13,6 +13,7 @@ return new class extends Migration {
         DB::unprepared("DROP FUNCTION IF EXISTS generate_new_kode_angkatan");
         DB::unprepared(
             "CREATE FUNCTION generate_new_kode_angkatan() RETURNS char(8)
+            DETERMINISTIC
             BEGIN
                 DECLARE kode_lama char(8);
                 DECLARE kode_default char(4);
